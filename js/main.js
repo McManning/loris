@@ -6,7 +6,10 @@ $(function() {
 
     $('.scrollspy').scrollSpy();
 
-    $(".button-collapse").sideNav();
+    $(".button-collapse").sideNav({
+        menuWidth: 300,
+        edge: 'left'
+    });
 
     $(".actions a").click(function() {
         $('#query-builder').openModal();

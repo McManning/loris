@@ -18,11 +18,19 @@ main
     flex: 1 0 auto
 
 header, main, footer
-    padding-left: 240px
+    padding-left: 300px
 
 @media only screen and (max-width : 992px)
     header, main, footer
         padding-left: 0
+
+// Logo/project name area
+img.brand-logo
+    height: 50px
+    margin: 6px
+
+    &.large
+        height: 20rem
 
 // Improvements to the main side navigation
 ul.side-nav.fixed
@@ -33,6 +41,16 @@ ul.side-nav.fixed
         
         &:hover
             background-color: rgba(0, 0, 0, 0.05)
+
+        &.logo
+            max-height: 64px
+            
+            .title
+                font-size: 2rem
+                margin: 0.25rem
+
+            &:hover
+                background-color: #FFF
 
         a
             font-size: 1rem

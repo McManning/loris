@@ -13,18 +13,20 @@
         <div class="s12 navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
-                    <!--a href="#" class="logo"><img src="#"></a-->
-                    <a class="logo" href="#">
-                        <img class="brand-logo" src="" />
-                    </a>
-                    <ul class="left hide-on-med-and-down">
+                    <!--ul class="left hide-on-med-and-down">
                         <li><a href="#">Documentation</a></li>
                         <li><a href="#">Example Usage</a></li>
                     </ul>
 
                     <ul class="right hide-on-med-and-down">
                         <li><a href="#"><i class="material-icons">search</i></a></li>
-                    </ul>
+                    </ul-->
+                    <form>
+                        <div class="input-field">
+                            <input id="search" type="search" required="required" placeholder="Search the docs" />
+                            <label for="search"><i class="material-icons">search</i></label>
+                        </div>
+                    </form>
                 </div>
             </nav>
         </div>
@@ -38,12 +40,11 @@
     </div>
 
     <ul id="nav-mobile" class="side-nav fixed grey lighten-4">
-        <li>
-            <div id="logo-container">
-                LORIS!
-            </div>
+        <li class="logo">
+            <img class="brand-logo left" src="img/loris.svg" />
+            <span class="title">Loris</span> <span class="version">(v1)</span>
         </li>
-        <li class="active"><a href="#" class="waves-effect waves-grey">Introduction</a></li>
+        <li class="active"><a href="#" class="waves-effect waves-grey">Introduction <i class="material-icons right">info_outline</i></a></li>
 
         <li class="no-padding">
             <ul class="collapsible collapsible-accordion">
@@ -87,10 +88,8 @@
 
 </header>
 <main>
-
-
     <div class="container">
-        <div class="row">
+        <!--div class="row">
             <div class="col s10 offset-s1">
                 <nav>
                     <div class="nav-wrapper">
@@ -112,6 +111,7 @@
 
                 <div id="introduction" class="section scrollspy">
                     <h1>Introduction</h1>
+                    <img class="brand-logo large left" src="img/loris.svg" />
                     <p class="flow-text">
                     Phasellus faucibus venenatis eros, ut egestas mauris pretium eget. Suspendisse potenti. Cras sit amet lacus at magna euismod cursus. Sed tristique tempus suscipit. Fusce massa tellus, pharetra ac varius non, finibus eget nisi. Phasellus pellentesque luctus justo, eget malesuada turpis tempor eget. Pellentesque nec nibh a felis eleifend posuere. Proin aliquam quis justo nec scelerisque. Mauris quis mauris non eros gravida viverra quis et est. Ut consectetur suscipit quam a placerat. Mauris vitae libero et nibh malesuada facilisis. Proin magna dui, lacinia a erat sed, suscipit sodales diam.
                     </p>
@@ -504,7 +504,7 @@
         <div class="row">
             <div class="col l6 s12">
                 <h5 class="white-text">Footer Content</h5>
-                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+                <p class="grey-text text-lighten-4">Mauris vitae libero et nibh malesuada facilisis. Proin magna dui, lacinia a erat sed, suscipit sodales diam.</p>
             </div>
             <div class="col l4 offset-l2 s12">
                 <h5 class="white-text">Links</h5>
@@ -519,7 +519,7 @@
     </div>
     <div class="footer-copyright">
         <div class="container">
-            &copy; 2015 Copyright Text
+            &copy; 2015 Chase McManning
             <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
         </div>
     </div>
