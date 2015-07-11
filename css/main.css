@@ -2951,7 +2951,7 @@ ul.staggered-list li {
 footer.page-footer {
   margin-top: 20px;
   padding-top: 20px;
-  background-color: #bb0000;
+  background-color: #666666;
 }
 footer.page-footer .footer-copyright {
   overflow: hidden;
@@ -10624,7 +10624,7 @@ main {
 }
 
 header, main, footer {
-  padding-left: 240px;
+  padding-left: 300px;
 }
 
 @media only screen and (max-width: 992px) {
@@ -10632,33 +10632,51 @@ header, main, footer {
     padding-left: 0;
   }
 }
+img.brand-logo {
+  height: 50px;
+  margin: 6px;
+}
+img.brand-logo.large {
+  height: 20rem;
+}
+
 ul.side-nav.fixed {
   overflow: hidden;
 }
-ul.side-nav.fixed li {
+ul.side-nav.fixed > li {
   line-height: 64px;
   background-color: #FFF;
 }
-ul.side-nav.fixed li:hover {
+ul.side-nav.fixed > li:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
-ul.side-nav.fixed li a {
+ul.side-nav.fixed > li.logo {
+  max-height: 64px;
+}
+ul.side-nav.fixed > li.logo .title {
+  font-size: 2rem;
+  margin: 0.25rem;
+}
+ul.side-nav.fixed > li.logo:hover {
+  background-color: #FFF;
+}
+ul.side-nav.fixed > li a {
   font-size: 1rem;
   line-height: 64px;
   height: 64px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
-ul.side-nav.fixed li a i {
+ul.side-nav.fixed > li a i {
   line-height: 64px;
   font-size: 2rem;
 }
-ul.side-nav.fixed li a.collapsible-header i {
+ul.side-nav.fixed > li a.collapsible-header i {
   margin-right: 0;
 }
-ul.side-nav.fixed li.active {
+ul.side-nav.fixed > li.active {
   background-color: #bb0000;
 }
-ul.side-nav.fixed li.active > a {
+ul.side-nav.fixed > li.active > a {
   color: #FFF;
 }
 ul.side-nav.fixed ul.collapsible-accordion {
