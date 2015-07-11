@@ -1,0 +1,2850 @@
+{
+    "schemes": [
+        "https"
+    ],
+    "basePath": "/api/v1",
+    "info": {
+        "version": "1.0.0",
+        "description": "API interface for [The Ohio State University](http://osu.edu) research data.\n\nBuilt for use by the [Office of Research](http://research.osu.edu).\n\nUtilizing [swagger.io specifications](http://swagger.io/specification) and a\ncustom serverside renderer styled loosely around Swagger Editor.\n",
+        "title": "Office of Research API",
+        "contact": {
+            "name": "Chase McManning",
+            "email": "mcmanning.1@osu.edu",
+            "url": "http://research.osu.edu"
+        }
+    },
+    "swagger": "2.0",
+    "endpoints": {
+        "Project": {
+            "description": "Project stuff",
+            "title": "Project",
+            "routes": {
+                "/project/{id}/financials": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID of the Project resource (e.g. 60012345).",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            },
+                            {
+                                "description": "Requested As Of (up to) date for financial data.",
+                                "name": "asOf",
+                                "in": "query",
+                                "type": "string",
+                                "format": "date"
+                            }
+                        ],
+                        "description": "If the As Of date is specified, it will only report financial data\nup to the specified date. Otherwise, it will report the most recent data.\n",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Project.Financials"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve additional financial data for a specific Project."
+                    }
+                },
+                "/project": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Search query",
+                                "name": "q",
+                                "in": "query",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "TODO: Spec out the list of attributes we can search by. Obviously\nthis will include id, title, PI, SPO, sponsor, department, and college.\n",
+                        "responses": {
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/ProjectCollection"
+                                }
+                            }
+                        },
+                        "summary": "Search for a Project and return a collection of matches."
+                    }
+                },
+                "/project/{id}/reports": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID of the Project resource (e.g. 60012345).",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Project.ReportCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve reports for a specific Project."
+                    }
+                },
+                "/project/{id}/information": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID of the Project resource (e.g. 60012345).",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Project.Information"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve additional information for a specific Project."
+                    }
+                },
+                "/project/{id}/terms": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID of the Project resource (e.g. 60012345).",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Project.Terms"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a list of terms for a specific Project.\nWhile these are usually the same as Award terms,\nsometimes they are not. \n"
+                    }
+                },
+                "/project/{id}/investigators": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID of the Project resource (e.g. 60012345).",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Project.InvestigatorCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve investigators (Persons) associated with a specific Project."
+                    }
+                },
+                "/project/{id}/commitments": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID of the Project resource (e.g. 60012345).",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Project.Commitments"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve current commitment data for a specific Project."
+                    }
+                },
+                "/project/{id}/colleges": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID of the Project resource (e.g. 60012345).",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/CollegeCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve Colleges associated with a specific Project."
+                    }
+                },
+                "/project/{id}/expenditures": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID of the Project resource (e.g. 60012345).",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            },
+                            {
+                                "description": "Requested start date for expenditures data",
+                                "name": "start",
+                                "in": "query",
+                                "type": "string",
+                                "format": "date"
+                            },
+                            {
+                                "description": "Requested end date for expenditures data",
+                                "name": "end",
+                                "in": "query",
+                                "type": "string",
+                                "format": "date"
+                            }
+                        ],
+                        "description": "If a date range is specified, it will only show expenditures\nfor that range. If not, this will retrieve all expenditures\nthroughout the life of the Project.\n",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Project.Expenditures"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve expenditure data for a specific Project."
+                    }
+                },
+                "/project/{id}/departments": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID of the Project resource (e.g. 60012345).",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Project.DepartmentCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve Departments associated with a specific Project."
+                    }
+                },
+                "/project/{id}/acl": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID of the Project resource (e.g. 60012345).",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": true,
+                                "description": "ResID of the Person resource (e.g. 200275154).",
+                                "name": "resId",
+                                "in": "path",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "tags": [
+                            "draft"
+                        ],
+                        "responses": {
+                            "404": {
+                                "description": "Project not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Project.AclCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a collection of all ACLs and \nPersons defined for a Project.\n"
+                    }
+                },
+                "/project/{id}/sponsor": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID of the Project resource (e.g. 60012345).",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Project.Sponsor"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve additional sponsor information for a specific Project."
+                    }
+                },
+                "/project/{id}": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID of the Project resource (e.g. 60012345).",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Project"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a specific Project."
+                    }
+                },
+                "/project/{id}/acl/{resId}": {
+                    "delete": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID of the Project resource (e.g. 60012345).",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": true,
+                                "description": "ResID of the Person resource (e.g. 200275154).",
+                                "name": "resId",
+                                "in": "path",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "tags": [
+                            "draft"
+                        ],
+                        "responses": {
+                            "404": {
+                                "description": "Project not found or Person does not \nhave existing project ACLs.\n",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation"
+                            }
+                        },
+                        "summary": "Delete all project-specific ACL roles \nfor the specified Person.\n"
+                    },
+                    "post": {
+                        "responses": {
+                            "201": {
+                                "description": "Created",
+                                "schema": {
+                                    "$ref": "#/definitions/Project.Acl"
+                                }
+                            },
+                            "404": {
+                                "description": "Project or Person not found.",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "consumes": [
+                            "application/x-www-form-urlencoded",
+                            "application/json"
+                        ],
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID of the Project resource (e.g. 60012345).",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": true,
+                                "description": "ResID of the Person resource (e.g. 200275154).",
+                                "name": "resId",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Updated ACLs for a Person",
+                                "name": "body",
+                                "in": "body",
+                                "schema": {
+                                    "$ref": "#/definitions/Project.Acl"
+                                }
+                            }
+                        ],
+                        "summary": "Set (replace) ACLs of a Person for a Project.",
+                        "produces": [
+                            "application/json"
+                        ],
+                        "tags": [
+                            "draft"
+                        ]
+                    },
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID of the Project resource (e.g. 60012345).",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": true,
+                                "description": "ResID of the Person resource (e.g. 200275154).",
+                                "name": "resId",
+                                "in": "path",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "tags": [
+                            "draft"
+                        ],
+                        "responses": {
+                            "404": {
+                                "description": "Project not found or Person does not \nhave existing project ACLs.\n",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Project.Acl"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve project-specific ACL roles \nfor the specified Person.\n"
+                    }
+                }
+            }
+        },
+        "Legacy": {
+            "description": "Legacy stuff",
+            "title": "Legacy",
+            "routes": {
+                "/legacy/training/{list}": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Comma separated list of EITHER ResIDs or NameNs (but not mixed)",
+                                "name": "list",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "If set, the response will be in 'application/json' format",
+                                "name": "json",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "This is currently a wrapper around OR_Training::createFrom(NameN|ResID)List \nmethods and in use by eProtocol. \n\nPotentially equivalent to the new API: \n```\n  /api/v1/person?q=(namen|resid list)&expand=training\n```\nor\n```\n  /api/v1/person/training?q=(namen|resid list)\n```\n",
+                        "deprecated": true,
+                        "responses": {
+                            "200": {
+                                "description": "successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Legacy.UserTraining"
+                                }
+                            }
+                        },
+                        "summary": "Returns a collection of training data for the requested users, in either JSON or XML format."
+                    }
+                }
+            }
+        },
+        "College": {
+            "description": "College stuff",
+            "title": "College",
+            "routes": {
+                "/college/{id}": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Unique College ID.",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "College not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/College"
+                                }
+                            }
+                        },
+                        "summary": "Return a College resource by ID."
+                    }
+                },
+                "/college": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": false,
+                                "description": "Search terms",
+                                "name": "q",
+                                "in": "query",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/CollegeCollection"
+                                }
+                            }
+                        },
+                        "summary": "Search for a College resource, or \nretrieve a collection of all Colleges.\n"
+                    }
+                },
+                "/college/{id}/projects": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Unique College ID.",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "College not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/ProjectCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a collection of Projects associated with the College."
+                    }
+                },
+                "/college/{id}/awards": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Unique College ID.",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "College not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/AwardCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a collection of Awards associated with the College."
+                    }
+                },
+                "/college/{id}/departments": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Unique College ID.",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "College not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/DepartmentCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a collection of Departments associated with the College."
+                    }
+                },
+                "/college/{id}/proposals": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Unique College ID.",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "College not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/ProposalCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a collection of Proposals associated with the College."
+                    }
+                }
+            }
+        },
+        "FOM": {
+            "description": "FOM stuff",
+            "title": "FOM",
+            "routes": {
+                "/fom/projectpi/{list}": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Comma separated list of project IDs.",
+                                "name": "list",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "If set, the response will be in 'application/json' format",
+                                "name": "json",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "This is a wrapper around USP\\_FOM\\_getPIByProject, and \ncurrently only in use by the FOM vendor software.\n\nPotentially equivalent to the new API:\n```\n  /api/v1/project?q=(project ID list)&expand=principalInvestigator\n```\n",
+                        "deprecated": true,
+                        "responses": {
+                            "200": {
+                                "description": "successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Fom.ProjectPis"
+                                }
+                            }
+                        },
+                        "summary": "Returns a collection of PI data for the requested projects, in either JSON or XML format."
+                    }
+                },
+                "/fom/project/{list}": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Comma separated list of EITHER ResIDs or NameNs (but not mixed)",
+                                "name": "list",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "If set, the response will be in 'application/json' format",
+                                "name": "json",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "This is a wrapper around USP\\_FOM\\_getProjByInv, and \ncurrently only in use by the FOM vendor software.\n",
+                        "deprecated": true,
+                        "responses": {
+                            "200": {
+                                "description": "successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Fom.Projects"
+                                }
+                            }
+                        },
+                        "summary": "Returns a collection of projects with the specified Principal Investigators, in either JSON or XML format."
+                    }
+                },
+                "/fom/departments": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": false,
+                                "description": "If set, the response will be in 'application/json' format",
+                                "name": "json",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "This is a wrapper around USP\\_FOM\\_getDeptList, with \na local JSON cache for quicker retrieval (24 hour).\nCurrently only in use by the FOM vendor software.\n\nPotentially equivalent to the new API:\n```\n  /api/v1/department\n```\n",
+                        "deprecated": true,
+                        "responses": {
+                            "200": {
+                                "description": "successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Fom.Departments"
+                                }
+                            }
+                        },
+                        "summary": "Returns a collection of all known departments, in either JSON or XML format."
+                    }
+                }
+            }
+        },
+        "Test": {
+            "description": "Endpoint description. **Markdown** is supported. \n",
+            "title": "Test",
+            "routes": {
+                "/test": {
+                    "delete": {
+                        "responses": {
+                            "404": {
+                                "description": "Test not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful deletion"
+                            },
+                            "500": {
+                                "description": "Internal server error",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            }
+                        },
+                        "tags": [
+                            "Test"
+                        ],
+                        "deprecated": true,
+                        "x-acl": [
+                            "oris"
+                        ],
+                        "summary": "Test DELETE documentation"
+                    },
+                    "put": {
+                        "responses": {
+                            "404": {
+                                "description": "Test not available",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Resource Updated",
+                                "schema": {
+                                    "$ref": "#/definitions/Test"
+                                }
+                            },
+                            "500": {
+                                "description": "Internal server error",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            }
+                        },
+                        "consumes": [
+                            "application/x-www-form-urlencoded",
+                            "application/json"
+                        ],
+                        "x-acl": [
+                            "oris",
+                            "test_group"
+                        ],
+                        "parameters": [
+                            {
+                                "required": false,
+                                "description": "Message body",
+                                "name": "body",
+                                "in": "body",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        ],
+                        "deprecated": true,
+                        "summary": "Test PUT documentation",
+                        "tags": [
+                            "Test"
+                        ]
+                    },
+                    "post": {
+                        "responses": {
+                            "201": {
+                                "description": "Created",
+                                "schema": {
+                                    "$ref": "#/definitions/Test"
+                                }
+                            },
+                            "404": {
+                                "description": "Test not available",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "500": {
+                                "description": "Internal server error",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            }
+                        },
+                        "consumes": [
+                            "application/x-www-form-urlencoded",
+                            "application/json"
+                        ],
+                        "summary": "Test POST documentation",
+                        "produces": [
+                            "application/json"
+                        ],
+                        "x-acl": [
+                            "oris",
+                            "test_group",
+                            "college_admin_40000"
+                        ],
+                        "parameters": [
+                            {
+                                "required": false,
+                                "description": "Message body",
+                                "name": "body",
+                                "in": "body",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        ],
+                        "deprecated": true,
+                        "tags": [
+                            "Test"
+                        ]
+                    },
+                    "get": {
+                        "responses": {
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Test"
+                                }
+                            }
+                        },
+                        "description": "This *example* uses **markdown** for the __description__. \n> Here is \n> a block quote\n\n* And a undordered list \n* of some content\n\n1. bananas\n2. apples\n\n  Presumably this is a code block?\n  (because of indentation...) ... maybe?\n\n[example link](http://example.com \"Example title\")\nAnd here is some `<strong>inline code</strong>` if you feel so inclined.\n",
+                        "tags": [
+                            "Foo",
+                            "Bar",
+                            "Test"
+                        ],
+                        "deprecated": true,
+                        "summary": "Test path for checking doc generating of various features"
+                    }
+                }
+            }
+        },
+        "Person": {
+            "description": "Person stuff",
+            "title": "Person",
+            "routes": {
+                "/person/{resId}/awards": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ResID of the Person resource.",
+                                "name": "resId",
+                                "in": "path",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Person not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/AwardCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a collection of Awards associated with the Person."
+                    }
+                },
+                "/person/{resId}/proposals": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ResID of the Person resource.",
+                                "name": "resId",
+                                "in": "path",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Person not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/ProposalCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a collection of Proposals associated with the Person."
+                    }
+                },
+                "/person/{resId}": {
+                    "put": {
+                        "responses": {
+                            "404": {
+                                "description": "Person not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Person"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "consumes": [
+                            "application/x-www-form-urlencoded",
+                            "application/json"
+                        ],
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ResID of the Person to update",
+                                "name": "resId",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Updated person object",
+                                "name": "body",
+                                "in": "body",
+                                "schema": {
+                                    "$ref": "#/definitions/Person"
+                                }
+                            }
+                        ],
+                        "produces": [
+                            "application/json"
+                        ],
+                        "summary": "Update an existing person"
+                    },
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ResID of the Person resource.",
+                                "name": "resId",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Person not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Person"
+                                }
+                            }
+                        },
+                        "summary": "Return a Person resource by ResID."
+                    }
+                },
+                "/person/{resId}/projects": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ResID of the Person resource.",
+                                "name": "resId",
+                                "in": "path",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Person not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/ProjectCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a collection of Projects associated with the Person."
+                    }
+                },
+                "/person/{resId}/certificates": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ResID of the Person resource.",
+                                "name": "resId",
+                                "in": "path",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Person not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Certificates"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve Certificates/Training \nassociated with the Person.\n"
+                    }
+                },
+                "/person": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Search terms",
+                                "name": "q",
+                                "in": "query",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Inactive flag, if true, inactive users will \nbe included in the results collection.\n",
+                                "name": "inactive",
+                                "in": "query",
+                                "type": "boolean"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/PersonCollection"
+                                }
+                            }
+                        },
+                        "summary": "Search for a person by any attributes (ResID, first name, last name, name.n, etc)"
+                    }
+                }
+            }
+        },
+        "Department": {
+            "description": "Department stuff",
+            "title": "Department",
+            "routes": {
+                "/department/{id}/awards": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Unique Department ID.",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Department not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/AwardCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a collection of Awards associated with the Department."
+                    }
+                },
+                "/department/{id}": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Unique Department ID.",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Department not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Department"
+                                }
+                            }
+                        },
+                        "summary": "Return a Department resource by ID."
+                    }
+                },
+                "/department/{id}/proposals": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Unique Department ID.",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Department not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/ProposalCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a collection of Proposals associated with the Department."
+                    }
+                },
+                "/department": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": false,
+                                "description": "Search terms",
+                                "name": "q",
+                                "in": "query",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/DepartmentCollection"
+                                }
+                            }
+                        },
+                        "summary": "Search for a Department resource, or \nretrieve a collection of all Departments.\n"
+                    }
+                },
+                "/department/{id}/investigators": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Unique Department ID.",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Department not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/PersonCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a collection of investigators (Persons) \nassociated with the Department.\n"
+                    }
+                },
+                "/department/{id}/projects": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Unique Department ID.",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Department not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/ProjectCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a collection of Projects associated with the Department."
+                    }
+                }
+            }
+        },
+        "Proposal": {
+            "description": "Proposal stuff",
+            "title": "Proposal",
+            "routes": {
+                "/proposal/{id}": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Proposal, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Proposal not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Proposal"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a specific Proposal."
+                    }
+                },
+                "/proposal/{id}/departments": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Proposal, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Proposal not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Proposal.DepartmentCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve Departments and allocation associated with a specific Proposal."
+                    }
+                },
+                "/proposal/{id}/investigators": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Proposal, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Proposal not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Proposal.InvestigatorCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve investigators (Persons) associated with a specific Proposal."
+                    }
+                },
+                "/proposal/{id}/colleges": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Proposal, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Proposal not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/CollegeCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve Colleges associated with a specific Proposal."
+                    }
+                },
+                "/proposal/{id}/sponsor": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Proposal, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Proposal not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Proposal.Sponsor"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve additional sponsor information for a specific Proposal."
+                    }
+                },
+                "/proposal": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Search query",
+                                "name": "q",
+                                "in": "query",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "TODO: Spec out the list of attributes we can search by. Obviously\nthis will include id, title, PI, SPO, sponsor, department, and college.\n",
+                        "responses": {
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/ProposalCollection"
+                                }
+                            }
+                        },
+                        "summary": "Search for a Proposal and return a collection of matches."
+                    }
+                },
+                "/proposal/{id}/projects": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Proposal, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Proposal not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/ProjectCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve projects associated with a specific Proposal."
+                    }
+                },
+                "/proposal/{id}/funding": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Proposal, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Proposal not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Proposal.Funding"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve additional funding details for a specific Proposal."
+                    }
+                }
+            }
+        },
+        "FundOps": {
+            "description": "FundOps stuff",
+            "title": "FundOps",
+            "routes": {
+                "/fundops": {
+                    "get": {
+                        "responses": {
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/FundingOpportunities"
+                                }
+                            }
+                        },
+                        "description": "This is a wrapper around USP\\_FundOps\\_UnivDev.\n",
+                        "summary": "Returns a list of current Funding Opportunities."
+                    }
+                }
+            }
+        },
+        "Award": {
+            "description": "Award stuff",
+            "title": "Award",
+            "routes": {
+                "/award/{id}/sponsor": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Award, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Award.Sponsor"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve additional sponsor information for a specific Award."
+                    }
+                },
+                "/award/{id}/milestones": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Award, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Award.Milestones"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve milestone reports for a specific Award."
+                    }
+                },
+                "/award/{id}/departments": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Award, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Award.DepartmentCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve Departments associated with a specific Award."
+                    }
+                },
+                "/award/{id}/projects": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Award, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/ProjectCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve projects associated with a specific Award."
+                    }
+                },
+                "/award/{id}/attributes": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Award, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Award.Attributes"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve additional attributes for a specific Award."
+                    }
+                },
+                "/award/{id}/terms": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Award, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Award.Terms"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a list of terms for a specific Award."
+                    }
+                },
+                "/award/{id}/information": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Award, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Award.Information"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve additional information for a specific Award."
+                    }
+                },
+                "/award/{id}/funding": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Award, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Award.Funding"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve additional funding details for a specific Award."
+                    }
+                },
+                "/award/{id}": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Award, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Award"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve a specific Award."
+                    }
+                },
+                "/award": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "Search query",
+                                "name": "q",
+                                "in": "query",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "TODO: Spec out the list of attributes we can search by. Obviously\nthis will include id, title, PI, SPO, sponsor, department, and college.\n",
+                        "responses": {
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/AwardCollection"
+                                }
+                            }
+                        },
+                        "summary": "Search for an Award and return a collection of matches."
+                    }
+                },
+                "/award/{id}/investigators": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Award, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Award.InvestigatorCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve investigators (Persons) associated with a specific Award."
+                    }
+                },
+                "/award/{id}/history": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Award, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Award.History"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve amendments for a specific Award."
+                    }
+                },
+                "/award/{id}/payments": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Award, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/Award.Payments"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve additional payment information for a specific Award."
+                    }
+                },
+                "/award/{id}/colleges": {
+                    "get": {
+                        "parameters": [
+                            {
+                                "required": true,
+                                "description": "ID field of the Award, usually a GRT number (e.g. GRT000012345)",
+                                "name": "id",
+                                "in": "path",
+                                "type": "string"
+                            },
+                            {
+                                "required": false,
+                                "description": "Object expansion notation for meta child objects",
+                                "name": "expand",
+                                "in": "query",
+                                "type": "string"
+                            }
+                        ],
+                        "description": "",
+                        "responses": {
+                            "404": {
+                                "description": "Award not found",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "400": {
+                                "description": "An error occured",
+                                "schema": {
+                                    "$ref": "#/definitions/ErrorResponse"
+                                }
+                            },
+                            "200": {
+                                "description": "Successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/CollegeCollection"
+                                }
+                            }
+                        },
+                        "summary": "Retrieve Colleges associated with a specific Award."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Legacy.UserTraining": {
+            "description": "Collection of users with training data.",
+            "properties": {
+                "user": {
+                    "items": {
+                        "description": "Training information for a single user.",
+                        "type": "object",
+                        "properties": {
+                            "namen": {
+                                "type": "string"
+                            },
+                            "certificate": {
+                                "items": {
+                                    "description": "A single certificate or training status.",
+                                    "type": "object",
+                                    "properties": {
+                                        "dateReceived": {
+                                            "description": "mm/dd/YYYY of when the certificate was received, or null if not applicable.",
+                                            "type": "string"
+                                        },
+                                        "companies": {
+                                            "description": "COI specific field. List of companies entered on a user's COI.",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "comments": {
+                                            "description": "Additional comments attached to a certificate.",
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "description": "Longer type string (e.g. Conflict of Interest)",
+                                            "type": "string"
+                                        },
+                                        "dateExpired": {
+                                            "description": "mm/dd/YYYY of when the certificate expires, or null if not applicable.",
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "description": "Type of certificate (e.g. COI, PIE, CITI)",
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "description": "Status string for a certificate (e.g. Incomplete)",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "array"
+                            },
+                            "resid": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "type": "array"
+                }
+            }
+        },
+        "ErrorResponse": {
+            "required": [
+                "responseCode",
+                "message",
+                "developerMessage"
+            ],
+            "properties": {
+                "responseCode": {
+                    "format": "int32",
+                    "type": "integer",
+                    "example": 400
+                },
+                "message": {
+                    "description": "A user friendly error message that could potentially be reflected back in an application.",
+                    "type": "string",
+                    "example": "Person not found"
+                },
+                "developerMessage": {
+                    "description": "An error string oriented toward helping developers debug consumer code.",
+                    "type": "string",
+                    "example": "Requested resource identifier (ResID) does not exist."
+                }
+            }
+        },
+        "Test": {
+            "description": "Just a definition to test documenting of various features.\nE.g. JSON schema attributes, Markdown, whatever.\n",
+            "properties": {
+                "meta": {
+                    "$ref": "#/definitions/Meta"
+                },
+                "arrayOfRef": {
+                    "description": "Testing an array of $ref",
+                    "items": {
+                        "$ref": "#/definitions/Test"
+                    },
+                    "type": "array"
+                },
+                "arrayOfStrings": {
+                    "description": "Testing an array of primitive strings",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "arrayOfArrays": {
+                    "description": "Testing an array of arrays",
+                    "items": {
+                        "description": "A nested array of strings",
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "type": "array"
+                },
+                "arrayOfObjects": {
+                    "description": "Testing an array of objects",
+                    "items": {
+                        "description": "Description of an object",
+                        "type": "object",
+                        "properties": {
+                            "foo": {
+                                "description": "Number of foos present",
+                                "type": "number"
+                            },
+                            "bar": {
+                                "description": "Description of bar",
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "host": "orapps.osu.edu",
+    "produces": [
+        "application/json"
+    ]
+}

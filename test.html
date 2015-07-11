@@ -1,0 +1,609 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link type="text/css" rel="stylesheet" href="css/main.css" media="screen,projection"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<header>
+
+    <!-- Top search bar -->
+    <div class="row">
+        <div class="s12 navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <form>
+                        <div class="input-field">
+                            <input id="search" type="search" required="required" placeholder="Search the docs" />
+                            <label for="search"><i class="material-icons">search</i></label>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </div> <!-- .row -->
+
+    <!-- Hamburger for mobile -->
+    <div class="container">
+        <a href="#" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only">
+            <i class="mdi-navigation-menu"></i>
+        </a>
+    </div>
+
+    <!-- Main left hand navigation -->
+    <ul id="nav-mobile" class="side-nav fixed grey lighten-4">
+        <li class="logo">
+            <img class="brand-logo left" src="img/loris.svg" />
+            <span class="title">Loris</span> <span class="version">(v1)</span>
+        </li>
+        <li class="">
+            <a href="index.html" class="waves-effect waves-grey">Introduction <i class="material-icons right">info_outline</i></a>
+        </li>
+
+        <li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+
+                <!-- API Routes -->
+                <li><a class="collapsible-header waves-effect waves-grey active">API Endpoints <i class="material-icons right">explore</i></a>
+                    <div class="collapsible-body" style="">
+                        <ul>
+                            
+                            <li class="">
+                                <a href="award.html" class="waves-effect waves-grey">Award</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="college.html" class="waves-effect waves-grey">College</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="department.html" class="waves-effect waves-grey">Department</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="fom.html" class="waves-effect waves-grey">FOM</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="fundops.html" class="waves-effect waves-grey">FundOps</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="legacy.html" class="waves-effect waves-grey">Legacy</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="person.html" class="waves-effect waves-grey">Person</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="project.html" class="waves-effect waves-grey">Project</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="proposal.html" class="waves-effect waves-grey">Proposal</a>
+                            </li>
+                            
+                            <li class="active">
+                                <a href="test.html" class="waves-effect waves-grey">Test</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- API Resource definitions -->
+                <li><a class="collapsible-header waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
+                    <div class="collapsible-body" style="">
+                        <ul>
+                            <li><a href="resources.html" class="waves-effect waves-grey">Group by types?</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul> <!-- .collapsible -->
+        </li>
+
+        <li class="">
+            <a href="examples.html" class="waves-effect waves-grey">Examples <i class="material-icons right">code</i></a>
+        </li>
+    </ul>
+
+</header>
+<main>
+    <div class="container">
+        <div class="row">
+            <!-- Content column -->
+            <div class="col s12 m9 l11">
+
+                <div id="routes" class="section scrollspy">
+                    <h1>Test</h1>
+                    <div class="endpoint-description">
+                        <p>Endpoint description. <strong>Markdown</strong> is supported. </p>
+
+                    </div>
+
+                    
+                    <div id="test" class="section scrollspy">
+                        
+                        <ul class="collapsible popout operations" data-collapsible="accordion">
+                            <li class="operation delete">
+                                <div class="collapsible-header">
+                                    <div class="route">DELETE /test</div>
+                                    <div class="actions right">
+                                        <nav>
+                                            <ul>
+                                                <li>
+                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <div class="collapsible-body">
+
+                                    <h5>Summary</h5>
+                                    <p>Test DELETE documentation</p>
+
+                                    
+
+                                    
+                                    <h5>Access Control Lists</h5>
+                                    <ul class="acls">
+                                        
+                                        <li>oris</li>
+                                        
+                                    </ul>
+                                    
+
+                                    <h5>Parameters</h5>
+                                    
+                                    <p><em>No parameters</em></p>
+                                    
+
+                                    <h5>Responses</h5>
+                                    <table class="bordered responsive-table responses">
+                                        <thead>
+                                            <tr>
+                                                <th data-field="code">Code</th>
+                                                <th data-field="description">Description</th>
+                                                <th data-field="schema">Schema</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            <tr>
+                                                <td class="code code-404">404</td>
+                                                <td class="description">Test not found</td>
+                                                
+                                                    
+                                                    <td class="schema">
+                                                        $ref #/definitions/ErrorResponse
+                                                    </td>
+                                                    
+                                                
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td class="code code-200">200</td>
+                                                <td class="description">Successful deletion</td>
+                                                
+                                                <td class="schema"></td>
+                                                
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td class="code code-500">500</td>
+                                                <td class="description">Internal server error</td>
+                                                
+                                                    
+                                                    <td class="schema">
+                                                        $ref #/definitions/ErrorResponse
+                                                    </td>
+                                                    
+                                                
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div> <!-- .collapsible-body -->
+                            </li>
+                        </ul>
+                        
+                        <ul class="collapsible popout operations" data-collapsible="accordion">
+                            <li class="operation put">
+                                <div class="collapsible-header">
+                                    <div class="route">PUT /test</div>
+                                    <div class="actions right">
+                                        <nav>
+                                            <ul>
+                                                <li>
+                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <div class="collapsible-body">
+
+                                    <h5>Summary</h5>
+                                    <p>Test PUT documentation</p>
+
+                                    
+
+                                    
+                                    <h5>Access Control Lists</h5>
+                                    <ul class="acls">
+                                        
+                                        <li>oris</li>
+                                        
+                                        <li>test_group</li>
+                                        
+                                    </ul>
+                                    
+
+                                    <h5>Parameters</h5>
+                                    
+                                    <table class="bordered responsive-table parameters">
+                                        <thead>
+                                            <tr>
+                                                <th data-field="name">Name</th>
+                                                <th data-field="location">Location</th>
+                                                <th data-field="description">Description</th>
+                                                <th data-field="required">Required</th>
+                                                <th data-field="schema">Schema</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            <tr>
+                                                <td class="name">body</td>
+                                                <td class="in">body</td>
+                                                <td class="description">Message body</td>
+                                                <td class="required">No</td>
+
+                                                
+                                                    
+                                                
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                    
+
+                                    <h5>Responses</h5>
+                                    <table class="bordered responsive-table responses">
+                                        <thead>
+                                            <tr>
+                                                <th data-field="code">Code</th>
+                                                <th data-field="description">Description</th>
+                                                <th data-field="schema">Schema</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            <tr>
+                                                <td class="code code-404">404</td>
+                                                <td class="description">Test not available</td>
+                                                
+                                                    
+                                                    <td class="schema">
+                                                        $ref #/definitions/ErrorResponse
+                                                    </td>
+                                                    
+                                                
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td class="code code-200">200</td>
+                                                <td class="description">Resource Updated</td>
+                                                
+                                                    
+                                                    <td class="schema">
+                                                        $ref #/definitions/Test
+                                                    </td>
+                                                    
+                                                
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td class="code code-500">500</td>
+                                                <td class="description">Internal server error</td>
+                                                
+                                                    
+                                                    <td class="schema">
+                                                        $ref #/definitions/ErrorResponse
+                                                    </td>
+                                                    
+                                                
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div> <!-- .collapsible-body -->
+                            </li>
+                        </ul>
+                        
+                        <ul class="collapsible popout operations" data-collapsible="accordion">
+                            <li class="operation post">
+                                <div class="collapsible-header">
+                                    <div class="route">POST /test</div>
+                                    <div class="actions right">
+                                        <nav>
+                                            <ul>
+                                                <li>
+                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <div class="collapsible-body">
+
+                                    <h5>Summary</h5>
+                                    <p>Test POST documentation</p>
+
+                                    
+
+                                    
+                                    <h5>Access Control Lists</h5>
+                                    <ul class="acls">
+                                        
+                                        <li>oris</li>
+                                        
+                                        <li>test_group</li>
+                                        
+                                        <li>college_admin_40000</li>
+                                        
+                                    </ul>
+                                    
+
+                                    <h5>Parameters</h5>
+                                    
+                                    <table class="bordered responsive-table parameters">
+                                        <thead>
+                                            <tr>
+                                                <th data-field="name">Name</th>
+                                                <th data-field="location">Location</th>
+                                                <th data-field="description">Description</th>
+                                                <th data-field="required">Required</th>
+                                                <th data-field="schema">Schema</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            <tr>
+                                                <td class="name">body</td>
+                                                <td class="in">body</td>
+                                                <td class="description">Message body</td>
+                                                <td class="required">No</td>
+
+                                                
+                                                    
+                                                
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                    
+
+                                    <h5>Responses</h5>
+                                    <table class="bordered responsive-table responses">
+                                        <thead>
+                                            <tr>
+                                                <th data-field="code">Code</th>
+                                                <th data-field="description">Description</th>
+                                                <th data-field="schema">Schema</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            <tr>
+                                                <td class="code code-201">201</td>
+                                                <td class="description">Created</td>
+                                                
+                                                    
+                                                    <td class="schema">
+                                                        $ref #/definitions/Test
+                                                    </td>
+                                                    
+                                                
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td class="code code-404">404</td>
+                                                <td class="description">Test not available</td>
+                                                
+                                                    
+                                                    <td class="schema">
+                                                        $ref #/definitions/ErrorResponse
+                                                    </td>
+                                                    
+                                                
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td class="code code-500">500</td>
+                                                <td class="description">Internal server error</td>
+                                                
+                                                    
+                                                    <td class="schema">
+                                                        $ref #/definitions/ErrorResponse
+                                                    </td>
+                                                    
+                                                
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div> <!-- .collapsible-body -->
+                            </li>
+                        </ul>
+                        
+                        <ul class="collapsible popout operations" data-collapsible="accordion">
+                            <li class="operation get">
+                                <div class="collapsible-header">
+                                    <div class="route">GET /test</div>
+                                    <div class="actions right">
+                                        <nav>
+                                            <ul>
+                                                <li>
+                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <div class="collapsible-body">
+
+                                    <h5>Summary</h5>
+                                    <p>Test path for checking doc generating of various features</p>
+
+                                    
+                                    <h5>Description</h5>
+                                    <div class="description">
+                                        <p>This <em>example</em> uses <strong>markdown</strong> for the <strong>description</strong>. </p>
+
+<blockquote>
+  <p>Here is 
+  a block quote</p>
+</blockquote>
+
+<ul>
+<li>And a undordered list </li>
+<li>of some content</li>
+</ul>
+
+<ol>
+<li>bananas</li>
+<li><p>apples</p>
+
+<p>Presumably this is a code block?
+(because of indentation...) ... maybe?</p></li>
+</ol>
+
+<p><a href="http://example.com" title="Example title">example link</a>
+And here is some <code>&lt;strong&gt;inline code&lt;/strong&gt;</code> if you feel so inclined.</p>
+
+                                    </div>
+                                    
+
+                                    
+
+                                    <h5>Parameters</h5>
+                                    
+                                    <p><em>No parameters</em></p>
+                                    
+
+                                    <h5>Responses</h5>
+                                    <table class="bordered responsive-table responses">
+                                        <thead>
+                                            <tr>
+                                                <th data-field="code">Code</th>
+                                                <th data-field="description">Description</th>
+                                                <th data-field="schema">Schema</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            <tr>
+                                                <td class="code code-400">400</td>
+                                                <td class="description">An error occured</td>
+                                                
+                                                    
+                                                    <td class="schema">
+                                                        $ref #/definitions/ErrorResponse
+                                                    </td>
+                                                    
+                                                
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td class="code code-200">200</td>
+                                                <td class="description">Successful operation</td>
+                                                
+                                                    
+                                                    <td class="schema">
+                                                        $ref #/definitions/Test
+                                                    </td>
+                                                    
+                                                
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div> <!-- .collapsible-body -->
+                            </li>
+                        </ul>
+                        
+                    </div> <!-- #{uri} .section.scrollspy -->
+                    
+                   
+                </div> <!-- #routes -->
+
+            </div> <!-- .col content -->
+
+            <!-- Right hand navigation -->
+            <div class="col hide-on-small-only m3 l1">
+                <div class="pinned">
+                    <ul class="section table-of-contents">
+                        <li>Routes</li>
+                        
+                        <li><a href="#test">/test</a></li>
+                        
+                    </ul>
+                </div>
+            </div--> <!-- .col -->
+
+        </div> <!-- .row -->
+
+    </div> <!-- .container -->
+
+    <!-- Query builder modal -->
+    <div id="query-builder" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="execute-query waves-effect waves-green btn">Execute</a>
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+        </div>
+    </div>
+
+</main>
+
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Footer Content</h5>
+                <p class="grey-text text-lighten-4">Mauris vitae libero et nibh malesuada facilisis. Proin magna dui, lacinia a erat sed, suscipit sodales diam.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            &copy; 2015 Chase McManning
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="js/vendor/materialize.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>
