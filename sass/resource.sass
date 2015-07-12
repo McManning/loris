@@ -1,0 +1,70 @@
+
+// Definitions
+.resource 
+    margin: 1rem
+
+    .collapsible
+        border: none
+        box-shadow: none
+        margin: 0
+
+    .uri
+        color: #666
+
+    >a 
+        .name
+            display: inline-block
+
+    .object
+        display: block
+        margin-left: 1rem
+
+    .array
+        display: block
+        margin-left: 1rem
+
+    .attr
+        margin-left: 1rem
+
+        .name
+            font-weight: bold
+            vertical-align: top
+            font-family: monospace
+            //font-size: 1.25rem
+
+        .type 
+            &.string
+                color: color("osu-blue", "base")
+
+            &.number, &.boolean
+                color: color("osu-orange", "base")
+
+        .description
+            font-style: italic
+            color: #999
+
+        .required 
+            color: #FF0000
+
+
+
+
+    .collapsed
+        display: none
+
+    .only-json
+        display: none
+
+    // Toggleable JSON-display state to pretty print JSON
+    // and exclude non-JSON properties (description, links, etc)
+    &.json
+        .no-json
+            display: none
+
+        .only-json
+            display: inline
+
+        // Ensure anything that was collapsed isn't anymore
+        .collapsed 
+            display: block
+
