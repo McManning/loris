@@ -96,14 +96,18 @@
                 </li>
 
                 <!-- API Resource definitions -->
-                <li><a class="collapsible-header waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
+                <!--li><a class="collapsible-header waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
                     <div class="collapsible-body" style="">
                         <ul>
                             <li><a href="resources.html" class="waves-effect waves-grey">Group by types?</a></li>
                         </ul>
                     </div>
-                </li>
+                </li-->
             </ul> <!-- .collapsible -->
+        </li>
+
+        <li class="">
+            <a href="resources.html" class="waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
         </li>
 
         <li class="">
@@ -118,694 +122,691 @@
             <!-- Content column -->
             <div class="col s12 m9 l11">
 
-                <div id="routes" class="section scrollspy">
-                    <h1>College</h1>
-                    <div class="endpoint-description">
-                        <p>College stuff</p>
+                <h1>College</h1>
+                <div class="endpoint-description">
+                    <p>College stuff</p>
 
-                    </div>
+                </div>
 
+                
+                <div id="college" class="section scrollspy">
                     
-                    <div id="college" class="section scrollspy">
-                        
-                        <ul class="collapsible popout operations" data-collapsible="accordion">
-                            <li class="operation get">
-                                <div class="collapsible-header">
-                                    <div class="route">GET /college</div>
-                                    <div class="actions right">
-                                        <nav>
-                                            <ul>
-                                                <li>
-                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /college</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
-                                <div class="collapsible-body">
+                            </div>
+                            <div class="collapsible-body">
 
-                                    <h5>Summary</h5>
-                                    <p>Search for a College resource, or 
+                                <h5>Summary</h5>
+                                <p>Search for a College resource, or 
 retrieve a collection of all Colleges.
 </p>
 
-                                    
+                                
 
-                                    
+                                
 
-                                    <h5>Parameters</h5>
-                                    
-                                    <table class="bordered responsive-table parameters">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="name">Name</th>
-                                                <th data-field="location">Location</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="required">Required</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td class="name">q</td>
-                                                <td class="in">query</td>
-                                                <td class="description">Search terms</td>
-                                                <td class="required">No</td>
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">q</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Search terms</td>
+                                            <td class="required">No</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="name">expand</td>
-                                                <td class="in">query</td>
-                                                <td class="description">Object expansion notation for meta child objects</td>
-                                                <td class="required">No</td>
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                    
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
 
-                                    <h5>Responses</h5>
-                                    <table class="bordered responsive-table responses">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="code">Code</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
                                             
-                                            <tr>
-                                                <td class="code code-400">400</td>
-                                                <td class="description">An error occured</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/CollegeCollection
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="code code-200">200</td>
-                                                <td class="description">Successful operation</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/CollegeCollection
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
                                             
-                                        </tbody>
-                                    </table>
-                                </div> <!-- .collapsible-body -->
-                            </li>
-                        </ul>
-                        
-                    </div> <!-- #{uri} .section.scrollspy -->
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
                     
-                    <div id="college-id" class="section scrollspy">
-                        
-                        <ul class="collapsible popout operations" data-collapsible="accordion">
-                            <li class="operation get">
-                                <div class="collapsible-header">
-                                    <div class="route">GET /college/{id}</div>
-                                    <div class="actions right">
-                                        <nav>
-                                            <ul>
-                                                <li>
-                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="college-id" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /college/{id}</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
-                                <div class="collapsible-body">
+                            </div>
+                            <div class="collapsible-body">
 
-                                    <h5>Summary</h5>
-                                    <p>Return a College resource by ID.</p>
+                                <h5>Summary</h5>
+                                <p>Return a College resource by ID.</p>
 
-                                    
+                                
 
-                                    
+                                
 
-                                    <h5>Parameters</h5>
-                                    
-                                    <table class="bordered responsive-table parameters">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="name">Name</th>
-                                                <th data-field="location">Location</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="required">Required</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td class="name">id</td>
-                                                <td class="in">path</td>
-                                                <td class="description">Unique College ID.</td>
-                                                <td class="required">Yes</td>
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">Unique College ID.</td>
+                                            <td class="required">Yes</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="name">expand</td>
-                                                <td class="in">query</td>
-                                                <td class="description">Object expansion notation for meta child objects</td>
-                                                <td class="required">No</td>
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                    
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
 
-                                    <h5>Responses</h5>
-                                    <table class="bordered responsive-table responses">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="code">Code</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
                                             
-                                            <tr>
-                                                <td class="code code-404">404</td>
-                                                <td class="description">College not found</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/College
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="code code-400">400</td>
-                                                <td class="description">An error occured</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">College not found</td>
                                             
-                                            <tr>
-                                                <td class="code code-200">200</td>
-                                                <td class="description">Successful operation</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/College
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                </div> <!-- .collapsible-body -->
-                            </li>
-                        </ul>
-                        
-                    </div> <!-- #{uri} .section.scrollspy -->
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
                     
-                    <div id="college-id-awards" class="section scrollspy">
-                        
-                        <ul class="collapsible popout operations" data-collapsible="accordion">
-                            <li class="operation get">
-                                <div class="collapsible-header">
-                                    <div class="route">GET /college/{id}/awards</div>
-                                    <div class="actions right">
-                                        <nav>
-                                            <ul>
-                                                <li>
-                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="college-id-awards" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /college/{id}/awards</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
-                                <div class="collapsible-body">
+                            </div>
+                            <div class="collapsible-body">
 
-                                    <h5>Summary</h5>
-                                    <p>Retrieve a collection of Awards associated with the College.</p>
+                                <h5>Summary</h5>
+                                <p>Retrieve a collection of Awards associated with the College.</p>
 
-                                    
+                                
 
-                                    
+                                
 
-                                    <h5>Parameters</h5>
-                                    
-                                    <table class="bordered responsive-table parameters">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="name">Name</th>
-                                                <th data-field="location">Location</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="required">Required</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td class="name">id</td>
-                                                <td class="in">path</td>
-                                                <td class="description">Unique College ID.</td>
-                                                <td class="required">Yes</td>
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">Unique College ID.</td>
+                                            <td class="required">Yes</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="name">expand</td>
-                                                <td class="in">query</td>
-                                                <td class="description">Object expansion notation for meta child objects</td>
-                                                <td class="required">No</td>
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                    
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
 
-                                    <h5>Responses</h5>
-                                    <table class="bordered responsive-table responses">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="code">Code</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
                                             
-                                            <tr>
-                                                <td class="code code-404">404</td>
-                                                <td class="description">College not found</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/AwardCollection
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="code code-400">400</td>
-                                                <td class="description">An error occured</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">College not found</td>
                                             
-                                            <tr>
-                                                <td class="code code-200">200</td>
-                                                <td class="description">Successful operation</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/AwardCollection
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                </div> <!-- .collapsible-body -->
-                            </li>
-                        </ul>
-                        
-                    </div> <!-- #{uri} .section.scrollspy -->
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
                     
-                    <div id="college-id-departments" class="section scrollspy">
-                        
-                        <ul class="collapsible popout operations" data-collapsible="accordion">
-                            <li class="operation get">
-                                <div class="collapsible-header">
-                                    <div class="route">GET /college/{id}/departments</div>
-                                    <div class="actions right">
-                                        <nav>
-                                            <ul>
-                                                <li>
-                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="college-id-departments" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /college/{id}/departments</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
-                                <div class="collapsible-body">
+                            </div>
+                            <div class="collapsible-body">
 
-                                    <h5>Summary</h5>
-                                    <p>Retrieve a collection of Departments associated with the College.</p>
+                                <h5>Summary</h5>
+                                <p>Retrieve a collection of Departments associated with the College.</p>
 
-                                    
+                                
 
-                                    
+                                
 
-                                    <h5>Parameters</h5>
-                                    
-                                    <table class="bordered responsive-table parameters">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="name">Name</th>
-                                                <th data-field="location">Location</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="required">Required</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td class="name">id</td>
-                                                <td class="in">path</td>
-                                                <td class="description">Unique College ID.</td>
-                                                <td class="required">Yes</td>
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">Unique College ID.</td>
+                                            <td class="required">Yes</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                    
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
 
-                                    <h5>Responses</h5>
-                                    <table class="bordered responsive-table responses">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="code">Code</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
                                             
-                                            <tr>
-                                                <td class="code code-404">404</td>
-                                                <td class="description">College not found</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/DepartmentCollection
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="code code-400">400</td>
-                                                <td class="description">An error occured</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">College not found</td>
                                             
-                                            <tr>
-                                                <td class="code code-200">200</td>
-                                                <td class="description">Successful operation</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/DepartmentCollection
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                </div> <!-- .collapsible-body -->
-                            </li>
-                        </ul>
-                        
-                    </div> <!-- #{uri} .section.scrollspy -->
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
                     
-                    <div id="college-id-projects" class="section scrollspy">
-                        
-                        <ul class="collapsible popout operations" data-collapsible="accordion">
-                            <li class="operation get">
-                                <div class="collapsible-header">
-                                    <div class="route">GET /college/{id}/projects</div>
-                                    <div class="actions right">
-                                        <nav>
-                                            <ul>
-                                                <li>
-                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="college-id-projects" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /college/{id}/projects</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
-                                <div class="collapsible-body">
+                            </div>
+                            <div class="collapsible-body">
 
-                                    <h5>Summary</h5>
-                                    <p>Retrieve a collection of Projects associated with the College.</p>
+                                <h5>Summary</h5>
+                                <p>Retrieve a collection of Projects associated with the College.</p>
 
-                                    
+                                
 
-                                    
+                                
 
-                                    <h5>Parameters</h5>
-                                    
-                                    <table class="bordered responsive-table parameters">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="name">Name</th>
-                                                <th data-field="location">Location</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="required">Required</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td class="name">id</td>
-                                                <td class="in">path</td>
-                                                <td class="description">Unique College ID.</td>
-                                                <td class="required">Yes</td>
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">Unique College ID.</td>
+                                            <td class="required">Yes</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                    
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
 
-                                    <h5>Responses</h5>
-                                    <table class="bordered responsive-table responses">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="code">Code</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
                                             
-                                            <tr>
-                                                <td class="code code-404">404</td>
-                                                <td class="description">College not found</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/ProjectCollection
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="code code-400">400</td>
-                                                <td class="description">An error occured</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">College not found</td>
                                             
-                                            <tr>
-                                                <td class="code code-200">200</td>
-                                                <td class="description">Successful operation</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ProjectCollection
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                </div> <!-- .collapsible-body -->
-                            </li>
-                        </ul>
-                        
-                    </div> <!-- #{uri} .section.scrollspy -->
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
                     
-                    <div id="college-id-proposals" class="section scrollspy">
-                        
-                        <ul class="collapsible popout operations" data-collapsible="accordion">
-                            <li class="operation get">
-                                <div class="collapsible-header">
-                                    <div class="route">GET /college/{id}/proposals</div>
-                                    <div class="actions right">
-                                        <nav>
-                                            <ul>
-                                                <li>
-                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="college-id-proposals" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /college/{id}/proposals</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
-                                <div class="collapsible-body">
+                            </div>
+                            <div class="collapsible-body">
 
-                                    <h5>Summary</h5>
-                                    <p>Retrieve a collection of Proposals associated with the College.</p>
+                                <h5>Summary</h5>
+                                <p>Retrieve a collection of Proposals associated with the College.</p>
 
-                                    
+                                
 
-                                    
+                                
 
-                                    <h5>Parameters</h5>
-                                    
-                                    <table class="bordered responsive-table parameters">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="name">Name</th>
-                                                <th data-field="location">Location</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="required">Required</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td class="name">id</td>
-                                                <td class="in">path</td>
-                                                <td class="description">Unique College ID.</td>
-                                                <td class="required">Yes</td>
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">Unique College ID.</td>
+                                            <td class="required">Yes</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                    
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
 
-                                    <h5>Responses</h5>
-                                    <table class="bordered responsive-table responses">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="code">Code</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
                                             
-                                            <tr>
-                                                <td class="code code-404">404</td>
-                                                <td class="description">College not found</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/ProposalCollection
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="code code-400">400</td>
-                                                <td class="description">An error occured</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">College not found</td>
                                             
-                                            <tr>
-                                                <td class="code code-200">200</td>
-                                                <td class="description">Successful operation</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ProposalCollection
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                </div> <!-- .collapsible-body -->
-                            </li>
-                        </ul>
-                        
-                    </div> <!-- #{uri} .section.scrollspy -->
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
                     
-                   
-                </div> <!-- #routes -->
-
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+               
             </div> <!-- .col content -->
 
             <!-- Right hand navigation -->
@@ -828,7 +829,7 @@ retrieve a collection of all Colleges.
                         
                     </ul>
                 </div>
-            </div--> <!-- .col -->
+            </div> <!-- .col -->
 
         </div> <!-- .row -->
 

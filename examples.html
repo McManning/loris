@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link type="text/css" rel="stylesheet" href="css/main.css" media="screen,projection"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/prism.css" rel="stylesheet" />
 </head>
 <body>
 <header>
@@ -47,47 +48,47 @@
 
                 <!-- API Routes -->
                 <li><a class="collapsible-header waves-effect waves-grey ">API Endpoints <i class="material-icons right">explore</i></a>
-                    <div class="collapsible-body" style="">
+                    <div class="collapsible-body">
                         <ul>
                             
                             <li class="">
-                                <a href="award.html" class="waves-effect waves-grey">Award</a>
+                                <a href="routes-award.html" class="waves-effect waves-grey">Award</a>
                             </li>
                             
                             <li class="">
-                                <a href="college.html" class="waves-effect waves-grey">College</a>
+                                <a href="routes-college.html" class="waves-effect waves-grey">College</a>
                             </li>
                             
                             <li class="">
-                                <a href="department.html" class="waves-effect waves-grey">Department</a>
+                                <a href="routes-department.html" class="waves-effect waves-grey">Department</a>
                             </li>
                             
                             <li class="">
-                                <a href="fom.html" class="waves-effect waves-grey">FOM</a>
+                                <a href="routes-fom.html" class="waves-effect waves-grey">FOM</a>
                             </li>
                             
                             <li class="">
-                                <a href="fundops.html" class="waves-effect waves-grey">FundOps</a>
+                                <a href="routes-fundops.html" class="waves-effect waves-grey">FundOps</a>
                             </li>
                             
                             <li class="">
-                                <a href="legacy.html" class="waves-effect waves-grey">Legacy</a>
+                                <a href="routes-legacy.html" class="waves-effect waves-grey">Legacy</a>
                             </li>
                             
                             <li class="">
-                                <a href="person.html" class="waves-effect waves-grey">Person</a>
+                                <a href="routes-person.html" class="waves-effect waves-grey">Person</a>
                             </li>
                             
                             <li class="">
-                                <a href="project.html" class="waves-effect waves-grey">Project</a>
+                                <a href="routes-project.html" class="waves-effect waves-grey">Project</a>
                             </li>
                             
                             <li class="">
-                                <a href="proposal.html" class="waves-effect waves-grey">Proposal</a>
+                                <a href="routes-proposal.html" class="waves-effect waves-grey">Proposal</a>
                             </li>
                             
                             <li class="">
-                                <a href="test.html" class="waves-effect waves-grey">Test</a>
+                                <a href="routes-test.html" class="waves-effect waves-grey">Test</a>
                             </li>
                             
                         </ul>
@@ -95,10 +96,53 @@
                 </li>
 
                 <!-- API Resource definitions -->
-                <li><a class="collapsible-header waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
-                    <div class="collapsible-body" style="">
+                <li><a class="collapsible-header waves-effect waves-grey ">Resources <i class="material-icons right">layers</i></a>
+                    <div class="collapsible-body">
                         <ul>
-                            <li><a href="resources.html" class="waves-effect waves-grey">Group by types?</a></li>
+                            
+                            <li class="">
+                                <a href="resources-award.html" class="waves-effect waves-grey">Award</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-college.html" class="waves-effect waves-grey">College</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-department.html" class="waves-effect waves-grey">Department</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-fom.html" class="waves-effect waves-grey">FOM</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-fundops.html" class="waves-effect waves-grey">FundOps</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-legacy.html" class="waves-effect waves-grey">Legacy</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-person.html" class="waves-effect waves-grey">Person</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-project.html" class="waves-effect waves-grey">Project</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-proposal.html" class="waves-effect waves-grey">Proposal</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-test.html" class="waves-effect waves-grey">Test</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-other.html" class="waves-effect waves-grey">Other</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -119,11 +163,113 @@
             <div class="col s12 m9 l11">
 
                 <div id="introduction" class="section scrollspy">
-                    <h1>Examples Introduction</h1>
+                    <h3>What's an API without examples?</h3>
                     <p class="flow-text">
-                    Phasellus faucibus venenatis eros, ut egestas mauris pretium eget. Suspendisse potenti. Cras sit amet lacus at magna euismod cursus. Sed tristique tempus suscipit. Fusce massa tellus, pharetra ac varius non, finibus eget nisi. Phasellus pellentesque luctus justo, eget malesuada turpis tempor eget. Pellentesque nec nibh a felis eleifend posuere. Proin aliquam quis justo nec scelerisque. Mauris quis mauris non eros gravida viverra quis et est. Ut consectetur suscipit quam a placerat. Mauris vitae libero et nibh malesuada facilisis. Proin magna dui, lacinia a erat sed, suscipit sodales diam.
+                    To get an idea of how to interact with the API, here are a few common use cases. Idealy, these samples will become interactive and you will be able to perform a real request for each. But we're not there yet :)
                     </p>
                 </div>
+
+                <div id="retrieving-departments" class="section scrollspy">
+                    <h4>Retrieving a Department</h4>
+                    <p class="flow-text">
+                    ...
+                    </p>
+                </div>
+
+                <div id="retrieving-certifications" class="section scrollspy">
+                    <h4>Retrieving a Person's Certifications</h4>
+                    <p class="flow-text">
+                    One of the most common requests of functionality for an application is retrieving certification statuses for an individual. For one individual, this is an incredibly simple request:
+                    </p>
+
+<div class="example-request">
+<div class="request">GET /person/200275154/certificates</div>
+<pre><code class="language-javascript">
+200 OK
+{
+    "id": "200275154",
+    "meta":
+    {
+        "type": "resource",
+        "uri": "/person/200275154/certificates"
+    },
+    "citi": {
+        "dateExpired": "2015-07-11T11:49:06.804Z",
+        "dateReceived": "2015-07-11T11:49:06.804Z"
+    },
+    "coi": {
+        "comments": "string",
+        "companies": [
+            "string"
+        ],
+        "dateExpired": "2015-07-11T11:49:06.804Z",
+        "dateReceived": "2015-07-11T11:49:06.804Z",
+        "status": "string"
+    },
+    "pie": {
+        "dateReceived": "2015-07-11T11:49:06.804Z"
+    }
+}
+</code></pre>
+</div>
+                    <p class="flow-text">
+                    While that request may be simple, and could be covered by <code>OR_Training</code> rather easily, our requirements are not always as simple. Let's say we want certification data for everyone on project 600123456. This is also quite easy:
+                    </p>
+
+<div class="example-request">
+<div class="request">GET /project/600123456?expand=investigator.certificates</div>
+<pre><code class="language-javascript">
+200 OK
+{
+    ... todo ...
+
+}
+</code></pre>
+</div>
+                    <p class="flow-text">
+                    Using the backend search engine, we can even pull certificate resources for an arbitrary set of users:
+                    </p>
+              
+<div class="example-request">
+<div class="request">GET /person?q=200275154,200278842,04995834&amp;expand=certificates</div>
+<pre><code class="language-javascript">
+200 OK
+{
+    ... todo ...
+}
+</code></pre>
+</div>
+                </div> <!-- #example-1 -->
+
+                <div id="finding-projects" class="section scrollspy">
+                    <h4>Finding Projects</h4>
+                    <p class="flow-text">
+                    Since the API is built primarily to support the new PI Portal backend, obviously it needs to work with project data. Within the old application, projects could be listed by a given department or investigator. Likewise, we can do the same through a single API call:
+                    </p>
+
+<div class="example-request">
+<div class="request">GET /department/40000?expand=projects</div>
+<pre><code class="language-javascript">
+200 OK
+{
+    ... todo ...
+}
+</code></pre>
+</div>
+                <p class="flow-text">
+                We use a very graph-heavy approach when relating resources to one-another, so it should become obvious that if a project contains Person resources (investigators), then we should also be able to retrieve projects associated with an individual. Again, this can be done in one single request:
+                </p>
+
+<div class="example-request">
+<div class="request">GET /person/200275154?expand=projects</div>
+<pre><code class="language-javascript">
+200 OK
+{
+    ... todo ...
+}
+</code></pre>
+</div>
+                </div> <!-- #example-2 -->
 
             </div> <!-- .col content -->
 
@@ -133,11 +279,12 @@
 
                     <ul class="section table-of-contents">
                         <li><a href="#introduction">Introduction</a></li>
-                        <li><a href="#routes">API Routes</a></li>
-                        <li><a href="#resources">Resources</a></li>
+                        <li><a href="#retrieving-departments">Retrieving a Department</a></li>
+                        <li><a href="#retrieving-certifications">Retrieving Certifications</a></li>
+                        <li><a href="#finding-projects">Finding Projects</a></li>
                     </ul>
                 </div>
-            </div--> <!-- .col -->
+            </div> <!-- .col -->
 
         </div> <!-- .row -->
 
@@ -173,7 +320,7 @@
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="js/vendor/materialize.min.js"></script>
+<script type="text/javascript" src="js/vendor/prism.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
-
 </body>
 </html>

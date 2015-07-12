@@ -1,0 +1,235 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link type="text/css" rel="stylesheet" href="css/main.css" media="screen,projection"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/prism.css" rel="stylesheet" />
+</head>
+<body>
+<header>
+
+    <!-- Top search bar -->
+    <div class="row">
+        <div class="s12 navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <form>
+                        <div class="input-field">
+                            <input id="search" type="search" required="required" placeholder="Search the docs" />
+                            <label for="search"><i class="material-icons">search</i></label>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </div> <!-- .row -->
+
+    <!-- Hamburger for mobile -->
+    <div class="container">
+        <a href="#" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only">
+            <i class="mdi-navigation-menu"></i>
+        </a>
+    </div>
+
+    <!-- Main left hand navigation -->
+    <ul id="nav-mobile" class="side-nav fixed grey lighten-4">
+        <li class="logo">
+            <img class="brand-logo left" src="img/loris.svg" />
+            <span class="title">Loris</span> <span class="version">(v1)</span>
+        </li>
+        <li class="">
+            <a href="index.html" class="waves-effect waves-grey">Introduction <i class="material-icons right">info_outline</i></a>
+        </li>
+
+        <li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+
+                <!-- API Routes -->
+                <li><a class="collapsible-header waves-effect waves-grey ">API Endpoints <i class="material-icons right">explore</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            
+                            <li class="">
+                                <a href="routes-award.html" class="waves-effect waves-grey">Award</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-college.html" class="waves-effect waves-grey">College</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-department.html" class="waves-effect waves-grey">Department</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-fom.html" class="waves-effect waves-grey">FOM</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-fundops.html" class="waves-effect waves-grey">FundOps</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-legacy.html" class="waves-effect waves-grey">Legacy</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-person.html" class="waves-effect waves-grey">Person</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-project.html" class="waves-effect waves-grey">Project</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-proposal.html" class="waves-effect waves-grey">Proposal</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-test.html" class="waves-effect waves-grey">Test</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- API Resource definitions -->
+                <li><a class="collapsible-header waves-effect waves-grey active">Resources <i class="material-icons right">layers</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            
+                            <li class="">
+                                <a href="resources-award.html" class="waves-effect waves-grey">Award</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-college.html" class="waves-effect waves-grey">College</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-department.html" class="waves-effect waves-grey">Department</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-fom.html" class="waves-effect waves-grey">FOM</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-fundops.html" class="waves-effect waves-grey">FundOps</a>
+                            </li>
+                            
+                            <li class="active">
+                                <a href="resources-legacy.html" class="waves-effect waves-grey">Legacy</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-person.html" class="waves-effect waves-grey">Person</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-project.html" class="waves-effect waves-grey">Project</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-proposal.html" class="waves-effect waves-grey">Proposal</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-test.html" class="waves-effect waves-grey">Test</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-other.html" class="waves-effect waves-grey">Other</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul> <!-- .collapsible -->
+        </li>
+
+        <li class="">
+            <a href="examples.html" class="waves-effect waves-grey">Examples <i class="material-icons right">code</i></a>
+        </li>
+    </ul>
+
+</header>
+<main>
+    <div class="container">
+        <div class="row">
+
+            <!-- Content column -->
+            <div class="col s12 m9 l11">
+
+                <h1>Legacy Resources</h1>
+
+                <div class="switch">
+                    <label>
+                        Details
+                        <input type="checkbox" id="toggle-json">
+                        <span class="lever"></span>
+                        JSON
+                    </label>
+                </div>
+
+                
+
+                    <div id="Legacy-UserTraining" class="section scrollspy">
+                        <h3>Legacy.UserTraining</h3>
+                         <div class="resource"> <div class="tags no-json"> </div> <a href="#/definitions/Legacy.UserTraining" id="/definitions/Legacy.UserTraining" class="no-json"> <h2 class="name">Legacy.UserTraining</h2> </a> <a href="#" class="toggle-all-collapsible no-json">-</a> <!--p> <span class="no-uri">No direct resource URI available.</span> </p--> <div class="attr"> <span class="description no-json">Collection of users with training data.</span> <div class="object"> { <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible"> <div class="attr"> <span class="name"> <span class="only-json">"</span>user<span class="only-json">"</span>: </span> <span class="type no-json">array</span>   <span class="description no-json"></span> <div class="array">[ <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible"> <div class="items"> <!-- expect: json.items.type OR json.items.$ref, json.items.description if type == object, can parse as unnamed object (will have properties @ same level) --> <div class="attr"> <span class="description no-json">Training information for a single user.</span> <div class="object"> { <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible"> <div class="attr"> <span class="name"> <span class="only-json">"</span>certificate<span class="only-json">"</span>: </span> <span class="type no-json">array</span>   <span class="description no-json"></span> <div class="array">[ <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible"> <div class="items"> <!-- expect: json.items.type OR json.items.$ref, json.items.description if type == object, can parse as unnamed object (will have properties @ same level) --> <div class="attr"> <span class="description no-json">A single certificate or training status.</span> <div class="object"> { <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible">   <div class="attr"> <span class="name"> <span class="only-json">"</span>comments<span class="only-json">"</span>: </span> <span class="type string only-json"> "string" </span> <span class="type no-json">string</span>   <span class="description no-json">Additional comments attached to a certificate.</span> <span class="only-json">,</span> </div> <div class="attr"> <span class="name"> <span class="only-json">"</span>companies<span class="only-json">"</span>: </span> <span class="type no-json">array</span>   <span class="description no-json">COI specific field. List of companies entered on a user's COI.</span> <div class="array">[ <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible"> <div class="items"> <!-- expect: json.items.type OR json.items.$ref, json.items.description if type == object, can parse as unnamed object (will have properties @ same level) -->   <div class="attr"> <span class="type string only-json"> "string" </span> <span class="type no-json">string</span>   <span class="description no-json"></span> </div> </div> </div> ] <span class="only-json">,</span> </div> </div>   <div class="attr"> <span class="name"> <span class="only-json">"</span>dateExpired<span class="only-json">"</span>: </span> <span class="type string only-json"> "string" </span> <span class="type no-json">string</span>   <span class="description no-json">mm/dd/YYYY of when the certificate expires, or null if not applicable.</span> <span class="only-json">,</span> </div>   <div class="attr"> <span class="name"> <span class="only-json">"</span>dateReceived<span class="only-json">"</span>: </span> <span class="type string only-json"> "string" </span> <span class="type no-json">string</span>   <span class="description no-json">mm/dd/YYYY of when the certificate was received, or null if not applicable.</span> <span class="only-json">,</span> </div>   <div class="attr"> <span class="name"> <span class="only-json">"</span>id<span class="only-json">"</span>: </span> <span class="type string only-json"> "string" </span> <span class="type no-json">string</span>   <span class="description no-json">Type of certificate (e.g. COI, PIE, CITI)</span> <span class="only-json">,</span> </div>   <div class="attr"> <span class="name"> <span class="only-json">"</span>name<span class="only-json">"</span>: </span> <span class="type string only-json"> "string" </span> <span class="type no-json">string</span>   <span class="description no-json">Longer type string (e.g. Conflict of Interest)</span> <span class="only-json">,</span> </div>   <div class="attr"> <span class="name"> <span class="only-json">"</span>status<span class="only-json">"</span>: </span> <span class="type string only-json"> "string" </span> <span class="type no-json">string</span>   <span class="description no-json">Status string for a certificate (e.g. Incomplete)</span> </div> </div> } </div> </div> </div> </div> ] <span class="only-json">,</span> </div> </div>   <div class="attr"> <span class="name"> <span class="only-json">"</span>namen<span class="only-json">"</span>: </span> <span class="type string only-json"> "string" </span> <span class="type no-json">string</span>   <span class="description no-json"></span> <span class="only-json">,</span> </div>   <div class="attr"> <span class="name"> <span class="only-json">"</span>resid<span class="only-json">"</span>: </span> <span class="type string only-json"> "string" </span> <span class="type no-json">string</span>   <span class="description no-json"></span> </div> </div> } </div> </div> </div> </div> ] </div> </div> </div> } </div> </div> </div>
+                    </div>
+
+                
+
+            </div> <!-- .col content -->
+
+            <!-- Right hand navigation -->
+            <div class="col hide-on-small-only m3 l1">
+                <div class="pinned">
+                    <ul class="section table-of-contents">
+                        <li>Resources</li>
+                        
+                        <li><a href="#Legacy-UserTraining">Legacy.UserTraining</a></li>
+                        
+                    </ul>
+                </div>
+            </div> <!-- .col -->
+
+        </div> <!-- .row -->
+    </div> <!-- .container -->
+</main>
+
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Footer Content</h5>
+                <p class="grey-text text-lighten-4">Mauris vitae libero et nibh malesuada facilisis. Proin magna dui, lacinia a erat sed, suscipit sodales diam.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            &copy; 2015 Chase McManning
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="js/vendor/materialize.min.js"></script>
+<script type="text/javascript" src="js/vendor/prism.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>

@@ -96,14 +96,18 @@
                 </li>
 
                 <!-- API Resource definitions -->
-                <li><a class="collapsible-header waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
+                <!--li><a class="collapsible-header waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
                     <div class="collapsible-body" style="">
                         <ul>
                             <li><a href="resources.html" class="waves-effect waves-grey">Group by types?</a></li>
                         </ul>
                     </div>
-                </li>
+                </li-->
             </ul> <!-- .collapsible -->
+        </li>
+
+        <li class="">
+            <a href="resources.html" class="waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
         </li>
 
         <li class="">
@@ -118,39 +122,38 @@
             <!-- Content column -->
             <div class="col s12 m9 l11">
 
-                <div id="routes" class="section scrollspy">
-                    <h1>Legacy</h1>
-                    <div class="endpoint-description">
-                        <p>Legacy stuff</p>
+                <h1>Legacy</h1>
+                <div class="endpoint-description">
+                    <p>Legacy stuff</p>
 
-                    </div>
+                </div>
 
+                
+                <div id="legacy-training-list" class="section scrollspy">
                     
-                    <div id="legacy-training-list" class="section scrollspy">
-                        
-                        <ul class="collapsible popout operations" data-collapsible="accordion">
-                            <li class="operation get">
-                                <div class="collapsible-header">
-                                    <div class="route">GET /legacy/training/{list}</div>
-                                    <div class="actions right">
-                                        <nav>
-                                            <ul>
-                                                <li>
-                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /legacy/training/{list}</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
-                                <div class="collapsible-body">
+                            </div>
+                            <div class="collapsible-body">
 
-                                    <h5>Summary</h5>
-                                    <p>Returns a collection of training data for the requested users, in either JSON or XML format.</p>
+                                <h5>Summary</h5>
+                                <p>Returns a collection of training data for the requested users, in either JSON or XML format.</p>
 
-                                    
-                                    <h5>Description</h5>
-                                    <div class="description">
-                                        <p>This is currently a wrapper around OR_Training::createFrom(NameN|ResID)List 
+                                
+                                <h5>Description</h5>
+                                <div class="description">
+                                    <p>This is currently a wrapper around OR_Training::createFrom(NameN|ResID)List 
 methods and in use by eProtocol. </p>
 
 <p>Potentially equivalent to the new API: 
@@ -162,85 +165,83 @@ or
   /api/v1/person/training?q=(namen|resid list)
 </code></p>
 
-                                    </div>
-                                    
+                                </div>
+                                
 
-                                    
+                                
 
-                                    <h5>Parameters</h5>
-                                    
-                                    <table class="bordered responsive-table parameters">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="name">Name</th>
-                                                <th data-field="location">Location</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="required">Required</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td class="name">list</td>
-                                                <td class="in">path</td>
-                                                <td class="description">Comma separated list of EITHER ResIDs or NameNs (but not mixed)</td>
-                                                <td class="required">Yes</td>
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">list</td>
+                                            <td class="in">path</td>
+                                            <td class="description">Comma separated list of EITHER ResIDs or NameNs (but not mixed)</td>
+                                            <td class="required">Yes</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="name">json</td>
-                                                <td class="in">query</td>
-                                                <td class="description">If set, the response will be in 'application/json' format</td>
-                                                <td class="required">No</td>
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">json</td>
+                                            <td class="in">query</td>
+                                            <td class="description">If set, the response will be in 'application/json' format</td>
+                                            <td class="required">No</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                    
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
 
-                                    <h5>Responses</h5>
-                                    <table class="bordered responsive-table responses">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="code">Code</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">successful operation</td>
                                             
-                                            <tr>
-                                                <td class="code code-200">200</td>
-                                                <td class="description">successful operation</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/Legacy.UserTraining
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/Legacy.UserTraining
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                </div> <!-- .collapsible-body -->
-                            </li>
-                        </ul>
-                        
-                    </div> <!-- #{uri} .section.scrollspy -->
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
                     
-                   
-                </div> <!-- #routes -->
-
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+               
             </div> <!-- .col content -->
 
             <!-- Right hand navigation -->
@@ -253,7 +254,7 @@ or
                         
                     </ul>
                 </div>
-            </div--> <!-- .col -->
+            </div> <!-- .col -->
 
         </div> <!-- .row -->
 

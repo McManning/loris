@@ -1,0 +1,280 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link type="text/css" rel="stylesheet" href="css/main.css" media="screen,projection"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/prism.css" rel="stylesheet" />
+</head>
+<body>
+<header>
+
+    <!-- Top search bar -->
+    <div class="row">
+        <div class="s12 navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <form>
+                        <div class="input-field">
+                            <input id="search" type="search" required="required" placeholder="Search the docs" />
+                            <label for="search"><i class="material-icons">search</i></label>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </div> <!-- .row -->
+
+    <!-- Hamburger for mobile -->
+    <div class="container">
+        <a href="#" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only">
+            <i class="mdi-navigation-menu"></i>
+        </a>
+    </div>
+
+    <!-- Main left hand navigation -->
+    <ul id="nav-mobile" class="side-nav fixed grey lighten-4">
+        <li class="logo">
+            <img class="brand-logo left" src="img/loris.svg" />
+            <span class="title">Loris</span> <span class="version">(v1)</span>
+        </li>
+        <li class="">
+            <a href="index.html" class="waves-effect waves-grey">Introduction <i class="material-icons right">info_outline</i></a>
+        </li>
+
+        <li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+
+                <!-- API Routes -->
+                <li><a class="collapsible-header waves-effect waves-grey ">API Endpoints <i class="material-icons right">explore</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            
+                            <li class="">
+                                <a href="routes-award.html" class="waves-effect waves-grey">Award</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-college.html" class="waves-effect waves-grey">College</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-department.html" class="waves-effect waves-grey">Department</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-fom.html" class="waves-effect waves-grey">FOM</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-fundops.html" class="waves-effect waves-grey">FundOps</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-legacy.html" class="waves-effect waves-grey">Legacy</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-person.html" class="waves-effect waves-grey">Person</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-project.html" class="waves-effect waves-grey">Project</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-proposal.html" class="waves-effect waves-grey">Proposal</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-test.html" class="waves-effect waves-grey">Test</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- API Resource definitions -->
+                <li><a class="collapsible-header waves-effect waves-grey active">Resources <i class="material-icons right">layers</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            
+                            <li class="">
+                                <a href="resources-award.html" class="waves-effect waves-grey">Award</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-college.html" class="waves-effect waves-grey">College</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-department.html" class="waves-effect waves-grey">Department</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-fom.html" class="waves-effect waves-grey">FOM</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-fundops.html" class="waves-effect waves-grey">FundOps</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-legacy.html" class="waves-effect waves-grey">Legacy</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-person.html" class="waves-effect waves-grey">Person</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-project.html" class="waves-effect waves-grey">Project</a>
+                            </li>
+                            
+                            <li class="active">
+                                <a href="resources-proposal.html" class="waves-effect waves-grey">Proposal</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-test.html" class="waves-effect waves-grey">Test</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-other.html" class="waves-effect waves-grey">Other</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul> <!-- .collapsible -->
+        </li>
+
+        <li class="">
+            <a href="examples.html" class="waves-effect waves-grey">Examples <i class="material-icons right">code</i></a>
+        </li>
+    </ul>
+
+</header>
+<main>
+    <div class="container">
+        <div class="row">
+
+            <!-- Content column -->
+            <div class="col s12 m9 l11">
+
+                <h1>Proposal Resources</h1>
+
+                <div class="switch">
+                    <label>
+                        Details
+                        <input type="checkbox" id="toggle-json">
+                        <span class="lever"></span>
+                        JSON
+                    </label>
+                </div>
+
+                
+
+                    <div id="Proposal" class="section scrollspy">
+                        <h3>Proposal</h3>
+                         <div class="resource"> <div class="tags no-json"> </div> <a href="#/definitions/Proposal" id="/definitions/Proposal" class="no-json"> <h2 class="name">Proposal</h2> </a> <a href="#" class="toggle-all-collapsible no-json">-</a> <!--p> <span class="uri">/proposal/{id}</span><span class="ref-expansions"></span> </p--> <div class="attr"> <span class="description no-json">A distinct Proposal for a new project (or collection of projects).</span> <div class="object"> { <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible"> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>award<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/Award">Award</a> <a class="ref-expander no-json" href="#/definitions/Award" data-expansion-key='award'>(expand)</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "resource" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>colleges<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/CollegeCollection">CollegeCollection</a> <a class="ref-expander no-json" href="#/definitions/CollegeCollection" data-expansion-key='colleges'>(expand)</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "resource" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>departments<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/Proposal.DepartmentCollection">Proposal.DepartmentCollection</a> <a class="ref-expander no-json" href="#/definitions/Proposal.DepartmentCollection" data-expansion-key='departments'>(expand)</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "resource" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div>   <div class="attr"> <span class="name"> <span class="only-json">"</span>endDate<span class="only-json">"</span>: </span> <span class="type string only-json"> "2015-07-11T11:49:06.804Z" </span> <span class="type no-json">string</span> <span class="format no-json">(date)</span>   <span class="description no-json">Proposed end date of the Award period.</span> <span class="only-json">,</span> </div> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>funding<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/Proposal.Funding">Proposal.Funding</a> <a class="ref-expander no-json" href="#/definitions/Proposal.Funding" data-expansion-key='funding'>(expand)</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "resource" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div>   <div class="attr"> <span class="name"> <span class="only-json">"</span>id<span class="only-json">"</span>: </span> <span class="type string only-json"> "string" </span> <span class="type no-json">string</span>   <span class="description no-json">Unique GRT number (e.g. GRT00012345).</span> <span class="only-json">,</span> </div> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>investigators<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/Proposal.InvestigatorCollection">Proposal.InvestigatorCollection</a> <a class="ref-expander no-json" href="#/definitions/Proposal.InvestigatorCollection" data-expansion-key='investigators'>(expand)</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "resource" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>meta<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/Meta">Meta</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "resource" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>principalInvestigator<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/Person">Person</a> <a class="ref-expander no-json" href="#/definitions/Person" data-expansion-key='principalInvestigator'>(expand)</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "resource" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>projects<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/ProjectCollection">ProjectCollection</a> <a class="ref-expander no-json" href="#/definitions/ProjectCollection" data-expansion-key='projects'>(expand)</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "resource" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>spo<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/Person">Person</a> <a class="ref-expander no-json" href="#/definitions/Person" data-expansion-key='spo'>(expand)</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "resource" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>sponsor<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/Proposal.Sponsor">Proposal.Sponsor</a> <a class="ref-expander no-json" href="#/definitions/Proposal.Sponsor" data-expansion-key='sponsor'>(expand)</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "resource" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div>   <div class="attr"> <span class="name"> <span class="only-json">"</span>startDate<span class="only-json">"</span>: </span> <span class="type string only-json"> "2015-07-11T11:49:06.804Z" </span> <span class="type no-json">string</span> <span class="format no-json">(date)</span>   <span class="description no-json">Proposed start date of the Award period.</span> <span class="only-json">,</span> </div>   <div class="attr"> <span class="name"> <span class="only-json">"</span>title<span class="only-json">"</span>: </span> <span class="type string only-json"> "string" </span> <span class="type no-json">string</span>   <span class="description no-json"></span> </div> </div> } </div> </div> </div>
+                    </div>
+
+                
+
+                    <div id="Proposal-DepartmentCollection" class="section scrollspy">
+                        <h3>Proposal.DepartmentCollection</h3>
+                         <div class="resource"> <div class="tags no-json"> </div> <a href="#/definitions/Proposal.DepartmentCollection" id="/definitions/Proposal.DepartmentCollection" class="no-json"> <h2 class="name">Proposal.DepartmentCollection</h2> </a> <a href="#" class="toggle-all-collapsible no-json">-</a> <!--p> <span class="uri">/proposal/{id}/departments</span><span class="ref-expansions"></span> </p--> <div class="attr"> <span class="description no-json">Departments that have an allocation to a particular Proposal.</span> <div class="object"> { <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible"> <div class="attr"> <span class="name"> <span class="only-json">"</span>collection<span class="only-json">"</span>: </span> <span class="type no-json">array</span>   <span class="description no-json"></span> <div class="array">[ <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible"> <div class="items"> <!-- expect: json.items.type OR json.items.$ref, json.items.description if type == object, can parse as unnamed object (will have properties @ same level) --> <div class="attr"> <span class="description no-json">A single department with a Proposal allocation.</span> <div class="object"> { <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible">   <div class="attr"> <span class="name"> <span class="only-json">"</span>allocation<span class="only-json">"</span>: </span> <span class="type number only-json"> 0 </span> <span class="type no-json">number</span>   <span class="description no-json">Percent allocation of Proposal funding.</span> <span class="only-json">,</span> </div> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>department<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/Department">Department</a> <a class="ref-expander no-json" href="#/definitions/Department" data-expansion-key='collection.department'>(expand)</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "collection" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span>, </div> <div class="attr"> <span class="name">"total":</span> <span class="type number">0</span>, </div> <div class="attr"> <span class="name">"page":</span> <span class="type number">0</span>, </div> <div class="attr"> <span class="name">"limit":</span> <span class="type number">0</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div> </div> } </div> </div> </div> </div> ] <span class="only-json">,</span> </div> </div> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>meta<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/MetaCollection">MetaCollection</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "collection" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span>, </div> <div class="attr"> <span class="name">"total":</span> <span class="type number">0</span>, </div> <div class="attr"> <span class="name">"page":</span> <span class="type number">0</span>, </div> <div class="attr"> <span class="name">"limit":</span> <span class="type number">0</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div> </div> } </div> </div> </div>
+                    </div>
+
+                
+
+                    <div id="Proposal-Funding" class="section scrollspy">
+                        <h3>Proposal.Funding</h3>
+                         <div class="resource"> <div class="tags no-json"> </div> <a href="#/definitions/Proposal.Funding" id="/definitions/Proposal.Funding" class="no-json"> <h2 class="name">Proposal.Funding</h2> </a> <a href="#" class="toggle-all-collapsible no-json">-</a> <!--p> <span class="uri">/proposal/{id}/funding</span><span class="ref-expansions"></span> </p--> <div class="attr"> <span class="description no-json">Funding data for a specific Proposal.</span> <div class="object"> { <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible"> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>meta<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/Meta">Meta</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "resource" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div>   <div class="attr"> <span class="name"> <span class="only-json">"</span>requestedBudget<span class="only-json">"</span>: </span> <span class="type number only-json"> 0.0 </span> <span class="type no-json">number</span> <span class="format no-json">(float)</span>   <span class="description no-json">Amount requested to fund this Proposal.</span> </div> </div> } </div> </div> </div>
+                    </div>
+
+                
+
+                    <div id="Proposal-InvestigatorCollection" class="section scrollspy">
+                        <h3>Proposal.InvestigatorCollection</h3>
+                         <div class="resource"> <div class="tags no-json"> </div> <a href="#/definitions/Proposal.InvestigatorCollection" id="/definitions/Proposal.InvestigatorCollection" class="no-json"> <h2 class="name">Proposal.InvestigatorCollection</h2> </a> <a href="#" class="toggle-all-collapsible no-json">-</a> <!--p> <span class="uri">/proposal/{id}/investigators</span><span class="ref-expansions"></span> </p--> <div class="attr"> <span class="description no-json">Investigators attached to a Proposal, with a proposed role.</span> <div class="object"> { <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible"> <div class="attr"> <span class="name"> <span class="only-json">"</span>collection<span class="only-json">"</span>: </span> <span class="type no-json">array</span>   <span class="description no-json"></span> <div class="array">[ <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible"> <div class="items"> <!-- expect: json.items.type OR json.items.$ref, json.items.description if type == object, can parse as unnamed object (will have properties @ same level) --> <div class="attr"> <span class="description no-json">A single Person on a Proposal</span> <div class="object"> { <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible"> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>person<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/Person">Person</a> <a class="ref-expander no-json" href="#/definitions/Person" data-expansion-key='person'>(expand)</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "resource" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div>   <div class="attr"> <span class="name"> <span class="only-json">"</span>role<span class="only-json">"</span>: </span> <span class="type string only-json"> "string" </span> <span class="type no-json">string</span>   <span class="description no-json">Specific role assigned to the Person (PI|COPI)</span> </div> </div> } </div> </div> </div> </div> ] <span class="only-json">,</span> </div> </div> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>meta<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/MetaCollection">MetaCollection</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "collection" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span>, </div> <div class="attr"> <span class="name">"total":</span> <span class="type number">0</span>, </div> <div class="attr"> <span class="name">"page":</span> <span class="type number">0</span>, </div> <div class="attr"> <span class="name">"limit":</span> <span class="type number">0</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div> </div> } </div> </div> </div>
+                    </div>
+
+                
+
+                    <div id="Proposal-Sponsor" class="section scrollspy">
+                        <h3>Proposal.Sponsor</h3>
+                         <div class="resource"> <div class="tags no-json"> </div> <a href="#/definitions/Proposal.Sponsor" id="/definitions/Proposal.Sponsor" class="no-json"> <h2 class="name">Proposal.Sponsor</h2> </a> <a href="#" class="toggle-all-collapsible no-json">-</a> <!--p> <span class="uri">/proposal/{id}/sponsor</span><span class="ref-expansions"></span> </p--> <div class="attr"> <span class="description no-json">Sponsor targetted to fund a specific Proposal.</span> <div class="object"> { <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible">   <div class="attr"> <span class="name"> <span class="only-json">"</span>id<span class="only-json">"</span>: </span> <span class="type string only-json"> "string" </span> <span class="type no-json">string</span>   <span class="description no-json">Unique sponsor ID (e.g. 64000002)</span> <span class="only-json">,</span> </div> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>meta<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/Meta">Meta</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "resource" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div>   <div class="attr"> <span class="name"> <span class="only-json">"</span>name<span class="only-json">"</span>: </span> <span class="type string only-json"> "string" </span> <span class="type no-json">string</span>   <span class="description no-json">Sponsor name (e.g. National Cancer Institute)</span> </div> </div> } </div> </div> </div>
+                    </div>
+
+                
+
+                    <div id="ProposalCollection" class="section scrollspy">
+                        <h3>ProposalCollection</h3>
+                         <div class="resource"> <div class="tags no-json"> </div> <a href="#/definitions/ProposalCollection" id="/definitions/ProposalCollection" class="no-json"> <h2 class="name">ProposalCollection</h2> </a> <a href="#" class="toggle-all-collapsible no-json">-</a> <!--p> <span class="uri">/proposal</span><span class="ref-expansions"></span> </p--> <div class="attr"> <span class="description no-json">A collection of Proposals.</span> <div class="object"> { <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible"> <div class="attr"> <span class="name"> <span class="only-json">"</span>collection<span class="only-json">"</span>: </span> <span class="type no-json">array</span>   <span class="description no-json"></span> <div class="array">[ <a href="#" class="toggle-collapsible no-json">-</a> <div class="collapsible"> <div class="items"> <!-- expect: json.items.type OR json.items.$ref, json.items.description if type == object, can parse as unnamed object (will have properties @ same level) --> <div class="attr ref"> <a class="ref-anchor no-json" href="#/definitions/Proposal">Proposal</a> <a class="ref-expander no-json" href="#/definitions/Proposal" data-expansion-key='collection.'>(expand)</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "collection" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span>, </div> <div class="attr"> <span class="name">"total":</span> <span class="type number">0</span>, </div> <div class="attr"> <span class="name">"page":</span> <span class="type number">0</span>, </div> <div class="attr"> <span class="name">"limit":</span> <span class="type number">0</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div> </div> </div> ] <span class="only-json">,</span> </div> </div> <div class="attr ref"> <span class="name"> <span class="only-json">"</span>meta<span class="only-json">"</span>: </span> <a class="ref-anchor no-json" href="#/definitions/MetaCollection">MetaCollection</a> <span class="type only-json"> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"meta":</span> <div class="object"> { <div class="collapsible"> <div class="attr"> <span class="name">"type":</span> <span class="type string"> "collection" </span>, </div> <div class="attr"> <span class="name">"uri":</span> <span class="type string">"/some/uri"</span>, </div> <div class="attr"> <span class="name">"total":</span> <span class="type number">0</span>, </div> <div class="attr"> <span class="name">"page":</span> <span class="type number">0</span>, </div> <div class="attr"> <span class="name">"limit":</span> <span class="type number">0</span> </div> </div> } </div> </div> </div> } , </div> </span> <span class="description no-json"></span> <span class="ref-resource"></span> </div> </div> } </div> </div> </div>
+                    </div>
+
+                
+
+            </div> <!-- .col content -->
+
+            <!-- Right hand navigation -->
+            <div class="col hide-on-small-only m3 l1">
+                <div class="pinned">
+                    <ul class="section table-of-contents">
+                        <li>Resources</li>
+                        
+                        <li><a href="#Proposal">Proposal</a></li>
+                        
+                        <li><a href="#Proposal-DepartmentCollection">Proposal.DepartmentCollection</a></li>
+                        
+                        <li><a href="#Proposal-Funding">Proposal.Funding</a></li>
+                        
+                        <li><a href="#Proposal-InvestigatorCollection">Proposal.InvestigatorCollection</a></li>
+                        
+                        <li><a href="#Proposal-Sponsor">Proposal.Sponsor</a></li>
+                        
+                        <li><a href="#ProposalCollection">ProposalCollection</a></li>
+                        
+                    </ul>
+                </div>
+            </div> <!-- .col -->
+
+        </div> <!-- .row -->
+    </div> <!-- .container -->
+</main>
+
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Footer Content</h5>
+                <p class="grey-text text-lighten-4">Mauris vitae libero et nibh malesuada facilisis. Proin magna dui, lacinia a erat sed, suscipit sodales diam.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            &copy; 2015 Chase McManning
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="js/vendor/materialize.min.js"></script>
+<script type="text/javascript" src="js/vendor/prism.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>

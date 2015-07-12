@@ -1,0 +1,337 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link type="text/css" rel="stylesheet" href="css/main.css" media="screen,projection"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/prism.css" rel="stylesheet" />
+</head>
+<body>
+<header>
+
+    <!-- Top search bar -->
+    <div class="row">
+        <div class="s12 navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <form>
+                        <div class="input-field">
+                            <input id="search" type="search" required="required" placeholder="Search the docs" />
+                            <label for="search"><i class="material-icons">search</i></label>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </div> <!-- .row -->
+
+    <!-- Hamburger for mobile -->
+    <div class="container">
+        <a href="#" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only">
+            <i class="mdi-navigation-menu"></i>
+        </a>
+    </div>
+
+    <!-- Main left hand navigation -->
+    <ul id="nav-mobile" class="side-nav fixed grey lighten-4">
+        <li class="logo">
+            <img class="brand-logo left" src="img/loris.svg" />
+            <span class="title">Loris</span> <span class="version">(v1)</span>
+        </li>
+        <li class="">
+            <a href="index.html" class="waves-effect waves-grey">Introduction <i class="material-icons right">info_outline</i></a>
+        </li>
+
+        <li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+
+                <!-- API Routes -->
+                <li><a class="collapsible-header waves-effect waves-grey active">API Endpoints <i class="material-icons right">explore</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            
+                            <li class="">
+                                <a href="routes-award.html" class="waves-effect waves-grey">Award</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-college.html" class="waves-effect waves-grey">College</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-department.html" class="waves-effect waves-grey">Department</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-fom.html" class="waves-effect waves-grey">FOM</a>
+                            </li>
+                            
+                            <li class="active">
+                                <a href="routes-fundops.html" class="waves-effect waves-grey">FundOps</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-legacy.html" class="waves-effect waves-grey">Legacy</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-person.html" class="waves-effect waves-grey">Person</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-project.html" class="waves-effect waves-grey">Project</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-proposal.html" class="waves-effect waves-grey">Proposal</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-test.html" class="waves-effect waves-grey">Test</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- API Resource definitions -->
+                <li><a class="collapsible-header waves-effect waves-grey ">Resources <i class="material-icons right">layers</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            
+                            <li class="">
+                                <a href="resources-award.html" class="waves-effect waves-grey">Award</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-college.html" class="waves-effect waves-grey">College</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-department.html" class="waves-effect waves-grey">Department</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-fom.html" class="waves-effect waves-grey">FOM</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-fundops.html" class="waves-effect waves-grey">FundOps</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-legacy.html" class="waves-effect waves-grey">Legacy</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-person.html" class="waves-effect waves-grey">Person</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-project.html" class="waves-effect waves-grey">Project</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-proposal.html" class="waves-effect waves-grey">Proposal</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-test.html" class="waves-effect waves-grey">Test</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-other.html" class="waves-effect waves-grey">Other</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul> <!-- .collapsible -->
+        </li>
+
+        <li class="">
+            <a href="examples.html" class="waves-effect waves-grey">Examples <i class="material-icons right">code</i></a>
+        </li>
+    </ul>
+
+</header>
+<main>
+    <div class="container">
+        <div class="row">
+            <!-- Content column -->
+            <div class="col s12 m9 l11">
+
+                <h1>FundOps</h1>
+                <div class="endpoint-description">
+                    <p>FundOps stuff</p>
+
+                </div>
+
+                
+                <div id="fundops" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /fundops</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Returns a list of current Funding Opportunities.</p>
+
+                                
+                                <h5>Description</h5>
+                                <div class="description">
+                                    <p>This is a wrapper around USP_FundOps_UnivDev.</p>
+
+                                </div>
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <p><em>No parameters</em></p>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-fundops.html#FundingOpportunities">
+                                                                FundingOpportunities <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+               
+            </div> <!-- .col content -->
+
+            <!-- Right hand navigation -->
+            <div class="col hide-on-small-only m3 l1">
+                <div class="pinned">
+                    <ul class="section table-of-contents">
+                        <li>Routes</li>
+                        
+                        <li><a href="#fundops">/fundops</a></li>
+                        
+                    </ul>
+                </div>
+            </div> <!-- .col -->
+
+        </div> <!-- .row -->
+
+    </div> <!-- .container -->
+
+    <!-- Query builder modal -->
+    <div id="query-builder" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="execute-query waves-effect waves-green btn">Execute</a>
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+        </div>
+    </div>
+
+</main>
+
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Footer Content</h5>
+                <p class="grey-text text-lighten-4">Mauris vitae libero et nibh malesuada facilisis. Proin magna dui, lacinia a erat sed, suscipit sodales diam.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            &copy; 2015 Chase McManning
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="js/vendor/materialize.min.js"></script>
+<script type="text/javascript" src="js/vendor/prism.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>

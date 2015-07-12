@@ -96,14 +96,18 @@
                 </li>
 
                 <!-- API Resource definitions -->
-                <li><a class="collapsible-header waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
+                <!--li><a class="collapsible-header waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
                     <div class="collapsible-body" style="">
                         <ul>
                             <li><a href="resources.html" class="waves-effect waves-grey">Group by types?</a></li>
                         </ul>
                     </div>
-                </li>
+                </li-->
             </ul> <!-- .collapsible -->
+        </li>
+
+        <li class="">
+            <a href="resources.html" class="waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
         </li>
 
         <li class="">
@@ -118,96 +122,93 @@
             <!-- Content column -->
             <div class="col s12 m9 l11">
 
-                <div id="routes" class="section scrollspy">
-                    <h1>FundOps</h1>
-                    <div class="endpoint-description">
-                        <p>FundOps stuff</p>
+                <h1>FundOps</h1>
+                <div class="endpoint-description">
+                    <p>FundOps stuff</p>
 
-                    </div>
+                </div>
 
+                
+                <div id="fundops" class="section scrollspy">
                     
-                    <div id="fundops" class="section scrollspy">
-                        
-                        <ul class="collapsible popout operations" data-collapsible="accordion">
-                            <li class="operation get">
-                                <div class="collapsible-header">
-                                    <div class="route">GET /fundops</div>
-                                    <div class="actions right">
-                                        <nav>
-                                            <ul>
-                                                <li>
-                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /fundops</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
-                                <div class="collapsible-body">
+                            </div>
+                            <div class="collapsible-body">
 
-                                    <h5>Summary</h5>
-                                    <p>Returns a list of current Funding Opportunities.</p>
+                                <h5>Summary</h5>
+                                <p>Returns a list of current Funding Opportunities.</p>
 
-                                    
-                                    <h5>Description</h5>
-                                    <div class="description">
-                                        <p>This is a wrapper around USP_FundOps_UnivDev.</p>
+                                
+                                <h5>Description</h5>
+                                <div class="description">
+                                    <p>This is a wrapper around USP_FundOps_UnivDev.</p>
 
-                                    </div>
-                                    
+                                </div>
+                                
 
-                                    
+                                
 
-                                    <h5>Parameters</h5>
-                                    
-                                    <p><em>No parameters</em></p>
-                                    
+                                <h5>Parameters</h5>
+                                
+                                <p><em>No parameters</em></p>
+                                
 
-                                    <h5>Responses</h5>
-                                    <table class="bordered responsive-table responses">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="code">Code</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
                                             
-                                            <tr>
-                                                <td class="code code-400">400</td>
-                                                <td class="description">An error occured</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/FundingOpportunities
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="code code-200">200</td>
-                                                <td class="description">Successful operation</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/FundingOpportunities
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
                                             
-                                        </tbody>
-                                    </table>
-                                </div> <!-- .collapsible-body -->
-                            </li>
-                        </ul>
-                        
-                    </div> <!-- #{uri} .section.scrollspy -->
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
                     
-                   
-                </div> <!-- #routes -->
-
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+               
             </div> <!-- .col content -->
 
             <!-- Right hand navigation -->
@@ -220,7 +221,7 @@
                         
                     </ul>
                 </div>
-            </div--> <!-- .col -->
+            </div> <!-- .col -->
 
         </div> <!-- .row -->
 

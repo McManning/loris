@@ -8853,11 +8853,11 @@ form p:last-child {
 }
 
 .switch label input[type=checkbox]:checked + .lever {
-  background-color: #a6a6a6;
+  background-color: #81C784;
 }
 
 .switch label input[type=checkbox]:checked + .lever:after {
-  background-color: #666666;
+  background-color: #4CAF50;
 }
 
 .switch label .lever {
@@ -8889,7 +8889,7 @@ form p:last-child {
 }
 
 input[type=checkbox]:checked:not(:disabled) ~ .lever:active:after {
-  box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4), 0 0 0 15px rgba(102, 102, 102, 0.1);
+  box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4), 0 0 0 15px rgba(76, 175, 80, 0.1);
 }
 
 input[type=checkbox]:not(:disabled) ~ .lever:active:after {
@@ -10613,6 +10613,65 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
     margin-bottom: 5em;
   }
 }
+.resource {
+  margin: 1rem;
+}
+.resource .collapsible {
+  border: none;
+  box-shadow: none;
+  margin: 0;
+}
+.resource .uri {
+  color: #666;
+}
+.resource > a .name {
+  display: inline-block;
+}
+.resource .object {
+  display: block;
+  margin-left: 1rem;
+}
+.resource .array {
+  display: block;
+  margin-left: 1rem;
+}
+.resource .attr {
+  margin-left: 1rem;
+}
+.resource .attr .name {
+  font-weight: bold;
+  vertical-align: top;
+  font-family: monospace;
+}
+.resource .attr .type.string {
+  color: #26686d;
+}
+.resource .attr .type.number, .resource .attr .type.boolean {
+  color: #d65828;
+}
+.resource .attr .description {
+  font-style: italic;
+  color: #999;
+}
+.resource .attr .required {
+  color: #FF0000;
+}
+.resource .collapsed {
+  display: none;
+}
+.resource .only-json {
+  display: none;
+}
+.resource.json .no-json {
+  display: none;
+}
+.resource.json .only-json {
+  display: inline;
+}
+.resource.json .collapsed {
+  display: block;
+}
+
 body {
   display: flex;
   min-height: 100vh;
@@ -10638,6 +10697,12 @@ img.brand-logo {
 }
 img.brand-logo.large {
   height: 20rem;
+  margin: 5rem 1rem;
+}
+
+.section.scrollspy {
+  margin-top: -64px;
+  padding-top: 64px;
 }
 
 ul.side-nav.fixed {
@@ -10829,6 +10894,15 @@ li.operation.delete h5 {
 }
 li.operation.delete table.parameters td.name {
   color: #851e5e;
+}
+
+.example-request .request {
+  background: #e5e1de;
+  padding: 1rem;
+  font-size: 1.25rem;
+}
+.example-request pre[class*="language-"] {
+  margin-top: 0;
 }
 
 /*# sourceMappingURL=main.css.map */

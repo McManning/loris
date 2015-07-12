@@ -96,14 +96,18 @@
                 </li>
 
                 <!-- API Resource definitions -->
-                <li><a class="collapsible-header waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
+                <!--li><a class="collapsible-header waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
                     <div class="collapsible-body" style="">
                         <ul>
                             <li><a href="resources.html" class="waves-effect waves-grey">Group by types?</a></li>
                         </ul>
                     </div>
-                </li>
+                </li-->
             </ul> <!-- .collapsible -->
+        </li>
+
+        <li class="">
+            <a href="resources.html" class="waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
         </li>
 
         <li class="">
@@ -118,816 +122,813 @@
             <!-- Content column -->
             <div class="col s12 m9 l11">
 
-                <div id="routes" class="section scrollspy">
-                    <h1>Person</h1>
-                    <div class="endpoint-description">
-                        <p>Person stuff</p>
+                <h1>Person</h1>
+                <div class="endpoint-description">
+                    <p>Person stuff</p>
 
-                    </div>
+                </div>
 
+                
+                <div id="person" class="section scrollspy">
                     
-                    <div id="person" class="section scrollspy">
-                        
-                        <ul class="collapsible popout operations" data-collapsible="accordion">
-                            <li class="operation get">
-                                <div class="collapsible-header">
-                                    <div class="route">GET /person</div>
-                                    <div class="actions right">
-                                        <nav>
-                                            <ul>
-                                                <li>
-                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /person</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
-                                <div class="collapsible-body">
+                            </div>
+                            <div class="collapsible-body">
 
-                                    <h5>Summary</h5>
-                                    <p>Search for a person by any attributes (ResID, first name, last name, name.n, etc)</p>
+                                <h5>Summary</h5>
+                                <p>Search for a person by any attributes (ResID, first name, last name, name.n, etc)</p>
 
-                                    
+                                
 
-                                    
+                                
 
-                                    <h5>Parameters</h5>
-                                    
-                                    <table class="bordered responsive-table parameters">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="name">Name</th>
-                                                <th data-field="location">Location</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="required">Required</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">q</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Search terms</td>
+                                            <td class="required">Yes</td>
+
                                             
-                                            <tr>
-                                                <td class="name">q</td>
-                                                <td class="in">query</td>
-                                                <td class="description">Search terms</td>
-                                                <td class="required">Yes</td>
-
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
+                                            <td class="schema">string</td>
                                             
-                                            <tr>
-                                                <td class="name">inactive</td>
-                                                <td class="in">query</td>
-                                                <td class="description">Inactive flag, if true, inactive users will 
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">inactive</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Inactive flag, if true, inactive users will 
 be included in the results collection.
 </td>
-                                                <td class="required">No</td>
+                                            <td class="required">No</td>
 
-                                                
-                                                <td class="schema">boolean</td>
-                                                
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="name">expand</td>
-                                                <td class="in">query</td>
-                                                <td class="description">Object expansion notation for meta child objects</td>
-                                                <td class="required">No</td>
+                                            <td class="schema">boolean</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                    
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
 
-                                    <h5>Responses</h5>
-                                    <table class="bordered responsive-table responses">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="code">Code</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
                                             
-                                            <tr>
-                                                <td class="code code-400">400</td>
-                                                <td class="description">An error occured</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/PersonCollection
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="code code-200">200</td>
-                                                <td class="description">Successful operation</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/PersonCollection
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
                                             
-                                        </tbody>
-                                    </table>
-                                </div> <!-- .collapsible-body -->
-                            </li>
-                        </ul>
-                        
-                    </div> <!-- #{uri} .section.scrollspy -->
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
                     
-                    <div id="person-resId" class="section scrollspy">
-                        
-                        <ul class="collapsible popout operations" data-collapsible="accordion">
-                            <li class="operation put">
-                                <div class="collapsible-header">
-                                    <div class="route">PUT /person/{resId}</div>
-                                    <div class="actions right">
-                                        <nav>
-                                            <ul>
-                                                <li>
-                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
-                                <div class="collapsible-body">
-
-                                    <h5>Summary</h5>
-                                    <p>Update an existing person</p>
-
-                                    
-
-                                    
-
-                                    <h5>Parameters</h5>
-                                    
-                                    <table class="bordered responsive-table parameters">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="name">Name</th>
-                                                <th data-field="location">Location</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="required">Required</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td class="name">resId</td>
-                                                <td class="in">path</td>
-                                                <td class="description">ResID of the Person to update</td>
-                                                <td class="required">Yes</td>
-
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td class="name">body</td>
-                                                <td class="in">body</td>
-                                                <td class="description">Updated person object</td>
-                                                <td class="required">No</td>
-
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref to #/definitions/Person
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
-                                            
-                                        </tbody>
-                                    </table>
-                                    
-
-                                    <h5>Responses</h5>
-                                    <table class="bordered responsive-table responses">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="code">Code</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td class="code code-404">404</td>
-                                                <td class="description">Person not found</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td class="code code-400">400</td>
-                                                <td class="description">An error occured</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td class="code code-200">200</td>
-                                                <td class="description">Successful operation</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/Person
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
-                                            
-                                        </tbody>
-                                    </table>
-                                </div> <!-- .collapsible-body -->
-                            </li>
-                        </ul>
-                        
-                        <ul class="collapsible popout operations" data-collapsible="accordion">
-                            <li class="operation get">
-                                <div class="collapsible-header">
-                                    <div class="route">GET /person/{resId}</div>
-                                    <div class="actions right">
-                                        <nav>
-                                            <ul>
-                                                <li>
-                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
-                                <div class="collapsible-body">
-
-                                    <h5>Summary</h5>
-                                    <p>Return a Person resource by ResID.</p>
-
-                                    
-
-                                    
-
-                                    <h5>Parameters</h5>
-                                    
-                                    <table class="bordered responsive-table parameters">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="name">Name</th>
-                                                <th data-field="location">Location</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="required">Required</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td class="name">resId</td>
-                                                <td class="in">path</td>
-                                                <td class="description">ResID of the Person resource.</td>
-                                                <td class="required">Yes</td>
-
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td class="name">expand</td>
-                                                <td class="in">query</td>
-                                                <td class="description">Object expansion notation for meta child objects</td>
-                                                <td class="required">No</td>
-
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
-                                            
-                                        </tbody>
-                                    </table>
-                                    
-
-                                    <h5>Responses</h5>
-                                    <table class="bordered responsive-table responses">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="code">Code</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td class="code code-404">404</td>
-                                                <td class="description">Person not found</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td class="code code-400">400</td>
-                                                <td class="description">An error occured</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td class="code code-200">200</td>
-                                                <td class="description">Successful operation</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/Person
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
-                                            
-                                        </tbody>
-                                    </table>
-                                </div> <!-- .collapsible-body -->
-                            </li>
-                        </ul>
-                        
-                    </div> <!-- #{uri} .section.scrollspy -->
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="person-resId" class="section scrollspy">
                     
-                    <div id="person-resId-awards" class="section scrollspy">
-                        
-                        <ul class="collapsible popout operations" data-collapsible="accordion">
-                            <li class="operation get">
-                                <div class="collapsible-header">
-                                    <div class="route">GET /person/{resId}/awards</div>
-                                    <div class="actions right">
-                                        <nav>
-                                            <ul>
-                                                <li>
-                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /person/{resId}</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
-                                <div class="collapsible-body">
+                            </div>
+                            <div class="collapsible-body">
 
-                                    <h5>Summary</h5>
-                                    <p>Retrieve a collection of Awards associated with the Person.</p>
+                                <h5>Summary</h5>
+                                <p>Return a Person resource by ResID.</p>
 
-                                    
+                                
 
-                                    
+                                
 
-                                    <h5>Parameters</h5>
-                                    
-                                    <table class="bordered responsive-table parameters">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="name">Name</th>
-                                                <th data-field="location">Location</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="required">Required</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td class="name">resId</td>
-                                                <td class="in">path</td>
-                                                <td class="description">ResID of the Person resource.</td>
-                                                <td class="required">Yes</td>
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">resId</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ResID of the Person resource.</td>
+                                            <td class="required">Yes</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                    
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
 
-                                    <h5>Responses</h5>
-                                    <table class="bordered responsive-table responses">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="code">Code</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
                                             
-                                            <tr>
-                                                <td class="code code-404">404</td>
-                                                <td class="description">Person not found</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
+                                            <td class="schema">string</td>
                                             
-                                            <tr>
-                                                <td class="code code-400">400</td>
-                                                <td class="description">An error occured</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
                                             
-                                            <tr>
-                                                <td class="code code-200">200</td>
-                                                <td class="description">Successful operation</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/AwardCollection
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/Person
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                </div> <!-- .collapsible-body -->
-                            </li>
-                        </ul>
-                        
-                    </div> <!-- #{uri} .section.scrollspy -->
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Person not found</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
                     
-                    <div id="person-resId-certificates" class="section scrollspy">
-                        
-                        <ul class="collapsible popout operations" data-collapsible="accordion">
-                            <li class="operation get">
-                                <div class="collapsible-header">
-                                    <div class="route">GET /person/{resId}/certificates</div>
-                                    <div class="actions right">
-                                        <nav>
-                                            <ul>
-                                                <li>
-                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation put">
+                            <div class="collapsible-header">
+                                <div class="route">PUT /person/{resId}</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
-                                <div class="collapsible-body">
+                            </div>
+                            <div class="collapsible-body">
 
-                                    <h5>Summary</h5>
-                                    <p>Retrieve Certificates/Training 
+                                <h5>Summary</h5>
+                                <p>Update an existing person</p>
+
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">resId</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ResID of the Person to update</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">body</td>
+                                            <td class="in">body</td>
+                                            <td class="description">Updated person object</td>
+                                            <td class="required">No</td>
+
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref to #/definitions/Person
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/Person
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Person not found</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="person-resId-awards" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /person/{resId}/awards</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Retrieve a collection of Awards associated with the Person.</p>
+
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">resId</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ResID of the Person resource.</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/AwardCollection
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Person not found</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="person-resId-certificates" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /person/{resId}/certificates</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Retrieve Certificates/Training 
 associated with the Person.
 </p>
 
-                                    
+                                
 
-                                    
+                                
 
-                                    <h5>Parameters</h5>
-                                    
-                                    <table class="bordered responsive-table parameters">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="name">Name</th>
-                                                <th data-field="location">Location</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="required">Required</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td class="name">resId</td>
-                                                <td class="in">path</td>
-                                                <td class="description">ResID of the Person resource.</td>
-                                                <td class="required">Yes</td>
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">resId</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ResID of the Person resource.</td>
+                                            <td class="required">Yes</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                    
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
 
-                                    <h5>Responses</h5>
-                                    <table class="bordered responsive-table responses">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="code">Code</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
                                             
-                                            <tr>
-                                                <td class="code code-404">404</td>
-                                                <td class="description">Person not found</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/Certificates
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="code code-400">400</td>
-                                                <td class="description">An error occured</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Person not found</td>
                                             
-                                            <tr>
-                                                <td class="code code-200">200</td>
-                                                <td class="description">Successful operation</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/Certificates
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                </div> <!-- .collapsible-body -->
-                            </li>
-                        </ul>
-                        
-                    </div> <!-- #{uri} .section.scrollspy -->
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
                     
-                    <div id="person-resId-projects" class="section scrollspy">
-                        
-                        <ul class="collapsible popout operations" data-collapsible="accordion">
-                            <li class="operation get">
-                                <div class="collapsible-header">
-                                    <div class="route">GET /person/{resId}/projects</div>
-                                    <div class="actions right">
-                                        <nav>
-                                            <ul>
-                                                <li>
-                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="person-resId-projects" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /person/{resId}/projects</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
-                                <div class="collapsible-body">
+                            </div>
+                            <div class="collapsible-body">
 
-                                    <h5>Summary</h5>
-                                    <p>Retrieve a collection of Projects associated with the Person.</p>
+                                <h5>Summary</h5>
+                                <p>Retrieve a collection of Projects associated with the Person.</p>
 
-                                    
+                                
 
-                                    
+                                
 
-                                    <h5>Parameters</h5>
-                                    
-                                    <table class="bordered responsive-table parameters">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="name">Name</th>
-                                                <th data-field="location">Location</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="required">Required</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td class="name">resId</td>
-                                                <td class="in">path</td>
-                                                <td class="description">ResID of the Person resource.</td>
-                                                <td class="required">Yes</td>
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">resId</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ResID of the Person resource.</td>
+                                            <td class="required">Yes</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                    
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
 
-                                    <h5>Responses</h5>
-                                    <table class="bordered responsive-table responses">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="code">Code</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
                                             
-                                            <tr>
-                                                <td class="code code-404">404</td>
-                                                <td class="description">Person not found</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/ProjectCollection
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="code code-400">400</td>
-                                                <td class="description">An error occured</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Person not found</td>
                                             
-                                            <tr>
-                                                <td class="code code-200">200</td>
-                                                <td class="description">Successful operation</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ProjectCollection
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                </div> <!-- .collapsible-body -->
-                            </li>
-                        </ul>
-                        
-                    </div> <!-- #{uri} .section.scrollspy -->
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
                     
-                    <div id="person-resId-proposals" class="section scrollspy">
-                        
-                        <ul class="collapsible popout operations" data-collapsible="accordion">
-                            <li class="operation get">
-                                <div class="collapsible-header">
-                                    <div class="route">GET /person/{resId}/proposals</div>
-                                    <div class="actions right">
-                                        <nav>
-                                            <ul>
-                                                <li>
-                                                    <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="person-resId-proposals" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /person/{resId}/proposals</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
-                                <div class="collapsible-body">
+                            </div>
+                            <div class="collapsible-body">
 
-                                    <h5>Summary</h5>
-                                    <p>Retrieve a collection of Proposals associated with the Person.</p>
+                                <h5>Summary</h5>
+                                <p>Retrieve a collection of Proposals associated with the Person.</p>
 
-                                    
+                                
 
-                                    
+                                
 
-                                    <h5>Parameters</h5>
-                                    
-                                    <table class="bordered responsive-table parameters">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="name">Name</th>
-                                                <th data-field="location">Location</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="required">Required</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <td class="name">resId</td>
-                                                <td class="in">path</td>
-                                                <td class="description">ResID of the Person resource.</td>
-                                                <td class="required">Yes</td>
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">resId</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ResID of the Person resource.</td>
+                                            <td class="required">Yes</td>
 
-                                                
-                                                <td class="schema">string</td>
-                                                
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                    
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
 
-                                    <h5>Responses</h5>
-                                    <table class="bordered responsive-table responses">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="code">Code</th>
-                                                <th data-field="description">Description</th>
-                                                <th data-field="schema">Schema</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
                                             
-                                            <tr>
-                                                <td class="code code-404">404</td>
-                                                <td class="description">Person not found</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/ProposalCollection
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                            <tr>
-                                                <td class="code code-400">400</td>
-                                                <td class="description">An error occured</td>
-                                                
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ErrorResponse
-                                                    </td>
-                                                    
-                                                
-                                            </tr>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Person not found</td>
                                             
-                                            <tr>
-                                                <td class="code code-200">200</td>
-                                                <td class="description">Successful operation</td>
                                                 
-                                                    
-                                                    <td class="schema">
-                                                        $ref #/definitions/ProposalCollection
-                                                    </td>
-                                                    
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
                                                 
-                                            </tr>
                                             
-                                        </tbody>
-                                    </table>
-                                </div> <!-- .collapsible-body -->
-                            </li>
-                        </ul>
-                        
-                    </div> <!-- #{uri} .section.scrollspy -->
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+                                                    $ref #/definitions/ErrorResponse
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
                     
-                   
-                </div> <!-- #routes -->
-
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+               
             </div> <!-- .col content -->
 
             <!-- Right hand navigation -->
@@ -950,7 +951,7 @@ associated with the Person.
                         
                     </ul>
                 </div>
-            </div--> <!-- .col -->
+            </div> <!-- .col -->
 
         </div> <!-- .row -->
 

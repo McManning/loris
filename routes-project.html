@@ -1,0 +1,2758 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link type="text/css" rel="stylesheet" href="css/main.css" media="screen,projection"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/prism.css" rel="stylesheet" />
+</head>
+<body>
+<header>
+
+    <!-- Top search bar -->
+    <div class="row">
+        <div class="s12 navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <form>
+                        <div class="input-field">
+                            <input id="search" type="search" required="required" placeholder="Search the docs" />
+                            <label for="search"><i class="material-icons">search</i></label>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </div> <!-- .row -->
+
+    <!-- Hamburger for mobile -->
+    <div class="container">
+        <a href="#" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only">
+            <i class="mdi-navigation-menu"></i>
+        </a>
+    </div>
+
+    <!-- Main left hand navigation -->
+    <ul id="nav-mobile" class="side-nav fixed grey lighten-4">
+        <li class="logo">
+            <img class="brand-logo left" src="img/loris.svg" />
+            <span class="title">Loris</span> <span class="version">(v1)</span>
+        </li>
+        <li class="">
+            <a href="index.html" class="waves-effect waves-grey">Introduction <i class="material-icons right">info_outline</i></a>
+        </li>
+
+        <li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+
+                <!-- API Routes -->
+                <li><a class="collapsible-header waves-effect waves-grey active">API Endpoints <i class="material-icons right">explore</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            
+                            <li class="">
+                                <a href="routes-award.html" class="waves-effect waves-grey">Award</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-college.html" class="waves-effect waves-grey">College</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-department.html" class="waves-effect waves-grey">Department</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-fom.html" class="waves-effect waves-grey">FOM</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-fundops.html" class="waves-effect waves-grey">FundOps</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-legacy.html" class="waves-effect waves-grey">Legacy</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-person.html" class="waves-effect waves-grey">Person</a>
+                            </li>
+                            
+                            <li class="active">
+                                <a href="routes-project.html" class="waves-effect waves-grey">Project</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-proposal.html" class="waves-effect waves-grey">Proposal</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="routes-test.html" class="waves-effect waves-grey">Test</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- API Resource definitions -->
+                <li><a class="collapsible-header waves-effect waves-grey ">Resources <i class="material-icons right">layers</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            
+                            <li class="">
+                                <a href="resources-award.html" class="waves-effect waves-grey">Award</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-college.html" class="waves-effect waves-grey">College</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-department.html" class="waves-effect waves-grey">Department</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-fom.html" class="waves-effect waves-grey">FOM</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-fundops.html" class="waves-effect waves-grey">FundOps</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-legacy.html" class="waves-effect waves-grey">Legacy</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-person.html" class="waves-effect waves-grey">Person</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-project.html" class="waves-effect waves-grey">Project</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-proposal.html" class="waves-effect waves-grey">Proposal</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-test.html" class="waves-effect waves-grey">Test</a>
+                            </li>
+                            
+                            <li class="">
+                                <a href="resources-other.html" class="waves-effect waves-grey">Other</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul> <!-- .collapsible -->
+        </li>
+
+        <li class="">
+            <a href="examples.html" class="waves-effect waves-grey">Examples <i class="material-icons right">code</i></a>
+        </li>
+    </ul>
+
+</header>
+<main>
+    <div class="container">
+        <div class="row">
+            <!-- Content column -->
+            <div class="col s12 m9 l11">
+
+                <h1>Project</h1>
+                <div class="endpoint-description">
+                    <p>Project stuff</p>
+
+                </div>
+
+                
+                <div id="project" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /project</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Search for a Project and return a collection of matches.</p>
+
+                                
+                                <h5>Description</h5>
+                                <div class="description">
+                                    <p>TODO: Spec out the list of attributes we can search by. Obviously
+this will include id, title, PI, SPO, sponsor, department, and college.</p>
+
+                                </div>
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">q</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Search query</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-project.html#ProjectCollection">
+                                                                ProjectCollection <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="project-id" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /project/{id}</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Retrieve a specific Project.</p>
+
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ID of the Project resource (e.g. 60012345).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Award not found</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-project.html#Project">
+                                                                Project <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="project-id-acl" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /project/{id}/acl</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Retrieve a collection of all ACLs and 
+Persons defined for a Project.
+</p>
+
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ID of the Project resource (e.g. 60012345).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">resId</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ResID of the Person resource (e.g. 200275154).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Project not found</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-project.html#Project-AclCollection">
+                                                                Project.AclCollection <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="project-id-acl-resId" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /project/{id}/acl/{resId}</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Retrieve project-specific ACL roles 
+for the specified Person.
+</p>
+
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ID of the Project resource (e.g. 60012345).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">resId</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ResID of the Person resource (e.g. 200275154).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Project not found or Person does not 
+have existing project ACLs.
+</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-project.html#Project-Acl">
+                                                                Project.Acl <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation delete">
+                            <div class="collapsible-header">
+                                <div class="route">DELETE /project/{id}/acl/{resId}</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Delete all project-specific ACL roles 
+for the specified Person.
+</p>
+
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ID of the Project resource (e.g. 60012345).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">resId</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ResID of the Person resource (e.g. 200275154).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Project not found or Person does not 
+have existing project ACLs.
+</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                            <td class="schema"></td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation post">
+                            <div class="collapsible-header">
+                                <div class="route">POST /project/{id}/acl/{resId}</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Set (replace) ACLs of a Person for a Project.</p>
+
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ID of the Project resource (e.g. 60012345).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">resId</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ResID of the Person resource (e.g. 200275154).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">body</td>
+                                            <td class="in">body</td>
+                                            <td class="description">Updated ACLs for a Person</td>
+                                            <td class="required">No</td>
+
+                                            
+                                                
+                                                <td class="schema">
+                                                    
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-project.html#Project-Acl">
+                                                                Project.Acl <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Project or Person not found.</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-201">201</td>
+                                            <td class="description">Created</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-project.html#Project-Acl">
+                                                                Project.Acl <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="project-id-colleges" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /project/{id}/colleges</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Retrieve Colleges associated with a specific Project.</p>
+
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ID of the Project resource (e.g. 60012345).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Award not found</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-college.html#CollegeCollection">
+                                                                CollegeCollection <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="project-id-commitments" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /project/{id}/commitments</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Retrieve current commitment data for a specific Project.</p>
+
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ID of the Project resource (e.g. 60012345).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Award not found</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-project.html#Project-Commitments">
+                                                                Project.Commitments <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="project-id-departments" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /project/{id}/departments</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Retrieve Departments associated with a specific Project.</p>
+
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ID of the Project resource (e.g. 60012345).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Award not found</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-project.html#Project-DepartmentCollection">
+                                                                Project.DepartmentCollection <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="project-id-expenditures" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /project/{id}/expenditures</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Retrieve expenditure data for a specific Project.</p>
+
+                                
+                                <h5>Description</h5>
+                                <div class="description">
+                                    <p>If a date range is specified, it will only show expenditures
+for that range. If not, this will retrieve all expenditures
+throughout the life of the Project.</p>
+
+                                </div>
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ID of the Project resource (e.g. 60012345).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">start</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Requested start date for expenditures data</td>
+                                            <td class="required">No</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">end</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Requested end date for expenditures data</td>
+                                            <td class="required">No</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Award not found</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-project.html#Project-Expenditures">
+                                                                Project.Expenditures <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="project-id-financials" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /project/{id}/financials</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Retrieve additional financial data for a specific Project.</p>
+
+                                
+                                <h5>Description</h5>
+                                <div class="description">
+                                    <p>If the As Of date is specified, it will only report financial data
+up to the specified date. Otherwise, it will report the most recent data.</p>
+
+                                </div>
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ID of the Project resource (e.g. 60012345).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">asOf</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Requested As Of (up to) date for financial data.</td>
+                                            <td class="required">No</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Award not found</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-project.html#Project-Financials">
+                                                                Project.Financials <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="project-id-information" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /project/{id}/information</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Retrieve additional information for a specific Project.</p>
+
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ID of the Project resource (e.g. 60012345).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Award not found</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-project.html#Project-Information">
+                                                                Project.Information <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="project-id-investigators" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /project/{id}/investigators</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Retrieve investigators (Persons) associated with a specific Project.</p>
+
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ID of the Project resource (e.g. 60012345).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Award not found</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-project.html#Project-InvestigatorCollection">
+                                                                Project.InvestigatorCollection <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="project-id-reports" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /project/{id}/reports</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Retrieve reports for a specific Project.</p>
+
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ID of the Project resource (e.g. 60012345).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Award not found</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-project.html#Project-ReportCollection">
+                                                                Project.ReportCollection <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="project-id-sponsor" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /project/{id}/sponsor</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Retrieve additional sponsor information for a specific Project.</p>
+
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ID of the Project resource (e.g. 60012345).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Award not found</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-project.html#Project-Sponsor">
+                                                                Project.Sponsor <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+                <div id="project-id-terms" class="section scrollspy">
+                    
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation get">
+                            <div class="collapsible-header">
+                                <div class="route">GET /project/{id}/terms</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>Retrieve a list of terms for a specific Project.
+While these are usually the same as Award terms,
+sometimes they are not. 
+</p>
+
+                                
+
+                                
+
+                                <h5>Parameters</h5>
+                                
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="name">id</td>
+                                            <td class="in">path</td>
+                                            <td class="description">ID of the Project resource (e.g. 60012345).</td>
+                                            <td class="required">Yes</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="name">expand</td>
+                                            <td class="in">query</td>
+                                            <td class="description">Object expansion notation for meta child objects</td>
+                                            <td class="required">No</td>
+
+                                            
+                                            <td class="schema">string</td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td class="code code-404">404</td>
+                                            <td class="description">Award not found</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-200">200</td>
+                                            <td class="description">Successful operation</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-project.html#Project-Terms">
+                                                                Project.Terms <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="code code-400">400</td>
+                                            <td class="description">An error occured</td>
+                                            
+                                                
+                                                <td class="schema">
+
+                                                    
+                                                    
+
+                                                        
+                                                        
+                                                            <a href="resources-other.html#ErrorResponse">
+                                                                ErrorResponse <i class="material-icons tiny">layers</i>
+                                                            </a>
+                                                        
+                                                    
+
+                                                </td>
+                                                
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    
+                </div> <!-- #{uri} .section.scrollspy -->
+                
+               
+            </div> <!-- .col content -->
+
+            <!-- Right hand navigation -->
+            <div class="col hide-on-small-only m3 l1">
+                <div class="pinned">
+                    <ul class="section table-of-contents">
+                        <li>Routes</li>
+                        
+                        <li><a href="#project">/project</a></li>
+                        
+                        <li><a href="#project-id">/project/{id}</a></li>
+                        
+                        <li><a href="#project-id-acl">/project/{id}/acl</a></li>
+                        
+                        <li><a href="#project-id-acl-resId">/project/{id}/acl/{resId}</a></li>
+                        
+                        <li><a href="#project-id-colleges">/project/{id}/colleges</a></li>
+                        
+                        <li><a href="#project-id-commitments">/project/{id}/commitments</a></li>
+                        
+                        <li><a href="#project-id-departments">/project/{id}/departments</a></li>
+                        
+                        <li><a href="#project-id-expenditures">/project/{id}/expenditures</a></li>
+                        
+                        <li><a href="#project-id-financials">/project/{id}/financials</a></li>
+                        
+                        <li><a href="#project-id-information">/project/{id}/information</a></li>
+                        
+                        <li><a href="#project-id-investigators">/project/{id}/investigators</a></li>
+                        
+                        <li><a href="#project-id-reports">/project/{id}/reports</a></li>
+                        
+                        <li><a href="#project-id-sponsor">/project/{id}/sponsor</a></li>
+                        
+                        <li><a href="#project-id-terms">/project/{id}/terms</a></li>
+                        
+                    </ul>
+                </div>
+            </div> <!-- .col -->
+
+        </div> <!-- .row -->
+
+    </div> <!-- .container -->
+
+    <!-- Query builder modal -->
+    <div id="query-builder" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="execute-query waves-effect waves-green btn">Execute</a>
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+        </div>
+    </div>
+
+</main>
+
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Footer Content</h5>
+                <p class="grey-text text-lighten-4">Mauris vitae libero et nibh malesuada facilisis. Proin magna dui, lacinia a erat sed, suscipit sodales diam.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            &copy; 2015 Chase McManning
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="js/vendor/materialize.min.js"></script>
+<script type="text/javascript" src="js/vendor/prism.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
