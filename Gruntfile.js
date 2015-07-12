@@ -28,7 +28,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'js/app.min.js': ['js/app.js']
+                    'dist/js/app.min.js': ['js/app.js']
                 }
             }
         },
@@ -38,8 +38,19 @@ module.exports = function(grunt) {
                     style: 'expanded' // compressed
                 },
                 files: {
-                    'css/main.css': 'sass/main.sass'
+                    'dist/css/main.css': 'sass/main.sass'
                 }
+            }
+        },
+        copy: {
+            dist: {
+                files: [
+                    {
+                        expand: true,
+                        src: ['js/**'],
+                        dest: 'dist/'
+                    }
+                ]
             }
         },
         watch: {
@@ -48,7 +59,7 @@ module.exports = function(grunt) {
                     'Gruntfile.js',
                     'js/*.js',
                 ],
-                tasks: ['jshint']
+                tasks: ['jshint', 'copy']
             },
             sass: {
                 files: [
@@ -63,6 +74,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     // Full build task
     grunt.registerTask('default', ['jshint', /*'uglify',*/ 'sass']);

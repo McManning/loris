@@ -59,8 +59,8 @@ $radio-fill-color: $secondary-color !default;
 $radio-empty-color: #5a5a5a !default;
 
 // Switches
-$switch-bg-color: $secondary-color !default;
-$switch-checked-lever-bg: desaturate(lighten($secondary-color, 25%), 25%) !default;
+$switch-bg-color: color("green", "base") !default; // $secondary-color !default;
+$switch-checked-lever-bg: color("green", "lighten-2") !default; //desaturate(lighten($primary-color, 25%), 25%) !default;
 $switch-unchecked-bg: #F1F1F1 !default;
 $switch-unchecked-lever-bg: #818181 !default;
 
