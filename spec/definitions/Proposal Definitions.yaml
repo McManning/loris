@@ -1,0 +1,120 @@
+  ProposalCollection:
+    description: A collection of Proposals.
+    x-endpoint: Proposal
+    properties:
+      meta:
+        x-meta-uri: "/proposal"
+        $ref: "#/definitions/MetaCollection"
+      collection:
+        type: array
+        items:
+          $ref: "#/definitions/Proposal"
+  Proposal:
+    description: A distinct Proposal for a new project (or collection of projects).
+    x-endpoint: Proposal
+    properties:
+      meta:
+        x-meta-uri: "/proposal/{id}"
+        $ref: "#/definitions/Meta"
+      id:
+        type: string
+        description: Unique GRT number (e.g. GRT00012345).
+      title:
+        type: string
+      startDate:
+        type: string
+        format: date
+        description: Proposed start date of the Award period.
+      endDate:
+        type: string
+        format: date
+        description: Proposed end date of the Award period.
+      departments:
+        x-meta-uri: "/proposal/{id}/departments"
+        $ref: "#/definitions/Proposal.DepartmentCollection"
+      colleges:
+        x-meta-uri: "/proposal/{id}/colleges"
+        $ref: "#/definitions/CollegeCollection"
+      projects:
+        x-meta-uri: "/proposal/{id}/projects"
+        $ref: "#/definitions/ProjectCollection"
+      award:
+        # TODO: Assumption that each proposal has, at most, one Award.
+        x-meta-uri: "/award/{id}"
+        $ref: "#/definitions/Award"
+      principalInvestigator:
+        $ref: "#/definitions/Person"
+      investigators:
+        x-meta-uri: "/proposal/{id}/investigators"
+        $ref: "#/definitions/Proposal.InvestigatorCollection"
+      spo:
+        $ref: "#/definitions/Person"
+      sponsor:
+        x-meta-uri: "/proposal/{id}/sponsor"
+        $ref: "#/definitions/Proposal.Sponsor"
+      funding:
+        x-meta-uri: "/proposal/{id}/funding"
+        $ref: "#/definitions/Proposal.Funding"
+
+  Proposal.DepartmentCollection:
+    description: Departments that have an allocation to a particular Proposal.
+    x-endpoint: Proposal
+    properties:
+      meta:
+        x-meta-uri: "/proposal/{id}/departments"
+        $ref: "#/definitions/MetaCollection"
+      collection:
+        type: array
+        items:
+          type: object
+          description: A single department with a Proposal allocation.
+          properties:
+            allocation:
+              type: number
+              description: Percent allocation of Proposal funding.
+            department:
+              $ref: "#/definitions/Department"
+  Proposal.InvestigatorCollection:
+    description: "Investigators attached to a Proposal, with a proposed role."
+    x-endpoint: Proposal
+    properties:
+      meta:
+        x-meta-uri: "/proposal/{id}/investigators"
+        $ref: "#/definitions/MetaCollection"
+      collection:
+        type: array
+        items:
+          type: object
+          description: A single Person on a Proposal
+          properties:
+            role:
+              type: string
+              description: Specific role assigned to the Person (PI|COPI)
+            person:
+              $ref: "#/definitions/Person"
+  Proposal.Sponsor:
+    # TODO: Sponsor will most likely need its own endpoint.
+    description: Sponsor targetted to fund a specific Proposal.
+    x-endpoint: Proposal
+    properties:
+      meta:
+        x-meta-uri: "/proposal/{id}/sponsor"
+        $ref: "#/definitions/Meta"
+      id:
+        type: string
+        description: Unique sponsor ID (e.g. 64000002)
+      name:
+        type: string
+        description: Sponsor name (e.g. National Cancer Institute)
+  Proposal.Funding:
+    description: Funding data for a specific Proposal.
+    x-endpoint: Proposal
+    properties:
+      meta:
+        x-meta-uri: "/proposal/{id}/funding"
+        $ref: "#/definitions/Meta"
+      requestedBudget:
+        type: number
+        format: float
+        description: Amount requested to fund this Proposal. 
+      # TODO: We can break down funding details further with PA005 data!

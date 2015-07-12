@@ -1,0 +1,133 @@
+  PersonCollection:
+    description: Collection of Person resources.
+    x-endpoint: Person
+    properties:
+      meta:
+        x-meta-uri: "/person"
+        $ref: "#/definitions/MetaCollection"
+      collection:
+        type: array
+        items:  
+          $ref: "#/definitions/Person"
+  Person:
+    # Stub to get this to compile
+    description: ""
+    x-endpoint: Person
+    properties:
+      meta:
+        x-meta-uri: "/person/{id}"
+        $ref: "#/definitions/Meta"
+      resId:
+        type: string
+        description: |
+          Unique ResID of the Person. Usually equivalent to OSUID, 
+          except for guest accounts.
+      osuId:
+        type: string
+        description: University-created ID for the Person.
+      username:
+        # NOTE: Using "username" as that's how Find People does it.
+        type: string
+        description: Unique Name.N username within the University.
+      prefix:
+        # TODO: This doesn't actually exist in our data, I just like the idea.
+        # And for things like Buck-IRB when we need to specify all this in
+        # outgoing "official" emails, it seems like a good idea to store it. 
+        type: string
+        description: "Name prefix (e.g. Dr, Mr, Ms, Mrs)"
+      suffix:
+        # TODO: This doesn't actually exist in our data, I just like the idea.
+        # And for things like Buck-IRB when we need to specify all this in
+        # outgoing "official" emails, it seems like a good idea to store it. 
+        type: string
+        description: "Name suffix (e.g. MD, CSP, etc)"
+      firstName:
+        type: string
+      middleName:
+        type: string
+      lastName:
+        type: string
+      osuEmail:
+        type: string
+        description: University-created email for the Person.
+      preferredEmail:
+        type: string
+        description: |
+          Preferred email the user set for themselves via the OR Register app. 
+          This may differ from osuEmail.
+      title:
+        type: string
+        description: University job title (e.g. Sr Systems Developer/Engineer)
+      department:
+        # description: Primary Department.
+        x-meta-uri: "/department/{id}"
+        $ref: "#/definitions/Department"
+      college:
+        # description: Primary College.
+        x-meta-uri: "/college/{id}"
+        $ref: "#/definitions/College"
+      projects:
+        x-meta-uri: "/person/{id}/projects"
+        $ref: "#/definitions/ProjectCollection"
+      proposals:
+        x-meta-uri: "/person/{id}/proposals"
+        $ref: "#/definitions/ProposalCollection"
+      awards:
+        x-meta-uri: "/person/{id}/awards"
+        $ref: "#/definitions/AwardCollection"
+      certificates:
+        x-meta-uri: "/person/{id}/certificates"
+        $ref: "#/definitions/Person.Certificates"
+  Person.Certificates:
+    description: A list of certificates/training for an individual.
+    # TODO: Redefine what properties apply to what certificates/training, 
+    # and an actual complete list of which certs exist.
+    x-endpoint: Person
+    properties:
+      meta:
+        x-meta-uri: "/person/{id}/certificates"
+        $ref: "#/definitions/Meta"
+      coi:
+        type: object
+        description: Most recent Conflict of Interest submission results.
+        properties:
+          dateReceived:
+            type: string
+            format: date
+            description: "mm/dd/YYYY of when the COI was last submitted."
+          dateExpired:
+            type: string
+            format: date
+            description: "mm/dd/YYYY of when the current COI expires."
+          status:
+            type: string
+            description: "Current status of the COI submission (e.g. Incomplete)"
+          comments:
+            type: string
+            description: Additional comments attached to the COI.
+          companies:
+            type: array
+            description: List of companies entered on a Person's COI submission.
+            items:
+              type: string
+      citi:
+        type: object
+        description: CITI training status.
+        properties:
+          # TODO: More properties!
+          dateReceived:
+            type: string
+            format: date
+            description: "mm/dd/YYYY of when CITI training was recorded."
+          dateExpired:
+            type: string
+            format: date
+            description: "mm/dd/YYYY of when CITI training expires."
+      pie:
+        type: object
+        description: PI-Eligibility certification. 
+        properties:
+          dateReceived:
+            type: string
+            format: date
+            description: "mm/dd/YYYY of when this Person became PI-eligible."

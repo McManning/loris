@@ -1,0 +1,428 @@
+  AwardCollection:
+    description: A collection of Awards.
+    x-endpoint: Award
+    properties:
+      meta:
+        x-meta-uri: "/award"
+        $ref: "#/definitions/MetaCollection"
+      collection:
+        type: array
+        items:
+          $ref: "#/definitions/Award"
+  Award:
+    description: A distinct Award from a Sponsor.
+    x-endpoint: Award
+    properties:
+      meta:
+        x-meta-uri: "/award/{id}"
+        $ref: "#/definitions/Meta"
+      id:
+        type: string
+        description: Unique GRT number (e.g. GRT00012345).
+      title:
+        type: string
+      type:
+        type: string
+        description: Award type code (e.g. COST REIMBURS).
+      startDate:
+        type: string
+        format: date
+        description: Start of the Award period.
+      endDate:
+        type: string
+        format: date
+        description: End of the Award period.
+      departments:
+        x-meta-uri: "/award/{id}/departments"
+        $ref: "#/definitions/Award.DepartmentCollection"
+      colleges:
+        x-meta-uri: "/award/{id}/colleges"
+        $ref: "#/definitions/CollegeCollection"
+      projects:
+        x-meta-uri: "/award/{id}/projects"
+        $ref: "#/definitions/ProjectCollection"
+      principalInvestigator:
+        $ref: "#/definitions/Person"
+      investigators:
+        x-meta-uri: "/award/{id}/investigators"
+        $ref: "#/definitions/Award.InvestigatorCollection"
+      spo:
+        $ref: "#/definitions/Person"
+      sponsor:
+        x-meta-uri: "/award/{id}/sponsor"
+        $ref: "#/definitions/Award.Sponsor"
+      attributes:
+        x-meta-uri: "/award/{id}/attributes"
+        $ref: "#/definitions/Award.Attributes"
+      information:
+        x-meta-uri: "/award/{id}/information"
+        $ref: "#/definitions/Award.Information"
+      terms:
+        x-meta-uri: "/award/{id}/terms"
+        $ref: "#/definitions/Award.Terms"
+      payments:
+        x-meta-uri: "/award/{id}/payments"
+        $ref: "#/definitions/Award.Payments"
+      funding:
+        x-meta-uri: "/award/{id}/funding"
+        $ref: "#/definitions/Award.Funding"
+      history:
+        x-meta-uri: "/award/{id}/history"
+        $ref: "#/definitions/Award.History"
+      milestones:
+        x-meta-uri: "/award/{id}/milestones"
+        $ref: "#/definitions/Award.Milestones"
+  Award.DepartmentCollection:
+    description: Departments that have an allocation to a particular Award.
+    x-endpoint: Award
+    properties:
+      meta:
+        x-meta-uri: "/award/{id}/departments"
+        $ref: "#/definitions/MetaCollection"
+      collection:
+        type: array
+        items:
+          type: object
+          description: A single department with an Award allocation.
+          properties:
+            allocation:
+              type: number
+              description: Percent allocation of Award funding.
+            department:
+              $ref: "#/definitions/Department"
+  Award.InvestigatorCollection:
+    description: "Investigators attached to an Award, with associated Effort"
+    x-endpoint: Award
+    properties:
+      meta:
+        x-meta-uri: "/award/{id}/investigators"
+        $ref: "#/definitions/MetaCollection"
+      collection:
+        type: array
+        items:
+          type: object
+          description: A single Person on an Award
+          properties:
+            effort:
+              type: number
+              description: Percent effort the Person spends on the Award Projects.
+            role:
+              type: string
+              description: Specific role assigned to the Person (PI|COPI)
+            person:
+              $ref: "#/definitions/Person"
+  Award.Sponsor:
+    # TODO: Sponsor will most likely need its own endpoint.
+    description: Sponsor funding a specific Award.
+    x-endpoint: Award
+    properties:
+      meta:
+        x-meta-uri: "/award/{id}/sponsor"
+        $ref: "#/definitions/Meta"
+      id:
+        type: string
+        description: Unique sponsor ID (e.g. 64000002)
+      name:
+        type: string
+        description: Sponsor name (e.g. National Cancer Institute)
+      awardNumber:
+        # TODO: If sponsor becomes its own endpoint, this will need to be elsewhere
+        # as it's a per-award field. (so: Award.sponsorAwardNumber)
+        type: string
+        description: Award number used by the sponsor for reference (e.g. R01CA188269)
+      mailingAddress:
+        type: object
+        description: Primary mailing address for the Sponsor.
+        properties:
+          # TODO: Split this up further. It's three address lines in PiPortal currently.
+          address1:
+            type: string
+          address2:
+            type: string
+          address3:
+            type: string
+      billingAddress:
+        type: object
+        properties:
+          # TODO: PiPortal displays this as 5 lines
+          name:
+            type: string
+          address1:
+            type: string
+          address2:
+            type: string
+          address3:
+            type: string
+          address4:
+            type: string
+      technicalContact:
+        type: object
+        properties:
+          name:
+            type: string
+          title:
+            type: string
+          phone:
+            type: string
+          fax:
+            type: string
+          email:
+            type: string
+      administrativeContact:
+        type: object
+        properties:
+          name:
+            type: string
+          title:
+            type: string
+          phone:
+            type: string
+          fax:
+            type: string
+          email:
+            type: string
+  Award.Attributes:
+    description: List of attribute codes applied to a specific Award. 
+    x-endpoint: Award
+    properties:
+      meta:
+        x-meta-uri: "/award/{id}/attributes"
+        $ref: "#/definitions/Meta"
+      attributes:
+        type: array
+        items:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Attribute code (e.g. CFDA)
+            description:
+              type: string
+              description: Human-readable version of the attribute code
+            value:
+              type: string
+            comments:
+              type: string
+  Award.Information:
+    description: List of additional information codes applied to a specific Award. 
+    x-endpoint: Award
+    properties:
+      meta:
+        x-meta-uri: "/award/{id}/information"
+        $ref: "#/definitions/Meta"
+      information:
+        type: array
+        items:
+          type: object
+          properties:
+            type:
+              type: string
+              description: "???? - Two columns 'Detailed Information' in PiPortal"
+            description:
+              type: string
+              description: ????
+            description2:
+              type: string
+              description: "???? - Two columns 'Detailed Information' in PiPortal"
+            comments:
+              type: string
+  Award.Terms:
+    description: List of terms applied to a specific Award. 
+    x-endpoint: Award
+    properties:
+      meta:
+        x-meta-uri: "/award/{id}/terms"
+        $ref: "#/definitions/Meta"
+      terms:
+        type: array
+        items:
+          type: object
+          properties:
+            guide:
+              type: string
+              description: Term guide code (e.g. ACKN)
+            description:
+              type: string
+              description: Human-readable version of the guide code (e.g. Acknowledgment Required)
+            comments:
+              type: string
+  Award.Payments:
+    description: Payment data for a specific Award.
+    x-endpoint: Award
+    properties:
+      meta:
+        x-meta-uri: "/award/{id}/payments"
+        $ref: "#/definitions/Meta"
+      hasLetterOfCredit:
+        type: boolean
+        description: Whether this Award has been funded by letter of credit (thus no payment data).
+      billingFrequency:
+        type: string
+        description: How often the Award is billed (e.g. 'Monthly End-of Month Cycle')
+      totalBilledAmount:
+        type: number
+        format: float
+        description: Summation of billed invoice amounts.
+      totalPaidAmount:
+        type: number
+        format: float
+        description: Summation of paid invoice amounts.
+      invoices:
+        type: array
+        items:
+          type: object
+          properties:
+            invoice:
+              type: string
+            invoiceDate:
+              type: string
+              format: date
+            billedAmount:
+              type: number
+              format: float
+            paidAmount:
+              type: number
+              format: float
+            status:
+              type: string
+            date:
+              # TODO: What does this date mean?
+              type: string
+              format: date
+            userId:
+              # TODO: What are these user IDs?
+              type: string
+            checks:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    format: date
+                  checkNumber:
+                    type: string
+                  amount:
+                    type: number
+                    format: float
+                  nameOnCheck:
+                    type: string
+                  origin:
+                    type: string
+                  paymentMethod:
+                    type: string
+                  depositId:
+                    type: string
+                  sequence:
+                    type: number
+  Award.Funding:
+    description: Funding data for a specific Award.
+    x-endpoint: Award
+    # TODO: There MAY be some overlap with Award.Payments
+    properties:
+      meta:
+        x-meta-uri: "/award/{id}/funding"
+        $ref: "#/definitions/Meta"
+      totalAwarded:
+        type: number
+        format: float
+      totalAnticipated:
+        type: number
+        format: float
+      awarded:
+        type: array
+        description: Line items for periodic Award funding.
+        items:
+          type: object
+          properties:
+            period:
+              type: number
+            reference:
+              type: string
+              description: Sponsor reference number (e.g. R01CA188269-03)
+            reportedDate:
+              type: string
+              format: date
+            amount:
+              type: number
+              format: float
+      anticipated:
+        type: array
+        description: Line items for anticipated future funding.
+        items:
+          type: object
+          properties:
+            period:
+              type: number
+            reference:
+              type: string
+              description: Sponsor reference number (e.g. R01CA188269-04)
+            amount:
+              type: number
+              format: float
+  Award.History:
+    description: Audit history of Award amendments.
+    x-endpoint: Award
+    properties:
+      meta:
+        x-meta-uri: "/award/{id}/history"
+        $ref: "#/definitions/Meta"
+      amendments:
+        type: array
+        items:
+          type: object
+          properties:
+            amendment:
+              type: number
+            date:
+              type: string
+              format: date
+            code:
+              type: string
+              description: Reason code (e.g. Additional Time)
+            reason:
+              type: string
+              description: Reason for the amendment (e.g. PI Request)
+            description:
+              type: string
+  Award.Milestones:
+    # TODO: This is exactly the same as Project.Reports. 
+    # Which one has the correct naming convention?
+    description: List of milestone reports on a specific Award. 
+    x-endpoint: Award
+    properties:
+      meta:
+        x-meta-uri: "/award/{id}/milestones"
+        $ref: "#/definitions/Meta"
+      reports:
+        type: array
+        items:
+          type: object
+          properties:
+            type:
+              type: string
+              description: Report type code (e.g. TECH)
+            frequency:
+              type: string
+              description: Report frequency code (e.g. ANNUAL)
+            fromDate:
+              type: string
+              format: date
+            toDate:
+              type: string
+              format: date
+            dueDate:
+              type: string
+              format: date
+            group:
+              type: string
+              # TODO: What data is in here?
+            completionDate:
+              type: string
+              format: date
+            responsiblePerson:
+              type: string
+              # TODO: What does data look like in here?
+            comments:
+              type: string
+

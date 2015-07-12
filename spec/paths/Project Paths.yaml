@@ -1,0 +1,498 @@
+  Project:
+    title: Project
+    description: Project stuff
+    routes:
+      /project:
+        get:
+          summary: "Search for a Project and return a collection of matches."
+          description: |
+            TODO: Spec out the list of attributes we can search by. Obviously
+            this will include id, title, PI, SPO, sponsor, department, and college.
+          parameters:
+            - in: query
+              name: q
+              description: Search query
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/ProjectCollection"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /project/{id}:
+        get:
+          summary: Retrieve a specific Project.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: ID of the Project resource (e.g. 60012345).
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Project"
+            "404":
+              description: Award not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /project/{id}/departments:
+        get:
+          summary: Retrieve Departments associated with a specific Project.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: ID of the Project resource (e.g. 60012345).
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Project.DepartmentCollection"
+            "404":
+              description: Award not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /project/{id}/colleges:
+        get:
+          summary: Retrieve Colleges associated with a specific Project.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: ID of the Project resource (e.g. 60012345).
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/CollegeCollection"
+            "404":
+              description: Award not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /project/{id}/investigators:
+        get:
+          summary: Retrieve investigators (Persons) associated with a specific Project.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: ID of the Project resource (e.g. 60012345).
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Project.InvestigatorCollection"
+            "404":
+              description: Award not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /project/{id}/sponsor:
+        get:
+          summary: Retrieve additional sponsor information for a specific Project.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: ID of the Project resource (e.g. 60012345).
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Project.Sponsor"
+            "404":
+              description: Award not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /project/{id}/information:
+        get:
+          summary: Retrieve additional information for a specific Project.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: ID of the Project resource (e.g. 60012345).
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Project.Information"
+            "404":
+              description: Award not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /project/{id}/terms:
+        get:
+          summary: |
+            Retrieve a list of terms for a specific Project.
+            While these are usually the same as Award terms,
+            sometimes they are not. 
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: ID of the Project resource (e.g. 60012345).
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Project.Terms"
+            "404":
+              description: Award not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /project/{id}/reports:
+        get:
+          summary: Retrieve reports for a specific Project.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: ID of the Project resource (e.g. 60012345).
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Project.ReportCollection"
+            "404":
+              description: Award not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /project/{id}/expenditures:
+        get:
+          summary: Retrieve expenditure data for a specific Project.
+          description: |
+            If a date range is specified, it will only show expenditures
+            for that range. If not, this will retrieve all expenditures
+            throughout the life of the Project.
+          parameters:
+            - in: path
+              name: id
+              description: ID of the Project resource (e.g. 60012345).
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+            - in: query
+              name: start
+              description: Requested start date for expenditures data
+              type: string
+              format: date
+            - in: query
+              name: end
+              description: Requested end date for expenditures data
+              type: string
+              format: date
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Project.Expenditures"
+            "404":
+              description: Award not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /project/{id}/commitments:
+        get:
+          summary: Retrieve current commitment data for a specific Project.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: ID of the Project resource (e.g. 60012345).
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Project.Commitments"
+            "404":
+              description: Award not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /project/{id}/financials:
+        get:
+          summary: Retrieve additional financial data for a specific Project.
+          description: |
+            If the As Of date is specified, it will only report financial data
+            up to the specified date. Otherwise, it will report the most recent data.
+          parameters:
+            - in: path
+              name: id
+              description: ID of the Project resource (e.g. 60012345).
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+            - in: query
+              name: asOf
+              description: Requested As Of (up to) date for financial data.
+              type: string
+              format: date
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Project.Financials"
+            "404":
+              description: Award not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /project/{id}/acl/{resId}:
+        get:
+          tags:
+            - draft
+          summary: |
+            Retrieve project-specific ACL roles 
+            for the specified Person.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: ID of the Project resource (e.g. 60012345).
+              required: true
+              type: string
+            - in: path
+              name: resId
+              description: ResID of the Person resource (e.g. 200275154).
+              required: true
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Project.Acl"
+            "404":
+              description: |
+                Project not found or Person does not 
+                have existing project ACLs.
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+        post:
+          tags:
+            - draft
+          summary: Set (replace) ACLs of a Person for a Project.
+          description: ""
+          consumes:
+            - application/x-www-form-urlencoded
+            - application/json
+          produces:
+            - application/json
+          parameters:
+            - in: path
+              name: id
+              description: ID of the Project resource (e.g. 60012345).
+              required: true
+              type: string
+            - in: path
+              name: resId
+              description: ResID of the Person resource (e.g. 200275154).
+              required: true
+              type: string
+            - in: body
+              name: body
+              description: Updated ACLs for a Person
+              required: false
+              schema:
+                $ref: "#/definitions/Project.Acl"
+          responses:
+            "201":
+              description: Created
+              schema:
+                $ref: '#/definitions/Project.Acl'
+            "404":
+              description: Project or Person not found.
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+        delete:
+          tags:
+            - draft
+          summary: |
+            Delete all project-specific ACL roles 
+            for the specified Person.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: ID of the Project resource (e.g. 60012345).
+              required: true
+              type: string
+            - in: path
+              name: resId
+              description: ResID of the Person resource (e.g. 200275154).
+              required: true
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+            "404":
+              description: |
+                Project not found or Person does not 
+                have existing project ACLs.
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /project/{id}/acl:
+        get:
+          tags:
+            - draft
+          summary: |
+            Retrieve a collection of all ACLs and 
+            Persons defined for a Project.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: ID of the Project resource (e.g. 60012345).
+              required: true
+              type: string
+            - in: path
+              name: resId
+              description: ResID of the Person resource (e.g. 200275154).
+              required: true
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Project.AclCollection"
+            "404":
+              description: Project not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"

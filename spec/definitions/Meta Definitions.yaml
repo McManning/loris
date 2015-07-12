@@ -1,0 +1,46 @@
+  Meta:
+    description: Meta attribute for a single resource.
+    properties:
+      uri:
+        type: string
+        description: Unique URI to this resource. 
+      type:
+        type: string
+        description: Type of resource described. This should simply be "resource".
+  MetaCollection:
+    description: "Meta attribute for a non-paginated collection of resources."
+    properties:
+      uri:
+        type: string
+        description: Unique URI to this resource.
+      type:
+        type: string
+        description: Type of resource described. This should simply be "collection".
+      total:
+        type: number
+        description: Total items that exist within this collection.
+  MetaPaginatedCollection:
+    description: "Meta attribute for a paginated collection of resources."
+    properties:
+      uri:
+        type: string
+        description: Unique URI to this page of a paginated collection.
+      type:
+        type: string
+        # TODO: Should a paginated collection still be of type "collection"?
+        description: Type of resource described. This should simply be "collection".
+      total:
+        type: number
+        description: Total items that exist within this paginated collection.
+      page:
+        type: number
+        description: Zero-indexed page currently being accessed.
+      limit:
+        type: number
+        description: Number of items displayed per-page.
+      next:
+        type: string
+        description: Unique URI to the next page in the collection.
+      previous:
+        type: string
+        description: Unique URI to the previous page in the collection.

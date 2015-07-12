@@ -1,0 +1,27 @@
+  Project.AclCollection:
+    description: Collection of ACLs for a Project.
+    x-endpoint: Project
+    properties:
+      meta:
+        x-meta-uri: "/project/{id}/acl"
+        $ref: "#/definitions/MetaCollection"
+      collection:
+        type: array
+        items:  
+          $ref: "#/definitions/Project.Acl"
+  Project.Acl:
+    description: Project-specific ACL permissions set for an individual Person.
+    x-endpoint: Project
+    properties:
+      meta:
+        x-meta-uri: "/project/{id}/acl/{person_id}"
+        $ref: "#/definitions/Meta"
+      permissions:
+        type: array
+        items:
+          type: string
+          # TODO: Define allowed values (financial, team, etc)
+      person:
+        x-meta-uri: "/person/{id}"
+        $ref: "#/definitions/Person"
+  

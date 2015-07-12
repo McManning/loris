@@ -1,0 +1,43 @@
+  DepartmentCollection:
+    description: A collection of Department resources.
+    x-endpoint: Department
+    properties:
+      meta:
+        x-meta-uri: "/department"
+        $ref: "#/definitions/MetaCollection"
+      collection:
+        type: array
+        items:
+          $ref: "#/definitions/Department"
+  Department:
+    description: A distinct Department in the University.
+    x-endpoint: Department
+    properties:
+      meta:
+        x-meta-uri: "/department/{id}"
+        $ref: "#/definitions/Meta"
+      id:
+        type: string
+      title:
+        type: string
+      dnode:
+        # TODO: Define this! (And whether we actually need it)
+        type: string
+        description: ????
+      dnodeTitle:
+        # TODO: Define this! (And whether we actually need it)
+        type: string
+        description: ????
+      awards:
+        x-meta-uri: "/department/{id}/awards"
+        $ref: "#/definitions/AwardCollection"
+      projects:
+        x-meta-uri: "/department/{id}/projects"
+        $ref: "#/definitions/ProjectCollection"
+      proposals:
+        x-meta-uri: "/department/{id}/proposals"
+        $ref: "#/definitions/ProposalCollection"
+      investigators:
+        # description: Investigators (Person) that have Awards within this Department.
+        x-meta-uri: "/department/{id}/investigators"
+        $ref: "#/definitions/PersonCollection"

@@ -1,0 +1,121 @@
+  Test:
+    title: Test
+    description: |
+      Endpoint description. **Markdown** is supported. 
+    routes:
+      /test:
+        get:
+          deprecated: true
+          tags:
+            - Foo
+            - Bar
+            - Test
+          summary: Test path for checking doc generating of various features
+          description: |
+            This *example* uses **markdown** for the __description__. 
+            > Here is 
+            > a block quote
+
+            * And a undordered list 
+            * of some content
+
+            1. bananas
+            2. apples
+
+              Presumably this is a code block?
+              (because of indentation...) ... maybe?
+
+            [example link](http://example.com "Example title")
+            And here is some `<strong>inline code</strong>` if you feel so inclined.
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Test"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+        post:
+          deprecated: true
+          tags:
+            - Test
+          summary: Test POST documentation
+          consumes:
+            - application/x-www-form-urlencoded
+            - application/json
+          produces:
+            - application/json
+          x-acl:
+            - oris
+            - test_group
+            - college_admin_40000
+          parameters:
+            - in: body
+              name: body
+              description: Message body
+              required: false
+              schema:
+                type: string
+          responses:
+            "201":
+              description: Created
+              schema:
+                $ref: '#/definitions/Test'
+            "404":
+              description: Test not available
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "500":
+              description: Internal server error
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+        put:
+          deprecated: true
+          tags:
+            - Test
+          summary: Test PUT documentation
+          consumes:
+            - application/x-www-form-urlencoded
+            - application/json
+          x-acl:
+            - oris
+            - test_group
+          parameters:
+            - in: body
+              name: body
+              description: Message body
+              required: false
+              schema:
+                type: string
+          responses:
+            "200":
+              description: Resource Updated
+              schema:
+                $ref: '#/definitions/Test'
+            "404":
+              description: Test not available
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "500":
+              description: Internal server error
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+        delete:
+          deprecated: true
+          tags:
+            - Test
+          summary: Test DELETE documentation
+          x-acl:
+            - oris
+          responses:
+            "200":
+              description: Successful deletion
+            "404":
+              description: Test not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "500":
+              description: Internal server error
+              schema:
+                $ref: "#/definitions/ErrorResponse"

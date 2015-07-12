@@ -1,0 +1,191 @@
+  Person:
+    title: Person
+    description: Person stuff
+    routes:
+      /person:
+        get:
+          summary: "Search for a person by any attributes (ResID, first name, last name, name.n, etc)"
+          description: ""
+          parameters:
+            - in: query
+              name: q
+              description: Search terms
+              required: true
+              type: string
+            - in: query
+              name: inactive
+              description: |
+                Inactive flag, if true, inactive users will 
+                be included in the results collection.
+              required: false
+              type: boolean
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/PersonCollection"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /person/{resId}:
+        get:
+          summary: Return a Person resource by ResID.
+          description: ""
+          parameters:
+            - in: path
+              name: resId
+              description: ResID of the Person resource.
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Person"
+            "404":
+              description: Person not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+        put:
+          summary: Update an existing person
+          description: ""
+          consumes:
+            - application/x-www-form-urlencoded
+            - application/json
+          produces:
+            - application/json
+          parameters:
+            - in: path
+              name: resId
+              description: ResID of the Person to update
+              required: true
+              type: string
+            - in: body
+              name: body
+              description: Updated person object
+              required: false
+              schema:
+                $ref: "#/definitions/Person"
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: '#/definitions/Person'
+            "404":
+              description: Person not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /person/{resId}/projects:
+        get:
+          summary: Retrieve a collection of Projects associated with the Person.
+          description: ""
+          parameters:
+            - in: path
+              name: resId
+              description: ResID of the Person resource.
+              required: true
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                  $ref: "#/definitions/ProjectCollection"
+            "404":
+              description: Person not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /person/{resId}/awards:
+        get:
+          summary: Retrieve a collection of Awards associated with the Person.
+          description: ""
+          parameters:
+            - in: path
+              name: resId
+              description: ResID of the Person resource.
+              required: true
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                  $ref: "#/definitions/AwardCollection"
+            "404":
+              description: Person not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /person/{resId}/proposals:
+        get:
+          summary: Retrieve a collection of Proposals associated with the Person.
+          description: ""
+          parameters:
+            - in: path
+              name: resId
+              description: ResID of the Person resource.
+              required: true
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                  $ref: "#/definitions/ProposalCollection"
+            "404":
+              description: Person not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /person/{resId}/certificates:
+        get:
+          summary: |
+            Retrieve Certificates/Training 
+            associated with the Person.
+          description: ""
+          parameters:
+            - in: path
+              name: resId
+              description: ResID of the Person resource.
+              required: true
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                  $ref: "#/definitions/Certificates"
+            "404":
+              description: Person not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+       

@@ -1,0 +1,18 @@
+  ErrorResponse:
+    required:
+      - responseCode
+      - message
+      - developerMessage
+    properties:
+      responseCode:
+        type: integer
+        format: int32
+        example: 400
+      message:
+        type: string
+        description: A user friendly error message that could potentially be reflected back in an application. 
+        example: Person not found
+      developerMessage:
+        type: string
+        description: An error string oriented toward helping developers debug consumer code.
+        example: Requested resource identifier (ResID) does not exist.

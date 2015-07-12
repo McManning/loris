@@ -1,0 +1,24 @@
+# YAML API spec of the ORIS API
+# Using Swagger Spec 2.0: https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md
+# Compiled for use in Swagger Editor: http://editor.swagger.io/#/
+swagger: '2.0'
+info:
+  title: Office of Research API
+  description: |
+    API interface for [The Ohio State University](http://osu.edu) research data.
+
+    Built for use by the [Office of Research](http://research.osu.edu).
+
+    Utilizing [swagger.io specifications](http://swagger.io/specification) and a
+    custom serverside renderer styled loosely around Swagger Editor.
+  version: "1.0.0"
+  contact:
+    name: Chase McManning
+    url: http://research.osu.edu
+    email: mcmanning.1@osu.edu
+host: orapps.osu.edu
+schemes:
+  - https
+basePath: /api/v1
+produces:
+  - application/json

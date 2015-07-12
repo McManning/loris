@@ -1,0 +1,41 @@
+
+  FundingOpportunities:
+    description: A list of funding opportunities.
+    x-endpoint: FundOps
+    properties: 
+      meta:
+        x-meta-uri: "/fundops"
+        $ref: "#/definitions/Meta"
+      opportunities:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: number
+              description: Unique identifier
+            opportunity:
+              type: string
+              description: Title of the opportunity
+            last_updated:
+              type: string
+              format: datetime
+            internal_intent_date:
+              type: string
+              format: datetime
+            sponsor_due_date:
+              type: string
+              format: datetime
+            applications_allowed:
+              type: number
+            limitation_note:
+              type: string
+            internal_candidate_requirements:
+              type: string
+            contact:
+              type: string
+            colleges:
+              type: string
+              description: Semi-colon separated list of college titles.
+            candidates:
+              type: string

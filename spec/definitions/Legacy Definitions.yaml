@@ -1,0 +1,43 @@
+  Legacy.UserTraining:
+    description: Collection of users with training data.
+    x-endpoint: Legacy
+    properties:
+      user:
+        type: array
+        items:
+          type: object
+          description: Training information for a single user.
+          properties:
+            resid:
+              type: string
+            namen:
+              type: string
+            certificate:
+              type: array
+              items:
+                type: object
+                description: A single certificate or training status. 
+                properties:
+                  id:
+                    type: string
+                    description: "Type of certificate (e.g. COI, PIE, CITI)"
+                  name:
+                    type: string
+                    description: "Longer type string (e.g. Conflict of Interest)"
+                  dateReceived:
+                    type: string
+                    description: "mm/dd/YYYY of when the certificate was received, or null if not applicable."
+                  dateExpired:
+                    type: string
+                    description: "mm/dd/YYYY of when the certificate expires, or null if not applicable."
+                  status:
+                    type: string
+                    description: "Status string for a certificate (e.g. Incomplete)"
+                  comments:
+                    type: string
+                    description: "Additional comments attached to a certificate."
+                  companies:
+                    type: array
+                    description: "COI specific field. List of companies entered on a user's COI."
+                    items:
+                      type: string

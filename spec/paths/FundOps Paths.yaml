@@ -1,0 +1,19 @@
+  FundOps:
+    title: FundOps
+    description: FundOps stuff
+    routes:
+      /fundops:
+        get:
+          summary: Returns a list of current Funding Opportunities.
+          description: |
+            This is a wrapper around USP\_FundOps\_UnivDev.
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/FundingOpportunities"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      

@@ -1,0 +1,41 @@
+  Test:
+    description: |
+      Just a definition to test documenting of various features.
+      E.g. JSON schema attributes, Markdown, whatever.
+    x-endpoint: Test
+    properties:
+      meta:
+        x-meta-uri: "/test"
+        $ref: "#/definitions/Meta"
+      arrayOfObjects:
+        type: array
+        description: Testing an array of objects
+        items:
+          type: object
+          description: Description of an object
+          properties:
+            foo:
+              type: number
+              description: Number of foos present
+            bar:
+              type: string
+              description: Description of bar
+      arrayOfArrays:
+        type: array
+        description: Testing an array of arrays
+        items:
+          type: array
+          description: A nested array of strings
+          items:
+            type: string
+      arrayOfRef:
+        type: array
+        description: Testing an array of $ref
+        items:
+          $ref: "#/definitions/Test"
+      arrayOfStrings:
+        type: array
+        description: Testing an array of primitive strings
+        items:
+          type: string
+  

@@ -1,0 +1,36 @@
+  CollegeCollection:
+    description: A collection of College resources.
+    x-endpoint: College
+    properties:
+      meta:
+        x-meta-uri: "/college"
+        $ref: "#/definitions/MetaCollection"
+      collection:
+        type: array
+        items:
+          $ref: "#/definitions/College"
+  College:
+    description: A distinct College in the University.
+    x-endpoint: College
+    properties:
+      meta:
+        x-meta-uri: "/college/{id}"
+        $ref: "#/definitions/Meta"
+      id:
+        type: string
+      title:
+        type: string
+      awards:
+        x-meta-uri: "/college/{id}/awards"
+        $ref: "#/definitions/AwardCollection"
+      projects:
+        x-meta-uri: "/college/{id}/projects"
+        $ref: "#/definitions/ProjectCollection"
+      proposals:
+        x-meta-uri: "/college/{id}/proposals"
+        $ref: "#/definitions/ProposalCollection"
+      departments:
+        x-meta-uri: "/college/{id}/departments"
+        $ref: "#/definitions/DepartmentCollection"
+      # TODO: Do we need an investigators collection? It currently
+      # does not exist within PIPortal at the college list level.

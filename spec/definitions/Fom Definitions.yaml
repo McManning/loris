@@ -1,0 +1,63 @@
+  Fom.Projects:
+    description: Collection of projects.
+    x-endpoint: FOM
+    properties:
+      project:
+        type: array
+        items:
+          type: object
+          description: A thin definition of a single project.
+          properties:
+            id:
+              type: string
+              description: "Unique project ID. (e.g. 60038536)"
+            title:
+              type: string
+              description: "Title of the project."
+            resid:
+              type: string
+              description: "ResID of the person matching the project."
+            namen:
+              type: string
+              description: "NameN of the person matching the project."
+  Fom.ProjectPis:
+    description: A collection of project PIs
+    properties:
+      project:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              description: "Unique project ID. (e.g. 60038536)"
+            name:
+              type: string
+              description: "PI name, formatted as Last Name, First Name"
+            empid:
+              type: string
+              description: "Employee ID of the project's PI."
+            email:
+              type: string
+              description: "Email address of the project's PI."
+  Fom.Departments:
+    description: A collection of department entries.
+    properties:
+      department:
+        type: array
+        items:
+          type: object
+          description: A thin representation of a department.
+          properties: 
+            id:
+              type: string
+              description: Unique department ID
+            title:
+              type: string
+              description: Department title
+            dnode:
+              type: string
+              description: ????
+            dnode_title:
+              type: string
+              description: ????

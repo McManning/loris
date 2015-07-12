@@ -1,0 +1,807 @@
+  ProjectCollection:
+    description: A collection of Projects.
+    x-endpoint: Project
+    properties:
+      meta:
+        x-meta-uri: "/project"
+        $ref: "#/definitions/MetaCollection"
+      collection:
+        type: array
+        items:
+          $ref: "#/definitions/Project"
+  Project:
+    description: A distinct Project.
+    x-endpoint: Project
+    properties:
+      meta:
+        x-meta-uri: "/project/{id}"
+        $ref: "#/definitions/Meta"
+      id:
+        type: string
+        description: Unique project number (e.g. 600012345).
+      title:
+        type: string
+      startDate:
+        type: string
+        format: date
+        description: Start date of the project period.
+      endDate:
+        type: string
+        # format: date - TODO: Figure out if they actually ARE stored as dates,
+        # and if the extra information in PIPortal (below) is actually merged
+        # in from another source when displayed. I'd prefer this to be a date!
+        description: |
+          End date of the project period. Note that this may not
+          actually be a date (e.g. "01/01/2015 Closed 02/10/2015 $16,000.00")
+      facilitiesAndAdminRate:
+        type: string
+        format: float
+        description: "Facilities & Administrative fee rate (e.g. 10.00)"
+      facilitiesAndAdminType:
+        type: string
+        description: "Facilities & Administrative fee type (e.g. MTDC)"
+      departments:
+        x-meta-uri: "/project/{id}/departments"
+        $ref: "#/definitions/Project.DepartmentCollection"
+      colleges:
+        x-meta-uri: "/project/{id}/colleges"
+        $ref: "#/definitions/CollegeCollection"
+      award:
+        x-meta-uri: "/award/{id}"
+        $ref: "#/definitions/Award"
+      proposal:
+        # TODO: Assumption that each project has, at most, one Proposal.
+        x-meta-uri: "/proposal/{id}"
+        $ref: "#/definitions/Proposal"
+      principalInvestigator:
+        $ref: "#/definitions/Person"
+      investigators:
+        x-meta-uri: "/project/{id}/investigators"
+        $ref: "#/definitions/Project.InvestigatorCollection"
+      spo:
+        x-meta-uri: "/person/{id}"
+        $ref: "#/definitions/Person"
+      sponsor:
+        x-meta-uri: "/project/{id}/sponsor"
+        $ref: "#/definitions/Project.Sponsor"
+      information:
+        x-meta-uri: "/project/{id}/information"
+        $ref: "#/definitions/Project.Information"
+      terms:
+        x-meta-uri: "/project/{id}/terms"
+        $ref: "#/definitions/Project.Terms"
+      reports:
+        x-meta-uri: "/project/{id}/reports"
+        $ref: "#/definitions/Project.Reports"
+      expenditures:
+        x-meta-uri: "/project/{id}/expenditures"
+        $ref: "#/definitions/Project.Expenditures"
+      commitments:
+        x-meta-uri: "/project/{id}/commitments"
+        $ref: "#/definitions/Project.Commitments"
+      financials:
+        x-meta-uri: "/project/{id}/financials"
+        $ref: "#/definitions/Project.Financials"
+      alerts:
+        # TODO: Define!
+        x-meta-uri: "/project/{id}/alerts"
+        $ref: "#/definitions/Project.AlertCollection"
+  Project.DepartmentCollection:
+    description: |
+      Departments that have an allocation 
+      to a particular Project.
+    x-endpoint: Project
+    properties:
+      meta:
+        x-meta-uri: "/project/{id}/departments"
+        $ref: "#/definitions/MetaCollection"
+      collection:
+        type: array
+        items:
+          type: object
+          description: A single department with a Project allocation.
+          properties:
+            allocation:
+              type: number
+              description: Percent allocation of Project funding.
+            department:
+              $ref: "#/definitions/Department"
+  Project.InvestigatorCollection:
+    description: "Investigators attached to a Project."
+    x-endpoint: Project
+    properties:
+      meta:
+        x-meta-uri: "/project/{id}/investigators"
+        $ref: "#/definitions/MetaCollection"
+      collection:
+        type: array
+        items:
+          type: object
+          description: A single Person on a Project
+          properties:
+            role:
+              type: string
+              description: Specific role assigned to the Person (PI|COPI)
+            person:
+              $ref: "#/definitions/Person"
+  Project.Sponsor:
+    # TODO: Sponsor will most likely need its own endpoint.
+    description: Sponsor funding a specific Project.
+    x-endpoint: Project
+    properties:
+      meta:
+        x-meta-uri: "/project/{id}/sponsor"
+        $ref: "#/definitions/Meta"
+      id:
+        type: string
+        description: Unique sponsor ID (e.g. 64000002)
+      name:
+        type: string
+        description: Sponsor name (e.g. National Cancer Institute)
+  Project.Information:
+    description: |
+      List of additional information codes 
+      applied to a specific Project. 
+    x-endpoint: Project
+    properties:
+      meta:
+        x-meta-uri: "/project/{id}/information"
+        $ref: "#/definitions/Meta"
+      information:
+        type: array
+        items:
+          type: object
+          properties:
+            type:
+              type: string
+              description: Code type (e.g. Salary Cap)
+            description:
+              type: string
+              description: |
+                Code description (e.g. Fee Code S - Tuition 
+                and fees will be charged to the project.)
+  Project.Terms:
+    description: List of terms applied to a specific Project. 
+    x-endpoint: Project
+    properties:
+      meta:
+        x-meta-uri: "/project/{id}/terms"
+        $ref: "#/definitions/Meta"
+      terms:
+        type: array
+        items:
+          type: object
+          properties:
+            guide:
+              type: string
+              description: Term guide code (e.g. BUDG)
+            description:
+              type: string
+              description: |
+                Human-readable version of the guide code 
+                (e.g. Budget restrictions apply)
+            comments:
+              type: string
+  Project.ReportCollection:
+    # TODO: This is exactly the same as Award.Milestones. 
+    # Which one has the correct naming convention?
+    description: A collection of Project.Report resources.
+    x-endpoint: Project
+    properties:
+      meta:
+        x-meta-uri: "/project/{id}/reports"
+        $ref: "#/definitions/MetaCollection"
+      collection:
+        type: array
+        items:
+          $ref: "#/definitions/Project.Report"
+  Project.Report:
+    description: A single report (milestone) on a specific Project.
+    x-endpoint: Project
+    properties:
+      type:
+        type: string
+        description: Report type code (e.g. TECH)
+      frequency:
+        type: string
+        description: Report frequency code (e.g. ANNUAL)
+      fromDate:
+        type: string
+        format: date
+      toDate:
+        type: string
+        format: date
+      dueDate:
+        type: string
+        format: date
+      group:
+        type: string
+        description: Reporting group (e.g. BG001)
+      completionDate:
+        type: string
+        format: date
+      responsiblePerson:
+        type: string
+        # TODO: What does data look like in here?
+      comments:
+        type: string
+  Project.Expenditures:
+    description: |
+      Expenditures within a specified period of the project's life.
+      Total costs and line items for each category will only summarize
+      information between the specified startDate and endDate.  
+      This is a combination of both the PIPortal Expenditures and 
+      Personnel sections.
+    x-endpoint: Project
+    properties:
+      meta: 
+        x-meta-uri: "/project/{id}/expenditures"
+        $ref: "#/definitions/Meta"
+      startDate:
+        type: string
+        format: date
+        description: Start date of the expenditures report.
+      endDate:
+        type: string
+        format: date
+        description: End date of the expenditures report.
+      totalSponsorCost:
+        type: number
+        format: float
+        description: Total Sponsor cost for the reporting period.
+      totalThirdPartyCost:
+        type: number
+        format: float
+        description: Total third party cost for the reporting period.
+      totalCostShare:
+        type: number
+        format: float
+        description: Total OSU Cost-Share for the reporting period.
+      sponsorCost:
+        type: array
+        description: Line items for Sponsor costs.
+        items:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+            account:
+              type: string
+              description: |
+                Account description 
+                (e.g. SubContract-Portion Under $25K)
+            vendor:
+              type: string
+              description: |
+                Vendor/Transaction details 
+                (e.g. OFFICEMAX/RECYCLED CLIPBRD HRDBD-L)
+            amount:
+              type: number
+              format: float
+            journalEntry:
+              type: string
+              description: PO/Journal number (e.g. RF01234567)
+            voucher:
+              type: string
+              description: Voucher number (e.g. 15YYP8TN)
+      thirdPartyCost:
+        type: array
+        description: Line items for third party costs.
+        items:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+            accountDescription:
+              type: string
+              description: |
+                Account category 
+                (e.g. SubContract-Portion Under $25K)
+            transaction:
+              type: string
+              description: |
+                Vendor/Transaction details 
+                (e.g. OFFICEMAX/RECYCLED CLIPBRD HRDBD-L)
+            amount:
+              type: number
+              format: float
+            journalEntry:
+              type: string
+              description: PO/Journal number (e.g. RF01234567)
+            voucher:
+              type: string
+              description: Voucher number (e.g. 15YYP8TN)
+      costShare:
+        type: array
+        description: Line items for OSU Cost-Share.
+        items:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+            accountDescription:
+              type: string
+              description: |
+                Account category 
+                (e.g. SubContract-Portion Under $25K)
+            transaction:
+              type: string
+              description: |
+                Vendor/Transaction details 
+                (e.g. OFFICEMAX/RECYCLED CLIPBRD HRDBD-L)
+            amount:
+              type: number
+              format: float
+            journalEntry:
+              type: string
+              description: PO/Journal number (e.g. RF01234567)
+            voucher:
+              type: string
+              description: Voucher number (e.g. 15YYP8TN)
+      personnel:
+        type: array
+        description: |
+          Personnel expenditures within the reporting period, 
+          both totals by personnel as well as line items for 
+          each reporting month.
+        items:
+          type: object
+          properties:
+            person:
+              $ref: "#/definitions/Person"
+            title:
+              # TODO: Necessary? Is it in Person already? Is it project-specific?
+              type: string
+              description: Person's title (e.g. Research Specialist)
+            fte:
+              type: number
+              format: float
+              # TODO: FTE. Period? Project? What specifically?
+              description: The FTE of the person (for the Period? The project?)
+            totalSalaryCost:
+              type: number
+              format: float
+              description: Total salary/wages costs for the reporting period.
+            totalBenefitsCost:
+              type: number
+              format: float
+              description: Total benefits costs for the reporting period.
+            totalTuitionCost:
+              type: number
+              format: float
+              description: Total tuition costs for the reporting period.
+            costLineItems:
+              type: array
+              description: Line item details of costs for the reporting period.
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    format: date
+                    description: Specific month the cost occurred.
+                  description:
+                    type: string
+                    description: |
+                      Specific cost description 
+                      (e.g. Monthly Payroll, Unclassified Regular>=50%)
+                  salary:
+                    type: number
+                    format: float
+                    description: Salary cost of this line item.
+                  benefits:
+                    type: number
+                    format: float
+                    description: Benefits cost of this line item.
+                  tuition:
+                    type: number
+                    format: float
+                    description: Tuition cost of this line item.
+            totalSalaryCommitment:
+              type: number
+              format: float
+            totalBenefitsCommitment:
+              type: number
+              format: float
+            totalTuitionCommitment:
+              type: number
+              format: float
+            commitmentLineItems:
+              type: array
+              description: Line item details of commitments for the reporting period.
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    format: date
+                    description: Specific month the commitment occurred.
+                  description:
+                    type: string
+                    description: |
+                      Specific commitment description 
+                      (e.g. Payroll Commitment, Faculty Group Practice RCP10)
+                  salary:
+                    type: number
+                    format: float
+                    description: Salary commitment of this line item.
+                  benefits:
+                    type: number
+                    format: float
+                    description: Benefits commitment of this line item.
+                  tuition:
+                    type: number
+                    format: float
+                    description: Tuition commitment of this line item.
+  Project.Commitments:
+    # TODO: See if this is redundant with Commitments, and whether 
+    # things can be restructured to collapse the two together.
+    description: |
+      ...
+    x-endpoint: Project
+    properties:
+      meta: 
+        x-meta-uri: "/project/{id}/commitments"
+        $ref: "#/definitions/Meta"
+      totalSponsorCommitment:
+        type: number
+        format: float
+        description: Total Sponsor commitment.
+      totalThirdPartyCommitment:
+        type: number
+        format: float
+        description: Total third party commitment.
+      totalCostShareCommitment:
+        type: number
+        format: float
+        description: Total OSU Cost-Share commitment.
+      sponsorCommitment:
+        type: array
+        description: Line items for Sponsor commitments.
+        items:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+            account:
+              type: string
+              description: |
+                Account description 
+                (e.g. SubContract-Portion Under $25K)
+            vendor:
+              type: string
+              description: |
+                Vendor/Transaction details 
+                (e.g. OFFICEMAX/RECYCLED CLIPBRD HRDBD-L)
+            amount:
+              type: number
+              format: float
+            journalEntry:
+              type: string
+              description: PO/Journal number (e.g. RF01234567)
+      thirdPartyCommitment:
+        type: array
+        description: Line items for third party commitments.
+        items:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+            accountDescription:
+              type: string
+              description: |
+                Account category 
+                (e.g. SubContract-Portion Under $25K)
+            transaction:
+              type: string
+              description: |
+                Vendor/Transaction details 
+                (e.g. OFFICEMAX/RECYCLED CLIPBRD HRDBD-L)
+            amount:
+              type: number
+              format: float
+            journalEntry:
+              type: string
+              description: PO/Journal number (e.g. RF01234567)
+      costShareCommitment:
+        type: array
+        description: Line items for OSU Cost-Share commitments.
+        items:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+            accountDescription:
+              type: string
+              description: |
+                Account category 
+                (e.g. SubContract-Portion Under $25K)
+            transaction:
+              type: string
+              description: |
+                Vendor/Transaction details 
+                (e.g. OFFICEMAX/RECYCLED CLIPBRD HRDBD-L)
+            amount:
+              type: number
+              format: float
+            journalEntry:
+              type: string
+              description: PO/Journal number (e.g. RF01234567)
+      personnel:
+        # NOTE: This breaks off from PIPortals way of doing things as 
+        # personnel costs/commitments are displayed together, but logically
+        # personnel commitments should probably go under Project.Commitments,
+        # and actual costs go under Project.Expenditures. If necessary to 
+        # display both simultaneously, these can be queried together.
+        # The below is a simplified version of personnel data to just
+        # show commitments.
+        type: array
+        description: |
+          Current personnel commitments, by person.
+        items:
+          type: object
+          properties:
+            person:
+              x-meta-uri: "/person/{id}"
+              $ref: "#/definitions/Person"
+            fte:
+              type: number
+              format: float
+              # TODO: FTE. Period? Project? What specifically?
+              description: The FTE of the person allocated to the Project.
+            totalSalaryCommitment:
+              type: number
+              format: float
+            totalBenefitsCommitment:
+              type: number
+              format: float
+            totalTuitionCommitment:
+              type: number
+              format: float
+            lineItems:
+              type: array
+              description: Line item details of current commitments.
+              items:
+                type: object
+                properties:
+                  date:
+                    # TODO: Is this necessary? Since it 
+                    # should always be current month?
+                    type: string
+                    format: date
+                    description: Specific month the commitment occurred.
+                  description:
+                    type: string
+                    description: |
+                      Specific commitment description 
+                      (e.g. Payroll Commitment, Faculty Group Practice RCP10)
+                  salary:
+                    type: number
+                    format: float
+                    description: Salary commitment of this line item.
+                  benefits:
+                    type: number
+                    format: float
+                    description: Benefits commitment of this line item.
+                  tuition:
+                    type: number
+                    format: float
+                    description: Tuition commitment of this line item.
+  Project.Financials:
+    description: |
+      Project financial line items broken down by group (sponsor, 
+      cost share, third party) and category (budget, expended, 
+      commitments, balance), along with totals for each within a 
+      particular reporting month. 
+    x-endpoint: Project
+    properties:
+      meta: 
+        x-meta-uri: "/project/{id}/financials"
+        $ref: "#/definitions/Meta"
+      reportDate:
+        type: string
+        format: date
+        description: |
+          The reporting month (As Of...) for budget details.
+      # TODO: Obviously, sponsor/costshare/thirdparty share the same
+      # data structure (although third party does not have an F&A section) 
+      # So it might be smarter to split them up into more common data types? 
+      # (e.g. Project.LineItemCollection/LineItem)
+      sponsorBudget:
+        type: object
+        description: ...
+        properties:
+          # NOTE: What's missing is total direct and total F&A items.
+          # These can be calculated by summing line items however.
+          # If those are something we need without line items, will
+          # probably need to restructure and add a different route 
+          # for line items. 
+          totalBudget:
+            type: number
+            format: float
+            description: |
+              Total (direct + F&A) budget for the reporting month.
+          totalExpended:
+            type: number
+            format: float
+            description: |
+              Total (direct + F&A) expended for the reporting month.
+          totalCommitment:
+            type: number
+            format: float
+            description: |
+              Total (direct + F&A) commitments for the reporting month.
+          totalBalance:
+            type: number
+            format: float
+            description: |
+              Total (direct + F&A) balance for the reporting month.
+          direct:
+            type: array
+            description: List of direct costs to the sponsor.
+            items:
+              type: object
+              properties:
+                lineItem:
+                  type: string
+                budget:
+                  type: number
+                  format: float
+                expended:
+                  type: number
+                  format: float
+                commitment:
+                  type: number
+                  format: float
+                balance:
+                  type: number
+                  format: float
+          facilitiesAndAdmin:
+            type: array
+            description: |
+              List of Facilities and Administrative 
+              costs to the sponsor.
+            items:
+              type: object
+              properties:
+                lineItem:
+                  type: string
+                budget:
+                  type: number
+                  format: float
+                expended:
+                  type: number
+                  format: float
+                commitment:
+                  type: number
+                  format: float
+                balance:
+                  type: number
+                  format: float
+      costShareBudget:
+        type: object
+        description: ...
+        properties:
+          # NOTE: What's missing is total direct and total F&A items.
+          # These can be calculated by summing line items however.
+          # If those are something we need without line items, will
+          # probably need to restructure and add a different route 
+          # for line items. 
+          totalBudget:
+            type: number
+            format: float
+            description: |
+              Total (direct + F&A) budget for the reporting month.
+          totalExpended:
+            type: number
+            format: float
+            description: |
+              Total (direct + F&A) expended for the reporting month.
+          totalCommitment:
+            type: number
+            format: float
+            description: |
+              Total (direct + F&A) commitments for the reporting month.
+          totalBalance:
+            type: number
+            format: float
+            description: |
+              Total (direct + F&A) balance for the reporting month.
+          direct:
+            type: array
+            description: List of costs to OSU Cost-Share.
+            items:
+              type: object
+              properties:
+                lineItem:
+                  type: string
+                budget:
+                  type: number
+                  format: float
+                expended:
+                  type: number
+                  format: float
+                commitment:
+                  type: number
+                  format: float
+                balance:
+                  type: number
+                  format: float
+          facilitiesAndAdmin:
+            type: array
+            description: |
+              List of Facilities and Administrative 
+              costs to OSU Cost-Share.
+            items:
+              type: object
+              properties:
+                lineItem:
+                  type: string
+                budget:
+                  type: number
+                  format: float
+                expended:
+                  type: number
+                  format: float
+                commitment:
+                  type: number
+                  format: float
+                balance:
+                  type: number
+                  format: float
+      thirdPartyBudget:
+        type: object
+        description: ...
+        properties:
+          totalBudget:
+            type: number
+            format: float
+            description: |
+              Total (direct) budget for the reporting month.
+          totalExpended:
+            type: number
+            format: float
+            description: |
+              Total (direct) expended for the reporting month.
+          totalCommitment:
+            type: number
+            format: float
+            description: |
+              Total (direct) commitments for the reporting month.
+          totalBalance:
+            type: number
+            format: float
+            description: |
+              Total (direct) balance for the reporting month.
+          direct:
+            type: array
+            description: List of costs to third parties.
+            items:
+              type: object
+              properties:
+                lineItem:
+                  type: string
+                budget:
+                  type: number
+                  format: float
+                expended:
+                  type: number
+                  format: float
+                commitment:
+                  type: number
+                  format: float
+                balance:
+                  type: number
+                  format: float
+          # NOTE: F&A has been removed, as it does not
+          # apply to third parties.
+          # TODO: Verify this is true. My notes may be off.
+
+
+  

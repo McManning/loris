@@ -1,0 +1,158 @@
+  Department:
+    title: Department
+    description: Department stuff
+    routes:
+      /department:
+        get:
+          summary: |
+            Search for a Department resource, or 
+            retrieve a collection of all Departments.
+          description: ""
+          parameters:
+            - in: query
+              name: q
+              description: Search terms
+              required: false
+              type: string
+            - in: query
+              name: expand
+              description: Object expansion notation for meta child objects
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/DepartmentCollection"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /department/{id}:
+        get:
+          summary: Return a Department resource by ID.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: Unique Department ID.
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Department"
+            "404":
+              description: Department not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /department/{id}/awards:
+        get:
+          summary: Retrieve a collection of Awards associated with the Department.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: Unique Department ID.
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/AwardCollection"
+            "404":
+              description: Department not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /department/{id}/projects:
+        get:
+          summary: Retrieve a collection of Projects associated with the Department.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: Unique Department ID.
+              required: true
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                  $ref: "#/definitions/ProjectCollection"
+            "404":
+              description: Department not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /department/{id}/proposals:
+        get:
+          summary: Retrieve a collection of Proposals associated with the Department.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: Unique Department ID.
+              required: true
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                  $ref: "#/definitions/ProposalCollection"
+            "404":
+              description: Department not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /department/{id}/investigators:
+        get:
+          summary: |
+            Retrieve a collection of investigators (Persons) 
+            associated with the Department.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: Unique Department ID.
+              required: true
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                  $ref: "#/definitions/PersonCollection"
+            "404":
+              description: Department not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      

@@ -1,0 +1,227 @@
+  Proposal:
+    title: Proposal
+    description: Proposal stuff
+    routes:
+      /proposal:
+        get:
+          summary: "Search for a Proposal and return a collection of matches."
+          description: |
+            TODO: Spec out the list of attributes we can search by. Obviously
+            this will include id, title, PI, SPO, sponsor, department, and college.
+          parameters:
+            - in: query
+              name: q
+              description: Search query
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/ProposalCollection"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /proposal/{id}:
+        get:
+          summary: Retrieve a specific Proposal.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: "ID field of the Proposal, usually a GRT number (e.g. GRT000012345)"
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Proposal"
+            "404":
+              description: Proposal not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /proposal/{id}/departments:
+        get:
+          summary: Retrieve Departments and allocation associated with a specific Proposal.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: "ID field of the Proposal, usually a GRT number (e.g. GRT000012345)"
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Proposal.DepartmentCollection"
+            "404":
+              description: Proposal not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /proposal/{id}/colleges:
+        get:
+          summary: Retrieve Colleges associated with a specific Proposal.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: "ID field of the Proposal, usually a GRT number (e.g. GRT000012345)"
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/CollegeCollection"
+            "404":
+              description: Proposal not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /proposal/{id}/projects:
+        get:
+          summary: Retrieve projects associated with a specific Proposal.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: "ID field of the Proposal, usually a GRT number (e.g. GRT000012345)"
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/ProjectCollection"
+            "404":
+              description: Proposal not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /proposal/{id}/investigators:
+        get:
+          summary: Retrieve investigators (Persons) associated with a specific Proposal.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: "ID field of the Proposal, usually a GRT number (e.g. GRT000012345)"
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Proposal.InvestigatorCollection"
+            "404":
+              description: Proposal not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /proposal/{id}/sponsor:
+        get:
+          summary: Retrieve additional sponsor information for a specific Proposal.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: "ID field of the Proposal, usually a GRT number (e.g. GRT000012345)"
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Proposal.Sponsor"
+            "404":
+              description: Proposal not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      /proposal/{id}/funding:
+        get:
+          summary: Retrieve additional funding details for a specific Proposal.
+          description: ""
+          parameters:
+            - in: path
+              name: id
+              description: "ID field of the Proposal, usually a GRT number (e.g. GRT000012345)"
+              required: true
+              type: string
+            - in: query
+              name: expand
+              description: "Object expansion notation for meta child objects"
+              required: false
+              type: string
+          responses:
+            "200":
+              description: Successful operation
+              schema:
+                $ref: "#/definitions/Proposal.Funding"
+            "404":
+              description: Proposal not found
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+            "400":
+              description: An error occured
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      
