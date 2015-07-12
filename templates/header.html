@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link type="text/css" rel="stylesheet" href="css/main.css" media="screen,projection"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/prism.css" rel="stylesheet" />
 </head>
 <body>
 <header>
@@ -46,11 +47,11 @@
 
                 <!-- API Routes -->
                 <li><a class="collapsible-header waves-effect waves-grey {{ 'active' if active_section == 'endpoints' }}">API Endpoints <i class="material-icons right">explore</i></a>
-                    <div class="collapsible-body" style="">
+                    <div class="collapsible-body">
                         <ul>
                             {% for id, properties in api.endpoints|dictsort %}
-                            <li class="{{ 'active' if active_page == id }}">
-                                <a href="{{ id|lower }}.html" class="waves-effect waves-grey">{{ properties.title }}</a>
+                            <li class="{{ 'active' if active_page == 'routes-' + id }}">
+                                <a href="routes-{{ id|lower }}.html" class="waves-effect waves-grey">{{ properties.title }}</a>
                             </li>
                             {% endfor %}
                         </ul>
@@ -58,18 +59,21 @@
                 </li>
 
                 <!-- API Resource definitions -->
-                <!--li><a class="collapsible-header waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
-                    <div class="collapsible-body" style="">
+                <li><a class="collapsible-header waves-effect waves-grey {{ 'active' if active_section == 'resources' }}">Resources <i class="material-icons right">layers</i></a>
+                    <div class="collapsible-body">
                         <ul>
-                            <li><a href="resources.html" class="waves-effect waves-grey">Group by types?</a></li>
+                            {% for id, properties in api.endpoints|dictsort %}
+                            <li class="{{ 'active' if active_page == 'resources-' + id }}">
+                                <a href="resources-{{ id|lower }}.html" class="waves-effect waves-grey">{{ properties.title }}</a>
+                            </li>
+                            {% endfor %}
+                            <li class="{{ 'active' if active_page == 'resources-other' }}">
+                                <a href="resources-other.html" class="waves-effect waves-grey">Other</a>
+                            </li>
                         </ul>
                     </div>
-                </li-->
+                </li>
             </ul> <!-- .collapsible -->
-        </li>
-
-        <li class="{{ 'active' if active_page == 'resources' }}">
-            <a href="resources.html" class="waves-effect waves-grey">Resources <i class="material-icons right">layers</i></a>
         </li>
 
         <li class="{{ 'active' if active_page == 'examples' }}">

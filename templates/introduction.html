@@ -8,10 +8,51 @@
             <div class="col s12 m9 l11">
 
                 <div id="introduction" class="section scrollspy">
+                    <img class="brand-logo large right" src="img/loris.svg" />
                     <h1>Introduction</h1>
-                    <img class="brand-logo large left" src="img/loris.svg" />
                     <p class="flow-text">
-                    Phasellus faucibus venenatis eros, ut egestas mauris pretium eget. Suspendisse potenti. Cras sit amet lacus at magna euismod cursus. Sed tristique tempus suscipit. Fusce massa tellus, pharetra ac varius non, finibus eget nisi. Phasellus pellentesque luctus justo, eget malesuada turpis tempor eget. Pellentesque nec nibh a felis eleifend posuere. Proin aliquam quis justo nec scelerisque. Mauris quis mauris non eros gravida viverra quis et est. Ut consectetur suscipit quam a placerat. Mauris vitae libero et nibh malesuada facilisis. Proin magna dui, lacinia a erat sed, suscipit sodales diam.
+                    Loris is a set of patterns and utilities for building a beautiful RESTful JSON API. It aims to integrate easily into complex data backends while simplifying access and providing discovery tools for developers.
+                    </p>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div id="complex-data" class="section scrollspy">
+                    <h2>For complex relational data</h2>
+
+                    <p class="flow-text">
+                    Loris was built to quickly turn relational data into a searchable, queryable RESTful API. It makes no assumptions on the structure of the data store, but instead supplies tools and patterns for implementers to easily build an API frontend. 
+                    </p>
+                </div>
+
+                <div id="optimizations" class="section scrollspy">
+                    <h2>Optimizing data access</h2>
+
+                    <p class="flow-text">
+                    Like all modern APIs, Loris performs request caching for idempotent operations, dramatically reducing the load on the data store. Loris also reduces network traffic by optionally allowing retrieval of related resources to occur within the same request.
+                    </p>
+                </div>
+
+                <div id="acls" class="section scrollspy">
+                    <h2>Simple access controls</h2>
+
+                    <p class="flow-text">
+                    Includes support for fine-grained access control on individual resources. By using simple access control lists, Loris aims to be easily integrated into existing access control schemes. 
+                    </p>
+                </div>
+
+                <div id="elasticsearch" class="section scrollspy">
+                    <h2>Robust searching</h2>
+
+                    <p class="flow-text">
+                    Using the well established <a href="https://www.elastic.co/products/elasticsearch" target="_BLANK">Elasticsearch</a> as a backend, all data is searchable and filterable with near instant results. Loris provides additional tools to filter search results by access controls, scoping search results to the individual. 
+                    </p>
+                </div>
+
+                <div id="analytics" class="section scrollspy">
+                    <h2>Focus on analytics</h2>
+
+                    <p class="flow-text">
+                    Loris puts analytics topmost for requirements, aiming to provide useful information for developers to analyze requests to the API, as well as information for backend implementers to help optimize where it matters most. 
                     </p>
                 </div>
 
@@ -23,11 +64,14 @@
 
                     <ul class="section table-of-contents">
                         <li><a href="#introduction">Introduction</a></li>
-                        <li><a href="#routes">API Routes</a></li>
-                        <li><a href="#resources">Resources</a></li>
+                        <li><a href="#complex-data">For complex relational data</a></li>
+                        <li><a href="#optimizations">Optimizing data access</a></li>
+                        <li><a href="#acls">Simple access controls</a></li>
+                        <li><a href="#elasticsearch">Robust searching</a></li>
+                        <li><a href="#analytics">Focus on analytics</a></li>
                     </ul>
                 </div>
-            </div--> <!-- .col -->
+            </div> <!-- .col -->
 
         </div> <!-- .row -->
 

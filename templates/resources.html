@@ -1,4 +1,5 @@
-{% set active_page = 'resources' %}
+{% set active_section = 'resources' %}
+{% set active_page = 'resources-' + endpoint_id %}
 {% include 'templates/header.html' %}
 <main>
     <div class="container">
@@ -7,7 +8,7 @@
             <!-- Content column -->
             <div class="col s12 m9 l11">
 
-                <h1>Resources</h1>
+                <h1>{{ endpoint_id }} Resources</h1>
 
                 <div class="switch">
                     <label>
@@ -18,10 +19,10 @@
                     </label>
                 </div>
 
-                {% for id, properties in api.definitions|dictsort %}
+                {% for id, properties in resources|dictsort %}
 
                     <h3>{{ id }}</h3>
-                    <div id="{{ id|replace('{', '')|replace('}', '')|replace('/', '-') }}" class="section scrollspy">
+                    <div id="{{ id|replace('.', '-') }}" class="section scrollspy">
                         {% include 'dist/fragments/' + id.lower() + '.html' %}
                     </div>
 
@@ -34,8 +35,8 @@
                 <div class="pinned">
                     <ul class="section table-of-contents">
                         <li>Resources</li>
-                        {% for id, resource in api.definitions|dictsort %}
-                        <li><a href="#{{ id|replace('{', '')|replace('}', '')|replace('/', '-') }}">{{ id }}</a></li>
+                        {% for id, resource in resources|dictsort %}
+                        <li><a href="#{{ id|replace('.', '-') }}">{{ id }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>

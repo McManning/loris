@@ -25,6 +25,32 @@
 
                 {% endfor %}
 
+
+<pre><code class="language-javascript">
+$('#toggle-json').change(function() {
+    if ($(this).is(":checked")) {
+        $('.resource').addClass('json');
+    } else {
+        $('.resource').removeClass('json');
+    }
+});
+</code></pre>
+
+<pre><code class="language-markup">
+&lt;!-- Right hand navigation --&gt;
+&lt;div class="col hide-on-small-only m3 l1"&gt;
+    &lt;div class="pinned"&gt;
+
+        &lt;ul class="section table-of-contents"&gt;
+            &lt;li&gt;&lt;a href="#introduction"&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#routes"&gt;API Routes&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#resources"&gt;Resources&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt; &lt;!-- .col --&gt;
+</code></pre>
+                                
+
             </div> <!-- .col content -->
         </div> <!-- .row -->
     </div> <!-- .container -->

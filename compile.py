@@ -75,23 +75,46 @@ def generate_documentation(spec):
             
             f.write(json.dumps(rendered, indent=4))
 
+    # Iterate resources and organize into our known endpoints
+    resources_by_endpoint = dict(Other = dict())
+
+    # Build an entry for each known endpoint
+    for endpoint, properties in spec['endpoints'].items():
+        resources_by_endpoint[endpoint] = dict()
+
+    # Sort resources into the endpoints 
+    for id, definition in spec['definitions'].items():
+        if 'x-endpoint' not in definition:
+            endpoint = 'Other'
+        else:
+            endpoint = definition['x-endpoint']
+        
+        if endpoint not in resources_by_endpoint:
+            raise Exception('Resource [{}] using unknown x-endpoint [{}]'.format(id, endpoint))
+
+        resources_by_endpoint[endpoint][id] = definition
+
     # Split each endpoint into a different page
     template = j2_env.get_template('templates/routes.html')
+    resources_template = j2_env.get_template('templates/resources.html')
 
     for endpoint, properties in spec['endpoints'].items():
-        with open('dist/{}.html'.format(endpoint.lower()), 'w') as f:
+        with open('dist/routes-{}.html'.format(endpoint.lower()), 'w') as f:
             f.write(template.render(
                 endpoint_id=endpoint, 
-                endpoint=properties, 
+                endpoint=properties,
                 api=spec
             ))
 
-    # Build resources page
-    template = j2_env.get_template('templates/resources.html')
-    with open('dist/resources.html', 'w') as f:
-        f.write(template.render(
-            api=spec
-        ))
+    # Different list, since we also include some extras (e.g. Other)
+    for endpoint, resources in resources_by_endpoint.items():
+        with open('dist/resources-{}.html'.format(endpoint.lower()), 'w') as f:
+            f.write(resources_template.render(
+                endpoint_id=endpoint,
+                endpoint=properties,
+                resources=resources,
+                api=spec
+            ))
 
     # Build introduction page
     template = j2_env.get_template('templates/introduction.html')
