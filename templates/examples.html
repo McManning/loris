@@ -1,0 +1,37 @@
+{% set active_page = 'examples' %}
+{% include 'templates/header.html' %}
+<main>
+    <div class="container">
+        <div class="row">
+
+            <!-- Content column -->
+            <div class="col s12 m9 l11">
+
+                <div id="introduction" class="section scrollspy">
+                    <h1>Examples Introduction</h1>
+                    <p class="flow-text">
+                    Phasellus faucibus venenatis eros, ut egestas mauris pretium eget. Suspendisse potenti. Cras sit amet lacus at magna euismod cursus. Sed tristique tempus suscipit. Fusce massa tellus, pharetra ac varius non, finibus eget nisi. Phasellus pellentesque luctus justo, eget malesuada turpis tempor eget. Pellentesque nec nibh a felis eleifend posuere. Proin aliquam quis justo nec scelerisque. Mauris quis mauris non eros gravida viverra quis et est. Ut consectetur suscipit quam a placerat. Mauris vitae libero et nibh malesuada facilisis. Proin magna dui, lacinia a erat sed, suscipit sodales diam.
+                    </p>
+                </div>
+
+            </div> <!-- .col content -->
+
+            <!-- Right hand navigation -->
+            <div class="col hide-on-small-only m3 l1">
+                <div class="pinned">
+
+                    <ul class="section table-of-contents">
+                        <li><a href="#introduction">Introduction</a></li>
+                        <li><a href="#routes">API Routes</a></li>
+                        <li><a href="#resources">Resources</a></li>
+                    </ul>
+                </div>
+            </div--> <!-- .col -->
+
+        </div> <!-- .row -->
+
+    </div> <!-- .container -->
+
+</main>
+
+{% include 'templates/footer.html' %}

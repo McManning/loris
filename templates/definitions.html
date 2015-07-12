@@ -1,0 +1,9 @@
+{% import "templates/macros.html" as macros %}
+
+<h1>Definitions</h1>
+Toggle All <a href="#" class="toggle-all-collapsible">+</a>
+
+{% for id, resource in api.definitions|dictsort %}
+{% set definitions_loop = loop %} 
+    {{ macros.print_resource(id, resource) }}
+{% endfor %}

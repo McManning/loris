@@ -1,0 +1,104 @@
+
+{% macro print_primitive_attr(id, json) -%}
+        {% if id %}"{{ id }}": {% endif %}
+
+        {% if json.type == 'string' %}
+            "string"
+        {% elif json.type == 'number' %}
+            0
+        {% else %}
+            "{{ json.type }}"
+        {% endif %}
+{%- endmacro %}
+
+{% macro print_ref_attr(id, json, isCollection) -%}
+    {% if id %}"{{ id }}": {% endif %}
+
+    {% if json['$ref'][14:] in resources %}
+        {% if json['$ref'][14:] == 'Meta' %}
+            {
+                "type": "resource",
+                "uri": {% if "x-meta-uri" in json %}"{{ json["x-meta-uri"] }}"{% else %}"????"{% endif %}
+            }
+        {% elif json['$ref'][14:] == 'MetaCollection' %}
+            {
+                "type": "collection",
+                "uri": {% if "x-meta-uri" in json %}"{{ json["x-meta-uri"] }}"{% else %}"????"{% endif %},
+                "total": 0
+            }
+        {% else %}
+            {% if 'meta' in resources[json['$ref'][14:]]['properties'] %}
+            {
+                {% if resources[json['$ref'][14:]]['properties']['meta']['$ref'] == '#/definitions/MetaCollection' %}
+                "meta": {
+                    "type": "collection",
+                    "uri": {% if "x-meta-uri" in json %}"{{ json["x-meta-uri"] }}"{% else %}"????"{% endif %},
+                    "total": 0
+                }
+                {% else %}
+                "meta": {
+                    "type": "resource",
+                    "uri": {% if "x-meta-uri" in json %}"{{ json["x-meta-uri"] }}"{% else %}"????"{% endif %}
+                }
+                {% endif %}
+            }
+            {% else %}
+                "NO META FOR REF {{ json['$ref'][14:] }}"
+            {% endif %}
+        {% endif %}
+    {% else %}
+        "NO RESOURCE FOR REF {{ json['$ref'][14:] }}"
+    {% endif %}
+
+{%- endmacro %}
+
+
+{% macro print_array_attr(id, json) -%}
+    {% if id %}"{{ id }}": {% endif %}
+    [
+        {% if json['items']['$ref'] %}
+            {{ print_ref_attr('', json['items']) }}
+        {% elif json['items'].type == 'object' %}
+            {{ print_object_attr('', json['items']) }}
+        {% elif json['items'].type == 'array' %}
+            {{ print_array_attr('', json['items']) }}
+        {% else %}
+            {{ print_primitive_attr('', json['items']) }}
+        {% endif %}
+    ]
+{%- endmacro %}
+
+
+{% macro print_object_attr(id, json) -%}
+    {% if id %}"{{ id }}": {% endif %}
+    {
+        {% for id, attr in json.properties|dictsort %}
+            {% if attr['$ref'] %}
+                {{ print_ref_attr(id, attr) }}
+            {% elif attr.type.lower() == 'object' %}
+                {{ print_object_attr(id, attr) }}
+            {% elif attr.type.lower() == 'array' %}
+                {{ print_array_attr(id, attr) }}
+            {% else %}
+                {{ print_primitive_attr(id, attr) }}
+            {% endif %}
+
+            {% if not loop.last %}
+            ,
+            {% endif %}
+
+        {% endfor %}
+    }
+{%- endmacro %}
+
+
+{% macro print_resource(name, json) -%}
+    
+    {{ print_object_attr('', json) }}
+{%- endmacro %}
+
+{% macro print_resource_ref(name, json) -%}
+    {{ print_object_attr('', json) }}
+{%- endmacro %}
+
+{{ print_resource(id, resource) }}

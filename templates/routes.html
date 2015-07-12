@@ -1,0 +1,156 @@
+{% set active_section = 'endpoints' %}
+{% set active_page = endpoint_id %}
+{% include 'templates/header.html' %}
+<main>
+    <div class="container">
+        <div class="row">
+            <!-- Content column -->
+            <div class="col s12 m9 l11">
+
+                <h1>{{ endpoint.title }}</h1>
+                <div class="endpoint-description">
+                    {{ endpoint.description|markdown }}
+                </div>
+
+                {% for uri, operations in endpoint.routes|dictsort %}
+                <div id="{{ uri[1:]|replace('{', '')|replace('}', '')|replace('/', '-') }}" class="section scrollspy">
+                    {% for operation, properties in operations.items() %}
+                    <ul class="collapsible popout operations" data-collapsible="accordion">
+                        <li class="operation {{ operation }}">
+                            <div class="collapsible-header">
+                                <div class="route">{{ operation.upper() }} {{ uri }}</div>
+                                <div class="actions right">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a class="query-builder tooltipped" href="#" data-position="top" data-delay="50" data-tooltip="Open in Query Builder"><i class="material-icons">create</i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="collapsible-body">
+
+                                <h5>Summary</h5>
+                                <p>{{ properties.summary }}</p>
+
+                                {% if properties.description %}
+                                <h5>Description</h5>
+                                <div class="description">
+                                    {{ properties.description|markdown }}
+                                </div>
+                                {% endif %}
+
+                                {% if properties['x-acl'] %}
+                                <h5>Access Control Lists</h5>
+                                <ul class="acls">
+                                    {% for acl in properties['x-acl'] %}
+                                    <li>{{ acl }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+
+                                <h5>Parameters</h5>
+                                {% if properties.parameters %}
+                                <table class="bordered responsive-table parameters">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="name">Name</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="required">Required</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for parameter in properties.parameters %}
+                                        <tr>
+                                            <td class="name">{{ parameter.name }}</td>
+                                            <td class="in">{{ parameter.in }}</td>
+                                            <td class="description">{{ parameter.description }}</td>
+                                            <td class="required">{{ 'Yes' if parameter.required else 'No' }}</td>
+
+                                            {% if parameter.schema %}
+                                                {% if parameter.schema['$ref'] %}
+                                                <td class="schema">
+                                                    $ref to {{ parameter.schema['$ref'] }}
+                                                </td>
+                                                {% endif %}
+                                            {% else %}
+                                            <td class="schema">{{ parameter.type }}</td>
+                                            {% endif %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                <p><em>No parameters</em></p>
+                                {% endif %}
+
+                                <h5>Responses</h5>
+                                <table class="bordered responsive-table responses">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="code">Code</th>
+                                            <th data-field="description">Description</th>
+                                            <th data-field="schema">Schema</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for code, response in properties.responses.items() %}
+                                        <tr>
+                                            <td class="code code-{{ code }}">{{ code }}</td>
+                                            <td class="description">{{ response.description }}</td>
+                                            {% if response.schema %}
+                                                {% if response.schema['$ref'] %}
+                                                <td class="schema">
+                                                    $ref {{ response.schema['$ref'] }}
+                                                </td>
+                                                {% endif %}
+                                            {% else %}
+                                            <td class="schema">{{ response.type }}</td>
+                                            {% endif %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div> <!-- .collapsible-body -->
+                        </li>
+                    </ul>
+                    {% endfor %}
+                </div> <!-- #{uri} .section.scrollspy -->
+                {% endfor %}
+               
+            </div> <!-- .col content -->
+
+            <!-- Right hand navigation -->
+            <div class="col hide-on-small-only m3 l1">
+                <div class="pinned">
+                    <ul class="section table-of-contents">
+                        <li>Routes</li>
+                        {% for uri, operations in endpoint.routes|dictsort %}
+                        <li><a href="#{{ uri[1:]|replace('{', '')|replace('}', '')|replace('/', '-') }}">{{ uri }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div> <!-- .col -->
+
+        </div> <!-- .row -->
+
+    </div> <!-- .container -->
+
+    <!-- Query builder modal -->
+    <div id="query-builder" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="execute-query waves-effect waves-green btn">Execute</a>
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+        </div>
+    </div>
+
+</main>
+
+{% include 'templates/footer.html' %}
