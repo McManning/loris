@@ -17,7 +17,8 @@
 """
 
 class MetaCollection(object):
-    def __init__(self, uri):
+    def __init__(self, id, uri):
+        self.id = id
         self.meta = dict(
             uri = uri,
             total = None,
@@ -26,33 +27,48 @@ class MetaCollection(object):
         )
 
     def serialize(self):
+        # Reformat uri in case it's still in pattern-form
+        self.meta.uri = self.meta.uri.format(
+            id = self.id
+        )
         return dict(
+            id = self.id,
             meta = self.meta
         )
 
 class Meta(object):
-    def __init__(self, uri):
+    def __init__(self, id, uri):
+        self.id = id
         self.meta = dict(
             uri = uri
         )
 
     def serialize(self):
+        # Reformat uri in case it's still in pattern-form
+        self.meta.uri = self.meta.uri.format(
+            id = self.id
+        )
         return dict(
+            id = self.id,
             meta = self.meta
         )
 
 class PersonCollection(MetaCollection):
     uri = '/person'
+
     collection = None
+
+    # Cache of expand() parameter for when we 
+    # generate models after query()
     expansions = None
-    # ...
 
     def __init__(self, id, uri):
-        self.id = id
-        self.meta.uri = uri # self.uri.format(id=id)
+        super(self.__class__, self).__init__(id, uri)
+        #self.id = id
+        #self.meta.uri = uri # self.uri.format(id=id)
 
     @staticmethod
-    def query(self, personCollections):
+    def query(self, person_collections):
 
         # It gets complicated if we try to optimally
         # query for multiple collections simutaneously.
@@ -60,8 +76,8 @@ class PersonCollection(MetaCollection):
         # each individually. Idealy, the data should be 
         # structured in a way that avoids hydrating 
         # multiple collections at once. 
-        for personCollection in personCollections:
-            personCollection.query_single()
+        for person_collection in person_collections:
+            person_collection.query_single()
 
     def query_single(self):
         """ Query to only hydrate ourself. Used by collections
@@ -106,7 +122,10 @@ class PersonCollection(MetaCollection):
         self.from_rowsets(rowsets)
 
         # Now try to hydrate each Person in our collection 
-        # simultaneously
+        # simultaneously. 
+        # TODO: Technically this should use Discovery, but 
+        # 1. We don't necessarily know the URI to .find() with
+        # 2. Do we even want to support external collection items?
         Person.query([p for p in self.collection])
 
     def from_rowsets(self, rowsets):
@@ -122,7 +141,13 @@ class PersonCollection(MetaCollection):
         
         # Create a Person for each ID returned in the second rowset
         for row in rows:
-            person = Person(row['id'])
+            # TODO: Technically this should use Discovery, but 
+            # 1. We don't necessarily know the URI to .find() with
+            # 2. Do we even want to support external collection items?
+            person = Person(
+                id = row['id'],
+                uri = None # TODO: Where would I get this? Person.uri? 
+            )
 
             # Apply cached expansions for each person
             if self.expansions:
@@ -143,7 +168,6 @@ class PersonCollection(MetaCollection):
         our collection.
         """
         json_dict = dict(
-            id = self.id,
             collection = [c.serialize() for c in self.collection]
         )
 
@@ -196,6 +220,87 @@ class ExternalResource(object):
         return self.json
 
 
+class Department(Meta):
+    """ Example of a simple resource,
+        sans commentary to see code size.
+
+    """
+    uri = '/department/{id}'
+
+    # Attributes
+    title = None # String
+
+    # Relationships
+    director = None
+
+    def __init__(self, id, uri):
+        super(self.__class__, self).__init__(id, uri)
+        
+        self.director = Meta(
+            uri = '/person/{id}'
+        )
+
+    def expand(self, resources):
+        if 'director' in resources:
+            self.director = Discovery.find(
+                self.director.meta.uri
+            )
+
+            if type(resources['director']) == dict:
+                self.director.expand(
+                    resources['director']
+                )
+
+    @staticmethod
+    def query(self, departments):
+        # some fake query stuff as an example
+        query = """
+            // Rowset 1
+            SELECT
+                id,
+                title,
+                directorId
+            FROM
+                departents
+            WHERE
+                id IN (:ids);
+        """
+        query.bind(':ids', ','.join(set([str(d.id) for d in departments])))
+        rowsets = query.execute()
+
+        results = REFORMAT(rowsets)
+
+        for id, rowsets in results:
+            for department in departments:
+                if department.id == id:
+                    department.from_rowsets(rowsets)
+
+        directors = [d.director if type(d.director) != Meta for d in departments]
+        if len(directors) > 0: 
+            person_model = Discovery.find(
+                self.director.meta.uri
+            )
+            person_model.query(directors)
+
+    def from_rowsets(self, rowsets):
+        attribs_row = rowsets[0][0]
+
+        self.title = attribs_row['title']
+        self.director.id = attribs_row['directorId']
+
+    def serialize(self):
+        json_dict = dict(
+            title = self.title,
+            director = self.director.serialize()
+        )
+
+        json_dict.update(
+            super(self.__class__, self).serialize()
+        )
+        return json_dict
+
+
+
 class Person(Meta):
     """ Example of a simple resource with attributes 
         and relationships to single resources and 
@@ -204,7 +309,6 @@ class Person(Meta):
     uri = '/person/{id}'
 
     # Attributes
-    id = None # String
     firstName = None # String
     lastName = None # String
     activities = None # List of objects { date, message }
@@ -215,8 +319,9 @@ class Person(Meta):
     friends = None
 
     def __init__(self, id, uri):
-        self.id = id
-        self.meta.uri = uri # self.uri.format(id=id)
+        super(self.__class__, self).__init__(id, uri)
+        #self.id = id
+        #self.meta.uri = uri # self.uri.format(id=id)
 
         # Create meta skeletons for relationships
 
@@ -390,10 +495,11 @@ class Person(Meta):
         or, if not expanded, include their meta fields
         """
         json_dict = dict(
-            id = self.id,
+            # Attributes
             firstName = self.firstName,
             lastName = self.lastName,
             activities = self.activities,
+            # Relationships
             department = self.department.serialize(),
             certificates = self.certificates.serialize(),
             friends = self.friends.serialize()
