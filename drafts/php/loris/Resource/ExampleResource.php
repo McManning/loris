@@ -47,7 +47,7 @@ class ExampleResource extends Base\ExampleResource
             $statement->bindParam(':ids', $ids);
             $statement->execute();
 
-            $results = Utility::reformatSqlResults($statement);
+            $results = Utility::parseSqlResults($statement);
             self::postQuery($exampleResources, $results);
 
         //} catch(\PDOException $e) {

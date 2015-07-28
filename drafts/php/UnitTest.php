@@ -97,22 +97,14 @@ class UnitTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('John', $rowset2[0]['FirstName']);
     }
 
-    /**
-     * Ensure that Utility::reformatSqlResults() can operate on 
-     * queries with multiple rowsets and return expected array structures.
-     */
-    public function testReformatSqlResults()
+    public function testParseSqlResultsSimple()
     {
         $db = new \PDO(RESUSER_DSN, RESUSER_USER, RESUSER_PASS);
         $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         $statement = $db->prepare("
             SELECT  ResID AS id,
-                    RTRIM(FirstName) AS FirstName
-            FROM    ResName
-            WHERE   ResID IN ('200275154', '93111472');
-
-            SELECT  ResID AS id,
+                    RTRIM(FirstName) AS FirstName,
                     RTRIM(LastName) AS LastName
             FROM    ResName
             WHERE   ResID IN ('200275154', '93111472');
@@ -120,7 +112,7 @@ class UnitTest extends \PHPUnit_Framework_TestCase
 
         $statement->execute();
 
-        $results = Utility::reformatSqlResults($statement);
+        $results = Utility::parseSqlResults($statement);
 
         // Close connection fully
         $statement->closeCursor();
@@ -128,32 +120,103 @@ class UnitTest extends \PHPUnit_Framework_TestCase
         $db = null;
 
         $expected = array(
-            '200275154' => array( // Rowsets
-                array( // Rowset
-                    array( // Row
-                        'id' => '200275154',
-                        'FirstName' => 'Richard'
+            '200275154' => array(
+                'id' => '200275154',
+                'FirstName' => 'Richard',
+                'LastName' => 'McManning'
+            ),
+            '93111472' => array(
+                'id' => '93111472',
+                'FirstName' => 'John',
+                'LastName' => 'Ray'
+            )
+        );
+
+        $this->assertEquals($expected, $results);
+    }
+
+    /**
+     * Ensure that Utility::parseSqlResults() can operate on 
+     * queries with multiple rowsets and return expected array structures.
+     */
+    public function testParseSqlResultsComplex()
+    {
+        $db = new \PDO(RESUSER_DSN, RESUSER_USER, RESUSER_PASS);
+        $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+        $statement = $db->prepare("
+            -- Rowset 0, attributes
+            SELECT  ResID AS id,
+                    RTRIM(FirstName) AS FirstName,
+                    RTRIM(LastName) AS LastName
+            FROM    ResName
+            WHERE   ResID IN ('200275154', '93111472');
+
+            -- Rowset 1, set address attribute to an array of matches
+            SELECT  ResID AS id,
+                    RTRIM(address1) AS address1,
+                    RTRIM(city) AS city
+            FROM    ResPlace 
+            WHERE   ResID IN ('200275154', '93111472');
+
+            -- Rowset 2, set job attribute to an object
+            SELECT  ResID AS id,
+                    RTRIM(TIU) AS department,
+                    RTRIM(JobDesc) AS [description]
+            FROM    ResJob 
+            WHERE   ResID IN ('200275154', '93111472');
+        ");
+
+        $statement->execute();
+
+        $results = Utility::parseSqlResults(
+            $statement, 
+            array(
+                'addresses' => array(
+                    'rowset' => 1,
+                    'type' => 'array'
+                ),
+                'job' => array(
+                    'rowset' => 2,
+                    'type' => 'object'
+                )
+            )
+        );
+
+        // Close connection fully
+        $statement->closeCursor();
+        $statement = null;
+        $db = null;
+        
+        $expected = array(
+            '200275154' => array(
+                'id' => '200275154',
+                'FirstName' => 'Richard',
+                'LastName' => 'McManning',
+                'addresses' => array(
+                    array(
+                        'address1' => '1960 Kenny Rd',
+                        'city' => 'Columbus'
                     )
                 ),
-                array( // Rowset
-                    array( // Row
-                        'id' => '200275154',
-                        'LastName' => 'McManning'
-                    )
+                'job' => array(
+                    'department' => '40180',
+                    'description' => 'Senior Full Stack Engineer'
                 )
             ),
-            '93111472' => array( // Rowsets
-                array( // Rowset
-                    array( // Row
-                        'id' => '93111472',
-                        'FirstName' => 'John'
+            '93111472' => array(
+                'id' => '93111472',
+                'FirstName' => 'John',
+                'LastName' => 'Ray',
+                'addresses' => array(
+                    array(
+                        'address1' => '1960 Kenny Rd',
+                        'city' => 'Columbus'
                     )
                 ),
-                array( // Rowset
-                    array( // Row
-                        'id' => '93111472',
-                        'LastName' => 'Ray'
-                    )
+                'job' => array(
+                    'department' => '40180',
+                    'description' => 'Director-00'
                 )
             )
         );

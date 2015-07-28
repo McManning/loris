@@ -29,9 +29,12 @@ class Utility
      * in a way that each row of each rowset is associated with some
      * top level `id`. 
      *
+     * @param PDOStatement $statement
+     * @param array $complexAttributes
+     *
      * @return array
      */
-    public static function reformatSqlResults($statement)
+    public static function parseSqlResults($statement, $complexAttributes = null)
     { 
         $reformatted = array();
         $rowsetIndex = 0;
@@ -74,6 +77,9 @@ class Utility
             foreach ($rowset as $row) {
                 $id = $row['id'];
 
+                // Scrub out ID attribute as we don't want it in the result set
+                unset($row['id']);
+
                 // If we somehow got a row with an ID that wasn't in our first rowset
                 // (thus not a valid resource id) throw an error.
                 if (!array_key_exists($id, $reformatted)) {
@@ -84,6 +90,45 @@ class Utility
             }
         }
 
-        return $reformatted;
+        // Now shuffle things around a bit to be even more object-oriented
+        $results = array();
+        foreach ($reformatted as $id => $rowsets) {
+            // Main attributes are in the first row of the first rowset
+            $results[$id] = $rowsets[0][0];
+
+            // Look for any complex attributes we need to append
+            if ($complexAttributes) {
+                foreach ($complexAttributes as $attr => $properties) {
+
+                    // Do some quick validation to ensure we even have
+                    // the desired rowset in our results 
+                    if (count($reformatted[$id]) <= $properties['rowset']) {
+                        throw new \Exception(
+                            'Rowset for attribute [' . $attr . '] does not exist'
+                        );
+                    }
+
+                    if ($properties['type'] === 'array') {
+
+                        // If the complex attribute is an array, use all rows from
+                        // the desired rowset as our attribute value.
+                        $results[$id][$attr] = $reformatted[$id][$properties['rowset']];
+
+                    } elseif ($properties['type'] === 'object') {
+
+                        // Complex attribute is an object, so use only the first row
+                        $results[$id][$attr] = $reformatted[$id][$properties['rowset']][0];
+
+                    } else {
+                        // We have no idea what this is. Error out. 
+                        throw new \Exception(
+                            'Unknown attribute type [' . $properties['type'] . ']'
+                        );
+                    }
+                }
+            }
+        }
+
+        return $results;
     }
 }

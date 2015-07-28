@@ -64,7 +64,7 @@ class ExampleCollection extends Base\ExampleCollection
 
             $statement->execute();
 
-            $results = Utility::reformatSqlResults($statement);
+            $results = Utility::parseSqlResults($statement);
             return $results;
         //} catch(PDOException $e) {
         //   echo 'ERROR: ' . $e->getMessage();
