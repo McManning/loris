@@ -108,16 +108,36 @@ class Utility
                         );
                     }
 
+                    $rows = &$reformatted[$id][$properties['rowset']];
+
                     if ($properties['type'] === 'array') {
 
-                        // If the complex attribute is an array, use all rows from
-                        // the desired rowset as our attribute value.
-                        $results[$id][$attr] = $reformatted[$id][$properties['rowset']];
+                        if (array_key_exists('column', $properties)) {
+                            // If a column was specified, this is going to be an array
+                            // of just that column's values
+                            $column = $properties['column'];
 
+                            if (!array_key_exists($column, $rows[0])) {
+                                throw new \Exception(
+                                    'Single column [' . $column . '] for attribute [' 
+                                    . $attr . '] does not exist'
+                                );
+                            }
+
+                            $results[$id][$attr] = array();
+                            foreach ($rows as $row) {
+                                array_push($results[$id][$attr], $row[$column]);
+                            }
+                        } else {
+                            // If the complex attribute is an array, use all rows from
+                            // the desired rowset as our attribute value.
+                            $results[$id][$attr] = $rows;
+                        }
+                        
                     } elseif ($properties['type'] === 'object') {
 
                         // Complex attribute is an object, so use only the first row
-                        $results[$id][$attr] = $reformatted[$id][$properties['rowset']][0];
+                        $results[$id][$attr] = $rows[0];
 
                     } else {
                         // We have no idea what this is. Error out. 

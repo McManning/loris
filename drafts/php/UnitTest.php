@@ -165,6 +165,20 @@ class UnitTest extends \PHPUnit_Framework_TestCase
                     RTRIM(JobDesc) AS [description]
             FROM    ResJob 
             WHERE   ResID IN ('200275154', '93111472');
+
+            -- Rowset 3, a flat array of just email addresses
+            -- Ignore the dumb union, it's because these are actually 
+            -- two columns in the same table, rather than being normalized.
+            SELECT  ResID AS id,
+                    EMail AS email
+            FROM    ResUser.dbo.ResName
+            WHERE   ResID IN ('200275154', '93111472')
+            UNION
+            SELECT  ResID AS id,
+                    OSUeMail AS email
+            FROM    ResUser.dbo.ResName 
+            WHERE   ResID IN ('200275154', '93111472')
+            AND     OSUeMail <> EMail;
         ");
 
         $statement->execute();
@@ -172,13 +186,21 @@ class UnitTest extends \PHPUnit_Framework_TestCase
         $results = Utility::parseSqlResults(
             $statement, 
             array(
+                // Array of objects
                 'addresses' => array(
                     'rowset' => 1,
                     'type' => 'array'
                 ),
+                // Single object
                 'job' => array(
                     'rowset' => 2,
                     'type' => 'object'
+                ),
+                // Array of single column values
+                'emails' => array(
+                    'rowset' => 3,
+                    'type' => 'array',
+                    'column' => 'email'
                 )
             )
         );
@@ -202,6 +224,10 @@ class UnitTest extends \PHPUnit_Framework_TestCase
                 'job' => array(
                     'department' => '40180',
                     'description' => 'Senior Full Stack Engineer'
+                ),
+                'emails' => array(
+                    'mcmanning.1@osu.edu',
+                    'mcmanning.1@research.osu.edu'
                 )
             ),
             '93111472' => array(
@@ -217,6 +243,10 @@ class UnitTest extends \PHPUnit_Framework_TestCase
                 'job' => array(
                     'department' => '40180',
                     'description' => 'Director-00'
+                ),
+                'emails' => array(
+                    'ray.30@osu.edu',
+                    'ray.30@research.osu.edu'
                 )
             )
         );

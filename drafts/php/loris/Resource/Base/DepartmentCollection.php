@@ -33,7 +33,7 @@ class DepartmentCollection extends MetaCollection
         $departments = array();
 
         foreach ($collections as $collection) {
-            $collection->fromRowsets($results[$collection->id()]);
+            $collection->fromResults($results[$collection->id()]);
 
             if (count($collection->collection) > 0) {
                 $departments = array_merge(
@@ -47,22 +47,21 @@ class DepartmentCollection extends MetaCollection
     }
 
     /**
-     * @param array $rowsets
+     * @param array $results
      */
-    public function fromRowsets($rowsets)
+    public function fromResults(array $results)
     {
         $attribsRow = $rowsets[0][0];
 
         // Hydrate meta attributes
-        $this->id($attribsRow['id']);
-        $this->meta->page = intval($attribsRow['page']);
-        $this->meta->limit = intval($attribsRow['limit']);
-        $this->meta->total = intval($attribsRow['total']);
+        $this->meta->page = intval($results['page']);
+        $this->meta->limit = intval($results['limit']);
+        $this->meta->total = intval($results['total']);
 
         $this->collection = array();
 
-        // Add a Person for each entry in our second rowset
-        foreach ($rowsets[1] as $row) {
+        // Add a Person for each entry in our 'ids' attribute
+        foreach ($results['ids'] as $row) {
             $department = new \Loris\Resource\Department(
                 $row['resourceId']
             );
