@@ -16,42 +16,31 @@
             actual object hydration?)
 """
 
-class MetaCollection(object):
-    def __init__(self, id, uri):
-        self.id = id
-        self.meta = dict(
-            uri = uri,
-            total = None,
-            limit = None,
-            offset = None
-        )
-
-    def serialize(self):
-        # Reformat uri in case it's still in pattern-form
-        self.meta.uri = self.meta.uri.format(
-            id = self.id
-        )
-        return dict(
-            id = self.id,
-            meta = self.meta
-        )
-
 class Meta(object):
     def __init__(self, id, uri):
         self.id = id
         self.meta = dict(
-            uri = uri
+            uri = uri.format(id=id)
         )
 
     def serialize(self):
-        # Reformat uri in case it's still in pattern-form
-        self.meta.uri = self.meta.uri.format(
-            id = self.id
-        )
         return dict(
             id = self.id,
             meta = self.meta
         )
+
+
+class MetaCollection(Meta):   
+    DEFAULT_PAGE = 1
+    DEFAULT_LIMIT = 20
+
+    def __init__(self, id, uri):
+        super(self.__class__, self).__init__(id, uri)
+
+        self.meta['page'] = self.DEFAULT_PAGE
+        self.meta['limit'] = self.DEFAULT_LIMIT
+        self.meta['total'] = None
+
 
 class PersonCollection(MetaCollection):
     uri = '/person'
@@ -96,7 +85,7 @@ class PersonCollection(MetaCollection):
         query = """
             // Rowset 1 - Metadata for the collection
             SELECT
-                offset = :offset,
+                page = :page,
                 limit = :limit,
                 total = (
                     SELECT COUNT(*) 
@@ -108,10 +97,10 @@ class PersonCollection(MetaCollection):
                 id
             FROM
                 person
-            OFFSET :offset
+            OFFSET :page
             LIMIT :limit;
         """
-        query.bind(':offset', self.meta.offset)
+        query.bind(':page', self.meta.page)
         query.bind(':limit', self.meta.limit)
         rowsets = query.execute()
 
@@ -140,7 +129,7 @@ class PersonCollection(MetaCollection):
         self.meta.total = attribs_row['total']
         
         # Create a Person for each ID returned in the second rowset
-        for row in rows:
+        for row in rowsets[1]:
             # TODO: Technically this should use Discovery, but 
             # 1. We don't necessarily know the URI to .find() with
             # 2. Do we even want to support external collection items?
@@ -430,6 +419,12 @@ class Person(Meta):
                 # For everyone with the same ID, load from rowsets
                 if person.id == id:
                     person.from_rowsets(rowsets)
+
+        for person in persons:
+            if person.id not in results:
+                # Error!
+                pass
+            person.from_rowsets(rowsets[person.id])
 
         # Query all expanded Departments
         departments = [p.department if type(p.department) != Meta for p in persons]
