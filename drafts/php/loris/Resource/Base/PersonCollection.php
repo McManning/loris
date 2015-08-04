@@ -17,40 +17,48 @@ class PersonCollection extends MetaCollection
     }
 
     /**
-     * @param Array(PersonCollection) $collections
+     *
+     * @param array(PersonCollection) $personCollections
      */
-    public static function query(array $collections)
+    public static function query(array $personCollections)
     {
         throw new \Exception(
             'Base\\PersonCollection::query() cannot be called directly.'
         );
     }
 
-    public static function postQuery(array $collections, array $results)
+    /**
+     *
+     * @param array(PersonCollection) $personCollections
+     * @param array $results
+     */
+    public static function postQuery(array $personCollections, array $results)
     {
         // Gather Persons that have been hydrated from all 
         // collections and query for all simultaneously.
-        $persons = array();
+        $items = array();
 
-        foreach ($collections as $collection) {
-            $collection->fromResults($results[$collection->id()]);
+        foreach ($personCollections as $personCollection) {
+            $personCollection->fromResults(
+                $results[$personCollection->id()]
+            );
 
-            if (count($collection->collection) > 0) {
+            if (count($personCollection->collection) > 0) {
                 $persons = array_merge(
                     $persons, 
-                    $collection->collection
+                    $personCollection->collection
                 );
             }
         }
 
         if (count($persons) > 0) {
             
-            // Resolve resource model
-            $model = \Loris\Discovery::find($persons[0]->_uri);
+            // Resolve model
+            $personModel = \Loris\Discovery::find($persons[0]->_uri);
 
             // Execute query for set of resources
             call_user_func(
-                array($model->class, 'query'), 
+                array($personModel->class, 'query'), 
                 $persons
             );
         }
@@ -59,7 +67,7 @@ class PersonCollection extends MetaCollection
     /**
      * @param array $results
      */
-    public function fromResults($results)
+    public function fromResults(array $results)
     {
         // Hydrate meta attributes
         $this->id($results['id']);
@@ -70,14 +78,14 @@ class PersonCollection extends MetaCollection
         $this->collection = array();
 
         // Resolve resource URI into a model
-        $model = \Loris\Discovery::find('/person/{id}');
+        $personModel = \Loris\Discovery::find('/person/{id}');
 
         // Add a Person for each entry in our second rowset
         foreach ($results['ids'] as $id) {
             // Note we resolve the model here instead of doExpansions
             // as no matter what, if a collection is hydrated, the
             // collection items must also be hydrated. 
-            $person = new $model->class($id);
+            $person = new $personModel->class($id);
 
             array_push($this->collection, $person);
         }
@@ -86,7 +94,6 @@ class PersonCollection extends MetaCollection
     }
 
     /**
-     * @todo generator pattern
      *
      * @param array $resources
      */
@@ -123,12 +130,12 @@ class PersonCollection extends MetaCollection
         if ($this->collection) {
             $serialized->collection = array();
 
-            // Serialize all of our collection items
-            foreach ($this->collection as $resource)
+            // Serialize all of our Persons
+            foreach ($this->collection as $person)
             {
                 array_push(
                     $serialized->collection, 
-                    $resource->serialize()
+                    $person->serialize()
                 );
             }
         }
