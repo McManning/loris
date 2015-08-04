@@ -191,6 +191,10 @@ class Person extends Meta
             $object->phone = $row['phone'];
             array_push($this->addresses, $object);
         }
+
+        // Perform expansions after hydration, in case we hydrated any
+        // additional resource references in Arrays or Objects
+        $this->doExpansions();
     }
 
     /**
@@ -200,8 +204,22 @@ class Person extends Meta
      */
     public function expand(array $resources)
     {
+        $this->expansions = $resources;
+    }
+
+    /**
+     * Perform actual expansions after hydration, in case we dynamically
+     * add additional resource references while hydrating from the data store
+     * (e.g. resources stored in Arrays or Objects)
+     */
+    private function doExpansions()
+    {
+        if ($this->expansions === null) {
+            return;
+        }
+
         // Sub-collection relationship
-        if (array_key_exists('coworkers', $resources)) {
+        if (array_key_exists('coworkers', $this->expansions)) {
 
             //$this->coworkers = Discovery::find(
             //    $this->coworkers->meta->uri
@@ -212,19 +230,19 @@ class Person extends Meta
                 $this->coworkers->id()
             );
 
-            if (is_array($resources['coworkers'])) {
-                $this->coworkers->expand($resources['coworkers']);
+            if (is_array($this->expansions['coworkers'])) {
+                $this->coworkers->expand($this->expansions['coworkers']);
             }
         }
 
         // Other resource relationship
-        if (array_key_exists('department', $resources)) {
+        if (array_key_exists('department', $this->expansions)) {
             $this->department = new \Loris\Resource\Department(
                 $this->department->id()
             );
 
-            if (is_array($resources['department'])) {
-                $this->department->expand($resources['department']);
+            if (is_array($this->expansions['department'])) {
+                $this->department->expand($this->expansions['department']);
             }
         }
     }
