@@ -4,29 +4,29 @@
     the end user writing their custom queries. 
 
     Template variables and manipulators defined:
-        collection.id = PersonCollection
-        collection.uri = /person
-        collection.resource.id = Person
-        collection.resource.uri = /person/{id}
-        collection.id|camelcase = personCollection
-        collection.id|camelcase|plural = personCollections
+        id = PersonCollection
+        uri = /person
+        resource.id = Person
+        resource.uri = /person/{id}
+        id|camelcase = personCollection
+        id|camelcase|plural = personCollections
 #}
 <?php
 namespace Loris\Resource;
 
 use \Loris\Utility;
 
-class {{ collection.id }} extends Base\{{ collection.id }}
+class {{ id }} extends Base\{{ id }}
 {
-    public static function query(array ${{ collection.id|camelcase|plural }})
+    public static function query(array ${{ id|camelcase|plural }})
     {
         $results = array();
 
-        foreach (${{ collection.id|camelcase|plural }} as ${{ collection.id|camelcase }}) {
-            $results += ${{ collection.id|camelcase }}->querySingle();
+        foreach (${{ id|camelcase|plural }} as ${{ id|camelcase }}) {
+            $results += ${{ id|camelcase }}->querySingle();
         }
 
-        self::postQuery(${{ collection.id|camelcase|plural }}, $results);
+        self::postQuery(${{ id|camelcase|plural }}, $results);
     }
 
     /**

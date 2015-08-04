@@ -4,21 +4,21 @@
     for users to write their custom queries.
 
     Template variables and manipulators defined:
-        collection.id = PersonCollection
-        collection.uri = /person
-        collection.resource.id = Person
-        collection.resource.uri = /person/{id}
-        collection.id|camelcase = personCollection
-        collection.id|camelcase|plural = personCollections
+        id = PersonCollection
+        uri = /person
+        resource.id = Person
+        resource.uri = /person/{id}
+        id|camelcase = personCollection
+        id|camelcase|plural = personCollections
 #}
 <?php
 namespace Loris\Resource\Base;
 
-class {{ collection.id }} extends MetaCollection
+class {{ id }} extends MetaCollection
 {
-    const URI = '{{ collection.uri }}';
+    const URI = '{{ uri }}';
 
-    public $collection = null; // Array({{ collection.resource.id }})
+    public $collection = null; // Array({{ resource.id }})
     protected $expansions = null; // Array
 
     /**
@@ -31,48 +31,48 @@ class {{ collection.id }} extends MetaCollection
 
     /**
      *
-     * @param array({{ collection.id }}) ${{ collection.id|camelcase|plural }}
+     * @param array({{ id }}) ${{ id|camelcase|plural }}
      */
-    public static function query(array ${{ collection.id|camelcase|plural }})
+    public static function query(array ${{ id|camelcase|plural }})
     {
         throw new \Exception(
-            'Base\\{{ collection.id }}::query() cannot be called directly.'
+            'Base\\{{ id }}::query() cannot be called directly.'
         );
     }
 
     /**
      *
-     * @param array({{ collection.id }}) ${{ collection.id|camelcase|plural }}
+     * @param array({{ id }}) ${{ id|camelcase|plural }}
      * @param array $results
      */
-    public static function postQuery(array ${{ collection.id|camelcase|plural }}, array $results)
+    public static function postQuery(array ${{ id|camelcase|plural }}, array $results)
     {
-        // Gather {{ collection.resource.id|plural }} that have been hydrated from all 
+        // Gather {{ resource.id|plural }} that have been hydrated from all 
         // collections and query for all simultaneously.
         $items = array();
 
-        foreach (${{ collection.id|camelcase|plural }} as ${{ collection.id|camelcase }}) {
-            ${{ collection.id|camelcase }}->fromResults(
-                $results[${{ collection.id|camelcase }}->id()]
+        foreach (${{ id|camelcase|plural }} as ${{ id|camelcase }}) {
+            ${{ id|camelcase }}->fromResults(
+                $results[${{ id|camelcase }}->id()]
             );
 
-            if (count(${{ collection.id|camelcase }}->collection) > 0) {
-                ${{ collection.resource.id|camelcase|plural }} = array_merge(
-                    ${{ collection.resource.id|camelcase|plural }}, 
-                    ${{ collection.id|camelcase }}->collection
+            if (count(${{ id|camelcase }}->collection) > 0) {
+                ${{ resource.id|camelcase|plural }} = array_merge(
+                    ${{ resource.id|camelcase|plural }}, 
+                    ${{ id|camelcase }}->collection
                 );
             }
         }
 
-        if (count(${{ collection.resource.id|camelcase|plural }}) > 0) {
+        if (count(${{ resource.id|camelcase|plural }}) > 0) {
             
-            // Resolve model to either a {{ collection.resource.id }} or ExternalResource
-            ${{ collection.resource.id|camelcase }}Model = \Loris\Discovery::find('{{ collection.resource.uri }}');
+            // Resolve model to either a {{ resource.id }} or ExternalResource
+            ${{ resource.id|camelcase }}Model = \Loris\Discovery::find('{{ resource.uri }}');
 
             // Execute query for set of resources
             call_user_func(
-                array(${{ collection.resource.id|camelcase }}Model->class, 'query'), 
-                ${{ collection.resource.id|camelcase|plural }}
+                array(${{ resource.id|camelcase }}Model->class, 'query'), 
+                ${{ resource.id|camelcase|plural }}
             );
         }
     }
@@ -91,16 +91,16 @@ class {{ collection.id }} extends MetaCollection
         $this->collection = array();
 
         // Resolve resource URI into a model
-        ${{ collection.resource.id|camelcase }}Model = \Loris\Discovery::find('{{ collection.resource.uri }}');
+        ${{ resource.id|camelcase }}Model = \Loris\Discovery::find('{{ resource.uri }}');
 
-        // Add a {{ collection.resource.id }} for each ID
+        // Add a {{ resource.id }} for each ID
         foreach ($results['ids'] as $id) {
             // Note we resolve the model here instead of doExpansions
             // as no matter what, if a collection is hydrated, the
             // collection items must also be hydrated. 
-            ${{ collection.resource.id|camelcase }} = new ${{ collection.resource.id|camelcase }}Model->class($id);
+            ${{ resource.id|camelcase }} = new ${{ resource.id|camelcase }}Model->class($id);
 
-            $this->collection[] = ${{ collection.resource.id|camelcase }};
+            $this->collection[] = ${{ resource.id|camelcase }};
         }
 
         $this->doExpansions();
@@ -126,8 +126,8 @@ class {{ collection.id }} extends MetaCollection
             return;
         }
 
-        foreach ($this->collection as ${{ collection.resource.id|camelcase }}) {
-            ${{ collection.resource.id|camelcase }}->expand($this->expansions);
+        foreach ($this->collection as ${{ resource.id|camelcase }}) {
+            ${{ resource.id|camelcase }}->expand($this->expansions);
         }
     }
 
@@ -143,10 +143,10 @@ class {{ collection.id }} extends MetaCollection
         if ($this->collection) {
             $serialized->collection = array();
 
-            // Serialize all of our {{ collection.resource.id|plural }}
-            foreach ($this->collection as ${{ collection.resource.id|camelcase }})
+            // Serialize all of our {{ resource.id|plural }}
+            foreach ($this->collection as ${{ resource.id|camelcase }})
             {
-                $serialized->collection[] = ${{ collection.resource.id|camelcase }}->serialize();
+                $serialized->collection[] = ${{ resource.id|camelcase }}->serialize();
             }
         }
         
