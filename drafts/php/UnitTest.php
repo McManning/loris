@@ -464,6 +464,76 @@ class UnitTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $person->coworkers->meta->page);
     }
 
+
+    /**
+     * Expand Department relationship nested within an array
+     * of objects for a Person. 
+     */
+    public function testQueryPersonWithNestedDepartment()
+    {
+        $person = new Person('200275154');
+        $person->expand(array(
+            'otherDepartments' => array(
+                'department' => true
+            )
+        ));
+
+        Person::query(array($person));
+
+        // Test Person metadata
+        $this->assertEquals('200275154', $person->id());
+        $this->assertEquals('/person/200275154', $person->meta->uri);
+
+        // Test simple attributes
+        $this->assertEquals('Richard', $person->firstName);
+        $this->assertEquals('McManning', $person->lastName);
+        $this->assertEquals('mcmanning.1', $person->username);
+
+        // Test array
+        $this->assertEquals(2, count($person->otherDepartments));
+
+        // Test relationship
+        $firstOtherDepartment = $person->otherDepartments[0];
+        $secondOtherDepartment = $person->otherDepartments[1];
+        $this->assertInstanceOf('Loris\\Resource\\Department', $firstOtherDepartment->department);
+        $this->assertInstanceOf('Loris\\Resource\\Department', $secondOtherDepartment->department);
+
+        // Test Department metadata
+        $this->assertEquals('40000', $firstOtherDepartment->department->id());
+        $this->assertEquals('/department/40000', $firstOtherDepartment->department->meta->uri);
+
+        $this->assertEquals('14350', $secondOtherDepartment->department->id());
+        $this->assertEquals('/department/14350', $secondOtherDepartment->department->meta->uri);
+
+        // Test Department attributes
+        $this->assertEquals('Research Administration', $firstOtherDepartment->department->title);
+        $this->assertEquals('190 N Oval Mall', $firstOtherDepartment->department->address);
+        $this->assertEquals('Bricker Hall', $firstOtherDepartment->department->building);
+
+        $this->assertEquals('Computer Science & Engineering', $secondOtherDepartment->department->title);
+        $this->assertEquals('2015 Neil Ave', $secondOtherDepartment->department->address);
+        $this->assertEquals('Dreese Laboratories', $secondOtherDepartment->department->building);
+
+        return $person;
+    }
+
+    /**
+     * Ensure serialization works for complex arrays with objects containing resources.
+     * (That's a mouthful...)
+     *
+     * @depends testQueryPersonWithNestedDepartment
+     */
+    public function testSerializePersonWithNestedDepartment(Person $person)
+    {
+        $serialized = $person->serialize();
+
+        $json = json_encode($serialized);
+        $f = fopen('person_with_nested_department.json', 'w');
+        fwrite($f, $json);
+        fclose($f);
+        $this->assertEquals(2086464857, crc32($json));
+    }
+
     /**
      * Query for all known Persons as a PersonCollection
      */
@@ -500,7 +570,7 @@ class UnitTest extends \PHPUnit_Framework_TestCase
         $f = fopen('person.json', 'w');
         fwrite($f, $json);
         fclose($f);
-        $this->assertEquals(3427401585, crc32($json));
+        $this->assertEquals(3929305707, crc32($json));
     }
 
     public function testDiscoveryRegister()
