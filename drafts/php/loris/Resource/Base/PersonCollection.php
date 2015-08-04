@@ -43,7 +43,17 @@ class PersonCollection extends MetaCollection
             }
         }
 
-        \Loris\Resource\Person::query($persons);
+        if (count($persons) > 0) {
+            
+            // Resolve resource model
+            $model = \Loris\Discovery::find($persons[0]->_uri);
+
+            // Execute query for set of resources
+            call_user_func(
+                array($model->class, 'query'), 
+                $persons
+            );
+        }
     }
 
     /**
@@ -59,11 +69,15 @@ class PersonCollection extends MetaCollection
 
         $this->collection = array();
 
+        // Resolve resource URI into a model
+        $model = \Loris\Discovery::find('/person/{id}');
+
         // Add a Person for each entry in our second rowset
         foreach ($results['ids'] as $id) {
-            $person = new \Loris\Resource\Person(
-                $id
-            );
+            // Note we resolve the model here instead of doExpansions
+            // as no matter what, if a collection is hydrated, the
+            // collection items must also be hydrated. 
+            $person = new $model->class($id);
 
             array_push($this->collection, $person);
         }
