@@ -1,0 +1,153 @@
+{# 
+    Jinja template for rendering a ResourceCollection PHP model.
+
+    Template variables and manipulators defined:
+        collection.id = PersonCollection
+        collection.uri = /person
+        collection.resource.id = Person
+        collection.resource.uri = /person/{id}
+        collection.id|camelcase = personCollection
+        collection.id|camelcase|plural = personCollections
+#}
+<?php
+namespace Loris\Resource\Base;
+
+class {{ collection.id }} extends MetaCollection
+{
+    const URI = '{{ collection.uri }}';
+
+    public $collection = null; // Array({{ collection.resource.id }})
+    protected $expansions = null; // Array
+
+    /**
+     * @param string $id
+     */
+    function __construct($id = null)
+    {
+        parent::__construct($id, self::URI);
+    }
+
+    /**
+     *
+     * @param array({{ collection.id }}) ${{ collection.id|camelcase|plural }}
+     */
+    public static function query(array ${{ collection.id|camelcase|plural }})
+    {
+        throw new \Exception(
+            'Base\\{{ collection.id }}::query() cannot be called directly.'
+        );
+    }
+
+    /**
+     *
+     * @param array({{ collection.id }}) ${{ collection.id|camelcase|plural }}
+     * @param array $results
+     */
+    public static function postQuery(array ${{ collection.id|camelcase|plural }}, array $results)
+    {
+        // Gather {{ collection.resource.id|plural }} that have been hydrated from all 
+        // collections and query for all simultaneously.
+        $items = array();
+
+        foreach (${{ collection.id|camelcase|plural }} as ${{ collection.id|camelcase }}) {
+            ${{ collection.id|camelcase }}->fromResults(
+                $results[${{ collection.id|camelcase }}->id()]
+            );
+
+            if (count(${{ collection.id|camelcase }}->collection) > 0) {
+                ${{ collection.resource.id|camelcase|plural }} = array_merge(
+                    ${{ collection.resource.id|camelcase|plural }}, 
+                    ${{ collection.id|camelcase }}->collection
+                );
+            }
+        }
+
+        if (count(${{ collection.resource.id|camelcase|plural }}) > 0) {
+            
+            // Resolve model to either a {{ collection.resource.id }} or ExternalResource
+            ${{ collection.resource.id|camelcase }}Model = \Loris\Discovery::find('{{ collection.resource.uri }}');
+
+            // Execute query for set of resources
+            call_user_func(
+                array(${{ collection.resource.id|camelcase }}Model->class, 'query'), 
+                ${{ collection.resource.id|camelcase|plural }}
+            );
+        }
+    }
+
+    /**
+     * @param array $results
+     */
+    public function fromResults(array $results)
+    {
+        // Hydrate meta attributes
+        $this->id($results['id']);
+        $this->meta->page = intval($results['page']);
+        $this->meta->limit = intval($results['limit']);
+        $this->meta->total = intval($results['total']);
+
+        $this->collection = array();
+
+        // Resolve resource URI into a model
+        ${{ collection.resource.id|camelcase }}Model = \Loris\Discovery::find('{{ collection.resource.uri }}');
+
+        // Add a {{ collection.resource.id }} for each ID
+        foreach ($results['ids'] as $id) {
+            // Note we resolve the model here instead of doExpansions
+            // as no matter what, if a collection is hydrated, the
+            // collection items must also be hydrated. 
+            ${{ collection.resource.id|camelcase }} = new ${{ collection.resource.id|camelcase }}Model->class($id);
+
+            $this->collection[] = ${{ collection.resource.id|camelcase }};
+        }
+
+        $this->doExpansions();
+    }
+
+    /**
+     *
+     * @param array $resources
+     */
+    public function expand(array $resources)
+    {
+        $this->expansions = $resources;
+    }
+
+    /**
+     * Perform actual expansions after hydration, in case we dynamically
+     * add additional resource references while hydrating from the data store
+     * (e.g. resources stored in Arrays or Objects)
+     */
+    private function doExpansions()
+    {
+        if ($this->expansions === null) {
+            return;
+        }
+
+        foreach ($this->collection as ${{ collection.resource.id|camelcase }}) {
+            ${{ collection.resource.id|camelcase }}->expand($this->expansions);
+        }
+    }
+
+    /**
+     * @return stdClass
+     */
+    public function serialize()
+    {
+        // Get serialized data from MetaCollection
+        $serialized = parent::serialize();
+
+        // Add a collection if we've been hydrated
+        if ($this->collection) {
+            $serialized->collection = array();
+
+            // Serialize all of our {{ collection.resource.id|plural }}
+            foreach ($this->collection as ${{ collection.resource.id|camelcase }})
+            {
+                $serialized->collection[] = ${{ collection.resource.id|camelcase }}->serialize();
+            }
+        }
+        
+        return $serialized;
+    }
+}
