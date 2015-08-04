@@ -351,3 +351,75 @@ class Person extends Meta
     }
 }
 
+/*
+  Source YML Schema:
+
+  Person:
+    properties:
+      meta:
+        x-meta-uri: "/person/{id}"
+        $ref: "#/definitions/Meta"
+      id:
+        type: string
+      osuid:
+        type: string
+      firstName:
+        type: string
+      middleName:
+        type: string
+      lastName:
+        type: string
+      username:
+        type: string
+      active:
+        type: boolean
+      jobCode:
+        type: string
+      jobDescription:
+        type: string
+      jobGroup:
+        type: string
+      apptCode:
+        type: string
+      apptDescription:
+        type: string
+      fte:
+        type: number
+      coworkers:
+        x-meta-uri: "/person/{id}/coworkers"
+        $ref: "#/resources/PersonCoworkers"
+      department:
+        x-meta-uri: "/department/{id}"
+        $ref: "#/resources/Department"
+      otherDepartments:
+        type: array
+        items:
+          type: object
+          properties:
+            fte:
+              type: number
+            department:
+              x-meta-uri: "/department/{id}"
+              $ref: "#/resources/Department"
+      addresses:
+        type: array
+        items:
+          type: object
+          properties:
+            address1:
+              type: string
+            address2:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zip:
+              type: string
+            room:
+              type: string
+            building:
+              type: string
+            phone:
+              type: string
+*/
