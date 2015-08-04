@@ -500,7 +500,7 @@ class UnitTest extends \PHPUnit_Framework_TestCase
         $f = fopen('person.json', 'w');
         fwrite($f, $json);
         fclose($f);
-        $this->assertEquals(533560532, crc32($json));
+        $this->assertEquals(3427401585, crc32($json));
     }
 
     public function testDiscoveryRegister()
