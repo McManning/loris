@@ -1,3 +1,16 @@
+{# 
+    Jinja template for rendering a ResourceCollection PHP model.
+    This is the model that extends the base for the purposes of
+    the end user writing their custom queries. 
+
+    Template variables and manipulators defined:
+        collection.id = PersonCollection
+        collection.uri = /person
+        collection.resource.id = Person
+        collection.resource.uri = /person/{id}
+        collection.id|camelcase = personCollection
+        collection.id|camelcase|plural = personCollections
+#}
 <?php
 namespace Loris\Resource;
 
