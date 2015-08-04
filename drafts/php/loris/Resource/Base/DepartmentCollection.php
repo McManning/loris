@@ -122,3 +122,14 @@ class DepartmentCollection extends MetaCollection
     }
 }
 
+/*
+    DepartmentCollection:
+      properties:
+        meta:
+          x-meta-uri: "/department"
+          $ref: "#/definitions/MetaCollection"
+        collection:
+          type: array
+          items:
+            $ref: "#/definitions/Department"
+*/

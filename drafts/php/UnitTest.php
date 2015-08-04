@@ -10,6 +10,30 @@ use Loris\Resource\PersonCoworkers;
 
 class UnitTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Perform model registration for Discovery
+     *
+     * @todo Obviously the Discovery unit tests are defunct
+     * at this point (because we're pushing as a setup, but 
+     * wanting to TEST push) so they need to be removed from
+     * this test class and put in their own. 
+     */
+    protected function setUp()
+    {
+        Discovery::register(
+            Person::URI, '\\Loris\\Resource\\Person'
+        );
+        Discovery::register(
+            PersonCollection::URI, '\\Loris\\Resource\\PersonCollection'
+        );
+        Discovery::register(
+            PersonCoworkers::URI, '\\Loris\\Resource\\PersonCoworkers'
+        );
+        Discovery::register(
+            Department::URI, '\\Loris\\Resource\\Department'
+        );
+    }
+
     public function testGetIds()
     {
         $a = new Person('1');

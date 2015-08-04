@@ -123,3 +123,14 @@ class PersonCollection extends MetaCollection
     }
 }
 
+/*
+    PersonCollection:
+      properties:
+        meta:
+          x-meta-uri: "/person"
+          $ref: "#/definitions/MetaCollection"
+        collection:
+          type: array
+          items:
+            $ref: "#/definitions/Person"
+*/
