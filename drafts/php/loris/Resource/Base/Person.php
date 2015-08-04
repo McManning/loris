@@ -293,14 +293,14 @@ class Person extends Meta
             foreach ($this->otherDepartments as $otherDepartment) {
 
                 // Test the resource attribute for expansions
-                if (array_key_exists('department', $this->expansions['otherDepartment'])) {   
+                if (array_key_exists('department', $this->expansions['otherDepartments'])) {   
                     $otherDepartment->department = new \Loris\Resource\Department(
                         $otherDepartment->department->id()
                     );
 
                     if (is_array($this->expansions['otherDepartments']['department'])) {
                         $otherDepartment->department->expand(
-                            $this->expansions['otherDepartment']['department']
+                            $this->expansions['otherDepartments']['department']
                         );
                     }
                 }
