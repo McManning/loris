@@ -28,6 +28,9 @@ class Person extends Meta
     public $coworkers = null; // PersonCoworkers
     public $department = null; // Department
 
+    // Array of objects that have resources within them
+    public $otherDepartments = array(); // Array(stdClass) 
+
     /**
      * @param string $id
      */
@@ -78,6 +81,7 @@ class Person extends Meta
         // Query for all expanded relationships
         $personCoworkers = array();
         $departments = array();
+        $otherDepartmentsDepartments = array(); // Pretending this is auto generated naming..
 
         // TODO: How would I resolve this? I shouldn't rely on the first Person
         // resource in the list, as they may not even have an object here. But
@@ -96,6 +100,13 @@ class Person extends Meta
             if ($person->department instanceof \Loris\Resource\Department) {
                 array_push($departments, $person->department);
             }
+
+            // Array of stdClass that have a resource attribute
+            foreach ($person->otherDepartments as $otherDepartments) {
+                if ($otherDepartments->department instanceof \Loris\Resource\Department) {
+                    array_push($otherDepartmentsDepartments, $otherDepartments->department);
+                }
+            }
         }
 
         if (!empty($personCoworkers)) {
@@ -104,6 +115,12 @@ class Person extends Meta
 
         if (!empty($departments)) {
             \Loris\Resource\Department::query($departments);
+        }
+
+        // Obviously, this and the one above could somehow be 
+        // merged, if we can figure out how to automate that optimization
+        if (!empty($otherDepartmentsDepartments)) {
+            \Loris\Resource\Department::query($otherDepartmentsDepartments);
         }
     }
 
@@ -142,6 +159,10 @@ class Person extends Meta
                     room,
                     building,
                     phone
+                ),
+                otherDepartments = array(
+                    fte,
+                    departmentId
                 )
             )
         */
@@ -167,7 +188,7 @@ class Person extends Meta
             $this->department->id($results['departmentId']);
         } else {
             // Data source tells us there is no associated department
-            $this->department = new \Loris\Resource\Base\NullResource();
+            $this->department = new NullResource();
         }
         
         if ($results['coworkersId'] !== null) {
@@ -175,7 +196,7 @@ class Person extends Meta
             $this->coworkers->meta->total = intval($results['coworkersTotal']);
         } else {
             // Data source tells us there are no associated coworkers
-            $this->coworkers = new \Loris\Resource\Base\NullResource();
+            $this->coworkers = new NullResource();
         }
 
         // Hydrate `addresses` array of objects
@@ -192,6 +213,26 @@ class Person extends Meta
             array_push($this->addresses, $object);
         }
 
+        /// Hydrate `otherDepartments` array of objects, with a sub-resource
+        foreach ($results['otherDepartments'] as $row) {
+            $object = new \stdClass();
+            $object->fte = intval($row['fte']);
+
+            // Note we have to actually construct the resource here, 
+            // as it wouldn't already exist (obviously)
+            if ($row['departmentId'] !== null) {
+                $object->department = new Meta(
+                    $row['departmentId'], 
+                    '/department/{id}'
+                );
+            } else {
+                // Data source tells us there is no associated department
+                $object->department = new NullResource();
+            }
+
+            array_push($this->otherDepartments, $object);
+        }
+
         // Perform expansions after hydration, in case we hydrated any
         // additional resource references in Arrays or Objects
         $this->doExpansions();
@@ -204,6 +245,7 @@ class Person extends Meta
      */
     public function expand(array $resources)
     {
+
         $this->expansions = $resources;
     }
 
@@ -245,6 +287,25 @@ class Person extends Meta
                 $this->department->expand($this->expansions['department']);
             }
         }
+
+        // Array of stdClass that have a resource attribute
+        if (array_key_exists('otherDepartments', $this->expansions)) {
+            foreach ($this->otherDepartments as $otherDepartment) {
+
+                // Test the resource attribute for expansions
+                if (array_key_exists('department', $this->expansions['otherDepartment'])) {   
+                    $otherDepartment->department = new \Loris\Resource\Department(
+                        $otherDepartment->department->id()
+                    );
+
+                    if (is_array($this->expansions['otherDepartments']['department'])) {
+                        $otherDepartment->department->expand(
+                            $this->expansions['otherDepartment']['department']
+                        );
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -275,6 +336,16 @@ class Person extends Meta
         // Relationships
         $serialized->coworkers = $this->coworkers->serialize();
         $serialized->department = $this->department->serialize();
+
+        // TODO: Problem is that we can't just copy for serialization. We have to
+        // iterate properties and serialize the department resource manually.
+        $serialized->otherDepartments = array(); 
+        foreach ($this->otherDepartments as $otherDepartment) {
+            $object = new \stdClass;
+            $object->fte = $otherDepartment->fte;
+            $object->department = $otherDepartment->department->serialize();
+            array_push($serialized->otherDepartments, $object);
+        }
 
         return $serialized;
     }
