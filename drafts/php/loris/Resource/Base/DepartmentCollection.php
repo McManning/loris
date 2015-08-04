@@ -51,8 +51,6 @@ class DepartmentCollection extends MetaCollection
      */
     public function fromResults(array $results)
     {
-        $attribsRow = $rowsets[0][0];
-
         // Hydrate meta attributes
         $this->meta->page = intval($results['page']);
         $this->meta->limit = intval($results['limit']);
@@ -61,9 +59,9 @@ class DepartmentCollection extends MetaCollection
         $this->collection = array();
 
         // Add a Person for each entry in our 'ids' attribute
-        foreach ($results['ids'] as $row) {
+        foreach ($results['ids'] as $id) {
             $department = new \Loris\Resource\Department(
-                $row['resourceId']
+                $id
             );
 
             // If we cached expansions, expand the resource

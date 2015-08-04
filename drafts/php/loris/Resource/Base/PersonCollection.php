@@ -33,7 +33,7 @@ class PersonCollection extends MetaCollection
         $persons = array();
 
         foreach ($collections as $collection) {
-            $collection->fromRowsets($results[$collection->id()]);
+            $collection->fromResults($results[$collection->id()]);
 
             if (count($collection->collection) > 0) {
                 $persons = array_merge(
@@ -47,24 +47,22 @@ class PersonCollection extends MetaCollection
     }
 
     /**
-     * @param array $rowsets
+     * @param array $results
      */
-    public function fromRowsets($rowsets)
+    public function fromResults($results)
     {
-        $attribsRow = $rowsets[0][0];
-
         // Hydrate meta attributes
-        $this->id($attribsRow['id']);
-        $this->meta->page = intval($attribsRow['page']);
-        $this->meta->limit = intval($attribsRow['limit']);
-        $this->meta->total = intval($attribsRow['total']);
+        $this->id($results['id']);
+        $this->meta->page = intval($results['page']);
+        $this->meta->limit = intval($results['limit']);
+        $this->meta->total = intval($results['total']);
 
         $this->collection = array();
 
         // Add a Person for each entry in our second rowset
-        foreach ($rowsets[1] as $row) {
+        foreach ($results['ids'] as $id) {
             $person = new \Loris\Resource\Person(
-                $row['resourceId']
+                $id
             );
 
             // If we cached expansions, expand the resource

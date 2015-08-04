@@ -64,7 +64,17 @@ class ExampleCollection extends Base\ExampleCollection
 
             $statement->execute();
 
-            $results = Utility::parseSqlResults($statement);
+            $results = Utility::parseSqlResults(
+                $statement,
+                array(
+                    'ids' => array( // Array of strings
+                        'rowset' => 1,
+                        'type' => 'array',
+                        'column' => 'resourceId'
+                    )
+                )
+            );
+            
             return $results;
         //} catch(PDOException $e) {
         //   echo 'ERROR: ' . $e->getMessage();

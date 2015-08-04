@@ -5,9 +5,12 @@ class Person extends Meta
 {
     const URI = '/person/{id}';
 
+    private $expansions = null;
+
     // Attributes
     public $osuid = null; // String
     public $firstName = null; // String
+    public $middleName = null; // String
     public $lastName = null; // String
     public $username = null; // String
     public $active = null; // Boolean
@@ -69,7 +72,7 @@ class Person extends Meta
                 );
             }
 
-            $person->fromRowsets($results[$person->id()]);
+            $person->fromResults($results[$person->id()]);
         }
 
         // Query for all expanded relationships
@@ -107,77 +110,86 @@ class Person extends Meta
     /**
      * @todo generator pattern (?)
      *
-     * @param array $rowsets
+     * @param array $results
      */
-    public function fromRowsets(array $rowsets)
+    public function fromResults(array $results)
     {
         /*
             Expect:
             array( // rowsets
-                array( // rowset
-                    array( // row
-                        id, firstName, lastName, username, 
-                        departmentId, coworkersId, coworkersTotal
-                    )
-                ),
-                array( // rowset
-                    array( // row
-                        id, address1, address2, city, state, 
-                        zip, room, building, phone
-                    )
+                id,
+                osuid,
+                firstName,
+                middleName,
+                lastName,
+                username,
+                active,
+                jobCode,
+                jobDescription,
+                jobGroup,
+                apptCode,
+                apptDescription,
+                fte
+                departmentId,
+                coworkersId,
+                coworkersTotal,
+                addresses = array(
+                    address1,
+                    address2,
+                    city,
+                    state,
+                    zip,
+                    room,
+                    building,
+                    phone
                 )
             )
-            TODO: This is too based on what SQL gives us. It would
-            be better to write this in a way that is more OO, and the
-            utility method that pulls it from SQL just does a better
-            job at performing restructuring. 
         */
-        $attribsRow = $rowsets[0][0];
-
         // Update id(), as we may have potentially not had it pre-query
-        $this->id($attribsRow['id']);
+        $this->id($results['id']);
 
         // Hydrate attributes
-        $this->osuid = $attribsRow['osuid'];
-        $this->firstName = $attribsRow['firstName'];
-        $this->lastName = $attribsRow['lastName'];
-        $this->username = $attribsRow['username'];
-        $this->active = ($attribsRow['active'] == '1'); // TODO: Better casting
-        $this->jobCode = intval($attribsRow['jobCode']);
-        $this->jobDescription = $attribsRow['jobDescription'];
-        $this->jobGroup = $attribsRow['jobGroup'];
-        $this->apptCode = intval($attribsRow['apptCode']);
-        $this->apptDescription = $attribsRow['apptDescription'];
-        $this->fte = intval($attribsRow['fte']);
+        $this->osuid = $results['osuid'];
+        $this->firstName = $results['firstName'];
+        $this->middleName = $results['middleName'];
+        $this->lastName = $results['lastName'];
+        $this->username = $results['username'];
+        $this->active = ($results['active'] == '1'); // TODO: Better casting
+        $this->jobCode = intval($results['jobCode']);
+        $this->jobDescription = $results['jobDescription'];
+        $this->jobGroup = $results['jobGroup'];
+        $this->apptCode = intval($results['apptCode']);
+        $this->apptDescription = $results['apptDescription'];
+        $this->fte = intval($results['fte']);
 
         // Hydrate relationships
-        if ($attribsRow['departmentId'] !== null) {
-            $this->department->id($attribsRow['departmentId']);
+        if ($results['departmentId'] !== null) {
+            $this->department->id($results['departmentId']);
         } else {
             // Data source tells us there is no associated department
             $this->department = new \Loris\Resource\Base\NullResource();
         }
         
-        if ($attribsRow['coworkersId'] !== null) {
-            $this->coworkers->id($attribsRow['coworkersId']);
-            $this->coworkers->meta->total = $attribsRow['coworkersTotal'];
+        if ($results['coworkersId'] !== null) {
+            $this->coworkers->id($results['coworkersId']);
+            $this->coworkers->meta->total = intval($results['coworkersTotal']);
         } else {
             // Data source tells us there are no associated coworkers
             $this->coworkers = new \Loris\Resource\Base\NullResource();
         }
 
-        // Hydrate `addresses` from the second rowset
-        foreach ($rowsets[1] as $row) {
-            $address = new \stdClass();
-            $address->address1 = $row['address1'];
-            $address->address2 = $row['address2'];
-            $address->city = $row['city'];
-            $address->state = $row['state'];
-            $address->zip = $row['zip'];
-            $address->room = $row['room'];
-            $address->building = $row['building'];
-            $address->phone = $row['phone'];
-            array_push($this->addresses, $address);
+        // Hydrate `addresses` array of objects
+        foreach ($results['addresses'] as $row) {
+            $object = new \stdClass();
+            $object->address1 = $row['address1'];
+            $object->address2 = $row['address2'];
+            $object->city = $row['city'];
+            $object->state = $row['state'];
+            $object->zip = $row['zip'];
+            $object->room = $row['room'];
+            $object->building = $row['building'];
+            $object->phone = $row['phone'];
+            array_push($this->addresses, $object);
         }
     }
 
@@ -230,6 +242,7 @@ class Person extends Meta
         // Attributes
         $serialized->osuid = $this->osuid;
         $serialized->firstName = $this->firstName;
+        $serialized->middleName = $this->middleName;
         $serialized->lastName = $this->lastName;
         $serialized->active = $this->active;
         $serialized->addresses = $this->addresses;

@@ -17,7 +17,7 @@ class ExampleResource extends Base\ExampleResource
             $ids = '\'' . implode('\',\'', Utility::getIds($exampleResources)) . '\'';
 
             $statement = $db->prepare("
-                -- Rowset 1, User attributes
+                -- Rowset 0, User attributes
                 SELECT      u.user_id AS id,
                             u.firstName,
                             u.lastName,
@@ -33,7 +33,7 @@ class ExampleResource extends Base\ExampleResource
                 FROM        users
                 WHERE       u.user_id IN COMMA_LIST_TO_IDS(:ids);
 
-                -- Rowset 2, associated addresses
+                -- Rowset 1, associated addresses
                 SELECT  a.user_id AS id,
                         a.address1,
                         a.address2,
@@ -41,13 +41,22 @@ class ExampleResource extends Base\ExampleResource
                         a.state,
                         a.zip
                 FROM    user_addresses a
-                WHERE   ResID IN COMMA_LIST_TO_IDS(:ids);
+                WHERE   a.user_id IN COMMA_LIST_TO_IDS(:ids);
             ");
 
             $statement->bindParam(':ids', $ids);
             $statement->execute();
 
-            $results = Utility::parseSqlResults($statement);
+            $results = Utility::parseSqlResults(
+                $statement,
+                array(
+                    'addresses' => array( // Array of objects
+                        'rowset' => 1,
+                        'type' => 'array'
+                    )
+                )
+            );
+
             self::postQuery($exampleResources, $results);
 
         //} catch(\PDOException $e) {

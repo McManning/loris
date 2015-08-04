@@ -33,35 +33,34 @@ class Department extends Meta
                 throw new \Exception('Department [' . $department->id() . '] missing from $results');
             }
 
-            $department->fromRowsets($results[$department->id()]);
+            $department->fromResults($results[$department->id()]);
         }
     }
 
     /**
-     * @param array $rowsets
+     * @param array $results
      */
-    public function fromRowsets(array $rowsets)
+    public function fromResults(array $results)
     {
         /*
             Expect:
             array( // rowsets
-                array( // rowset
-                    array( // row
-                        id, title, shortTitle, building, address
-                    )
-                )
+                id = ...,
+                title = ...,
+                shortTitle = ...,
+                building = ...,
+                address = ....
             )
         */
-        $attribsRow = $rowsets[0][0];
 
         // Update id(), as we may have potentially not had it pre-query
-        $this->id($attribsRow['id']);
+        $this->id($results['id']);
 
         // Hydrate attributes
-        $this->title = $attribsRow['title'];
-        $this->shortTitle = $attribsRow['shortTitle'];
-        $this->building = $attribsRow['building'];
-        $this->address = $attribsRow['address'];
+        $this->title = $results['title'];
+        $this->shortTitle = $results['shortTitle'];
+        $this->building = $results['building'];
+        $this->address = $results['address'];
     }
 
     /**
