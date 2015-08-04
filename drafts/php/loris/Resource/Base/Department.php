@@ -5,6 +5,8 @@ class Department extends Meta
 {
     const URI = '/department/{id}';
 
+    protected $expansions = null;
+
     // Attributes
     public $title = null; // String
     public $dnode = null; // String
@@ -61,13 +63,32 @@ class Department extends Meta
         $this->shortTitle = $results['shortTitle'];
         $this->building = $results['building'];
         $this->address = $results['address'];
+
+        $this->doExpansions();
     }
 
     /**
+     * @todo generator pattern
+     *
      * @param array $resources
      */
     public function expand(array $resources)
     {
+
+        $this->expansions = $resources;
+    }
+
+    /**
+     * Perform actual expansions after hydration, in case we dynamically
+     * add additional resource references while hydrating from the data store
+     * (e.g. resources stored in Arrays or Objects)
+     */
+    private function doExpansions()
+    {
+        if ($this->expansions === null) {
+            return;
+        }
+
         // noop
     }
 

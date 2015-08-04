@@ -64,21 +64,36 @@ class PersonCoworkers extends MetaCollection
                 $id
             );
 
-            // If we cached expansions, expand the resource
-            if ($this->expansions) {
-                $person->expand($this->expansions);
-            }
-
             array_push($this->collection, $person);
         }
+
+        $this->doExpansions();
     }
 
     /**
+     * @todo generator pattern
+     *
      * @param array $resources
      */
-    public function expand($resources)
+    public function expand(array $resources)
     {
         $this->expansions = $resources;
+    }
+
+    /**
+     * Perform actual expansions after hydration, in case we dynamically
+     * add additional resource references while hydrating from the data store
+     * (e.g. resources stored in Arrays or Objects)
+     */
+    private function doExpansions()
+    {
+        if ($this->expansions === null) {
+            return;
+        }
+
+        foreach ($this->collection as $item) {
+            $item->expand($this->expansions);
+        }
     }
 
     /**

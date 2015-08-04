@@ -12,6 +12,8 @@ class EndpointsRoot extends Meta
 {
     const URI = '/'; // Assigned to API root
 
+    protected $expansions = null;
+
     // Attributes
     // None
 
@@ -92,42 +94,43 @@ class EndpointsRoot extends Meta
      *
      * @param array $rowsets
      */
-    public function fromRowsets(array $rowsets)
+    public function fromResults(array $results)
     {
         /*
             Expect:
-            array( // rowsets
-                array( // rowset
-                    array( // row
-                        id
-                    )
-                )
+            array(
+                id,
+                personsId,
+                personsTotal,
+                departmentsId,
+                departmentsTotal
             )
         */
-        $attribsRow = $rowsets[0][0];
 
         // Update id(), as we may have potentially not had it pre-query
-        $this->id($attribsRow['id']);
+        $this->id($results['id']);
 
         // Hydrate attributes
         // NONE
 
         // Hydrate relationships
-        if ($attribsRow['personsId'] !== null) {
-            $this->persons->id($attribsRow['personsId']);
-            $this->persons->meta->total = $attribsRow['personsTotal'];
+        if ($results['personsId'] !== null) {
+            $this->persons->id($results['personsId']);
+            $this->persons->meta->total = $results['personsTotal'];
         } else {
             // Data source tells us there is no associated PersonCollection
-            $this->persons = new \Loris\Resource\Base\NullResource();
+            $this->persons = new NullResource();
         }
 
-        if ($attribsRow['departmentsId'] !== null) {
-            $this->departments->id($attribsRow['departmentsId']);
-            $this->departments->meta->total = $attribsRow['departmentsTotal'];
+        if ($results['departmentsId'] !== null) {
+            $this->departments->id($results['departmentsId']);
+            $this->departments->meta->total = $results['departmentsTotal'];
         } else {
             // Data source tells us there is no associated DepartmentCollection
-            $this->departments = new \Loris\Resource\Base\NullResource();
+            $this->departments = new NullResource();
         }
+
+        $this->doExpansions();
     }
 
     /**
@@ -137,25 +140,39 @@ class EndpointsRoot extends Meta
      */
     public function expand(array $resources)
     {
+        $this->expansions = $resources;
+    }
+
+    /**
+     * Perform actual expansions after hydration, in case we dynamically
+     * add additional resource references while hydrating from the data store
+     * (e.g. resources stored in Arrays or Objects)
+     */
+    private function doExpansions()
+    {
+        if ($this->expansions === null) {
+            return;
+        }
+        
         // Collection relationship
-        if (array_key_exists('persons', $resources)) {
+        if (array_key_exists('persons', $this->expansions)) {
             $this->persons = new \Loris\Resource\PersonCollection(
                 $this->persons->id()
             );
 
-            if (is_array($resources['persons'])) {
-                $this->persons->expand($resources['persons']);
+            if (is_array($this->expansions['persons'])) {
+                $this->persons->expand($this->expansions['persons']);
             }
         }
 
         // Collection relationship
-        if (array_key_exists('departments', $resources)) {
+        if (array_key_exists('departments', $this->expansions)) {
             $this->departments = new \Loris\Resource\DepartmentCollection(
                 $this->departments->id()
             );
 
-            if (is_array($resources['departments'])) {
-                $this->departments->expand($resources['departments']);
+            if (is_array($this->expansions['departments'])) {
+                $this->departments->expand($this->expansions['departments']);
             }
         }
     }

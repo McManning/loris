@@ -5,7 +5,7 @@ class Person extends Meta
 {
     const URI = '/person/{id}';
 
-    private $expansions = null;
+    protected $expansions = null;
 
     // Attributes
     public $osuid = null; // String
