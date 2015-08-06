@@ -79,48 +79,56 @@ class Person extends Meta
         }
 
         // Query for all expanded relationships
-        $personCoworkers = array();
-        $departments = array();
-        $otherDepartmentsDepartments = array(); // Pretending this is auto generated naming..
 
-        // TODO: How would I resolve this? I shouldn't rely on the first Person
-        // resource in the list, as they may not even have an object here. But
-        // at the same time, I don't want to do discovery/resolution for every
-        // single instance (since we KNOW they're all the same).
-        // One method would be to walk until we find the reference not an 
-        // instanceof NullResource.
+        // Notice that we don't optimize loops together, we instead logically group
+        // things based on what field we're affecting (as is easier to automate)
+        // Since multiple loops theoretically have the same running time as one 
+        // (although not TECHNICALLY true) I'll consider this speed equivalent. 
 
-        //$personCoworkersModel = \Loris\Discovery::find($)
-
+        $coworkerss = array();
+        $coworkersModel = \Loris\Discovery::find('/person/{id}/coworkers');
         foreach ($persons as $person) {
-            if ($person->coworkers instanceof \Loris\Resource\PersonCoworkers) {
-                array_push($personCoworkers, $person->coworkers);
+            if ($person->coworkers instanceof $coworkersModel->class) {
+                $coworkerss[] = $person->coworkers;
             }
+        }
+        if (!empty($coworkerss)) {
+            call_user_func(
+                array($coworkersModel->class, 'query'),
+                $coworkerss
+            );
+        }
 
-            if ($person->department instanceof \Loris\Resource\Department) {
-                array_push($departments, $person->department);
+
+        $departments = array();
+        $departmentModel = \Loris\Discovery::find('/department/{id}');
+        foreach ($persons as $person) {
+            if ($person->department instanceof $departmentModel->class) {
+                $departments[] = $person->department;
             }
+        }
+        if (!empty($departments)) {
+            call_user_func(
+                array($departmentModel->class, 'query'),
+                $departments
+            );
+        }
 
-            // Array of stdClass that have a resource attribute
+
+        $otherDepartmentsDepartments = array();
+        $otherDepartmentsDepartmentModel = \Loris\Discovery::find('/department/{id}');
+        foreach ($persons as $person) {
             foreach ($person->otherDepartments as $otherDepartments) {
-                if ($otherDepartments->department instanceof \Loris\Resource\Department) {
-                    array_push($otherDepartmentsDepartments, $otherDepartments->department);
+                if ($otherDepartments->department instanceof $otherDepartmentsDepartmentModel->class) {
+                    $otherDepartmentsDepartments[] = $otherDepartments->department;
                 }
             }
         }
-
-        if (!empty($personCoworkers)) {
-            \Loris\Resource\PersonCoworkers::query($personCoworkers);
-        }
-
-        if (!empty($departments)) {
-            \Loris\Resource\Department::query($departments);
-        }
-
-        // Obviously, this and the one above could somehow be 
-        // merged, if we can figure out how to automate that optimization
         if (!empty($otherDepartmentsDepartments)) {
-            \Loris\Resource\Department::query($otherDepartmentsDepartments);
+            call_user_func(
+                array($otherDepartmentsDepartmentModel->class, 'query'),
+                $otherDepartmentsDepartments
+            );
         }
     }
 
@@ -263,12 +271,9 @@ class Person extends Meta
         // Sub-collection relationship
         if (array_key_exists('coworkers', $this->expansions)) {
 
-            //$this->coworkers = Discovery::find(
-            //    $this->coworkers->meta->uri
-            //);
+            $personCoworkersModel = \Loris\Discovery::find('/person/{id}/coworkers');
 
-            // For now, assume local.
-            $this->coworkers = new \Loris\Resource\PersonCoworkers(
+            $this->coworkers = new $personCoworkersModel->class(
                 $this->coworkers->id()
             );
 
@@ -279,7 +284,10 @@ class Person extends Meta
 
         // Other resource relationship
         if (array_key_exists('department', $this->expansions)) {
-            $this->department = new \Loris\Resource\Department(
+
+            $departmentModel = \Loris\Discovery::find('/department/{id}');
+
+            $this->department = new $departmentModel->class(
                 $this->department->id()
             );
 
@@ -293,8 +301,11 @@ class Person extends Meta
             foreach ($this->otherDepartments as $otherDepartment) {
 
                 // Test the resource attribute for expansions
-                if (array_key_exists('department', $this->expansions['otherDepartments'])) {   
-                    $otherDepartment->department = new \Loris\Resource\Department(
+                if (array_key_exists('department', $this->expansions['otherDepartments'])) {  
+
+                    $departmentModel = \Loris\Discovery::find('/department/{id}'); 
+
+                    $otherDepartment->department = new $departmentModel->class(
                         $otherDepartment->department->id()
                     );
 
