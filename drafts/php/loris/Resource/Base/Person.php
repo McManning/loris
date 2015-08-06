@@ -85,6 +85,7 @@ class Person extends Meta
         // Since multiple loops theoretically have the same running time as one 
         // (although not TECHNICALLY true) I'll consider this speed equivalent. 
 
+        // Ref collection
         $coworkerss = array();
         $coworkersModel = \Loris\Discovery::find('/person/{id}/coworkers');
         foreach ($persons as $person) {
@@ -99,7 +100,7 @@ class Person extends Meta
             );
         }
 
-
+        // Ref resource
         $departments = array();
         $departmentModel = \Loris\Discovery::find('/department/{id}');
         foreach ($persons as $person) {
@@ -114,7 +115,7 @@ class Person extends Meta
             );
         }
 
-
+        // Array of objects with ref 
         $otherDepartmentsDepartments = array();
         $otherDepartmentsDepartmentModel = \Loris\Discovery::find('/department/{id}');
         foreach ($persons as $person) {
