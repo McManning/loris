@@ -1,0 +1,498 @@
+{# 
+    Jinja template for rendering a Resource PHP model.
+    This is the non-editable base model that gets extended
+    for users to write their custom queries.
+
+    Template variables and manipulators defined:
+        id = Person
+        uri = /person/{id}
+        id|camelcase = person
+        id|camelcase|plural = persons
+
+        properties = dict
+            .type = string|boolean|number|array|object|resource|collection
+            .format (optional)
+            .$ref (optional)
+            .resource (if type == resource)
+                .id
+                .uri
+            .collection (if type == collection)
+                .id
+                .uri
+            .properties (if type == object)
+                ...?
+            .items (if type == array)
+                ...?
+#}
+<?php
+namespace Loris\Resource\Base;
+
+class {{ id }} extends Meta
+{
+    const URI = '{{ uri }}';
+
+    protected $expansions = null;
+
+    // Properties
+    {% for name, property in properties.iteritems() %}
+    // {{ properties.type }}
+    public ${{ name }} = {{ 'array()' if properties.type == 'array' else 'null' }};
+    {% endfor %}
+
+    /**
+     * @param string $id
+     */
+    function __construct($id)
+    {
+        parent::__construct($id, self::URI);
+
+        // Create Meta(Collection)s for relationships
+        // Note: The inclusion of a URI is required here as we can possibly
+        // never replace Meta(Collection) with an actual class (if non-expanded)
+        // but we still need to know the resource URI. The problem then becomes,
+        // where do we get this URI? We can't guarantee to have access to Resource::URI
+        // because resources may not exist on the same instance as this caller. 
+        // This may be a job for Discovery to handle?
+    {% for name, property in properties.iteritems() %}
+    {% if property.type == 'resource' %}
+
+        $this->{{ name }} = new Meta(
+            null, '{{ property.resource.uri }}'
+        );
+
+    {% elif property.type == 'collection' %}
+
+        $this->{{ name }} = new MetaCollection(
+            null, '{{ property.collection.uri }}'
+        );
+
+    {% elif property.type == 'object' %}
+
+        $this->{{ name }} = new \stdClass;
+        {% for name2, property2 in property.properties.iteritems() %}
+        {% if property2.type == 'resource' %}
+        $this->{{ name }}->{{ name2 }} = Meta(
+            null, '{{ property2.resource.uri }}'
+        );
+        {% elif property2.type == 'collection' %}
+        $this->{{ name }}->{{ name2 }} = MetaCollection(
+            null, '{{ property2.resource.uri }}'
+        );
+        {% else %}
+        $this->{{ name }}->{{ name2 }} = null;
+        {% endif %}
+        {% endfor %}
+
+    {% endif %}
+    {% endfor %}
+    }
+
+    /**
+     * @param array({{ id }}) ${{ id|camelcase|plural }}
+     */
+    public static function query(array ${{ id|camelcase|plural }})
+    {
+        throw new \Exception(
+            'Base\\{{ id }}::query() cannot be called directly.'
+        );
+    }
+
+    public static function postQuery(array ${{ id|camelcase|plural }}, array $results)
+    {
+        foreach (${{ id|camelcase|plural }} as ${{ id|camelcase }}) {
+            if (!array_key_exists(${{ id|camelcase }}->id(), $results)) {
+                throw new \Exception(
+                    '{{ id }} [' . ${{ id|camelcase }}->id() . '] missing from $results'
+                );
+            }
+
+            ${{ id|camelcase }}->fromResults($results[${{ id|camelcase }}->id()]);
+        }
+
+        // Query for all expanded relationships
+        {{ query_object_properties(id, properties) }}
+
+        {% for name, property in properties.iteritems() %}
+        {% if property.type == 'resource' or property.type == 'collection' %}
+            ${{ name|plural }} = array();
+            ${{ name }}Model = \Loris\Discovery::find('{{ property.resource.uri }}');
+            foreach (${{ id|camelcase|plural }} as ${{ id|camelcase }}) {
+                if (${{ id|camelcase }}->{{ name }} instanceof ${{ name }}Model->class) {
+                    ${{ name|plural }}[] = ${{ id|camelcase }}->{{ name }};
+                }
+            }
+            if (!empty(${{ name|plural }})) {
+                call_user_func(
+                    array(${{ name }}Model->class, 'query'),
+                    ${{ name|plural }}
+                );
+            }
+        {% elif property.type == 'object' %}
+            {% for name2, property2 in property.properties.iteritems() %}
+            {% if property2.type == 'resource' or property2.type == 'collection' %}
+                ${{ name }}{{ name2|pascalcase|plural }} = array();
+                ${{ name }}{{ name2|pascalcase }}Model = \Loris\Discovery::find('{{ property2.resource.uri }}');
+                foreach (${{ id|camelcase|plural }} as ${{ id|camelcase }}) {
+                    if (${{ id|camelcase }}->{{ name }}->{{ name2 }} instanceof ${{ name }}{{ name2|pascalcase }}Model->class) {
+                        ${{ name }}{{ name2|pascalcase|plural }}[] = ${{ id|camelcase }}->{{ name }};
+                    }
+                }
+                if (!empty(${{ name|plural }})) {
+                    call_user_func(
+                        array(${{ name }}Model->class, 'query'),
+                        ${{ name|plural }}
+                    );
+                }
+            {% endif %}
+            {% endfor %}
+        {% elif property.type == 'array' %}
+            {% if property.items.type == 'resource' or property.items.type == 'collection' %}
+                ${{ name|plural }} = array();
+                ${{ name }}Model = \Loris\Discovery::find('{{ property.resource.uri }}');
+                foreach (${{ id|camelcase|plural }} as ${{ id|camelcase }}) {
+                    foreach (${{ id|camelcase }}->{{ name }} as $item) {
+                        if ($item instanceof ${{ name }}Model->class) {
+                            ${{ name|plural }}[] = $item;
+                        }
+                    }
+                }
+                if (!empty(${{ name|plural }})) {
+                    call_user_func(
+                        array(${{ name }}Model->class, 'query'),
+                        ${{ name|plural }}
+                    );
+                }
+            {% elif property.items.type == 'object' %}
+                {% for name2, property2 in property.items.properties.iteritems() %}
+                {% if property2.type == 'resource' or property2.type == 'collection' %}
+                    ${{ name }}{{ name2|pascalcase|plural }} = array();
+                    ${{ name }}{{ name2|pascalcase }}Model = \Loris\Discovery::find('{{ property2.resource.uri }}');
+                    foreach (${{ id|camelcase|plural }} as ${{ id|camelcase }}) {
+                        foreach (${{ id|camelcase }}->{{ name }} as ${{ name|plural }}) {
+                            if (${{ name|plural }}->{{ name2 }} instanceof ${{ name }}{{ name2|pascalcase }}Model->class) {
+                                ${{ name }}{{ name2|pascalcase|plural }}[] = ${{ name|plural }}->{{ name2 }};
+                            }
+                        }
+                    }
+                    if (!empty(${{ name }}{{ name2|pascalcase|plural }})) {
+                        call_user_func(
+                            array(${{ name }}{{ name2|pascalcase }}Model->class, 'query'),
+                            ${{ name }}{{ name2|pascalcase|plural }}
+                        );
+                    }
+                {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+        {% endfor %}
+    }
+
+    /**
+     *
+     * @param \stdClass $results
+     */
+    public function fromResults(\stdClass $results)
+    {
+        // Update id(), as we may have potentially not had it pre-query
+        $this->id($results->id);
+
+        // Hydrate attributes
+        {% for name, property in properties.iteritems() %}
+        {% if property.type == 'resource' or property.type == 'collection' %}
+
+            // Update relationship 
+            if ($results->{{ name }}Id !== null) {
+                $this->{{ name }}->id($results->{{ name }}Id);
+
+                {% if property.type == 'collection' %}
+                $this->{{ name }}->meta->total = intval($results->{{ name }}Total);
+                {% endif %}
+            } else {
+                // Data source tells us there is no associated {{ property.resource.id }}
+                $this->{{ name }} = new NullResource();
+            }
+
+        {% elif property.type == 'object' %}
+
+            foreach ($results->{{ name }} as $row) {
+                {% for name2, property2 in property.properties.iteritems() %}
+
+                    // same as upper level, just cascaded
+                {% endfor %}
+            }
+
+        {% elif property.type == 'array' %}
+
+
+        {% elif property.type == 'number' %}
+
+        $this->{{ name }} = intval($results->{{ name }});
+
+        {% elif property.type == 'boolean' %}
+
+        $this->{{ name }} = ($results->{{ name }} == 1);
+
+        {% elif property.type == 'string' %}
+
+        // TODO: property.format conversions!
+        $this->{{ name }} = $result->{{ name }};
+
+        {% endif %}
+        {% endfor %}
+
+        $this->osuid = $results->osuid;
+        $this->firstName = $results->firstName;
+        $this->middleName = $results->middleName;
+        $this->lastName = $results->lastName;
+        $this->username = $results->username;
+        $this->active = ($results->active == '1'); // TODO: Better casting
+        $this->jobCode = intval($results->jobCode);
+        $this->jobDescription = $results->jobDescription;
+        $this->jobGroup = $results->jobGroup;
+        $this->apptCode = intval($results->apptCode);
+        $this->apptDescription = $results->apptDescription;
+        $this->fte = intval($results->fte);
+
+        // Hydrate relationships
+        if ($results->departmentId !== null) {
+            $this->department->id($results->departmentId);
+        } else {
+            // Data source tells us there is no associated department
+            $this->department = new NullResource();
+        }
+        
+        if ($results->coworkersId !== null) {
+            $this->coworkers->id($results->coworkersId);
+            $this->coworkers->meta->total = intval($results->coworkersTotal);
+        } else {
+            // Data source tells us there are no associated coworkers
+            $this->coworkers = new NullResource();
+        }
+
+        // Hydrate `addresses` array of objects
+        foreach ($results->addresses as $row) {
+            $object = new \stdClass();
+            $object->address1 = $row->address1;
+            $object->address2 = $row->address2;
+            $object->city = $row->city;
+            $object->state = $row->state;
+            $object->zip = $row->zip;
+            $object->room = $row->room;
+            $object->building = $row->building;
+            $object->phone = $row->phone;
+            array_push($this->addresses, $object);
+        }
+
+        /// Hydrate `otherDepartments` array of objects, with a sub-resource
+        foreach ($results->otherDepartments as $row) {
+            $object = new \stdClass();
+            $object->fte = intval($row->fte);
+
+            // Note we have to actually construct the resource here, 
+            // as it wouldn't already exist (obviously)
+            if ($row->departmentId !== null) {
+                $object->department = new Meta(
+                    $row->departmentId, 
+                    '/department/{id}'
+                );
+            } else {
+                // Data source tells us there is no associated department
+                $object->department = new NullResource();
+            }
+
+            array_push($this->otherDepartments, $object);
+        }
+
+        // Perform expansions after hydration, in case we hydrated any
+        // additional resource references in Arrays or Objects
+        $this->doExpansions();
+    }
+
+    /**
+     * @todo generator pattern
+     *
+     * @param array $resources
+     */
+    public function expand(array $resources)
+    {
+
+        $this->expansions = $resources;
+    }
+
+    /**
+     * Perform actual expansions after hydration, in case we dynamically
+     * add additional resource references while hydrating from the data store
+     * (e.g. resources stored in Arrays or Objects)
+     */
+    private function doExpansions()
+    {
+        if ($this->expansions === null) {
+            return;
+        }
+
+        // Sub-collection relationship
+        if (array_key_exists('coworkers', $this->expansions)) {
+
+            $personCoworkersModel = \Loris\Discovery::find('/person/{id}/coworkers');
+
+            $this->coworkers = new $personCoworkersModel->class(
+                $this->coworkers->id()
+            );
+
+            if (is_array($this->expansions['coworkers'])) {
+                $this->coworkers->expand($this->expansions['coworkers']);
+            }
+        }
+
+        // Other resource relationship
+        if (array_key_exists('department', $this->expansions)) {
+
+            $departmentModel = \Loris\Discovery::find('/department/{id}');
+
+            $this->department = new $departmentModel->class(
+                $this->department->id()
+            );
+
+            if (is_array($this->expansions['department'])) {
+                $this->department->expand($this->expansions['department']);
+            }
+        }
+
+        // Array of stdClass that have a resource attribute
+        if (array_key_exists('otherDepartments', $this->expansions)) {
+            foreach ($this->otherDepartments as $otherDepartment) {
+
+                // Test the resource attribute for expansions
+                if (array_key_exists('department', $this->expansions['otherDepartments'])) {  
+
+                    $departmentModel = \Loris\Discovery::find('/department/{id}'); 
+
+                    $otherDepartment->department = new $departmentModel->class(
+                        $otherDepartment->department->id()
+                    );
+
+                    if (is_array($this->expansions['otherDepartments']['department'])) {
+                        $otherDepartment->department->expand(
+                            $this->expansions['otherDepartments']['department']
+                        );
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @todo generator pattern
+     *
+     * @return stdClass
+     */
+    public function serialize()
+    {
+        // Get serialized data from Meta
+        $serialized = parent::serialize();
+
+        // Attributes
+        $serialized->osuid = $this->osuid;
+        $serialized->firstName = $this->firstName;
+        $serialized->middleName = $this->middleName;
+        $serialized->lastName = $this->lastName;
+        $serialized->active = $this->active;
+        $serialized->addresses = $this->addresses;
+
+        $serialized->jobCode = $this->jobCode;
+        $serialized->jobDescription = $this->jobDescription;
+        $serialized->jobGroup = $this->jobGroup;
+        $serialized->apptCode = $this->apptCode;
+        $serialized->apptDescription = $this->apptDescription;
+        $serialized->fte = $this->fte;
+
+        // Relationships
+        $serialized->coworkers = $this->coworkers->serialize();
+        $serialized->department = $this->department->serialize();
+
+        // TODO: Problem is that we can't just copy for serialization. We have to
+        // iterate properties and serialize the department resource manually.
+        $serialized->otherDepartments = array(); 
+        foreach ($this->otherDepartments as $otherDepartment) {
+            $object = new \stdClass;
+            $object->fte = $otherDepartment->fte;
+            $object->department = $otherDepartment->department->serialize();
+            array_push($serialized->otherDepartments, $object);
+        }
+
+        return $serialized;
+    }
+}
+
+/*
+  Source YML Schema:
+
+  Person:
+    properties:
+      meta:
+        x-meta-uri: "/person/{id}"
+        $ref: "#/definitions/Meta"
+      id:
+        type: string
+      osuid:
+        type: string
+      firstName:
+        type: string
+      middleName:
+        type: string
+      lastName:
+        type: string
+      username:
+        type: string
+      active:
+        type: boolean
+      jobCode:
+        type: string
+      jobDescription:
+        type: string
+      jobGroup:
+        type: string
+      apptCode:
+        type: string
+      apptDescription:
+        type: string
+      fte:
+        type: number
+      coworkers:
+        x-meta-uri: "/person/{id}/coworkers"
+        $ref: "#/resources/PersonCoworkers"
+      department:
+        x-meta-uri: "/department/{id}"
+        $ref: "#/resources/Department"
+      otherDepartments:
+        type: array
+        items:
+          type: object
+          properties:
+            fte:
+              type: number
+            department:
+              x-meta-uri: "/department/{id}"
+              $ref: "#/resources/Department"
+      addresses:
+        type: array
+        items:
+          type: object
+          properties:
+            address1:
+              type: string
+            address2:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zip:
+              type: string
+            room:
+              type: string
+            building:
+              type: string
+            phone:
+              type: string
+*/
