@@ -46,20 +46,20 @@ class PersonCoworkers extends MetaCollection
     }
 
     /**
-     * @param array $results
+     * @param \stdClass $results
      */
-    public function fromResults($results)
+    public function fromResults(\stdClass $results)
     {
         // Hydrate meta attributes
-        $this->id($results['id']);
-        $this->meta->page = intval($results['page']);
-        $this->meta->limit = intval($results['limit']);
-        $this->meta->total = intval($results['total']);
+        $this->id($results->id);
+        $this->meta->page = intval($results->page);
+        $this->meta->limit = intval($results->limit);
+        $this->meta->total = intval($results->total);
 
         $this->collection = array();
 
         // Add a Person for each entry in our second rowset
-        foreach ($results['ids'] as $id) {
+        foreach ($results->ids as $id) {
             $person = new \Loris\Resource\Person(
                 $id
             );

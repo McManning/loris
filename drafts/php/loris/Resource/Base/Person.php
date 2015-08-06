@@ -127,13 +127,13 @@ class Person extends Meta
     /**
      * @todo generator pattern (?)
      *
-     * @param array $results
+     * @param \stdClass $results
      */
-    public function fromResults(array $results)
+    public function fromResults(\stdClass $results)
     {
         /*
             Expect:
-            array( // rowsets
+            stdClass(
                 id,
                 osuid,
                 firstName,
@@ -150,7 +150,7 @@ class Person extends Meta
                 departmentId,
                 coworkersId,
                 coworkersTotal,
-                addresses = array(
+                addresses = array(stdClass(
                     address1,
                     address2,
                     city,
@@ -159,70 +159,70 @@ class Person extends Meta
                     room,
                     building,
                     phone
-                ),
-                otherDepartments = array(
+                )),
+                otherDepartments = array(stdClass(
                     fte,
                     departmentId
-                )
+                ))
             )
         */
         // Update id(), as we may have potentially not had it pre-query
-        $this->id($results['id']);
+        $this->id($results->id);
 
         // Hydrate attributes
-        $this->osuid = $results['osuid'];
-        $this->firstName = $results['firstName'];
-        $this->middleName = $results['middleName'];
-        $this->lastName = $results['lastName'];
-        $this->username = $results['username'];
-        $this->active = ($results['active'] == '1'); // TODO: Better casting
-        $this->jobCode = intval($results['jobCode']);
-        $this->jobDescription = $results['jobDescription'];
-        $this->jobGroup = $results['jobGroup'];
-        $this->apptCode = intval($results['apptCode']);
-        $this->apptDescription = $results['apptDescription'];
-        $this->fte = intval($results['fte']);
+        $this->osuid = $results->osuid;
+        $this->firstName = $results->firstName;
+        $this->middleName = $results->middleName;
+        $this->lastName = $results->lastName;
+        $this->username = $results->username;
+        $this->active = ($results->active == '1'); // TODO: Better casting
+        $this->jobCode = intval($results->jobCode);
+        $this->jobDescription = $results->jobDescription;
+        $this->jobGroup = $results->jobGroup;
+        $this->apptCode = intval($results->apptCode);
+        $this->apptDescription = $results->apptDescription;
+        $this->fte = intval($results->fte);
 
         // Hydrate relationships
-        if ($results['departmentId'] !== null) {
-            $this->department->id($results['departmentId']);
+        if ($results->departmentId !== null) {
+            $this->department->id($results->departmentId);
         } else {
             // Data source tells us there is no associated department
             $this->department = new NullResource();
         }
         
-        if ($results['coworkersId'] !== null) {
-            $this->coworkers->id($results['coworkersId']);
-            $this->coworkers->meta->total = intval($results['coworkersTotal']);
+        if ($results->coworkersId !== null) {
+            $this->coworkers->id($results->coworkersId);
+            $this->coworkers->meta->total = intval($results->coworkersTotal);
         } else {
             // Data source tells us there are no associated coworkers
             $this->coworkers = new NullResource();
         }
 
         // Hydrate `addresses` array of objects
-        foreach ($results['addresses'] as $row) {
+        foreach ($results->addresses as $row) {
             $object = new \stdClass();
-            $object->address1 = $row['address1'];
-            $object->address2 = $row['address2'];
-            $object->city = $row['city'];
-            $object->state = $row['state'];
-            $object->zip = $row['zip'];
-            $object->room = $row['room'];
-            $object->building = $row['building'];
-            $object->phone = $row['phone'];
+            $object->address1 = $row->address1;
+            $object->address2 = $row->address2;
+            $object->city = $row->city;
+            $object->state = $row->state;
+            $object->zip = $row->zip;
+            $object->room = $row->room;
+            $object->building = $row->building;
+            $object->phone = $row->phone;
             array_push($this->addresses, $object);
         }
 
         /// Hydrate `otherDepartments` array of objects, with a sub-resource
-        foreach ($results['otherDepartments'] as $row) {
+        foreach ($results->otherDepartments as $row) {
             $object = new \stdClass();
-            $object->fte = intval($row['fte']);
+            $object->fte = intval($row->fte);
 
             // Note we have to actually construct the resource here, 
             // as it wouldn't already exist (obviously)
-            if ($row['departmentId'] !== null) {
+            if ($row->departmentId !== null) {
                 $object->department = new Meta(
-                    $row['departmentId'], 
+                    $row->departmentId, 
                     '/department/{id}'
                 );
             } else {

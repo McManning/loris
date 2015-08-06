@@ -40,13 +40,13 @@ class Department extends Meta
     }
 
     /**
-     * @param array $results
+     * @param \stdClass $results
      */
-    public function fromResults(array $results)
+    public function fromResults(\stdClass $results)
     {
         /*
             Expect:
-            array( // rowsets
+            stdClass( // attributes
                 id = ...,
                 title = ...,
                 shortTitle = ...,
@@ -56,13 +56,13 @@ class Department extends Meta
         */
 
         // Update id(), as we may have potentially not had it pre-query
-        $this->id($results['id']);
+        $this->id($results->id);
 
         // Hydrate attributes
-        $this->title = $results['title'];
-        $this->shortTitle = $results['shortTitle'];
-        $this->building = $results['building'];
-        $this->address = $results['address'];
+        $this->title = $results->title;
+        $this->shortTitle = $results->shortTitle;
+        $this->building = $results->building;
+        $this->address = $results->address;
 
         $this->doExpansions();
     }

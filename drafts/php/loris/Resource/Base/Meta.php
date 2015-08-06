@@ -6,8 +6,8 @@ namespace Loris\Resource\Base;
  */
 class Meta
 {
-    protected $_id = null;
-    protected $_uri = null;
+    public $_id = null;
+    public $_uri = null;
 
     public $meta = null;
 

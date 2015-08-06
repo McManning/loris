@@ -36,7 +36,7 @@ class PersonCollection extends MetaCollection
     {
         // Gather Persons that have been hydrated from all 
         // collections and query for all simultaneously.
-        $items = array();
+        $persons = array();
 
         foreach ($personCollections as $personCollection) {
             $personCollection->fromResults(
@@ -65,15 +65,15 @@ class PersonCollection extends MetaCollection
     }
 
     /**
-     * @param array $results
+     * @param \stdClass $results
      */
-    public function fromResults(array $results)
+    public function fromResults(\stdClass $results)
     {
         // Hydrate meta attributes
-        $this->id($results['id']);
-        $this->meta->page = intval($results['page']);
-        $this->meta->limit = intval($results['limit']);
-        $this->meta->total = intval($results['total']);
+        $this->id($results->id);
+        $this->meta->page = intval($results->page);
+        $this->meta->limit = intval($results->limit);
+        $this->meta->total = intval($results->total);
 
         $this->collection = array();
 
@@ -81,7 +81,7 @@ class PersonCollection extends MetaCollection
         $personModel = \Loris\Discovery::find('/person/{id}');
 
         // Add a Person for each entry in our second rowset
-        foreach ($results['ids'] as $id) {
+        foreach ($results->ids as $id) {
             // Note we resolve the model here instead of doExpansions
             // as no matter what, if a collection is hydrated, the
             // collection items must also be hydrated. 

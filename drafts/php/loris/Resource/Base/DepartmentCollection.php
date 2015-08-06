@@ -26,40 +26,45 @@ class DepartmentCollection extends MetaCollection
         );
     }
 
+    /**
+     *
+     * @param Array(DepartmentCollection) $collections
+     * @param Array $results
+     */
     public static function postQuery(array $collections, array $results)
     {
-        // Gather Departments that have been hydrated from all 
+        // Gather resources that have been hydrated from all 
         // collections and query for all simultaneously.
-        $departments = array();
+        $resources = array();
 
         foreach ($collections as $collection) {
             $collection->fromResults($results[$collection->id()]);
 
             if (count($collection->collection) > 0) {
-                $departments = array_merge(
-                    $departments, 
+                $resources = array_merge(
+                    $resources, 
                     $collection->collection
                 );
             }
         }
 
-        \Loris\Resource\Department::query($departments);
+        \Loris\Resource\Department::query($resources);
     }
 
     /**
-     * @param array $results
+     * @param \stdClass $results
      */
-    public function fromResults(array $results)
+    public function fromResults(\stdClass $results)
     {
         // Hydrate meta attributes
-        $this->meta->page = intval($results['page']);
-        $this->meta->limit = intval($results['limit']);
-        $this->meta->total = intval($results['total']);
+        $this->meta->page = intval($results->page);
+        $this->meta->limit = intval($results->limit);
+        $this->meta->total = intval($results->total);
 
         $this->collection = array();
 
         // Add a Person for each entry in our 'ids' attribute
-        foreach ($results['ids'] as $id) {
+        foreach ($results->ids as $id) {
             $department = new \Loris\Resource\Department(
                 $id
             );

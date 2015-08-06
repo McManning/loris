@@ -94,7 +94,7 @@ class Utility
         $results = array();
         foreach ($reformatted as $id => $rowsets) {
             // Main attributes are in the first row of the first rowset
-            $results[$id] = $rowsets[0][0];
+            $results[$id] = (object)$rowsets[0][0];
 
             // Look for any complex attributes we need to append
             if ($complexAttributes) {
@@ -111,6 +111,7 @@ class Utility
                     $rows = &$reformatted[$id][$properties['rowset']];
 
                     if ($properties['type'] === 'array') {
+                        $results[$id]->{$attr} = array();
 
                         if (array_key_exists('column', $properties)) {
                             // If a column was specified, this is going to be an array
@@ -124,20 +125,22 @@ class Utility
                                 );
                             }
 
-                            $results[$id][$attr] = array();
                             foreach ($rows as $row) {
-                                array_push($results[$id][$attr], $row[$column]);
+                                array_push($results[$id]->{$attr}, $row[$column]);
                             }
                         } else {
                             // If the complex attribute is an array, use all rows from
                             // the desired rowset as our attribute value.
-                            $results[$id][$attr] = $rows;
+                            $results[$id]->{$attr} = array();
+                            foreach ($rows as $row) {
+                                array_push($results[$id]->{$attr}, (object)$row);
+                            }
                         }
                         
                     } elseif ($properties['type'] === 'object') {
 
                         // Complex attribute is an object, so use only the first row
-                        $results[$id][$attr] = $rows[0];
+                        $results[$id]->{$attr} = (object)$rows[0];
 
                     } else {
                         // We have no idea what this is. Error out. 
