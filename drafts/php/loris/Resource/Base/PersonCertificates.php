@@ -13,10 +13,8 @@ namespace Loris\Resource\Base;
         type: object
         description: From USP_COI_getCOIStatus
         properties:
-          title:
-            type: string
           year:
-            type: string
+            type: number
           expiration:
             type: string
             format: date
@@ -29,18 +27,11 @@ namespace Loris\Resource\Base;
             items:
               type: string
       PIE:
-        type: object
+        type: boolean
         description: From USP_isPIEligible
-        properties:
-          title:
-            type: string
-          eligible:
-            type: boolean
       ibcGeneral:
         type: object
         properties:
-          title:
-            type: string
           received:
             type: string
             format: date
@@ -49,8 +40,6 @@ namespace Loris\Resource\Base;
       ibcHGT:
         type: object
         properties:
-          title:
-            type: string
           received:
             type: string
             format: date
@@ -59,8 +48,6 @@ namespace Loris\Resource\Base;
       ibcPlants:
         type: object
         properties:
-          title:
-            type: string
           received:
             type: string
             format: date
@@ -69,8 +56,6 @@ namespace Loris\Resource\Base;
       animalCare:
         type: object
         properties:
-          title:
-            type: string
           received:
             type: string
             format: date
@@ -82,8 +67,6 @@ namespace Loris\Resource\Base;
       occHealth:
         type: object
         properties:
-          title:
-            type: string
           received:
             type: string
             format: date
@@ -95,8 +78,6 @@ namespace Loris\Resource\Base;
       OHR:
         type: object
         properties:
-          title:
-            type: string
           received:
             type: string
             format: date
@@ -110,8 +91,6 @@ namespace Loris\Resource\Base;
       CITI:
         type: object
         properties:
-          title:
-            type: string
           received:
             type: string
             format: date
@@ -121,8 +100,6 @@ namespace Loris\Resource\Base;
       GCP:
         type: object
         properties:
-          title:
-            type: string
           received:
             type: string
             format: date
@@ -132,18 +109,12 @@ namespace Loris\Resource\Base;
       RCR:
         type: object
         properties:
-          title:
-            type: string
           received:
             type: string
             format: date
       eProtocolUA:
-        type: object
-        properties:
-          title:
-            type: string
-          narrative:
-            type: string
+        type: string
+        description: eProtocol narrative
 */
 class PersonCertificates extends Meta
 {
@@ -188,7 +159,7 @@ class PersonCertificates extends Meta
         foreach ($personCertificatess as $personCertificates) {
             if (!array_key_exists($personCertificates->id(), $results)) {
                 throw new \Exception(
-                    'Person [' . $personCertificates->id() . '] missing from $results'
+                    'PersonCertificates [' . $personCertificates->id() . '] missing from $results'
                 );
             }
 
@@ -197,96 +168,93 @@ class PersonCertificates extends Meta
     }
 
     /**
-     * @param array $results
+     * @param \stdClass $results
      */
-    public function fromResults(array $results)
+    public function fromResults(\stdClass $results)
     {
         /*
             Expect:
             @todo in a dev environment, need a way to validate input
             schema against the expected, and throw DETAILED errors on 
             exactly where the results differ.
-            
-            array(
+
+            stdClass(
                 id,
-                COI = array(
-                    title, year, expiration, status, phs,
+                COI = stdClass(
+                    year, expiration, status, phs,
                     companies = array(string)
                 ),
-                PIE = array(title, eligible),
-                ibcGeneral = array(title, received, status),
-                ibcHGT = array(title, received, status),
-                ibcPlants = array(title, received, status),
-                animjalCare = array(title, received, expired, status),
-                occHealth = array(title, received, expired, status),
-                OHR = array(title, received, expired, status, workflow),
-                CITI = array(title, received, expired),
-                GCP = array(title, received, expired),
-                RCR = array(title, received),
-                eProtocolUA = array(title, narrative)
+                PIE = stdClass(eligible),
+                ibcGeneral = stdClass(received, status),
+                ibcHGT = stdClass(received, status),
+                ibcPlants = stdClass(received, status),
+                animalCare = stdClass(received, expired, status),
+                occHealth = stdClass(received, expired, status),
+                OHR = stdClass(received, expired, status, workflow),
+                CITI = stdClass(received, expired),
+                GCP = stdClass(received, expired),
+                RCR = stdClass(received),
+                eProtocolUA = stdClass(narrative)
             )
         */
         // Update id(), as we may have potentially not had it pre-query
-        $this->id($results['id']);
+        $this->id($results->id);
 
         // Hydrate attributes
-        $this->COI->title = $results['COI']['title'];
-        $this->COI->year = $results['COI']['year'];
-        $this->COI->expiration = $results['COI']['expiration'];
-        $this->COI->status = $results['COI']['status'];
-        $this->COI->phs = $results['COI']['phs'];
-        $this->COI->companies = $results['COI']['companies'];
-
-
-        // Hydrate relationships
-        if ($results['departmentId'] !== null) {
-            $this->department->id($results['departmentId']);
-        } else {
-            // Data source tells us there is no associated department
-            $this->department = new NullResource();
+        $this->COI = new \stdClass;
+        $this->COI->year = ($results->COI->year !== null) ? intval($results->COI->year) : null;
+        $this->COI->expiration = $results->COI->expiration;
+        $this->COI->status = $results->COI->status;
+        $this->COI->phs = $results->COI->phs;
+        $this->COI->companies = array();
+        foreach ($results->COI->companies as $row) {
+            // For autogenerated code, this would perform type conversions
+            // if, say, each row is of type number or date.
+            $this->COI->companies[] = $row;
         }
+
+        $this->PIE = ($results->PIE == 1);
+
+        $this->ibcGeneral = new \stdClass;
+        $this->ibcGeneral->received = $results->ibcGeneral->received;
+        $this->ibcGeneral->status = $results->ibcGeneral->status;
+
+        $this->ibcHGT = new \stdClass;
+        $this->ibcHGT->received = $results->ibcHGT->received;
+        $this->ibcHGT->status = $results->ibcHGT->status;
+
+        $this->ibcPlants = new \stdClass;
+        $this->ibcPlants->received = $results->ibcPlants->received;
+        $this->ibcPlants->status = $results->ibcPlants->status;
+
+        $this->animalCare = new \stdClass;
+        $this->animalCare->received = $results->animalCare->received;
+        $this->animalCare->expired = $results->animalCare->expired;
+        $this->animalCare->status = $results->animalCare->status;
         
-        if ($results['coworkersId'] !== null) {
-            $this->coworkers->id($results['coworkersId']);
-            $this->coworkers->meta->total = intval($results['coworkersTotal']);
-        } else {
-            // Data source tells us there are no associated coworkers
-            $this->coworkers = new NullResource();
-        }
+        $this->occHealth = new \stdClass;
+        $this->occHealth->received = $results->occHealth->received;
+        $this->occHealth->expired = $results->occHealth->expired;
+        $this->occHealth->status = $results->occHealth->status;
+        
+        $this->OHR = new \stdClass;
+        $this->OHR->received = $results->OHR->received;
+        $this->OHR->expired = $results->OHR->expired;
+        $this->OHR->status = $results->OHR->status;
+        $this->OHR->workflow = $results->OHR->workflow;
+        
+        $this->CITI = new \stdClass;
+        $this->CITI->received = $results->CITI->received;
+        $this->CITI->expired = $results->CITI->expired;
+        
+        $this->GCP = new \stdClass;
+        $this->GCP->received = $results->GCP->received;
+        $this->GCP->expired = $results->GCP->expired;
 
-        // Hydrate `addresses` array of objects
-        foreach ($results['addresses'] as $row) {
-            $object = new \stdClass();
-            $object->address1 = $row['address1'];
-            $object->address2 = $row['address2'];
-            $object->city = $row['city'];
-            $object->state = $row['state'];
-            $object->zip = $row['zip'];
-            $object->room = $row['room'];
-            $object->building = $row['building'];
-            $object->phone = $row['phone'];
-            array_push($this->addresses, $object);
-        }
+        $this->RCR = new \stdClass;
+        $this->RCR->received = $results->RCR->received;
 
-        /// Hydrate `otherDepartments` array of objects, with a sub-resource
-        foreach ($results['otherDepartments'] as $row) {
-            $object = new \stdClass();
-            $object->fte = intval($row['fte']);
-
-            // Note we have to actually construct the resource here, 
-            // as it wouldn't already exist (obviously)
-            if ($row['departmentId'] !== null) {
-                $object->department = new Meta(
-                    $row['departmentId'], 
-                    '/department/{id}'
-                );
-            } else {
-                // Data source tells us there is no associated department
-                $object->department = new NullResource();
-            }
-
-            array_push($this->otherDepartments, $object);
-        }
+        $this->eProtocolUA = $results->eProtocolUA;
 
         // Perform expansions after hydration, in case we hydrated any
         // additional resource references in Arrays or Objects
@@ -315,52 +283,7 @@ class PersonCertificates extends Meta
             return;
         }
 
-        // Sub-collection relationship
-        if (array_key_exists('coworkers', $this->expansions)) {
-
-            //$this->coworkers = Discovery::find(
-            //    $this->coworkers->meta->uri
-            //);
-
-            // For now, assume local.
-            $this->coworkers = new \Loris\Resource\PersonCoworkers(
-                $this->coworkers->id()
-            );
-
-            if (is_array($this->expansions['coworkers'])) {
-                $this->coworkers->expand($this->expansions['coworkers']);
-            }
-        }
-
-        // Other resource relationship
-        if (array_key_exists('department', $this->expansions)) {
-            $this->department = new \Loris\Resource\Department(
-                $this->department->id()
-            );
-
-            if (is_array($this->expansions['department'])) {
-                $this->department->expand($this->expansions['department']);
-            }
-        }
-
-        // Array of stdClass that have a resource attribute
-        if (array_key_exists('otherDepartments', $this->expansions)) {
-            foreach ($this->otherDepartments as $otherDepartment) {
-
-                // Test the resource attribute for expansions
-                if (array_key_exists('department', $this->expansions['otherDepartments'])) {   
-                    $otherDepartment->department = new \Loris\Resource\Department(
-                        $otherDepartment->department->id()
-                    );
-
-                    if (is_array($this->expansions['otherDepartments']['department'])) {
-                        $otherDepartment->department->expand(
-                            $this->expansions['otherDepartments']['department']
-                        );
-                    }
-                }
-            }
-        }
+        // NOOP
     }
 
     /**
@@ -374,107 +297,59 @@ class PersonCertificates extends Meta
         $serialized = parent::serialize();
 
         // Attributes
-        $serialized->osuid = $this->osuid;
-        $serialized->firstName = $this->firstName;
-        $serialized->middleName = $this->middleName;
-        $serialized->lastName = $this->lastName;
-        $serialized->active = $this->active;
-        $serialized->addresses = $this->addresses;
-
-        $serialized->jobCode = $this->jobCode;
-        $serialized->jobDescription = $this->jobDescription;
-        $serialized->jobGroup = $this->jobGroup;
-        $serialized->apptCode = $this->apptCode;
-        $serialized->apptDescription = $this->apptDescription;
-        $serialized->fte = $this->fte;
-
-        // Relationships
-        $serialized->coworkers = $this->coworkers->serialize();
-        $serialized->department = $this->department->serialize();
-
-        // TODO: Problem is that we can't just copy for serialization. We have to
-        // iterate properties and serialize the department resource manually.
-        $serialized->otherDepartments = array(); 
-        foreach ($this->otherDepartments as $otherDepartment) {
-            $object = new \stdClass;
-            $object->fte = $otherDepartment->fte;
-            $object->department = $otherDepartment->department->serialize();
-            array_push($serialized->otherDepartments, $object);
+        $serialized->COI = new \stdClass;
+        $serialized->COI->year = $this->COI->year;
+        $serialized->COI->expiration = $this->COI->expiration;
+        $serialized->COI->status = $this->COI->status;
+        $serialized->COI->phs = $this->COI->phs;
+        $serialized->COI->companies = array();
+        foreach ($this->COI->companies as $row) {
+            $serialized->COI->companies[] = $row;
         }
+
+        $serialized->PIE = $this->PIE;
+
+        $serialized->ibcGeneral = new \stdClass;
+        $serialized->ibcGeneral->received = $this->ibcGeneral->received;
+        $serialized->ibcGeneral->status = $this->ibcGeneral->status;
+
+        $serialized->ibcHGT = new \stdClass;
+        $serialized->ibcHGT->received = $this->ibcHGT->received;
+        $serialized->ibcHGT->status = $this->ibcHGT->status;
+
+        $serialized->ibcPlants = new \stdClass;
+        $serialized->ibcPlants->received = $this->ibcPlants->received;
+        $serialized->ibcPlants->status = $this->ibcPlants->status;
+
+        $serialized->animalCare = new \stdClass;
+        $serialized->animalCare->received = $this->animalCare->received;
+        $serialized->animalCare->expired = $this->animalCare->expired;
+        $serialized->animalCare->status = $this->animalCare->status;
+        
+        $serialized->occHealth = new \stdClass;
+        $serialized->occHealth->received = $this->occHealth->received;
+        $serialized->occHealth->expired = $this->occHealth->expired;
+        $serialized->occHealth->status = $this->occHealth->status;
+        
+        $serialized->OHR = new \stdClass;
+        $serialized->OHR->received = $this->OHR->received;
+        $serialized->OHR->expired = $this->OHR->expired;
+        $serialized->OHR->status = $this->OHR->status;
+        $serialized->OHR->workflow = $this->OHR->workflow;
+        
+        $serialized->CITI = new \stdClass;
+        $serialized->CITI->received = $this->CITI->received;
+        $serialized->CITI->expired = $this->CITI->expired;
+        
+        $serialized->GCP = new \stdClass;
+        $serialized->GCP->received = $this->GCP->received;
+        $serialized->GCP->expired = $this->GCP->expired;
+
+        $serialized->RCR = new \stdClass;
+        $serialized->RCR->received = $this->RCR->received;
+
+        $serialized->eProtocolUA = $this->eProtocolUA;
 
         return $serialized;
     }
 }
-
-/*
-  Source YML Schema:
-
-  Person:
-    properties:
-      meta:
-        x-meta-uri: "/person/{id}"
-        $ref: "#/definitions/Meta"
-      id:
-        type: string
-      osuid:
-        type: string
-      firstName:
-        type: string
-      middleName:
-        type: string
-      lastName:
-        type: string
-      username:
-        type: string
-      active:
-        type: boolean
-      jobCode:
-        type: string
-      jobDescription:
-        type: string
-      jobGroup:
-        type: string
-      apptCode:
-        type: string
-      apptDescription:
-        type: string
-      fte:
-        type: number
-      coworkers:
-        x-meta-uri: "/person/{id}/coworkers"
-        $ref: "#/resources/PersonCoworkers"
-      department:
-        x-meta-uri: "/department/{id}"
-        $ref: "#/resources/Department"
-      otherDepartments:
-        type: array
-        items:
-          type: object
-          properties:
-            fte:
-              type: number
-            department:
-              x-meta-uri: "/department/{id}"
-              $ref: "#/resources/Department"
-      addresses:
-        type: array
-        items:
-          type: object
-          properties:
-            address1:
-              type: string
-            address2:
-              type: string
-            city:
-              type: string
-            state:
-              type: string
-            zip:
-              type: string
-            room:
-              type: string
-            building:
-              type: string
-            phone:
-              type: string
-*/
