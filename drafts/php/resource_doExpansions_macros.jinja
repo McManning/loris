@@ -14,6 +14,10 @@
     }
 {%- endmacro %}
 
+{% macro object_property_resource(object, name) -%}
+    TODO!
+{%- endmacro %}
+
 {% macro array_property_resources(name) -%}
     if (array_key_exists('{{ name }}', $this->expansions) &&
         count($this->{{ name }}) > 0) {

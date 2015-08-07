@@ -52,39 +52,51 @@ class {{ id }} extends Meta
         // but we still need to know the resource URI. The problem then becomes,
         // where do we get this URI? We can't guarantee to have access to Resource::URI
         // because resources may not exist on the same instance as this caller. 
-        // This may be a job for Discovery to handle?
-    {% for name, property in properties.iteritems() %}
-    {% if property.type == 'resource' %}
 
-        $this->{{ name }} = new Meta(
-            null, '{{ property.resource.uri }}'
-        );
+        {% import 'resource_constructor_macros.jinja' as macros %}
 
-    {% elif property.type == 'collection' %}
+        {% for name, property in properties.iteritems() %}
+            {% if property.type == 'resource' %}
+                {{ macros.resource_property(name, property.uri) }}
+            
+            {% elif property.type == 'collection' %}
+                {{ macros.collection_property(name, property.uri) }}
+            
+            {% elif property.type == 'object' %}
+                {{ macros.object_property(name) }}
 
-        $this->{{ name }} = new MetaCollection(
-            null, '{{ property.collection.uri }}'
-        );
+                {% for name2, property2 in property.properties.iteritems() %}
+                    {% if property2.type == 'resource' %}
+                        {{ macros.object_property_resource(name, name2, property2.uri) }}
 
-    {% elif property.type == 'object' %}
+                    {% elif property2.type == 'collection' %}
+                        {{ macros.object_property_collection(name, name2, property2.uri) }}
 
-        $this->{{ name }} = new \stdClass;
-        {% for name2, property2 in property.properties.iteritems() %}
-        {% if property2.type == 'resource' %}
-        $this->{{ name }}->{{ name2 }} = Meta(
-            null, '{{ property2.resource.uri }}'
-        );
-        {% elif property2.type == 'collection' %}
-        $this->{{ name }}->{{ name2 }} = MetaCollection(
-            null, '{{ property2.resource.uri }}'
-        );
-        {% else %}
-        $this->{{ name }}->{{ name2 }} = null;
-        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% elif property.type == 'array' %}
+
+                {% if property.items.type == 'resource' %}
+                    {{ macros.array_property_resources(name, property.items.uri) }}
+
+                {% elif property.items.type == 'collection' %}
+                    {{ macros.array_property_collections(name, property.items.uri) }}
+
+                {% elif property.items.type == 'object' %}
+                    {{ macros.array_property_object(name) }}
+                    {% for name2, property2 in property.items.properties.iteritems() %}
+                        {% if property2.type == 'resource' %}
+                            {{ macros.array_property_object_resource(name, name2, property2.uri) }}
+
+                        {% elif property2.type == 'collection' %}
+                            {{ macros.array_property_object_collection(name, name2, property2.uri) }}
+
+                        {% endif %}
+                    {% endfor %}
+
+                {% endif %}
+            {% endif %}
         {% endfor %}
-
-    {% endif %}
-    {% endfor %}
     }
 
     /**
@@ -97,93 +109,48 @@ class {{ id }} extends Meta
         );
     }
 
-    public static function postQuery(array ${{ id|camelcase|plural }}, array $results)
+    public static function postQuery(array $resources, array $results)
     {
-        foreach (${{ id|camelcase|plural }} as ${{ id|camelcase }}) {
-            if (!array_key_exists(${{ id|camelcase }}->id(), $results)) {
+        foreach ($resources as $resource) {
+            if (!array_key_exists($resource->id(), $results)) {
                 throw new \Exception(
-                    '{{ id }} [' . ${{ id|camelcase }}->id() . '] missing from $results'
+                    '{{ id }} [' . $resource->id() . '] missing from $results'
                 );
             }
 
-            ${{ id|camelcase }}->fromResults($results[${{ id|camelcase }}->id()]);
+            $resource->fromResults($results[$resource->id()]);
         }
 
         // Query for all expanded relationships
-        {{ query_object_properties(id, properties) }}
+        {% import 'resource_postQuery_macros.jinja' as macros %}
 
         {% for name, property in properties.iteritems() %}
-        {% if property.type == 'resource' or property.type == 'collection' %}
-            ${{ name|plural }} = array();
-            ${{ name }}Model = \Loris\Discovery::find('{{ property.resource.uri }}');
-            foreach (${{ id|camelcase|plural }} as ${{ id|camelcase }}) {
-                if (${{ id|camelcase }}->{{ name }} instanceof ${{ name }}Model->class) {
-                    ${{ name|plural }}[] = ${{ id|camelcase }}->{{ name }};
-                }
-            }
-            if (!empty(${{ name|plural }})) {
-                call_user_func(
-                    array(${{ name }}Model->class, 'query'),
-                    ${{ name|plural }}
-                );
-            }
-        {% elif property.type == 'object' %}
-            {% for name2, property2 in property.properties.iteritems() %}
-            {% if property2.type == 'resource' or property2.type == 'collection' %}
-                ${{ name }}{{ name2|pascalcase|plural }} = array();
-                ${{ name }}{{ name2|pascalcase }}Model = \Loris\Discovery::find('{{ property2.resource.uri }}');
-                foreach (${{ id|camelcase|plural }} as ${{ id|camelcase }}) {
-                    if (${{ id|camelcase }}->{{ name }}->{{ name2 }} instanceof ${{ name }}{{ name2|pascalcase }}Model->class) {
-                        ${{ name }}{{ name2|pascalcase|plural }}[] = ${{ id|camelcase }}->{{ name }};
-                    }
-                }
-                if (!empty(${{ name|plural }})) {
-                    call_user_func(
-                        array(${{ name }}Model->class, 'query'),
-                        ${{ name|plural }}
-                    );
-                }
-            {% endif %}
-            {% endfor %}
-        {% elif property.type == 'array' %}
-            {% if property.items.type == 'resource' or property.items.type == 'collection' %}
-                ${{ name|plural }} = array();
-                ${{ name }}Model = \Loris\Discovery::find('{{ property.resource.uri }}');
-                foreach (${{ id|camelcase|plural }} as ${{ id|camelcase }}) {
-                    foreach (${{ id|camelcase }}->{{ name }} as $item) {
-                        if ($item instanceof ${{ name }}Model->class) {
-                            ${{ name|plural }}[] = $item;
-                        }
-                    }
-                }
-                if (!empty(${{ name|plural }})) {
-                    call_user_func(
-                        array(${{ name }}Model->class, 'query'),
-                        ${{ name|plural }}
-                    );
-                }
-            {% elif property.items.type == 'object' %}
-                {% for name2, property2 in property.items.properties.iteritems() %}
-                {% if property2.type == 'resource' or property2.type == 'collection' %}
-                    ${{ name }}{{ name2|pascalcase|plural }} = array();
-                    ${{ name }}{{ name2|pascalcase }}Model = \Loris\Discovery::find('{{ property2.resource.uri }}');
-                    foreach (${{ id|camelcase|plural }} as ${{ id|camelcase }}) {
-                        foreach (${{ id|camelcase }}->{{ name }} as ${{ name|plural }}) {
-                            if (${{ name|plural }}->{{ name2 }} instanceof ${{ name }}{{ name2|pascalcase }}Model->class) {
-                                ${{ name }}{{ name2|pascalcase|plural }}[] = ${{ name|plural }}->{{ name2 }};
-                            }
-                        }
-                    }
-                    if (!empty(${{ name }}{{ name2|pascalcase|plural }})) {
-                        call_user_func(
-                            array(${{ name }}{{ name2|pascalcase }}Model->class, 'query'),
-                            ${{ name }}{{ name2|pascalcase|plural }}
-                        );
-                    }
-                {% endif %}
+            {% if property.type == 'resource' or property.type == 'collection' %}
+                {{ macros.resource_property(name) }}
+            
+            {% elif property.type == 'object' %}
+                {% for name2, property2 in property.properties.iteritems() %}
+                    {% if property2.type == 'resource' or property2.type == 'collection' %}
+                        {{ macros.object_property_resource(name, name2) }}
+
+                    {% endif %}
                 {% endfor %}
+
+            {% elif property.type == 'array' %}
+
+                {% if property.items.type == 'resource' or property.items.type == 'collection' %}
+                    {{ macros.array_property_resources(name) }}
+
+                {% elif property.items.type == 'object' %}
+                    {% for name2, property2 in property.items.properties.iteritems() %}
+                        {% if property2.type == 'resource' or property2.type == 'collection' %}
+                            {{ macros.array_property_object_resource(name, name2) }}
+
+                        {% endif %}
+                    {% endfor %}
+
+                {% endif %}
             {% endif %}
-        {% endif %}
         {% endfor %}
     }
 
@@ -330,55 +297,36 @@ class {{ id }} extends Meta
             return;
         }
 
-        // Sub-collection relationship
-        if (array_key_exists('coworkers', $this->expansions)) {
+        {% import 'resource_doExpansions_macros.jinja' as macros %}
 
-            $personCoworkersModel = \Loris\Discovery::find('/person/{id}/coworkers');
+        {% for name, property in properties.iteritems() %}
+            {% if property.type == 'resource' or property.type == 'collection' %}
+                {{ macros.resource_property(name) }}
+            
+            {% elif property.type == 'object' %}
+                {% for name2, property2 in property.properties.iteritems() %}
+                    {% if property2.type == 'resource' or property2.type == 'collection' %}
+                        {{ macros.object_property_resource(name, name2) }}
 
-            $this->coworkers = new $personCoworkersModel->class(
-                $this->coworkers->id()
-            );
+                    {% endif %}
+                {% endfor %}
 
-            if (is_array($this->expansions['coworkers'])) {
-                $this->coworkers->expand($this->expansions['coworkers']);
-            }
-        }
+            {% elif property.type == 'array' %}
 
-        // Other resource relationship
-        if (array_key_exists('department', $this->expansions)) {
+                {% if property.items.type == 'resource' or property.items.type == 'collection' %}
+                    {{ macros.array_property_resources(name) }}
 
-            $departmentModel = \Loris\Discovery::find('/department/{id}');
+                {% elif property.items.type == 'object' %}
+                    {% for name2, property2 in property.items.properties.iteritems() %}
+                        {% if property2.type == 'resource' or property2.type == 'collection' %}
+                            {{ macros.array_property_object_resource(name, name2) }}
 
-            $this->department = new $departmentModel->class(
-                $this->department->id()
-            );
+                        {% endif %}
+                    {% endfor %}
 
-            if (is_array($this->expansions['department'])) {
-                $this->department->expand($this->expansions['department']);
-            }
-        }
-
-        // Array of stdClass that have a resource attribute
-        if (array_key_exists('otherDepartments', $this->expansions)) {
-            foreach ($this->otherDepartments as $otherDepartment) {
-
-                // Test the resource attribute for expansions
-                if (array_key_exists('department', $this->expansions['otherDepartments'])) {  
-
-                    $departmentModel = \Loris\Discovery::find('/department/{id}'); 
-
-                    $otherDepartment->department = new $departmentModel->class(
-                        $otherDepartment->department->id()
-                    );
-
-                    if (is_array($this->expansions['otherDepartments']['department'])) {
-                        $otherDepartment->department->expand(
-                            $this->expansions['otherDepartments']['department']
-                        );
-                    }
-                }
-            }
-        }
+                {% endif %}
+            {% endif %}
+        {% endfor %}
     }
 
     /**
