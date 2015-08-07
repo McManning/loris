@@ -1,0 +1,55 @@
+
+{% macro primitive_property(name) -%}
+    $serialized->{{ name }} = $this->{{ name }};
+{%- endmacro %}
+
+{% macro resource_property(name) -%}
+    $serialized->{{ name }} = $this->{{ name }}->serialize();
+{%- endmacro %}
+
+{% macro object_property(name) %-}
+    $serialized->{{ name }} = new \stdClass;
+{%- endmacro %}
+
+{% macro object_property_primitive(object, name) -%}
+    $serialized->{{ object }}->{{ name }} = $this->{{ object }}->{{ name }};
+{%- endmacro %}
+
+{% macro object_property_resource(object, name) -%}
+    $serialized->{{ object }}->{{ name }} = $this->{{ object }}->{{ name }}->serialize();
+{%- endmacro %}
+
+{% macro array_property(name) -%}
+    $serialized->{{ name }} = array();
+{%- endmacro %}
+
+{% macro array_property_primitives(name) %}
+    $serialized->{{ name }} = clone $this->{{ name }};
+{%- endmacro %}
+
+{% macro array_property_resources(name) -%}
+    for ($i = 0; $i < count($this->{{ name }}); $i++) {
+        $serialized->{{ name }}[] = $this->{{ name }}[$i]->serialize();
+    }
+{%- endmacro %}
+
+{% macro array_property_object(name) -%}
+    for ($i = 0; $i < count($results->{{ name }}); $i++) {
+        $this->{{ name }}[] = new \stdClass;
+    }
+{%- endmacro %}
+
+{% macro array_property_object_primitive(array, name) -%}
+    for ($i = 0; $i < count($this->{{ array }}); $i++) {
+        $this->{{ array }}[$i]->{{ name }} = $results->{{ array }}[$i]->{{ name }};
+    }
+{%- endmacro %}
+
+{% macro array_property_object_resource(array, name) -%}
+    for ($i = 0; $i < count($this->{{ array }}); $i++) {
+        $this->{{ array }}[$i]->{{ name }} = $results->{{ array }}[$i]->{{ name }}->serialize();
+    }
+{%- endmacro %}
+
+
+

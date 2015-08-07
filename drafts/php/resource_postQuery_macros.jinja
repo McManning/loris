@@ -1,0 +1,75 @@
+
+{% macro resource_property(name) -%}
+    ${{ name }}s = array();
+    ${{ name }}Model = \Loris\Discovery::find('/subresource/{id}');
+    foreach ($resources as $resource) {
+        if ($resource->{{ name }} instanceof ${{ name }}Model->class) {
+            ${{ name }}s[] = $resource->{{ name }};
+        }
+    }
+    if (!empty(${{ name }}s)) {
+        call_user_func(
+            array(${{ name }}Model->class, 'query'),
+            ${{ name }}s
+        );
+    }
+{%- endmacro %}
+
+{% macro object_property_resource(object, name) -%}
+    ${{ name }}s = array();
+    ${{ name }}Model = \Loris\Discovery::find(
+        $resources[0]->{{ object }}->{{ name }}->_uri
+    );
+    foreach ($resources as $resource) {
+        if ($resource->{{ object }}->{{ name }} instanceof ${{ name }}Model->class) {
+            ${{ name }}s[] = $resource->{{ object }}->{{ name }};
+        }
+    }
+    if (!empty(${{ name }}s)) {
+        call_user_func(
+            array(${{ name }}Model->class, 'query'),
+            ${{ name }}s
+        );
+    }
+{%- endmacro %}
+
+{% macro array_property_resources(name) -%}
+    ${{ name }}s = array();
+    ${{ name }}Model = \Loris\Discovery::find(
+        $resources[0]->{{ name }}Pattern->_uri
+    );
+    foreach ($resources as $resource) {
+        foreach ($resources->{{ name }} as $item) {
+            if ($item instanceof ${{ name }}Model->class) {
+                ${{ name }}s[] = $item;
+            }
+        }
+    }
+    if (!empty(${{ name }}s)) {
+        call_user_func(
+            array(${{ name }}Model->class, 'query'),
+            ${{ name }}s
+        );
+    }
+{%- endmacro %}
+
+{% macro array_property_object_resource(array, name) -%}
+    ${{ name }}s = array();
+    ${{ name }}Model = \Loris\Discovery::find(
+        $resources[0]->{{ array }}Pattern->{{ name }}->_uri
+    );
+    foreach ($resources as $resource) {
+        foreach ($resource->{{ array }} as $item) {
+            if ($item->{{ name }} instanceof ${{ name }}Model->class) {
+                ${{ name }}s[] = $item->{{ name }};
+            }
+        }
+    }
+    if (!empty(${{ name }}s)) {
+        call_user_func(
+            array(${{ name }}Model->class, 'query'),
+            ${{ name }}s
+        );
+    }
+{%- endmacro %}
+
