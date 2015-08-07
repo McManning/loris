@@ -119,7 +119,7 @@
     // Array - resource & collection items
     $propertyArrayResources = array();
     $propertyArrayResourceModel = \Loris\Discovery::find(
-        $resources[0]->propertyArrayPattern->propertyResource->_uri
+        $resources[0]->propertyArrayPattern->_uri
     );
     foreach ($resources as $resource) {
         foreach ($resources->propertyArray as $propertyArrayResource) {
