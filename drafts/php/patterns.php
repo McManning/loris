@@ -62,50 +62,79 @@
 
 // postQuery Patterns
 {
-    // Ref resource/collection
+    // Resource & collection property
     $propertyResources = array();
-    $propertyResourcesModel = \Loris\Discovery::find('/subresource/{id}');
+    $propertyResourceModel = \Loris\Discovery::find(
+        $resources[0]->propertyResource->_uri
+    );
     foreach ($resources as $resource) {
-        if ($resource->propertyResource instanceof $propertyResourcesModel->class) {
+        if ($resource->propertyResource instanceof $propertyResourceModel->class) {
             $propertyResources[] = $resource->propertyResource;
         }
     }
     if (!empty($propertyResources)) {
         call_user_func(
-            array($propertyResourcesModel->class, 'query'),
+            array($propertyResourceModel->class, 'query'),
+            $propertyResources
+        );
+    }
+
+    // Object property - resource & collection property
+    $propertyResources = array();
+    $propertyResourceModel = \Loris\Discovery::find(
+        $resources[0]->propertyObject->propertyResource->_uri
+    );
+    foreach ($resources as $resource) {
+        if ($resource->propertyObject->propertyResource instanceof $propertyResourceModel->class) {
+            $propertyResources[] = $resource->propertyObject->propertyResource;
+        }
+    }
+    if (!empty($propertyResources)) {
+        call_user_func(
+            array($propertyResourceModel->class, 'query'),
+            $propertyResources
+        );
+    }
+
+    // Array property - object - resource & collection property
+    $propertyResources = array();
+    $propertyResourceModel = \Loris\Discovery::find(
+        $resources[0]->propertyArrayPattern->propertyResource->_uri
+    );
+    foreach ($resources as $resource) {
+        foreach ($resource->propertyArray as $propertyArray) {
+            if ($propertyArray->propertyResource instanceof $propertyResourceModel->class) {
+                $propertyResources[] = $propertyArray->propertyResource;
+            }
+        }
+    }
+    if (!empty($propertyResources)) {
+        call_user_func(
+            array($propertyResourceModel->class, 'query'),
             $propertyResources
         );
     }
 
 
-    // Array of object with ref resource/collection
-    $propertyObjectResources = array();
-    $propertyObjectResourcesModel = \Loris\Discovery::find('/subresource/{id}');
-    foreach ($resources as $resource) {
-        foreach ($resources->propertyObject as $propertyObject) {
-            if ($propertyObject->propertyResource instanceof $propertyObjectResourcesModel->class) {
-                $propertyObjectResources[] = $propertyObject->propertyResource;
-            }
-        }
-    }
-    if (!empty($propertyObjectResources)) {
-        call_user_func(
-            array($propertyObjectResourcesModel->class, 'query'),
-            $propertyObjectResources
-        );
-    }
-
-
-    // Array of ref resource/collection
+    // Array - resource & collection items
     $propertyArrayResources = array();
-    $propertyArrayResourcesModel = \Loris\Discovery::find('/subresource/{id}');
+    $propertyArrayResourceModel = \Loris\Discovery::find(
+        $resources[0]->propertyArrayPattern->propertyResource->_uri
+    );
     foreach ($resources as $resource) {
         foreach ($resources->propertyArray as $propertyArrayResource) {
-            if ($propertyArrayResource instanceof $propertyArrayResourcesModel->class) {
+            if ($propertyArrayResource instanceof $propertyArrayResourceModel->class) {
                 $propertyArrayResources[] = $propertyArrayResource;
             }
         }
     }
+    if (!empty($propertyArrayResources)) {
+        call_user_func(
+            array($propertyArrayResourceModel->class, 'query'),
+            $propertyArrayResources
+        );
+    }
+
 } // postQuery patterns
 
 // fromResults Patterns
@@ -265,7 +294,9 @@
     // Resource & collection property
     if (array_key_exists('resourceProperty', $this->expansions)) {
 
-        $resourcePropertyModel = \Loris\Discovery::find('resource/{id}');
+        $resourcePropertyModel = \Loris\Discovery::find(
+            $this->resourceProperty->_uri
+        );
         $this->resourceProperty = new $resourcePropertyModel->class(
             $this->resourceProperty->id()
         );
@@ -277,10 +308,11 @@
 
     // Array property - object property - resource & collection property
     if (array_key_exists('arrayProperty', $this->expansions) &&
-        array_key_exists('resourceProperty', $this->expansions['arrayProperty'])) {
+        array_key_exists('resourceProperty', $this->expansions['arrayProperty']) &&
+        count($this->arrayProperty) > 0) {
 
         $resourcePropertyModel = \Loris\Discovery::find(
-            $this->arrayProperty[$i]->resourceProperty->uriPattern
+            $this->arrayProperty[0]->resourceProperty->_uri
         );
         $expandResourceProperty = is_array($this->expansions['arrayProperty']['resourceProperty']);
         for ($i = 0; $i < count($this->arrayProperty); $i++) {
@@ -297,16 +329,19 @@
     }
 
     // Array property - resource or collection items
-    if (array_key_exists('arrayProperty', $this->expansions)) {
+    if (array_key_exists('arrayProperty', $this->expansions) &&
+        count($this->arrayProperty) > 0) {
 
-        $resourcePropertyModel = \Loris\Discovery::find('resource/{id}');
-        $expandResourceProperty = is_array($this->expansions['arrayProperty']);
+        $arrayPropertyModel = \Loris\Discovery::find(
+            $this->arrayProperty[0]->_uri
+        );
+        $expandArrayProperty = is_array($this->expansions['arrayProperty']);
         for ($i = 0; $i < count($this->arrayProperty); $i++) {
-            $this->arrayProperty[$i] = new $resourcePropertyModel->class(
+            $this->arrayProperty[$i] = new $arrayPropertyModel->class(
                 $this->arrayProperty[$i]->id()
             );
 
-            if ($expandResourceProperty) {
+            if ($expandArrayProperty) {
                 $this->arrayProperty[$i]->expand(
                     $this->expansions['arrayProperty']
                 );
