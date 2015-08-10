@@ -208,9 +208,9 @@ class {{ id }} extends Meta
                         macros.array_property_collections(name) 
                     }}
                 {% elif property['items'].type == 'object' %}
-                    {{-
-                        macros.array_property_object(name)
-                    }}
+        for ($i = 0; $i < count($results->{{ name }}); $i++) {
+            {{ macros.array_property_object(name) }}
+
                     {% for name2, property2 in property['items'].properties|dictsort %}
                         {% if property2.type == 'string' -%}
                             {{ macros.array_property_object_string(name, name2) }}
@@ -228,10 +228,11 @@ class {{ id }} extends Meta
                             }}
                         {% endif %}
                     {% endfor %}
+        }
+
                 {% endif %}
             {% endif %}
         {%- endfor %}
-
         // Perform expansions after hydration, in case we hydrated any
         // additional resource references in Arrays or Objects
         $this->doExpansions();
@@ -324,22 +325,23 @@ class {{ id }} extends Meta
             {% elif property.type == 'object' %}
                 {{-
                     macros.object_property(name)
-                }}
+                -}}
                 {% for name2, property2 in property.properties|dictsort %}
                     {% if property.type == 'string' or 
                         property.type == 'number' or 
                         property.type == 'boolean' -%}
-                        {{ macros.object_property_primitive(name, name2) }}
+                        {{ macros.object_property_primitive(name, name2) -}}
                     {% elif property2.type == 'resource' -%}
                         {{- 
                             macros.object_property_resource(name, name2) 
-                        }}
+                        -}}
                     {% elif property2.type == 'collection' -%}
                         {{- 
                             macros.object_property_collection(name, name2) 
-                        }}
+                        -}}
                     {% endif %}
                 {% endfor %}
+
             {% elif property.type == 'array' %}
                 {% if property['items'].type == 'string' or 
                     property['items'].type == 'number' or 
@@ -354,28 +356,29 @@ class {{ id }} extends Meta
                         macros.array_property_collections(name) 
                     }}
                 {% elif property['items'].type == 'object' %}
-                    {{-
-                        macros.array_property_object(name)
-                    }}
+        $serialized->{{ name }} = array();
+        for ($i = 0; $i < count($this->{{ name }}); $i++) {
+            {{ macros.array_property_object(name) }}
                     {% for name2, property2 in property['items'].properties|dictsort %}
                         {% if property2.type == 'string' or 
                             property2.type == 'number' or 
                             property2.type == 'boolean' -%}
-                            {{ macros.array_property_object_primitive(name, name2) }}
+                            {{ macros.array_property_object_primitive(name, name2) -}}
                         {% elif property2.type == 'resource' -%}
                             {{- 
                                 macros.array_property_object_resource(name, name2) 
-                            }}
+                            -}}
                         {% elif property2.type == 'collection' -%}
                             {{- 
                                 macros.array_property_object_collection(name, name2) 
-                            }}
+                            -}}
                         {% endif %}
                     {% endfor %}
+        }
+
                 {% endif %}
             {% endif %}
         {%- endfor %}
-
         return $serialized;
     }
 }

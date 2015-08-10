@@ -45,29 +45,20 @@
         }
 {% endmacro %}
 
-{% macro array_property_object(name) %}
-        $serialized->{{ name }} = array();
-        for ($i = 0; $i < count($this->{{ name }}); $i++) {
-            $serialized->{{ name }}[] = new \stdClass;
-        }
-{% endmacro %}
+{% macro array_property_object(name) -%}
+            $serialized->{{ name }}[$i] = new \stdClass;
+{%- endmacro %}
 
 {% macro array_property_object_primitive(array, name) %}
-        for ($i = 0; $i < count($this->{{ array }}); $i++) {
             $serialized->{{ array }}[$i]->{{ name }} = $this->{{ array }}[$i]->{{ name }};
-        }
 {% endmacro %}
 
 {% macro array_property_object_resource(array, name) %}
-        for ($i = 0; $i < count($this->{{ array }}); $i++) {
             $serialized->{{ array }}[$i]->{{ name }} = $this->{{ array }}[$i]->{{ name }}->serialize();
-        }
 {% endmacro %}
 
 {% macro array_property_object_collection(array, name) %}
-        for ($i = 0; $i < count($this->{{ array }}); $i++) {
             $serialized->{{ array }}[$i]->{{ name }} = $this->{{ array }}[$i]->{{ name }}->serialize();
-        }
 {% endmacro %}
 
 

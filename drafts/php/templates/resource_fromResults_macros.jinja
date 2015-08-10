@@ -115,34 +115,25 @@
         }
 {% endmacro %}
 
-{% macro array_property_object(name) %}
-        for ($i = 0; $i < count($results->{{ name }}); $i++) {
-            $this->{{ name }}[] = clone $this->{{ name }}Pattern;
-        }
-{% endmacro %}
+{% macro array_property_object(name) -%}
+            $this->{{ name }}[$i] = clone $this->{{ name }}Pattern;
+{%- endmacro %}
 
 {% macro array_property_object_string(array, name) %}
-        for ($i = 0; $i < count($this->{{ array }}); $i++) {
             $this->{{ array }}[$i]->{{ name }} = $results->{{ array }}[$i]->{{ name }};
-        }
 {% endmacro %}
 
 {% macro array_property_object_number(array, name) %}
-        for ($i = 0; $i < count($this->{{ array }}); $i++) {
             $this->{{ array }}[$i]->{{ name }} = intval(
                 $results->{{ array }}[$i]->{{ name }}
             );
-        }
 {% endmacro %}
 
 {% macro array_property_object_boolean(array, name) %}
-        for ($i = 0; $i < count($this->{{ array }}); $i++) {
             $this->{{ array }}[$i]->{{ name }} = (1 == $results->{{ array }}[$i]->{{ name }});
-        }
 {% endmacro %}
 
 {% macro array_property_object_resource(array, name) %}
-        for ($i = 0; $i < count($this->{{ array }}); $i++) {
             if ($results->{{ array }}[$i]->{{ name }}Id !== null) {
                 $this->{{ array }}[$i]->{{ name }}->id(
                     $results->{{ array }}[$i]->{{ name }}Id
@@ -150,11 +141,9 @@
             } else {
                 $this->{{ array }}[$i]->{{ name }} = new NullResource();
             }
-        }
 {% endmacro %}
 
 {% macro array_property_object_collection(array, name) %}
-        for ($i = 0; $i < count($this->{{ array }}); $i++) {
             if ($results->{{ array }}[$i]->{{ name }}Id !== null) {
                 $this->{{ array }}[$i]->{{ name }}->id(
                     $results->{{ array }}[$i]->{{ name }}Id
@@ -165,7 +154,6 @@
             } else {
                 $this->{{ array }}[$i]->{{ name }} = new NullResource();
             }
-        }
 {% endmacro %}
 
 
