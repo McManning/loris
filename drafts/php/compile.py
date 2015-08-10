@@ -33,6 +33,8 @@ def generate_resource_php(resource):
     j2_env.globals['uri'] = resource['uri']
     j2_env.globals['id_var'] = camelcase(resource['id'])
     j2_env.globals['id_var_plural'] = camelcase(resource['id']) + 's'
+    j2_env.globals['date_format'] = 'Y-m-d'
+    j2_env.globals['datetime_format'] = 'Y-m-d H:i:s'
 
     # Load resources into fragment files
     template = j2_env.get_template('templates/base_resource.jinja')
