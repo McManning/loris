@@ -1,64 +1,99 @@
-{% macro resource_property(name) -%}
-    if (array_key_exists('{{ name }}', $this->expansions)) {
+{% macro resource_property(name) %}
+        if (array_key_exists('{{ name }}', $this->expansions)) {
 
-        ${{ name }}Model = \Loris\Discovery::find(
-            $this->{{ name }}->_uri
-        );
-        $this->{{ name }} = new ${{ name }}Model->class(
-            $this->{{ name }}->id()
-        );
-
-        if (is_array($this->expansions['{{ name }}'])) {
-            $this->{{ name }}->expand($this->expansions['{{ name }}']);
-        }
-    }
-{%- endmacro %}
-
-{% macro object_property_resource(object, name) -%}
-    TODO!
-{%- endmacro %}
-
-{% macro array_property_resources(name) -%}
-    if (array_key_exists('{{ name }}', $this->expansions) &&
-        count($this->{{ name }}) > 0) {
-
-        ${{ name }}Model = \Loris\Discovery::find(
-            $this->{{ name }}[0]->_uri
-        );
-        $expand{{ name }} = is_array($this->expansions['{{ name }}']);
-        for ($i = 0; $i < count($this->{{ name }}); $i++) {
-            $this->{{ name }}[$i] = new ${{ name }}Model->class(
-                $this->{{ name }}[$i]->id()
+            ${{ name }}Model = \Loris\Discovery::find(
+                $this->{{ name }}->_uri
+            );
+            $this->{{ name }} = new ${{ name }}Model->class(
+                $this->{{ name }}->id()
             );
 
-            if ($expand{{ name }}) {
-                $this->{{ name }}[$i]->expand(
-                    $this->expansions['{{ name }}']
+            if (is_array($this->expansions['{{ name }}'])) {
+                $this->{{ name }}->expand($this->expansions['{{ name }}']);
+            }
+        }
+{% endmacro %}
+
+{% macro collection_property(name) %}
+{{ resource_property(name) -}}
+{% endmacro %}
+
+{% macro object_property_resource(object, name) %}
+        if (array_key_exists('{{ object }}', $this->expansions) &&
+            array_key_exists('{{ name }}', $this->expansions['{{ object }}'])) {
+
+            ${{ name }}Model = \Loris\Discovery::find(
+                $this->{{ object }}->{{ name }}->_uri
+            );
+            $this->{{ object }}->{{ name }} = new ${{ name }}Model->class(
+                $this->{{ object }}->{{ name }}->id()
+            );
+
+            if (is_array($this->expansions['{{ object }}']['{{ name }}'])) {
+                $this->{{ object }}->{{ name }}->expand(
+                    $this->expansions['{{ object }}']['{{ name }}']
                 );
             }
         }
-    }
-{%- endmacro %}
+{% endmacro %}
 
-{% macro array_property_object_resource(arr, name) -%}
-    if (array_key_exists('{{ arr }}', $this->expansions) &&
-        array_key_exists('{{ name }}', $this->expansions['{{ arr }}']) &&
-        count($this->{{ arr }}) > 0) {
+{% macro object_property_collection(object, name) %}
+{{ object_property_resource(object, name) -}}
+{% endmacro %}
 
-        ${{ name }}Model = \Loris\Discovery::find(
-            $this->{{ arr }}[0]->{{ name }}->_uri
-        );
-        $expand{{ name }} = is_array($this->expansions['{{ arr }}']['{{ name }}']);
-        for ($i = 0; $i < count($this->{{ arr }}); $i++) {
-            $this->{{ arr }}[$i]->  = new ${{ name }}Model->class(
-                $this->{{ arr }}[$i]->{{ name }}->id()
+    {% macro array_property_resources(name) %}
+        if (array_key_exists('{{ name }}', $this->expansions) &&
+            count($this->{{ name }}) > 0) {
+
+            ${{ name }}Model = \Loris\Discovery::find(
+                $this->{{ name }}[0]->_uri
             );
-
-            if ($expand{{ name }}) {
-                $this->{{ arr }}[$i]->{{ name }}->expand(
-                    $this->expansions['{{ arr }}']['{{ name }}']
+            ${{ name }}Expanded = is_array(
+                $this->expansions['{{ name }}']
+            );
+            for ($i = 0; $i < count($this->{{ name }}); $i++) {
+                $this->{{ name }}[$i] = new ${{ name }}Model->class(
+                    $this->{{ name }}[$i]->id()
                 );
+
+                if (${{ name }}Expanded) {
+                    $this->{{ name }}[$i]->expand(
+                        $this->expansions['{{ name }}']
+                    );
+                }
             }
         }
-    }
-{%- endmacro %}
+{% endmacro %}
+
+{% macro array_property_collections(name) %}
+{{ array_property_resources(name) -}}
+{% endmacro %}
+
+{% macro array_property_object_resource(arr, name) %}
+        if (array_key_exists('{{ arr }}', $this->expansions) &&
+            array_key_exists('{{ name }}', $this->expansions['{{ arr }}']) &&
+            count($this->{{ arr }}) > 0) {
+
+            ${{ name }}Model = \Loris\Discovery::find(
+                $this->{{ arr }}[0]->{{ name }}->_uri
+            );
+            ${{ name }}Expanded = is_array(
+                $this->expansions['{{ arr }}']['{{ name }}']
+            );
+            for ($i = 0; $i < count($this->{{ arr }}); $i++) {
+                $this->{{ arr }}[$i]->{{ name }}  = new ${{ name }}Model->class(
+                    $this->{{ arr }}[$i]->{{ name }}->id()
+                );
+
+                if (${{ name }}Expanded) {
+                    $this->{{ arr }}[$i]->{{ name }}->expand(
+                        $this->expansions['{{ arr }}']['{{ name }}']
+                    );
+                }
+            }
+        }
+{% endmacro %}
+
+{% macro array_property_object_collection(array, name) %}
+{{ array_property_object_resource(array, name) -}}
+{% endmacro %}

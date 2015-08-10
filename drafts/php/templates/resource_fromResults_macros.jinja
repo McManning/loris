@@ -1,0 +1,172 @@
+
+{% macro string_property(name) %}
+        $this->{{ name }} = $results->{{ name }};
+{% endmacro %}
+
+{% macro number_property(name) %}
+        $this->{{ name }} = intval(
+            $results->{{ name }}
+        );
+{% endmacro %}
+
+{% macro boolean_property(name) %}
+        $this->{{ name }} = (1 == $results->{{ name }});
+{% endmacro %}
+
+{% macro resource_property(name) %}
+        if ($results->{{ name }}Id !== null) {
+            $this->{{ name }}->id(
+                $results->{{ name }}Id
+            );
+        } else {
+            $this->{{ name }} = new NullResource();
+        }
+{% endmacro %}
+
+{% macro collection_property(name) %}
+        if ($results->{{ name }}Id !== null) {
+            $this->{{ name }}->id(
+                $results->{{ name }}Id
+            );
+            $this->{{ name }}->meta->total = intval(
+                $results->{{ name }}Total
+            );
+        } else {
+            $this->{{ name }} = new NullResource();
+        }
+{% endmacro %}
+
+{% macro object_property_string(object, name) %}
+        $this->{{ object }}->{{ name }} = $results->{{ object }}->{{ name }};
+{% endmacro %}
+
+{% macro object_property_number(object, name) %}
+        $this->{{ object }}->{{ name }} = intval(
+            $results->{{ object }}->{{ name }}
+        );
+{% endmacro %}
+
+{% macro object_property_boolean(object, name) %}
+        $this->{{ object }}->{{ name }} = (1 == $results->{{ object }}->{{ name }});
+{% endmacro %}
+
+{% macro object_property_resource(object, name) %}
+        if ($results->{{ object }}->{{ name }}Id !== null) {
+            $this->{{ object }}->{{ name }}->id(
+                $results->{{ object }}->{{ name }}Id
+            );
+        } else {
+            $this->{{ object }}->{{ name }} = new NullResource();
+        }
+{% endmacro %}
+
+{% macro object_property_collection(object, name) %}
+        if ($results->{{ object }}->{{ name }}Id !== null) {
+            $this->{{ object }}->{{ name }}->id(
+                $results->{{ object }}->{{ name }}Id
+            );
+            $this->{{ object }}->{{ name }}->meta->total = intval(
+                $results->{{ object }}->{{ name }}Total
+            );
+        } else {
+            $this->{{ object }}->{{ name }} = new NullResource();
+        }
+{% endmacro %}
+
+{% macro array_property_strings(name) %}
+        foreach ($results->{{ name }} as $item) {
+            $this->{{ name }}[] = $item;
+        }
+{% endmacro %}
+
+{% macro array_property_numbers(name) %}
+        foreach ($results->{{ name }} as $item) {
+            $this->{{ name }}[] = intval($item);
+        }
+{% endmacro %}
+
+{% macro array_property_booleans(name) %}
+        foreach ($results->{{ name }} as $item) {
+            $this->{{ name }}[] = (1 == $item);
+        }
+{% endmacro %}
+
+{% macro array_property_resources(name) %}
+        foreach ($results->{{ name }} as $item) {
+            if ($item->resourceItemId !== null) {
+                $resourceItem = clone $this->arrayPropertyPattern;
+                $resourceItem->id(
+                    $item->resourceItemId
+                );
+                $this->{{ name }}[] = $resourceItem;
+            }
+        }
+{% endmacro %}
+
+{% macro array_property_collections(name) %}
+        foreach ($results->{{ name }} as $item) {
+            if ($item->collectionItemId !== null) {
+                $collectionItem = clone $this->arrayPropertyPattern;
+                $collectionItem->id(
+                    $item->collectionItemId
+                );
+                $this->{{ name }}[] = $collectionItem;
+            }
+        }
+{% endmacro %}
+
+{% macro array_property_object(name) %}
+        for ($i = 0; $i < count($results->{{ name }}); $i++) {
+            $this->{{ name }}[] = clone $this->{{ name }}Pattern;
+        }
+{% endmacro %}
+
+{% macro array_property_object_string(array, name) %}
+        for ($i = 0; $i < count($this->{{ array }}); $i++) {
+            $this->{{ array }}[$i]->{{ name }} = $results->{{ array }}[$i]->{{ name }};
+        }
+{% endmacro %}
+
+{% macro array_property_object_number(array, name) %}
+        for ($i = 0; $i < count($this->{{ array }}); $i++) {
+            $this->{{ array }}[$i]->{{ name }} = intval(
+                $results->{{ array }}[$i]->{{ name }}
+            );
+        }
+{% endmacro %}
+
+{% macro array_property_object_boolean(array, name) %}
+        for ($i = 0; $i < count($this->{{ array }}); $i++) {
+            $this->{{ array }}[$i]->{{ name }} = (1 == $results->{{ array }}[$i]->{{ name }});
+        }
+{% endmacro %}
+
+{% macro array_property_object_resource(array, name) %}
+        for ($i = 0; $i < count($this->{{ array }}); $i++) {
+            if ($results->{{ array }}[$i]->{{ name }}Id !== null) {
+                $this->{{ array }}[$i]->{{ name }}->id(
+                    $results->{{ array }}[$i]->{{ name }}Id
+                );
+            } else {
+                $this->{{ array }}[$i]->{{ name }} = new NullResource();
+            }
+        }
+{% endmacro %}
+
+{% macro array_property_object_collection(array, name) %}
+        for ($i = 0; $i < count($this->{{ array }}); $i++) {
+            if ($results->{{ array }}[$i]->{{ name }}Id !== null) {
+                $this->{{ array }}[$i]->{{ name }}->id(
+                    $results->{{ array }}[$i]->{{ name }}Id
+                );
+                $this->{{ array }}[$i]->{{ name }}->meta->total = intval(
+                    $results->{{ array }}[$i]->{{ name }}Total
+                );
+            } else {
+                $this->{{ array }}[$i]->{{ name }} = new NullResource();
+            }
+        }
+{% endmacro %}
+
+
+

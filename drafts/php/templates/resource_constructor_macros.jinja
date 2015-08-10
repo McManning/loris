@@ -1,66 +1,66 @@
-{% macro resource_property(name, uri) -%}
-    $this->{{ name }} = new Meta(
-        null, 
-        {{ uri }}
-    );
-{%- endmacro %}
+{% macro resource_property(name, uri) %}
+        $this->{{ name }} = new Meta(
+            null, 
+            '{{ uri }}'
+        );
+{% endmacro %}
 
-{% macro collection_property(name, uri) -%}
-    $this->{{ name }} = new MetaCollection(
-        null, 
-        {{ uri }}
-    );
-{%- endmacro %}
+{% macro collection_property(name, uri) %}
+        $this->{{ name }} = new MetaCollection(
+            null, 
+            '{{ uri }}'
+        );
+{% endmacro %}
 
-{% macro object_property(name) %-}
-    $this->{{ name }} = new \stdClass;
-{%- endmacro %}
+{% macro object_property(name) %}
+        $this->{{ name }} = new \stdClass;
+{% endmacro %}
 
-{% macro object_property_resource(object, name, uri) -%}
-    $this->{{ object }}->{{ name }} = new Meta(
-        null,
-        {{ uri }}
-    );
-{%- endmacro %}
+{% macro object_property_resource(object, name, uri) %}
+        $this->{{ object }}->{{ name }} = new Meta(
+            null,
+            '{{ uri }}'
+        );
+{% endmacro %}
 
-{% macro object_property_collection(object, name, uri) -%}
-    $this->{{ object }}->{{ name }} = new MetaCollection(
-        null,
-        {{ uri }}
-    );
-{%- endmacro %}
+{% macro object_property_collection(object, name, uri) %}
+        $this->{{ object }}->{{ name }} = new MetaCollection(
+            null,
+            '{{ uri }}'
+        );
+{% endmacro %}
 
-{% macro array_property_resources(name, uri) -%}
-    $this->{{ name }}Pattern = new Meta(
-        null,
-        {{ uri }}
-    );
-{%- endmacro %}
+{% macro array_property_resources(name, uri) %}
+        $this->{{ name }}Pattern = new Meta(
+            null,
+            '{{ uri }}'
+        );
+{% endmacro %}
 
-{% macro array_property_collections(name, uri) -%}
-    $this->{{ name }}Pattern = new MetaCollection(
-        null,
-        {{ uri }}
-    );
-{%- endmacro %}
+{% macro array_property_collections(name, uri) %}
+        $this->{{ name }}Pattern = new MetaCollection(
+            null,
+            '{{ uri }}'
+        );
+{% endmacro %}
 
-{% macro array_property_object(name) -%}
-    $this->{{ name }}Pattern = new \stdClass;
-{%- endmacro %}
+{% macro array_property_object(name) %}
+        $this->{{ name }}Pattern = new \stdClass;
+{% endmacro %}
 
-{% macro array_property_object_resource(array, name, uri) -%}
-    $this->{{ array }}Pattern->{{ name }} = new Meta(
-        null,
-        {{ uri }}
-    );
-{%- endmacro %}
+{% macro array_property_object_resource(array, name, uri) %}
+        $this->{{ array }}Pattern->{{ name }} = new Meta(
+            null,
+            '{{ uri }}'
+        );
+{% endmacro %}
 
-{% macro array_property_object_collection(array, name, uri) -%}
-    $this->{{ array }}Pattern->{{ name }} = new MetaCollection(
-        null,
-        {{ uri }}
-    );
-{%- endmacro %}
+{% macro array_property_object_collection(array, name, uri) %}
+        $this->{{ array }}Pattern->{{ name }} = new MetaCollection(
+            null,
+            '{{ uri }}'
+        );
+{% endmacro %}
 
 
 

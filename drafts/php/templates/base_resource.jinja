@@ -1,29 +1,3 @@
-{# 
-    Jinja template for rendering a Resource PHP model.
-    This is the non-editable base model that gets extended
-    for users to write their custom queries.
-
-    Template variables and manipulators defined:
-        id = Person
-        uri = /person/{id}
-        id|camelcase = person
-        id|camelcase|plural = persons
-
-        properties = dict
-            .type = string|boolean|number|array|object|resource|collection
-            .format (optional)
-            .$ref (optional)
-            .resource (if type == resource)
-                .id
-                .uri
-            .collection (if type == collection)
-                .id
-                .uri
-            .properties (if type == object)
-                ...?
-            .items (if type == array)
-                ...?
-#}
 <?php
 namespace Loris\Resource\Base;
 
@@ -34,10 +8,19 @@ class {{ id }} extends Meta
     protected $expansions = null;
 
     // Properties
-    {% for name, property in properties.iteritems() %}
-    // {{ properties.type }}
-    public ${{ name }} = {{ 'array()' if properties.type == 'array' else 'null' }};
-    {% endfor %}
+{% for name, property in properties|dictsort %}
+
+    {% if property.description -%}
+    /* {{ property.description }} */
+    {%- else %}
+    /* type: {{ property.type }} */
+    {% endif %}
+    {% if property.type == 'array' %}
+    public ${{ name }} = array();
+    {% else %}
+    public ${{ name }} = null;
+    {% endif %}
+{% endfor %}
 
     /**
      * @param string $id
@@ -52,106 +35,122 @@ class {{ id }} extends Meta
         // but we still need to know the resource URI. The problem then becomes,
         // where do we get this URI? We can't guarantee to have access to Resource::URI
         // because resources may not exist on the same instance as this caller. 
-
-        {% import 'resource_constructor_macros.jinja' as macros %}
-
-        {% for name, property in properties.iteritems() %}
-            {% if property.type == 'resource' %}
+        {% import 'templates/resource_constructor_macros.jinja' as macros %}
+        {% for name, property in properties|dictsort -%}
+            {% if property.type == 'resource' -%}
                 {{ macros.resource_property(name, property.uri) }}
-            
-            {% elif property.type == 'collection' %}
+            {% elif property.type == 'collection' -%}
                 {{ macros.collection_property(name, property.uri) }}
-            
             {% elif property.type == 'object' %}
-                {{ macros.object_property(name) }}
-
-                {% for name2, property2 in property.properties.iteritems() %}
-                    {% if property2.type == 'resource' %}
-                        {{ macros.object_property_resource(name, name2, property2.uri) }}
-
-                    {% elif property2.type == 'collection' %}
-                        {{ macros.object_property_collection(name, name2, property2.uri) }}
-
+                {{- 
+                    macros.object_property(name) 
+                }}
+                {% for name2, property2 in property.properties|dictsort %}
+                    {% if property2.type == 'resource' -%}
+                        {{- 
+                            macros.object_property_resource(name, name2, property2.uri) 
+                        }}
+                    {% elif property2.type == 'collection' -%}
+                        {{- 
+                            macros.object_property_collection(name, name2, property2.uri) 
+                        }}
                     {% endif %}
                 {% endfor %}
             {% elif property.type == 'array' %}
-
-                {% if property.items.type == 'resource' %}
-                    {{ macros.array_property_resources(name, property.items.uri) }}
-
-                {% elif property.items.type == 'collection' %}
-                    {{ macros.array_property_collections(name, property.items.uri) }}
-
-                {% elif property.items.type == 'object' %}
-                    {{ macros.array_property_object(name) }}
-                    {% for name2, property2 in property.items.properties.iteritems() %}
-                        {% if property2.type == 'resource' %}
-                            {{ macros.array_property_object_resource(name, name2, property2.uri) }}
-
-                        {% elif property2.type == 'collection' %}
-                            {{ macros.array_property_object_collection(name, name2, property2.uri) }}
-
+                {% if property['items'].type == 'resource' %}
+                    {{- 
+                        macros.array_property_resources(name, property['items'].uri) 
+                    }}
+                {% elif property['items'].type == 'collection' %}
+                    {{- 
+                        macros.array_property_collections(name, property['items'].uri) 
+                    }}
+                {% elif property['items'].type == 'object' %}
+                    {{- 
+                        macros.array_property_object(name)
+                    }}
+                    {% for name2, property2 in property['items'].properties|dictsort %}
+                        {% if property2.type == 'resource' -%}
+                            {{- 
+                                macros.array_property_object_resource(name, name2, property2.uri) 
+                            }}
+                        {% elif property2.type == 'collection' -%}
+                            {{- 
+                                macros.array_property_object_collection(name, name2, property2.uri) 
+                            }}
                         {% endif %}
                     {% endfor %}
-
                 {% endif %}
             {% endif %}
-        {% endfor %}
+        {%- endfor %}
     }
 
     /**
-     * @param array({{ id }}) ${{ id|camelcase|plural }}
+     *
+     * @param array({{ id }}) ${{ id|camelcase }}s
      */
-    public static function query(array ${{ id|camelcase|plural }})
+    public static function query(array ${{ id|camelcase }}s)
     {
         throw new \Exception(
             'Base\\{{ id }}::query() cannot be called directly.'
         );
     }
 
-    public static function postQuery(array $resources, array $results)
+    public static function postQuery(array ${{ id_var_plural }}, array $results)
     {
-        foreach ($resources as $resource) {
-            if (!array_key_exists($resource->id(), $results)) {
+        foreach (${{ id_var_plural }} as ${{ id_var }}) {
+            if (!array_key_exists(${{ id_var }}->id(), $results)) {
                 throw new \Exception(
-                    '{{ id }} [' . $resource->id() . '] missing from $results'
+                    '{{ id }} [' . ${{ id_var }}->id() . '] missing from $results'
                 );
             }
 
-            $resource->fromResults($results[$resource->id()]);
+            ${{ id_var }}->fromResults($results[${{ id_var }}->id()]);
         }
 
         // Query for all expanded relationships
-        {% import 'resource_postQuery_macros.jinja' as macros %}
-
-        {% for name, property in properties.iteritems() %}
-            {% if property.type == 'resource' or property.type == 'collection' %}
+        {% import 'templates/resource_postQuery_macros.jinja' as macros %}
+        {% for name, property in properties|dictsort -%}
+            {% if property.type == 'resource' -%}
                 {{ macros.resource_property(name) }}
-            
+            {% elif property.type == 'collection' -%}
+                {{ macros.collection_property(name) }}
             {% elif property.type == 'object' %}
-                {% for name2, property2 in property.properties.iteritems() %}
-                    {% if property2.type == 'resource' or property2.type == 'collection' %}
-                        {{ macros.object_property_resource(name, name2) }}
-
+                {% for name2, property2 in property.properties|dictsort %}
+                    {% if property2.type == 'resource' -%}
+                        {{- 
+                            macros.object_property_resource(name, name2) 
+                        }}
+                    {% elif property2.type == 'collection' -%}
+                        {{- 
+                            macros.object_property_collection(name, name2) 
+                        }}
                     {% endif %}
                 {% endfor %}
-
             {% elif property.type == 'array' %}
-
-                {% if property.items.type == 'resource' or property.items.type == 'collection' %}
-                    {{ macros.array_property_resources(name) }}
-
-                {% elif property.items.type == 'object' %}
-                    {% for name2, property2 in property.items.properties.iteritems() %}
-                        {% if property2.type == 'resource' or property2.type == 'collection' %}
-                            {{ macros.array_property_object_resource(name, name2) }}
-
+                {% if property['items'].type == 'resource' %}
+                    {{- 
+                        macros.array_property_resources(name) 
+                    }}
+                {% elif property['items'].type == 'collection' %}
+                    {{- 
+                        macros.array_property_collections(name) 
+                    }}
+                {% elif property['items'].type == 'object' %}
+                    {% for name2, property2 in property['items'].properties|dictsort %}
+                        {% if property2.type == 'resource' -%}
+                            {{- 
+                                macros.array_property_object_resource(name, name2) 
+                            }}
+                        {% elif property2.type == 'collection' -%}
+                            {{- 
+                                macros.array_property_object_collection(name, name2) 
+                            }}
                         {% endif %}
                     {% endfor %}
-
                 {% endif %}
             {% endif %}
-        {% endfor %}
+        {%- endfor %}
     }
 
     /**
@@ -163,112 +162,75 @@ class {{ id }} extends Meta
         // Update id(), as we may have potentially not had it pre-query
         $this->id($results->id);
 
-        // Hydrate attributes
-        {% for name, property in properties.iteritems() %}
-        {% if property.type == 'resource' or property.type == 'collection' %}
-
-            // Update relationship 
-            if ($results->{{ name }}Id !== null) {
-                $this->{{ name }}->id($results->{{ name }}Id);
-
-                {% if property.type == 'collection' %}
-                $this->{{ name }}->meta->total = intval($results->{{ name }}Total);
-                {% endif %}
-            } else {
-                // Data source tells us there is no associated {{ property.resource.id }}
-                $this->{{ name }} = new NullResource();
-            }
-
-        {% elif property.type == 'object' %}
-
-            foreach ($results->{{ name }} as $row) {
-                {% for name2, property2 in property.properties.iteritems() %}
-
-                    // same as upper level, just cascaded
+        {% import 'templates/resource_fromResults_macros.jinja' as macros %}
+        {% for name, property in properties|dictsort -%}
+            {% if property.type == 'string' -%}
+                {{ macros.string_property(name) }}
+            {% elif property.type == 'number' -%}
+                {{ macros.number_property(name) }}
+            {% elif property.type == 'boolean' -%}
+                {{ macros.boolean_property(name) }}
+            {% elif property.type == 'resource' -%}
+                {{ macros.resource_property(name) }}
+            {% elif property.type == 'collection' -%}
+                {{ macros.collection_property(name) }}
+            {% elif property.type == 'object' %}
+                {% for name2, property2 in property.properties|dictsort %}
+                    {% if property.type == 'string' -%}
+                        {{ macros.object_property_string(name, name2) }}
+                    {% elif property.type == 'number' -%}
+                        {{ macros.object_property_number(name, name2) }}
+                    {% elif property.type == 'boolean' -%}
+                        {{ macros.object_property_boolean(name, name2) }}
+                    {% elif property2.type == 'resource' -%}
+                        {{- 
+                            macros.object_property_resource(name, name2) 
+                        }}
+                    {% elif property2.type == 'collection' -%}
+                        {{- 
+                            macros.object_property_collection(name, name2) 
+                        }}
+                    {% endif %}
                 {% endfor %}
-            }
-
-        {% elif property.type == 'array' %}
-
-
-        {% elif property.type == 'number' %}
-
-        $this->{{ name }} = intval($results->{{ name }});
-
-        {% elif property.type == 'boolean' %}
-
-        $this->{{ name }} = ($results->{{ name }} == 1);
-
-        {% elif property.type == 'string' %}
-
-        // TODO: property.format conversions!
-        $this->{{ name }} = $result->{{ name }};
-
-        {% endif %}
-        {% endfor %}
-
-        $this->osuid = $results->osuid;
-        $this->firstName = $results->firstName;
-        $this->middleName = $results->middleName;
-        $this->lastName = $results->lastName;
-        $this->username = $results->username;
-        $this->active = ($results->active == '1'); // TODO: Better casting
-        $this->jobCode = intval($results->jobCode);
-        $this->jobDescription = $results->jobDescription;
-        $this->jobGroup = $results->jobGroup;
-        $this->apptCode = intval($results->apptCode);
-        $this->apptDescription = $results->apptDescription;
-        $this->fte = intval($results->fte);
-
-        // Hydrate relationships
-        if ($results->departmentId !== null) {
-            $this->department->id($results->departmentId);
-        } else {
-            // Data source tells us there is no associated department
-            $this->department = new NullResource();
-        }
-        
-        if ($results->coworkersId !== null) {
-            $this->coworkers->id($results->coworkersId);
-            $this->coworkers->meta->total = intval($results->coworkersTotal);
-        } else {
-            // Data source tells us there are no associated coworkers
-            $this->coworkers = new NullResource();
-        }
-
-        // Hydrate `addresses` array of objects
-        foreach ($results->addresses as $row) {
-            $object = new \stdClass();
-            $object->address1 = $row->address1;
-            $object->address2 = $row->address2;
-            $object->city = $row->city;
-            $object->state = $row->state;
-            $object->zip = $row->zip;
-            $object->room = $row->room;
-            $object->building = $row->building;
-            $object->phone = $row->phone;
-            array_push($this->addresses, $object);
-        }
-
-        /// Hydrate `otherDepartments` array of objects, with a sub-resource
-        foreach ($results->otherDepartments as $row) {
-            $object = new \stdClass();
-            $object->fte = intval($row->fte);
-
-            // Note we have to actually construct the resource here, 
-            // as it wouldn't already exist (obviously)
-            if ($row->departmentId !== null) {
-                $object->department = new Meta(
-                    $row->departmentId, 
-                    '/department/{id}'
-                );
-            } else {
-                // Data source tells us there is no associated department
-                $object->department = new NullResource();
-            }
-
-            array_push($this->otherDepartments, $object);
-        }
+            {% elif property.type == 'array' %}
+                {% if property['items'].type == 'string' -%}
+                    {{ macros.array_property_strings(name) }}
+                {% elif property['items'].type == 'number' -%}
+                    {{ macros.array_property_numbers(name) }}
+                {% elif property['items'].type == 'boolean' -%}
+                    {{ macros.array_property_booleans(name) }}
+                {% elif property['items'].type == 'resource' %}
+                    {{- 
+                        macros.array_property_resources(name) 
+                    }}
+                {% elif property['items'].type == 'collection' %}
+                    {{- 
+                        macros.array_property_collections(name) 
+                    }}
+                {% elif property['items'].type == 'object' %}
+                    {{-
+                        macros.array_property_object(name)
+                    }}
+                    {% for name2, property2 in property['items'].properties|dictsort %}
+                        {% if property2.type == 'string' -%}
+                            {{ macros.array_property_object_string(name, name2) }}
+                        {% elif property2.type == 'number' -%}
+                            {{ macros.array_property_object_number(name, name2) }}
+                        {% elif property2.type == 'boolean' -%}
+                            {{ macros.array_property_object_boolean(name, name2) }}
+                        {% elif property2.type == 'resource' -%}
+                            {{- 
+                                macros.array_property_object_resource(name, name2) 
+                            }}
+                        {% elif property2.type == 'collection' -%}
+                            {{- 
+                                macros.array_property_object_collection(name, name2) 
+                            }}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        {%- endfor %}
 
         // Perform expansions after hydration, in case we hydrated any
         // additional resource references in Arrays or Objects
@@ -276,8 +238,7 @@ class {{ id }} extends Meta
     }
 
     /**
-     * @todo generator pattern
-     *
+     * 
      * @param array $resources
      */
     public function expand(array $resources)
@@ -297,41 +258,52 @@ class {{ id }} extends Meta
             return;
         }
 
-        {% import 'resource_doExpansions_macros.jinja' as macros %}
-
-        {% for name, property in properties.iteritems() %}
-            {% if property.type == 'resource' or property.type == 'collection' %}
+        {% import 'templates/resource_doExpansions_macros.jinja' as macros %}
+        {% for name, property in properties|dictsort -%}
+            {% if property.type == 'resource' -%}
                 {{ macros.resource_property(name) }}
-            
+            {% elif property.type == 'collection' -%}
+                {{ macros.collection_property(name) }}
             {% elif property.type == 'object' %}
-                {% for name2, property2 in property.properties.iteritems() %}
-                    {% if property2.type == 'resource' or property2.type == 'collection' %}
-                        {{ macros.object_property_resource(name, name2) }}
-
+                {% for name2, property2 in property.properties|dictsort %}
+                    {% if property2.type == 'resource' -%}
+                        {{- 
+                            macros.object_property_resource(name, name2) 
+                        }}
+                    {% elif property2.type == 'collection' -%}
+                        {{- 
+                            macros.object_property_collection(name, name2) 
+                        }}
                     {% endif %}
                 {% endfor %}
-
             {% elif property.type == 'array' %}
-
-                {% if property.items.type == 'resource' or property.items.type == 'collection' %}
-                    {{ macros.array_property_resources(name) }}
-
-                {% elif property.items.type == 'object' %}
-                    {% for name2, property2 in property.items.properties.iteritems() %}
-                        {% if property2.type == 'resource' or property2.type == 'collection' %}
-                            {{ macros.array_property_object_resource(name, name2) }}
-
+                {% if property['items'].type == 'resource' %}
+                    {{- 
+                        macros.array_property_resources(name) 
+                    }}
+                {% elif property['items'].type == 'collection' %}
+                    {{- 
+                        macros.array_property_collections(name) 
+                    }}
+                {% elif property['items'].type == 'object' %}
+                    {% for name2, property2 in property['items'].properties|dictsort %}
+                        {% if property2.type == 'resource' -%}
+                            {{- 
+                                macros.array_property_object_resource(name, name2) 
+                            }}
+                        {% elif property2.type == 'collection' -%}
+                            {{- 
+                                macros.array_property_object_collection(name, name2) 
+                            }}
                         {% endif %}
                     {% endfor %}
-
                 {% endif %}
             {% endif %}
-        {% endfor %}
+        {%- endfor %}
     }
 
     /**
-     * @todo generator pattern
-     *
+     * 
      * @return stdClass
      */
     public function serialize()
@@ -339,108 +311,72 @@ class {{ id }} extends Meta
         // Get serialized data from Meta
         $serialized = parent::serialize();
 
-        // Attributes
-        $serialized->osuid = $this->osuid;
-        $serialized->firstName = $this->firstName;
-        $serialized->middleName = $this->middleName;
-        $serialized->lastName = $this->lastName;
-        $serialized->active = $this->active;
-        $serialized->addresses = $this->addresses;
-
-        $serialized->jobCode = $this->jobCode;
-        $serialized->jobDescription = $this->jobDescription;
-        $serialized->jobGroup = $this->jobGroup;
-        $serialized->apptCode = $this->apptCode;
-        $serialized->apptDescription = $this->apptDescription;
-        $serialized->fte = $this->fte;
-
-        // Relationships
-        $serialized->coworkers = $this->coworkers->serialize();
-        $serialized->department = $this->department->serialize();
-
-        // TODO: Problem is that we can't just copy for serialization. We have to
-        // iterate properties and serialize the department resource manually.
-        $serialized->otherDepartments = array(); 
-        foreach ($this->otherDepartments as $otherDepartment) {
-            $object = new \stdClass;
-            $object->fte = $otherDepartment->fte;
-            $object->department = $otherDepartment->department->serialize();
-            array_push($serialized->otherDepartments, $object);
-        }
+        {% import 'templates/resource_serialize_macros.jinja' as macros %}
+        {% for name, property in properties|dictsort -%}
+            {% if property.type == 'string' or 
+                property.type == 'number' or 
+                property.type == 'boolean' -%}
+                {{ macros.primitive_property(name) }}
+            {% elif property.type == 'resource' -%}
+                {{ macros.resource_property(name) }}
+            {% elif property.type == 'collection' -%}
+                {{ macros.collection_property(name) }}
+            {% elif property.type == 'object' %}
+                {{-
+                    macros.object_property(name)
+                }}
+                {% for name2, property2 in property.properties|dictsort %}
+                    {% if property.type == 'string' or 
+                        property.type == 'number' or 
+                        property.type == 'boolean' -%}
+                        {{ macros.object_property_primitive(name, name2) }}
+                    {% elif property2.type == 'resource' -%}
+                        {{- 
+                            macros.object_property_resource(name, name2) 
+                        }}
+                    {% elif property2.type == 'collection' -%}
+                        {{- 
+                            macros.object_property_collection(name, name2) 
+                        }}
+                    {% endif %}
+                {% endfor %}
+            {% elif property.type == 'array' %}
+                {% if property['items'].type == 'string' or 
+                    property['items'].type == 'number' or 
+                    property['items'].type == 'boolean' -%}
+                    {{ macros.array_property_primitives(name) }}
+                {% elif property['items'].type == 'resource' %}
+                    {{- 
+                        macros.array_property_resources(name) 
+                    }}
+                {% elif property['items'].type == 'collection' %}
+                    {{- 
+                        macros.array_property_collections(name) 
+                    }}
+                {% elif property['items'].type == 'object' %}
+                    {{-
+                        macros.array_property_object(name)
+                    }}
+                    {% for name2, property2 in property['items'].properties|dictsort %}
+                        {% if property2.type == 'string' or 
+                            property2.type == 'number' or 
+                            property2.type == 'boolean' -%}
+                            {{ macros.array_property_object_primitive(name, name2) }}
+                        {% elif property2.type == 'resource' -%}
+                            {{- 
+                                macros.array_property_object_resource(name, name2) 
+                            }}
+                        {% elif property2.type == 'collection' -%}
+                            {{- 
+                                macros.array_property_object_collection(name, name2) 
+                            }}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        {%- endfor %}
 
         return $serialized;
     }
 }
 
-/*
-  Source YML Schema:
-
-  Person:
-    properties:
-      meta:
-        x-meta-uri: "/person/{id}"
-        $ref: "#/definitions/Meta"
-      id:
-        type: string
-      osuid:
-        type: string
-      firstName:
-        type: string
-      middleName:
-        type: string
-      lastName:
-        type: string
-      username:
-        type: string
-      active:
-        type: boolean
-      jobCode:
-        type: string
-      jobDescription:
-        type: string
-      jobGroup:
-        type: string
-      apptCode:
-        type: string
-      apptDescription:
-        type: string
-      fte:
-        type: number
-      coworkers:
-        x-meta-uri: "/person/{id}/coworkers"
-        $ref: "#/resources/PersonCoworkers"
-      department:
-        x-meta-uri: "/department/{id}"
-        $ref: "#/resources/Department"
-      otherDepartments:
-        type: array
-        items:
-          type: object
-          properties:
-            fte:
-              type: number
-            department:
-              x-meta-uri: "/department/{id}"
-              $ref: "#/resources/Department"
-      addresses:
-        type: array
-        items:
-          type: object
-          properties:
-            address1:
-              type: string
-            address2:
-              type: string
-            city:
-              type: string
-            state:
-              type: string
-            zip:
-              type: string
-            room:
-              type: string
-            building:
-              type: string
-            phone:
-              type: string
-*/
