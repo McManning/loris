@@ -1,9 +1,9 @@
-
-{% macro string_property(name) %}
+<?
+{% macro string_property(name, format) %}
         $this->{{ name }} = $results->{{ name }};
 {% endmacro %}
 
-{% macro number_property(name) %}
+{% macro number_property(name, format) %}
         $this->{{ name }} = intval(
             $results->{{ name }}
         );
@@ -36,11 +36,11 @@
         }
 {% endmacro %}
 
-{% macro object_property_string(object, name) %}
+{% macro object_property_string(object, name, format) %}
         $this->{{ object }}->{{ name }} = $results->{{ object }}->{{ name }};
 {% endmacro %}
 
-{% macro object_property_number(object, name) %}
+{% macro object_property_number(object, name, format) %}
         $this->{{ object }}->{{ name }} = intval(
             $results->{{ object }}->{{ name }}
         );
@@ -73,13 +73,13 @@
         }
 {% endmacro %}
 
-{% macro array_property_strings(name) %}
+{% macro array_property_strings(name, format) %}
         foreach ($results->{{ name }} as $item) {
             $this->{{ name }}[] = $item;
         }
 {% endmacro %}
 
-{% macro array_property_numbers(name) %}
+{% macro array_property_numbers(name, format) %}
         foreach ($results->{{ name }} as $item) {
             $this->{{ name }}[] = intval($item);
         }
@@ -119,11 +119,11 @@
             $this->{{ name }}[$i] = clone $this->{{ name }}Pattern;
 {%- endmacro %}
 
-{% macro array_property_object_string(array, name) %}
+{% macro array_property_object_string(array, name, format) %}
             $this->{{ array }}[$i]->{{ name }} = $results->{{ array }}[$i]->{{ name }};
 {% endmacro %}
 
-{% macro array_property_object_number(array, name) %}
+{% macro array_property_object_number(array, name, format) %}
             $this->{{ array }}[$i]->{{ name }} = intval(
                 $results->{{ array }}[$i]->{{ name }}
             );

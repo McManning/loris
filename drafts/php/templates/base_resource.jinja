@@ -165,9 +165,9 @@ class {{ id }} extends Meta
         {% import 'templates/resource_fromResults_macros.jinja' as macros %}
         {% for name, property in properties|dictsort -%}
             {% if property.type == 'string' -%}
-                {{ macros.string_property(name) }}
+                {{ macros.string_property(name, property.format) }}
             {% elif property.type == 'number' -%}
-                {{ macros.number_property(name) }}
+                {{ macros.number_property(name, property.format) }}
             {% elif property.type == 'boolean' -%}
                 {{ macros.boolean_property(name) }}
             {% elif property.type == 'resource' -%}
@@ -177,9 +177,9 @@ class {{ id }} extends Meta
             {% elif property.type == 'object' %}
                 {% for name2, property2 in property.properties|dictsort %}
                     {% if property.type == 'string' -%}
-                        {{ macros.object_property_string(name, name2) }}
+                        {{ macros.object_property_string(name, name2, property.format) }}
                     {% elif property.type == 'number' -%}
-                        {{ macros.object_property_number(name, name2) }}
+                        {{ macros.object_property_number(name, name2, property.format) }}
                     {% elif property.type == 'boolean' -%}
                         {{ macros.object_property_boolean(name, name2) }}
                     {% elif property2.type == 'resource' -%}
@@ -194,9 +194,9 @@ class {{ id }} extends Meta
                 {% endfor %}
             {% elif property.type == 'array' %}
                 {% if property['items'].type == 'string' -%}
-                    {{ macros.array_property_strings(name) }}
+                    {{ macros.array_property_strings(name, property.format) }}
                 {% elif property['items'].type == 'number' -%}
-                    {{ macros.array_property_numbers(name) }}
+                    {{ macros.array_property_numbers(name, property.format) }}
                 {% elif property['items'].type == 'boolean' -%}
                     {{ macros.array_property_booleans(name) }}
                 {% elif property['items'].type == 'resource' %}
@@ -213,9 +213,9 @@ class {{ id }} extends Meta
 
                     {% for name2, property2 in property['items'].properties|dictsort %}
                         {% if property2.type == 'string' -%}
-                            {{ macros.array_property_object_string(name, name2) }}
+                            {{ macros.array_property_object_string(name, name2, property2.format) }}
                         {% elif property2.type == 'number' -%}
-                            {{ macros.array_property_object_number(name, name2) }}
+                            {{ macros.array_property_object_number(name, name2, property2.format) }}
                         {% elif property2.type == 'boolean' -%}
                             {{ macros.array_property_object_boolean(name, name2) }}
                         {% elif property2.type == 'resource' -%}
@@ -249,8 +249,10 @@ class {{ id }} extends Meta
     }
 
     /**
-     * Perform actual expansions after hydration, in case we dynamically
-     * add additional resource references while hydrating from the data store
+     * Perform actual expansions after hydration.
+     *
+     * This is added as a separate step in case we dynamically add 
+     * additional resource references while hydrating from the data store
      * (e.g. resources stored in Arrays or Objects)
      */
     private function doExpansions()
@@ -304,8 +306,13 @@ class {{ id }} extends Meta
     }
 
     /**
+     * Serializes this resource and all expanded resource properties.
      * 
-     * @return stdClass
+     * This method generates a simple object that can be passed to 
+     * `json_encode` for final encoding. Complex type attributes (such
+     * as DateTime) are automatically converted to a standard presentation.
+     * 
+     * @return \stdClass
      */
     public function serialize()
     {
@@ -327,10 +334,10 @@ class {{ id }} extends Meta
                     macros.object_property(name)
                 -}}
                 {% for name2, property2 in property.properties|dictsort %}
-                    {% if property.type == 'string' or 
-                        property.type == 'number' or 
-                        property.type == 'boolean' -%}
-                        {{ macros.object_property_primitive(name, name2) -}}
+                    {% if property2.type == 'string' or 
+                        property2.type == 'number' or 
+                        property2.type == 'boolean' -%}
+                        {{ macros.object_property_primitive(name, name2, property2.format) -}}
                     {% elif property2.type == 'resource' -%}
                         {{- 
                             macros.object_property_resource(name, name2) 
@@ -346,7 +353,7 @@ class {{ id }} extends Meta
                 {% if property['items'].type == 'string' or 
                     property['items'].type == 'number' or 
                     property['items'].type == 'boolean' -%}
-                    {{ macros.array_property_primitives(name) }}
+                    {{ macros.array_property_primitives(name, property['items'].format) }}
                 {% elif property['items'].type == 'resource' %}
                     {{- 
                         macros.array_property_resources(name) 
@@ -363,7 +370,7 @@ class {{ id }} extends Meta
                         {% if property2.type == 'string' or 
                             property2.type == 'number' or 
                             property2.type == 'boolean' -%}
-                            {{ macros.array_property_object_primitive(name, name2) -}}
+                            {{ macros.array_property_object_primitive(name, name2, property2.format) -}}
                         {% elif property2.type == 'resource' -%}
                             {{- 
                                 macros.array_property_object_resource(name, name2) 
