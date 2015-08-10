@@ -49,14 +49,16 @@
 
 {% macro array_property_resources(name) %}
         $serialized->{{ name }} = array();
-        for ($i = 0; $i < count($this->{{ name }}); $i++) {
+        ${{ name }}Count = count($this->{{ name }});
+        for ($i = 0; $i < ${{ name }}Count; $i++) {
             $serialized->{{ name }}[] = $this->{{ name }}[$i]->serialize();
         }
 {% endmacro %}
 
 {% macro array_property_collections(name) %}
         $serialized->{{ name }} = array();
-        for ($i = 0; $i < count($this->{{ name }}); $i++) {
+        ${{ name }}Count = count($this->{{ name }});
+        for ($i = 0; $i < ${{ name }}Count; $i++) {
             $serialized->{{ name }}[] = $this->{{ name }}[$i]->serialize();
         }
 {% endmacro %}

@@ -208,7 +208,8 @@ class {{ id }} extends Meta
                         macros.array_property_collections(name) 
                     }}
                 {% elif property['items'].type == 'object' %}
-        for ($i = 0; $i < count($results->{{ name }}); $i++) {
+        ${{ name }}Count = count($this->{{ name }});
+        for ($i = 0; $i < ${{ name }}Count; $i++) {
             {{ macros.array_property_object(name) }}
 
                     {% for name2, property2 in property['items'].properties|dictsort %}
@@ -364,7 +365,8 @@ class {{ id }} extends Meta
                     }}
                 {% elif property['items'].type == 'object' %}
         $serialized->{{ name }} = array();
-        for ($i = 0; $i < count($this->{{ name }}); $i++) {
+        ${{ name }}Count = count($this->{{ name }});
+        for ($i = 0; $i < ${{ name }}Count; $i++) {
             {{ macros.array_property_object(name) }}
                     {% for name2, property2 in property['items'].properties|dictsort %}
                         {% if property2.type == 'string' or 

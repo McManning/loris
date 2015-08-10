@@ -51,7 +51,8 @@
             ${{ name }}Expanded = is_array(
                 $this->expansions['{{ name }}']
             );
-            for ($i = 0; $i < count($this->{{ name }}); $i++) {
+            ${{ name }}Count = count($this->{{ name }});
+            for ($i = 0; $i < ${{ name }}Count; $i++) {
                 $this->{{ name }}[$i] = new ${{ name }}Model->class(
                     $this->{{ name }}[$i]->id()
                 );
@@ -80,7 +81,8 @@
             ${{ name }}Expanded = is_array(
                 $this->expansions['{{ arr }}']['{{ name }}']
             );
-            for ($i = 0; $i < count($this->{{ arr }}); $i++) {
+            ${{ arr }}Count = count($this->{{ arr }});
+            for ($i = 0; $i < ${{ arr }}Count; $i++) {
                 $this->{{ arr }}[$i]->{{ name }}  = new ${{ name }}Model->class(
                     $this->{{ arr }}[$i]->{{ name }}->id()
                 );
