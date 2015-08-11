@@ -1,26 +1,33 @@
 <?
 {% macro string_property(name, format) %}
     {% if format == 'date' %}
+        assert('Utility::isDate($results->{{ name }}) /* property must be in date format */');
         $this->{{ name }} = DateTime::createFromFormat(
             '{{ input_date_format }}', 
             $results->{{ name }}
         );
     {% else %}
+        assert('Utility::isString($results->{{ name }}) /* property must be a string */');
         $this->{{ name }} = $results->{{ name }};
     {% endif %}
 {% endmacro %}
 
 {% macro number_property(name, format) %}
+        assert('Utility::isNumber($results->{{ name }}) /* property must be a number */');
         $this->{{ name }} = intval(
             $results->{{ name }}
         );
 {% endmacro %}
 
 {% macro boolean_property(name) %}
-        $this->{{ name }} = (1 == $results->{{ name }});
+        assert('Utility::isBool($results->{{ name }}) /* property must be a boolean */');
+        $this->{{ name }} = boolval(
+            $results->{{ name }}
+        );
 {% endmacro %}
 
 {% macro resource_property(name) %}
+        assert('isset($results->{{ name }}Id) /* resource id must be supplied */');
         if ($results->{{ name }}Id !== null) {
             $this->{{ name }}->id(
                 $results->{{ name }}Id
@@ -31,6 +38,8 @@
 {% endmacro %}
 
 {% macro collection_property(name) %}
+        assert('isset($results->{{ name }}Id) /* collection id must be supplied */');
+        assert('isset($results->{{ name }}Total) /* collection total must be supplied */');
         if ($results->{{ name }}Id !== null) {
             $this->{{ name }}->id(
                 $results->{{ name }}Id
@@ -44,27 +53,34 @@
 {% endmacro %}
 
 {% macro object_property_string(object, name, format) %}
-    {% if format == 'date' %}
+    {% if format == 'date' %}   
+        assert('Utility::isDate($results->{{ object }}->{{ name }}) /* property must be in date format */');
         $this->{{ object }}->{{ name }} = DateTime::createFromFormat(
             '{{ input_date_format }}', 
             $results->{{ object }}->{{ name }}
         );
     {% else %}
+        assert('Utility::isString($results->{{ object }}->{{ name }}) /* property must be a string */');
         $this->{{ object }}->{{ name }} = $results->{{ object }}->{{ name }};
     {% endif %}
 {% endmacro %}
 
 {% macro object_property_number(object, name, format) %}
+        assert('Utility::isNumber($results->{{ object }}->{{ name }}) /* property must be a number */');
         $this->{{ object }}->{{ name }} = intval(
             $results->{{ object }}->{{ name }}
         );
 {% endmacro %}
 
 {% macro object_property_boolean(object, name) %}
-        $this->{{ object }}->{{ name }} = (1 == $results->{{ object }}->{{ name }});
+        assert('Utility::isBool($results->{{ object }}->{{ name }}) /* property must be a boolean */');
+        $this->{{ object }}->{{ name }} = boolval(
+            $results->{{ object }}->{{ name }}
+        );
 {% endmacro %}
 
 {% macro object_property_resource(object, name) %}
+        assert('isset($results->{{ object }}->{{ name }}Id) /* resource id must be supplied */');
         if ($results->{{ object }}->{{ name }}Id !== null) {
             $this->{{ object }}->{{ name }}->id(
                 $results->{{ object }}->{{ name }}Id
@@ -75,6 +91,8 @@
 {% endmacro %}
 
 {% macro object_property_collection(object, name) %}
+        assert('isset($results->{{ object }}->{{ name }}Id) /* collection id must be supplied */');
+        assert('isset($results->{{ object }}->{{ name }}Total) /* collection total must be supplied */');
         if ($results->{{ object }}->{{ name }}Id !== null) {
             $this->{{ object }}->{{ name }}->id(
                 $results->{{ object }}->{{ name }}Id
@@ -90,11 +108,13 @@
 {% macro array_property_strings(name, format) %}
         foreach ($results->{{ name }} as $item) {
         {% if format == 'date' %}
+            assert('Utility::isDate($item) /* property must be in date format */');
             $this->{{ name }}[] = DateTime::createFromFormat(
                 '{{ input_date_format }}', 
                 $item
             );
         {% else %}
+            assert('Utility::isString($item) /* property must be a string */');
             $this->{{ name }}[] = $item;
         {% endif %}
         }
@@ -102,13 +122,15 @@
 
 {% macro array_property_numbers(name, format) %}
         foreach ($results->{{ name }} as $item) {
+            assert('Utility::isNumber($item) /* property must be a number */');
             $this->{{ name }}[] = intval($item);
         }
 {% endmacro %}
 
 {% macro array_property_booleans(name) %}
         foreach ($results->{{ name }} as $item) {
-            $this->{{ name }}[] = (1 == $item);
+            assert('Utility::isBool($item) /* property must be a boolean */');
+            $this->{{ name }}[] = boolval($item);
         }
 {% endmacro %}
 
@@ -147,27 +169,34 @@
 {%- endmacro %}
 
 {% macro array_property_object_string(array, name, format) %}
-    {% if format == 'date' %}
+    {% if format == 'date' %}   
+            assert('Utility::isDate($results->{{ array }}[$i]->{{ name }}) /* property must be in date format */');
             $this->{{ array }}[$i]->{{ name }} = DateTime::createFromFormat(
                 '{{ input_date_format }}', 
                 $results->{{ array }}[$i]->{{ name }}
             );
     {% else %}
+            assert('Utility::isString($results->{{ array }}[$i]->{{ name }}) /* property must be a string */');
             $this->{{ array }}[$i]->{{ name }} = $results->{{ array }}[$i]->{{ name }};
     {% endif %}
 {% endmacro %}
 
 {% macro array_property_object_number(array, name, format) %}
+            assert('Utility::isNumber($results->{{ array }}[$i]->{{ name }}) /* property must be a number */');
             $this->{{ array }}[$i]->{{ name }} = intval(
                 $results->{{ array }}[$i]->{{ name }}
             );
 {% endmacro %}
 
 {% macro array_property_object_boolean(array, name) %}
-            $this->{{ array }}[$i]->{{ name }} = (1 == $results->{{ array }}[$i]->{{ name }});
+            assert('Utility::isBool($results->{{ array }}[$i]->{{ name }}) /* property must be a boolean */');
+            $this->{{ array }}[$i]->{{ name }} = boolval(
+                $results->{{ array }}[$i]->{{ name }}
+            );
 {% endmacro %}
 
 {% macro array_property_object_resource(array, name) %}
+            assert('isset($results->{{ array }}[$i]->{{ name }}Id) /* resource id must be supplied */');
             if ($results->{{ array }}[$i]->{{ name }}Id !== null) {
                 $this->{{ array }}[$i]->{{ name }}->id(
                     $results->{{ array }}[$i]->{{ name }}Id
@@ -178,6 +207,8 @@
 {% endmacro %}
 
 {% macro array_property_object_collection(array, name) %}
+            assert('$results->{{ array }}[$i]->{{ name }}Id) /* collection id must be supplied */');
+            assert('$results->{{ array }}[$i]->{{ name }}Total) /* collection total must be supplied */');
             if ($results->{{ array }}[$i]->{{ name }}Id !== null) {
                 $this->{{ array }}[$i]->{{ name }}->id(
                     $results->{{ array }}[$i]->{{ name }}Id
