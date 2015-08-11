@@ -31,32 +31,32 @@
 {% endmacro %}
 
 {% macro array_property_resources(name, uri) %}
-        $this->{{ name }}Pattern = new Meta(
+        $this->{{ name }}Template = new Meta(
             null,
             '{{ uri }}'
         );
 {% endmacro %}
 
 {% macro array_property_collections(name, uri) %}
-        $this->{{ name }}Pattern = new MetaCollection(
+        $this->{{ name }}Template = new MetaCollection(
             null,
             '{{ uri }}'
         );
 {% endmacro %}
 
 {% macro array_property_object(name) %}
-        $this->{{ name }}Pattern = new \stdClass;
+        $this->{{ name }}Template = new \stdClass;
 {% endmacro %}
 
 {% macro array_property_object_resource(array, name, uri) %}
-        $this->{{ array }}Pattern->{{ name }} = new Meta(
+        $this->{{ array }}Template->{{ name }} = new Meta(
             null,
             '{{ uri }}'
         );
 {% endmacro %}
 
 {% macro array_property_object_collection(array, name, uri) %}
-        $this->{{ array }}Pattern->{{ name }} = new MetaCollection(
+        $this->{{ array }}Template->{{ name }} = new MetaCollection(
             null,
             '{{ uri }}'
         );

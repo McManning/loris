@@ -1,0 +1,113 @@
+<?php
+namespace Loris\Resource;
+
+use \Loris\Utility;
+
+class {{ id }} extends Base\{{ id }}
+{
+    /**
+     * @param array({{ id }}) ${{ id|camelcase }}s
+     */
+    public static function query(array ${{ id|camelcase }}s)
+    {
+        /**********************************************************
+            YOUR BACKEND QUERY CODE HERE
+
+            Useful variables for your query include:
+                $this->id() - unique identifier of this resource
+
+            The output of your query must be formatted as below:
+
+            $results = stdClass(
+        {% for name, property in properties|dictsort -%}
+            {% if property.type == 'string' %}
+                {% if property.format == 'date' %}
+                {{ name }} = string formatted '{{ input_date_format }}'
+                {% else %}
+                {{ name }} = string
+                {% endif %}
+            {% elif property.type == 'number' %}
+                {{ name }} = number
+            {% elif property.type == 'boolean' %}
+                {{ name }} = boolean
+            {% elif property.type == 'resource' %}
+                {{ name }}Id = string
+            {% elif property.type == 'collection' %}
+                {{ name }}Id = string
+                {{ name }}Total = number
+            {% elif property.type == 'object' %}
+                {{ name }} = stdClass(
+                {% for name2, property2 in property.properties|dictsort %}
+                {% if property2.type == 'string' %}
+                    {% if property2.format == 'date' %}
+                    {{ name2 }} = string formatted '{{ input_date_format }}'
+                    {% else %}
+                    {{ name2 }} = string
+                    {% endif %}
+                {% elif property2.type == 'number' %}
+                    {{ name2 }} = number
+                {% elif property2.type == 'boolean' %}
+                    {{ name2 }} = boolean
+                {% elif property2.type == 'resource' %}
+                    {{ name2 }}Id = string
+                {% elif property2.type == 'collection' %}
+                    {{ name2 }}Id = string
+                    {{ name2 }}Total = number
+                {% endif %}
+                {% endfor %}
+                )
+            {% elif property.type == 'array' %}
+                {{ name }} = array(
+                {% if property['items'].type == 'string' %}
+                    {% if property['items'].format == 'date' %}
+                    string formatted '{{ input_date_format }}'
+                    {% else %}
+                    string
+                    {% endif %}
+                {% elif property['items'].type == 'number' %}
+                    number
+                {% elif property['items'].type == 'boolean' %}
+                    boolean
+                {% elif property['items'].type == 'resource' %}
+                    stdClass(
+                        {{ property['items'].resource|camelcase }}Id
+                    )
+                {% elif property['items'].type == 'collection' %}
+                    stdClass(
+                        {{ property['items'].collection|camelcase }}Id
+                        {{ property['items'].collection|camelcase }}Total
+                    )
+                {% elif property['items'].type == 'object' %}
+                    stdClass(
+                    {% for name2, property2 in property['items'].properties|dictsort %}
+                    {% if property2.type == 'string' %}
+                        {% if property2.format == 'date' %}
+                        {{ name2 }} = string formatted '{{ input_date_format }}'
+                        {% else %}
+                        {{ name2 }} = string
+                        {% endif %}
+                    {% elif property2.type == 'number' %}
+                        {{ name2 }} = number
+                    {% elif property2.type == 'boolean' %}
+                        {{ name2 }} = boolean
+                    {% elif property2.type == 'resource' %}
+                        {{ name2 }}Id = string
+                    {% elif property2.type == 'collection' %}
+                        {{ name2 }}Id = string
+                        {{ name2 }}Total = number
+                    {% endif %}
+                    {% endfor %}
+                    )
+                {% endif %}
+                    ...
+                )
+            {% endif %}
+        {%- endfor %}
+            )
+
+        ***********************************************************/
+
+        self::postQuery(${{ id|camelcase }}s, $results);
+    }
+}
+

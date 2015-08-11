@@ -112,32 +112,38 @@
         }
 {% endmacro %}
 
-{% macro array_property_resources(name) %}
+{% macro array_property_resources(name, resource_id) %}
         foreach ($results->{{ name }} as $item) {
-            if ($item->resourceItemId !== null) {
-                $resourceItem = clone $this->arrayPropertyPattern;
-                $resourceItem->id(
-                    $item->resourceItemId
+            assert('isset($item->{{ resource_id|camelcase }}Id) /* {{ resource_id|camelcase }}Id must be supplied */');
+            if ($item->{{ resource_id|camelcase }}Id !== null) {
+                ${{ resource_id|camelcase }} = clone $this->{{ name }}Template;
+                ${{ resource_id|camelcase }}->id(
+                    $item->{{ resource_id|camelcase }}Id
                 );
-                $this->{{ name }}[] = $resourceItem;
+                $this->{{ name }}[] = ${{ resource_id|camelcase }};
             }
         }
 {% endmacro %}
 
-{% macro array_property_collections(name) %}
+{% macro array_property_collections(name, collection_id) %}
         foreach ($results->{{ name }} as $item) {
-            if ($item->collectionItemId !== null) {
-                $collectionItem = clone $this->arrayPropertyPattern;
-                $collectionItem->id(
-                    $item->collectionItemId
+            assert('isset($item->{{ collection_id|camelcase }}Id) /* {{ collection_id|camelcase }}Id must be supplied */');
+            assert('isset($item->{{ collection_id|camelcase }}Total) /* {{ collection_id|camelcase }}Total must be supplied */');
+            if ($item->{{ collection_id|camelcase }}Id !== null) {
+                ${{ collection_id|camelcase }} = clone $this->{{ name }}Template;
+                ${{ collection_id|camelcase }}->id(
+                    $item->{{ collection_id|camelcase }}Id
                 );
-                $this->{{ name }}[] = $collectionItem;
+                ${{ collection_id|camelcase }}->meta->total = intval(
+                    $item->{{ collection_id|camelcase }}Total
+                );
+                $this->{{ name }}[] = ${{ collection_id|camelcase }};
             }
         }
 {% endmacro %}
 
 {% macro array_property_object(name) -%}
-            $this->{{ name }}[$i] = clone $this->{{ name }}Pattern;
+            $this->{{ name }}[$i] = clone $this->{{ name }}Template;
 {%- endmacro %}
 
 {% macro array_property_object_string(array, name, format) %}

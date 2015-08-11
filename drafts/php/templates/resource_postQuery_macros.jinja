@@ -2,7 +2,7 @@
 {% macro resource_property(name) %}
         ${{ name }}s = array();
         ${{ name }}Model = \Loris\Discovery::find(
-            ${{ id_var_plural }}[0]->{{ object }}->{{ name }}->_uri
+            ${{ id_var_plural }}[0]->{{ name }}->_uri
         );
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
             if (${{ id_var }}->{{ name }} instanceof ${{ name }}Model->class) {
@@ -46,7 +46,7 @@
 {% macro array_property_resources(name) %}
         ${{ name }}s = array();
         ${{ name }}Model = \Loris\Discovery::find(
-            ${{ id_var_plural }}[0]->{{ name }}Pattern->_uri
+            ${{ id_var_plural }}[0]->{{ name }}Template->_uri
         );
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
             foreach (${{ id_var }}->{{ name }} as $item) {
@@ -70,7 +70,7 @@
 {% macro array_property_object_resource(array, name) %}
         ${{ name }}s = array();
         ${{ name }}Model = \Loris\Discovery::find(
-            ${{ id_var_plural }}[0]->{{ array }}Pattern->{{ name }}->_uri
+            ${{ id_var_plural }}[0]->{{ array }}Template->{{ name }}->_uri
         );
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
             foreach (${{ id_var }}->{{ array }} as $item) {
