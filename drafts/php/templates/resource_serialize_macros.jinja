@@ -1,7 +1,7 @@
 
 {% macro primitive_property(name, format) %}
     {% if format == 'date' %}
-        $serialized->{{ name }} = $this->{{ name }}->format('{{ date_format }}');
+        $serialized->{{ name }} = $this->{{ name }}->format('{{ json_date_format }}');
     {% else %}
         $serialized->{{ name }} = $this->{{ name }};
     {% endif %}
@@ -21,7 +21,7 @@
 
 {% macro object_property_primitive(object, name, format) %}
     {% if format == 'date' %}
-        $serialized->{{ object }}->{{ name }} = $this->{{ object }}->{{ name }}->format('{{ date_format }}');
+        $serialized->{{ object }}->{{ name }} = $this->{{ object }}->{{ name }}->format('{{ json_date_format }}');
     {% else %}
         $serialized->{{ object }}->{{ name }} = $this->{{ object }}->{{ name }};
     {% endif %}
@@ -40,7 +40,7 @@
         $serialized->{{ name }} = array();
         ${{ name }}Count = count($this->{{ name }});
         for ($i = 0; $i < ${{ name }}Count; $i++) {
-            $serialized->{{ name }}[$i] = $this->{{ name }}[$i]->format('{{ date_format }}');
+            $serialized->{{ name }}[$i] = $this->{{ name }}[$i]->format('{{ json_date_format }}');
         }
     {% else %}
         $serialized->{{ name }} = clone $this->{{ name }};
@@ -69,7 +69,7 @@
 
 {% macro array_property_object_primitive(array, name, format) %}
     {% if format == 'date' %}
-            $serialized->{{ array }}[$i]->{{ name }} = $this->{{ array }}[$i]->{{ name }}->format('{{ date_format }}');
+            $serialized->{{ array }}[$i]->{{ name }} = $this->{{ array }}[$i]->{{ name }}->format('{{ json_date_format }}');
     {% else %}
             $serialized->{{ array }}[$i]->{{ name }} = $this->{{ array }}[$i]->{{ name }};
     {% endif %}

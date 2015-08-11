@@ -1,6 +1,13 @@
 <?
 {% macro string_property(name, format) %}
+    {% if format == 'date' %}
+        $this->{{ name }} = DateTime::createFromFormat(
+            '{{ input_date_format }}', 
+            $results->{{ name }}
+        );
+    {% else %}
         $this->{{ name }} = $results->{{ name }};
+    {% endif %}
 {% endmacro %}
 
 {% macro number_property(name, format) %}
@@ -37,7 +44,14 @@
 {% endmacro %}
 
 {% macro object_property_string(object, name, format) %}
+    {% if format == 'date' %}
+        $this->{{ object }}->{{ name }} = DateTime::createFromFormat(
+            '{{ input_date_format }}', 
+            $results->{{ object }}->{{ name }}
+        );
+    {% else %}
         $this->{{ object }}->{{ name }} = $results->{{ object }}->{{ name }};
+    {% endif %}
 {% endmacro %}
 
 {% macro object_property_number(object, name, format) %}
@@ -75,7 +89,14 @@
 
 {% macro array_property_strings(name, format) %}
         foreach ($results->{{ name }} as $item) {
+        {% if format == 'date' %}
+            $this->{{ name }}[] = DateTime::createFromFormat(
+                '{{ input_date_format }}', 
+                $item
+            );
+        {% else %}
             $this->{{ name }}[] = $item;
+        {% endif %}
         }
 {% endmacro %}
 
@@ -120,7 +141,14 @@
 {%- endmacro %}
 
 {% macro array_property_object_string(array, name, format) %}
+    {% if format == 'date' %}
+            $this->{{ array }}[$i]->{{ name }} = DateTime::createFromFormat(
+                '{{ input_date_format }}', 
+                $results->{{ array }}[$i]->{{ name }}
+            );
+    {% else %}
             $this->{{ array }}[$i]->{{ name }} = $results->{{ array }}[$i]->{{ name }};
+    {% endif %}
 {% endmacro %}
 
 {% macro array_property_object_number(array, name, format) %}

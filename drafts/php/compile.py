@@ -33,8 +33,10 @@ def generate_resource_php(resource):
     j2_env.globals['uri'] = resource['uri']
     j2_env.globals['id_var'] = camelcase(resource['id'])
     j2_env.globals['id_var_plural'] = camelcase(resource['id']) + 's'
-    j2_env.globals['date_format'] = 'Y-m-d'
-    j2_env.globals['datetime_format'] = 'Y-m-d H:i:s'
+    j2_env.globals['json_date_format'] = 'Y-m-d'
+    j2_env.globals['json_datetime_format'] = 'Y-m-d H:i:s'
+    j2_env.globals['input_date_format'] = 'Y-m-d'
+    j2_env.globals['input_datetime_format'] = 'Y-m-d H:i:s'
 
     # Load resources into fragment files
     template = j2_env.get_template('templates/base_resource.jinja')
@@ -53,20 +55,25 @@ if __name__ == '__main__':
         "type": "object",
         "properties": {
             "stringProp": {
-                "type": "string"
+                "type": "string",
+                "description": "A generic string value"
             },
             "boolProp": {
-                "type": "boolean"
+                "type": "boolean",
+                "description": "A boolean value"
             },
             "numberProp": {
-                "type": "number"
+                "type": "number",
+                "description": "A numeric value"
             },
             "dateProp": {
                 "type": "string",
-                "format": "date"
+                "format": "date",
+                "description": "A date value, stored as a PHP DateTime object"
             },
             "objectProp": {
                 "type": "object",
+                "description": "A complex object containing primitives or references",
                 "properties": {
                     "opStringProp": {
                         "type": "string"
@@ -93,26 +100,31 @@ if __name__ == '__main__':
             },
             "resourceProp": {
                 "type": "resource",
-                "uri": "/resource/{id}"
+                "uri": "/resource/{id}",
+                "description": "A reference to another resource"
             },
             "collectionProp": {
                 "type": "collection",
-                "uri": "/collection/{id}"
+                "uri": "/collection/{id}",
+                "description": "A reference to a collection"
             },
             "arrayOfStringProp": {
                 "type": "array",
+                "description": "An unordered list of string values",
                 "items": {
                     "type": "string"
                 }
             },
             "arrayOfNumberProp": {
                 "type": "array",
+                "description": "An unordered list of numeric values",
                 "items": {
                     "type": "number"
                 }
             },
             "arrayOfDateProp": {
                 "type": "array",
+                "description": "An unordered list of DateTime objects",
                 "items": {
                     "type": "string",
                     "format": "date"
@@ -120,13 +132,14 @@ if __name__ == '__main__':
             },
             "arrayOfResourceProp": {
                 "type": "array",
+                "description": "An unordered list of references to resources, all of the same type",
                 "items": {
                     "type": "resource",
                     "uri": "/array-resource/{id}"
                 }
             },
             "arrayOfCollectionProp": {
-                "type": "array",
+                "type": "array","description": "An unordered list of references to collections, all of the same type",
                 "items": {
                     "type": "collection",
                     "uri": "/array-collection/{id}"
@@ -134,6 +147,7 @@ if __name__ == '__main__':
             },
             "arrayOfObjectProp": {
                 "type": "array",
+                "description": "An unordered list of complex objects, each with the same schema containing primitives or references",
                 "items": {
                     "type": "object",
                     "properties": {

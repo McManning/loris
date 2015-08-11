@@ -10,10 +10,13 @@ class {{ id }} extends Meta
     // Properties
 {% for name, property in properties|dictsort %}
 
-    {% if property.description -%}
-    /* {{ property.description }} */
-    {%- else %}
-    /* type: {{ property.type }} */
+    {% if property.description %}
+    /** 
+     * {{ property.description }}
+     * type: {{ property.format if property.format else property.type }}
+     */
+    {% else %}
+    /** type: {{ property.type }} */
     {% endif %}
     {% if property.type == 'array' %}
     public ${{ name }} = array();
