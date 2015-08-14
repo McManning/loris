@@ -264,6 +264,6 @@ class GeneratedResourceTest extends \PHPUnit_Framework_TestCase
         fwrite($f, $json);
         fclose($f);
 
-        $this->assertEquals(2703443943, crc32($json));
+        $this->assertEquals(4236957906, crc32($json));
     }
 }
