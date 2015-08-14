@@ -43,7 +43,7 @@
             $serialized->{{ name }}[$i] = $this->{{ name }}[$i]->format('{{ json_date_format }}');
         }
     {% else %}
-        $serialized->{{ name }} = clone $this->{{ name }};
+        $serialized->{{ name }} = $this->{{ name }};
     {% endif %}
 {% endmacro %}
 
