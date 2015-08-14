@@ -38,7 +38,7 @@ class GeneratedResource extends Base\GeneratedResource
                     "arrayResourceId": "AR-12345-1"
                 },
                 {
-                    "arrayResourceId": "AR-12345-1"
+                    "arrayResourceId": "AR-12345-2"
                 }
             ],
             "arrayOfStringProp": [
