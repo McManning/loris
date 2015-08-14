@@ -155,7 +155,7 @@ PERSON = {
 }
 
 TEST = {
-    "id": "TestResource",
+    "id": "GeneratedResource",
     "uri": "/test/{id}",
     "type": "object",
     "properties": {
