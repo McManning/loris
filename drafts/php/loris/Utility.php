@@ -154,4 +154,32 @@ class Utility
 
         return $results;
     }
+
+    public static function isString($value)
+    {
+        return isset($value) && is_string($value);
+    }
+
+    public static function isDate($value)
+    {
+        // TODO: Date checks
+        return self::isString($value); 
+    }
+
+    public static function isBool($value)
+    {
+        if (isset($value) && is_string($value)) {
+            return in_array(strtolower($value),
+                array('false', 'off', '-', 'no', 'n', '0', '',
+                    'true', 'on', '+', 'yes', 'y', '1')
+            );
+        } else {
+            return is_bool($value);
+        }
+    }
+
+    public static function isNumber($value)
+    {
+        return isset($value) && is_numeric($value);
+    }
 }
