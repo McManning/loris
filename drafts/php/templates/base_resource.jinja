@@ -1,6 +1,8 @@
 <?php
 namespace Loris\Resource\Base;
 
+use \Loris\Utility;
+
 class {{ id }} extends Meta
 {
     const URI = '{{ uri }}';
@@ -207,9 +209,9 @@ class {{ id }} extends Meta
                 {% endfor %}
             {% elif property.type == 'array' %}
                 {% if property['items'].type == 'string' -%}
-                    {{ macros.array_property_strings(name, property.format) }}
+                    {{ macros.array_property_strings(name, property['items'].format) }}
                 {% elif property['items'].type == 'number' -%}
-                    {{ macros.array_property_numbers(name, property.format) }}
+                    {{ macros.array_property_numbers(name, property['items'].format) }}
                 {% elif property['items'].type == 'boolean' -%}
                     {{ macros.array_property_booleans(name) }}
                 {% elif property['items'].type == 'resource' %}
