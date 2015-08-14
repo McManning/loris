@@ -109,6 +109,14 @@ class {{ id }} extends Base\{{ id }}
                 ...
             )
 
+            !!  Important note: It may be possible that multiple
+                resources that share the same ID may be in the list
+                at once (depending on how expansions and relationships
+                are performed internally). It is up to the implementer
+                to ensure that only unique IDs are returned in the 
+                $results array (postQuery will make the effort to 
+                remap these to each resource that shares IDs)
+
         ***********************************************************/
 
         self::postQuery(${{ id|camelcase }}s, $results);
