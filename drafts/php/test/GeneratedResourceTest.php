@@ -152,6 +152,23 @@ class GeneratedResourceTest extends \PHPUnit_Framework_TestCase
         return $generatedResource;
     }
 
+    /**
+     * Test if the generated JSON matches expectations.
+     * We use crc32() to speed/clean things up, rather than a straight string compare.
+     * 
+     * @depends testQuery
+     */
+    public function testSerialize(GeneratedResource $generatedResource)
+    {
+        $serialized = $generatedResource->serialize();
+
+        $json = json_encode($serialized);
+        $f = fopen('generatedResource.json', 'w');
+        fwrite($f, $json);
+        fclose($f);
+        $this->assertEquals(1828703027, crc32($json));
+    }
+
     /*
     public function testQueryMultiple()
     {

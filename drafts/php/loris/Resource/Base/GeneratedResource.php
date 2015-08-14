@@ -365,7 +365,7 @@ class GeneratedResource extends Meta
             $this->arrayOfNumberProp[] = intval($item);
         }
 
-        $arrayOfObjectPropCount = count($this->arrayOfObjectProp);
+        $arrayOfObjectPropCount = count($results->arrayOfObjectProp);
         for ($i = 0; $i < $arrayOfObjectPropCount; $i++) {
             $this->arrayOfObjectProp[$i] = clone $this->arrayOfObjectPropTemplate;
 
@@ -374,8 +374,8 @@ class GeneratedResource extends Meta
                 $results->arrayOfObjectProp[$i]->aopBoolProp
             );
 
-            assert('$results->arrayOfObjectProp[$i]->aopCollectionPropId) /* collection id must be supplied */');
-            assert('$results->arrayOfObjectProp[$i]->aopCollectionPropTotal) /* collection total must be supplied */');
+            assert('isset($results->arrayOfObjectProp[$i]->aopCollectionPropId) /* collection id must be supplied */');
+            assert('isset($results->arrayOfObjectProp[$i]->aopCollectionPropTotal) /* collection total must be supplied */');
             if ($results->arrayOfObjectProp[$i]->aopCollectionPropId !== null) {
                 $this->arrayOfObjectProp[$i]->aopCollectionProp->id(
                     $results->arrayOfObjectProp[$i]->aopCollectionPropId
@@ -724,7 +724,7 @@ class GeneratedResource extends Meta
             $serialized->arrayOfDateProp[$i] = $this->arrayOfDateProp[$i]->format('Y-m-d');
         }
 
-        $serialized->arrayOfNumberProp = clone $this->arrayOfNumberProp;
+        $serialized->arrayOfNumberProp = $this->arrayOfNumberProp;
 
         $serialized->arrayOfObjectProp = array();
         $arrayOfObjectPropCount = count($this->arrayOfObjectProp);
@@ -744,13 +744,13 @@ class GeneratedResource extends Meta
             $serialized->arrayOfResourceProp[] = $this->arrayOfResourceProp[$i]->serialize();
         }
 
-        $serialized->arrayOfStringProp = clone $this->arrayOfStringProp;
+        $serialized->arrayOfStringProp = $this->arrayOfStringProp;
 
         $serialized->boolProp = $this->boolProp;
 
         $serialized->collectionProp = $this->collectionProp->serialize();
 
-        $serialized->dateProp = $this->dateProp;
+        $serialized->dateProp = $this->dateProp->format('Y-m-d');
 
         $serialized->numberProp = $this->numberProp;
 
