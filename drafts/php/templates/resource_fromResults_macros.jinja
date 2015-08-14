@@ -207,8 +207,8 @@
 {% endmacro %}
 
 {% macro array_property_object_collection(array, name) %}
-            assert('$results->{{ array }}[$i]->{{ name }}Id) /* collection id must be supplied */');
-            assert('$results->{{ array }}[$i]->{{ name }}Total) /* collection total must be supplied */');
+            assert('isset($results->{{ array }}[$i]->{{ name }}Id) /* collection id must be supplied */');
+            assert('isset($results->{{ array }}[$i]->{{ name }}Total) /* collection total must be supplied */');
             if ($results->{{ array }}[$i]->{{ name }}Id !== null) {
                 $this->{{ array }}[$i]->{{ name }}->id(
                     $results->{{ array }}[$i]->{{ name }}Id
