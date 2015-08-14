@@ -223,7 +223,7 @@ class {{ id }} extends Meta
                         macros.array_property_collections(name, property['items'].collection) 
                     }}
                 {% elif property['items'].type == 'object' %}
-        ${{ name }}Count = count($this->{{ name }});
+        ${{ name }}Count = count($results->{{ name }});
         for ($i = 0; $i < ${{ name }}Count; $i++) {
             {{ macros.array_property_object(name) }}
 
@@ -340,7 +340,7 @@ class {{ id }} extends Meta
             {% if property.type == 'string' or 
                 property.type == 'number' or 
                 property.type == 'boolean' -%}
-                {{ macros.primitive_property(name) }}
+                {{ macros.primitive_property(name, property.format) }}
             {% elif property.type == 'resource' -%}
                 {{ macros.resource_property(name) }}
             {% elif property.type == 'collection' -%}
