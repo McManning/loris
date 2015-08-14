@@ -169,43 +169,101 @@ class GeneratedResourceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1828703027, crc32($json));
     }
 
-    /*
-    public function testQueryMultiple()
+    /**
+     * 
+     */
+    public function testExpandResource()
     {
-        $byrd = new PersonCertificates('01105914');
-        $sen = new PersonCertificates('00096580');
+        $generatedResource = new GeneratedResource('12345');
 
-        PersonCertificates::query(array($byrd, $sen));
+        $generatedResource->expand(array(
+            'resourceProp' => true
+        ));
 
-        // Test attributes
-        $this->assertEquals(true, $byrd->PIE);
-        $this->assertEquals(true, $sen->PIE);
+        GeneratedResource::query(array($generatedResource));
 
-        $this->assertEquals('Expired', $byrd->animalCare->status);
-        $this->assertEquals('Expired', $sen->animalCare->status);
+        $serialized = $generatedResource->serialize();
 
-        $this->assertEquals('Auto-Complete', $byrd->OHR->workflow);
-        $this->assertEquals('Complete', $sen->OHR->workflow);
-    }*/
+        // TODO: Better assertions. I just used a visual test against the
+        // generated JSON, but we need to automate this better. 
+        $json = json_encode($serialized);
+        $f = fopen('generatedResource-resourceProp.json', 'w');
+        fwrite($f, $json);
+        fclose($f);
+
+        $this->assertEquals(586037039, crc32($json));
+    }
 
     /**
-     * Theoretically, this test SHOULD fail since a bad ID shouldn't
-     * give us good results. But the backend stored procedures make no
-     * differentiation between what a good ID vs a bad ID is to be able
-     * to support that on the API end. 
+     * 
      */
-    /*public function testQueryInvalid()
+    public function testDeepExpandResource()
     {
-        $invalid = new PersonCertificates('B4DF00D');
+        $generatedResource = new GeneratedResource('12345');
 
-        PersonCertificates::query(array($invalid));
+        $generatedResource->expand(array(
+            'resourceProp' => array(
+                'resourceProp' => true
+            )
+        ));
 
-        //print_r($invalid->serialize());
+        GeneratedResource::query(array($generatedResource));
 
-        $this->assertEquals('B4DF00D', $invalid->id());
-        $this->assertEquals('/person/B4DF00D/certificates', $invalid->meta->uri);
+        $serialized = $generatedResource->serialize();
 
-        $this->assertEquals(false, $invalid->PIE);
+        // TODO: Better assertions. I just used a visual test against the 
+        // generated JSON, but we need to automate this better. 
+        $json = json_encode($serialized);
+        $f = fopen('generatedResource-resourceProp-resourceProp.json', 'w');
+        fwrite($f, $json);
+        fclose($f);
+
+        $this->assertEquals(2703443943, crc32($json));
     }
-    */
+
+    public function testExpandResourceArray()
+    {
+        $generatedResource = new GeneratedResource('12345');
+
+        $generatedResource->expand(array(
+            'arrayOfResourceProp' => true
+        ));
+
+        GeneratedResource::query(array($generatedResource));
+
+        $serialized = $generatedResource->serialize();
+
+        // TODO: Better assertions. I just used a visual test against the 
+        // generated JSON, but we need to automate this better. 
+        $json = json_encode($serialized);
+        $f = fopen('generatedResource-arrayOfResourceProp.json', 'w');
+        fwrite($f, $json);
+        fclose($f);
+
+        $this->assertEquals(3283226345, crc32($json));
+    }
+
+    public function testDeepExpandResourceArray()
+    {
+        $generatedResource = new GeneratedResource('12345');
+
+        $generatedResource->expand(array(
+            'arrayOfResourceProp' => array(
+                'arrayOfResourceProp' => true
+            )
+        ));
+
+        GeneratedResource::query(array($generatedResource));
+
+        $serialized = $generatedResource->serialize();
+
+        // TODO: Better assertions. I just used a visual test against the 
+        // generated JSON, but we need to automate this better. 
+        $json = json_encode($serialized);
+        $f = fopen('generatedResource-arrayOfResourceProp-arrayOfResourceProp.json', 'w');
+        fwrite($f, $json);
+        fclose($f);
+
+        $this->assertEquals(2703443943, crc32($json));
+    }
 }
