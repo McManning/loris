@@ -31,6 +31,7 @@
         assert('property_exists($results, \'{{ name + id|pascalcase }}\') /* resource id must be supplied */');
     {% endfor %}
         if ($results->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + name) }} !== null) {
+        
         {% for id in ids %}
             $this->{{ name }}->{{ id }} = $results->{{ name + id|pascalcase }};
         {% endfor %}
@@ -45,6 +46,7 @@
     {% endfor %}
         assert('property_exists($results, \'{{ name }}Total\') /* collection total must be supplied */');
         if ($results->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + name) }} !== null) {
+        
         {% for id in ids %}
             $this->{{ name }}->{{ id }} = $results->{{ name + id|pascalcase }};
         {% endfor %}
@@ -88,6 +90,7 @@
         assert('property_exists($results->{{ object}}, \'{{ name + id|pascalcase }}\') /* resource id must be supplied */');
     {% endfor %}
         if ($results->{{object}}->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + object + '->' + name) }} !== null) {
+        
         {% for id in ids %}
             $this->{{ object }}->{{ name }}->{{ id }} = $results->{{ object }}->{{ name + id|pascalcase }};
         {% endfor %}
@@ -102,6 +105,7 @@
     {% endfor %}
         assert('property_exists($results->{{ object }}, \'{{ name }}Total\') /* collection total must be supplied */');
         if ($results->{{object}}->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + object + '->' + name) }} !== null) {
+        
         {% for id in ids %}
             $this->{{ object }}->{{ name }}->{{ id }} = $results->{{ object }}->{{ name + id|pascalcase }};
         {% endfor %}
@@ -209,24 +213,31 @@
             );
 {% endmacro %}
 
-{% macro array_property_object_resource(array, name) %}
-            assert('property_exists($results->{{ array }}[$i], \'{{ name }}Id\') /* resource id must be supplied */');
-            if ($results->{{ array }}[$i]->{{ name }}Id !== null) {
-                $this->{{ array }}[$i]->{{ name }}->id(
-                    $results->{{ array }}[$i]->{{ name }}Id
-                );
+{% macro array_property_object_resource(array, name, ids) %}
+        {% for id in ids %}
+            assert('property_exists($results->{{ array }}[$i], \'{{ name + id|pascalcase }}\') /* resource id must be supplied */');
+        {% endfor %}
+            // if ($results->{{ array }}[$i]->{{ name }}Id !== null) {
+            if ($results->{{ array }}[$i]->{{ name + ids|pascalcase|join(' !== null && \n                $results->' + array + '[$i]->' + name) }} !== null) {
+            
+            {% for id in ids %}
+                $this->{{ array }}[$i]->{{ name }}->{{ id }} = $results->{{ array }}[$i]->{{ name + id|pascalcase }};
+            {% endfor %}
             } else {
                 $this->{{ array }}[$i]->{{ name }} = new NullResource();
             }
 {% endmacro %}
 
-{% macro array_property_object_collection(array, name) %}
-            assert('property_exists($results->{{ array }}[$i], \'{{ name }}Id\') /* collection id must be supplied */');
+{% macro array_property_object_collection(array, name, ids) %}
+        {% for id in ids %}
+            assert('property_exists($results->{{ array }}[$i], \'{{ name + id|pascalcase }}\') /* collection id must be supplied */');
+        {% endfor %}
             assert('property_exists($results->{{ array }}[$i], \'{{ name }}Total\') /* collection total must be supplied */');
-            if ($results->{{ array }}[$i]->{{ name }}Id !== null) {
-                $this->{{ array }}[$i]->{{ name }}->id(
-                    $results->{{ array }}[$i]->{{ name }}Id
-                );
+            if ($results->{{ array }}[$i]->{{ name + ids|pascalcase|join(' !== null && \n                $results->' + array + '[$i]->' + name) }} !== null) {
+            
+            {% for id in ids %}
+                $this->{{ array }}[$i]->{{ name }}->{{ id }} = $results->{{ array }}[$i]->{{ name + id|pascalcase }};
+            {% endfor %}
                 $this->{{ array }}[$i]->{{ name }}->meta->total = intval(
                     $results->{{ array }}[$i]->{{ name }}Total
                 );

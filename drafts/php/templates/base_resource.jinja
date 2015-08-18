@@ -253,11 +253,11 @@ class {{ id }} extends Meta
                             {{ macros.array_property_object_boolean(name, name2) }}
                         {% elif property2.type == 'resource' -%}
                             {{- 
-                                macros.array_property_object_resource(name, name2) 
+                                macros.array_property_object_resource(name, name2, property2.ids) 
                             }}
                         {% elif property2.type == 'collection' -%}
                             {{- 
-                                macros.array_property_object_collection(name, name2) 
+                                macros.array_property_object_collection(name, name2, property2.ids) 
                             }}
                         {% endif %}
                     {% endfor %}
