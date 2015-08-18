@@ -5,7 +5,7 @@
                 $this->{{ name }}->uri()
             );
             $this->{{ name }} = new ${{ name }}Model->class(
-                $this->{{ name }}->id()
+                $this->{{ name }}->ids()
             );
 
             if (is_array($this->expansions['{{ name }}'])) {
@@ -26,7 +26,7 @@
                 $this->{{ object }}->{{ name }}->uri()
             );
             $this->{{ object }}->{{ name }} = new ${{ name }}Model->class(
-                $this->{{ object }}->{{ name }}->id()
+                $this->{{ object }}->{{ name }}->ids()
             );
 
             if (is_array($this->expansions['{{ object }}']['{{ name }}'])) {
@@ -54,7 +54,7 @@
             ${{ name }}Count = count($this->{{ name }});
             for ($i = 0; $i < ${{ name }}Count; $i++) {
                 $this->{{ name }}[$i] = new ${{ name }}Model->class(
-                    $this->{{ name }}[$i]->id()
+                    $this->{{ name }}[$i]->ids()
                 );
 
                 if (${{ name }}Expanded) {
@@ -84,7 +84,7 @@
             ${{ arr }}Count = count($this->{{ arr }});
             for ($i = 0; $i < ${{ arr }}Count; $i++) {
                 $this->{{ arr }}[$i]->{{ name }}  = new ${{ name }}Model->class(
-                    $this->{{ arr }}[$i]->{{ name }}->id()
+                    $this->{{ arr }}[$i]->{{ name }}->ids()
                 );
 
                 if (${{ name }}Expanded) {
