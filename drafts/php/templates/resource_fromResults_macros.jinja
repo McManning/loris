@@ -36,7 +36,9 @@
             $this->{{ name }}->{{ id }} = $results->{{ name + id|pascalcase }};
         {% endfor %}
         } else {
-            $this->{{ name }} = new NullResource();
+            $this->{{ name }} = new NullResource(
+                $this->{{ name }}->uri()
+            );
         }
 {% endmacro %}
 
@@ -54,7 +56,9 @@
                 $results->{{ name }}Total
             );
         } else {
-            $this->{{ name }} = new NullResource();
+            $this->{{ name }} = new NullResource(
+                $this->{{ name }}->uri()
+            );
         }
 {% endmacro %}
 
@@ -95,7 +99,9 @@
             $this->{{ object }}->{{ name }}->{{ id }} = $results->{{ object }}->{{ name + id|pascalcase }};
         {% endfor %}
         } else {
-            $this->{{ object }}->{{ name }} = new NullResource();
+            $this->{{ object }}->{{ name }} = new NullResource(
+                $this->{{ object }}->{{ name }}->uri()
+            );
         }
 {% endmacro %}
 
@@ -113,7 +119,9 @@
                 $results->{{ object }}->{{ name }}Total
             );
         } else {
-            $this->{{ object }}->{{ name }} = new NullResource();
+            $this->{{ object }}->{{ name }} = new NullResource(
+                $this->{{ object }}->{{ name }}->uri()
+            );
         }
 {% endmacro %}
 
@@ -149,13 +157,13 @@
 {% macro array_property_resources(array, name, ids) %}
         foreach ($results->{{ array }} as $item) {
         {% for id in ids %}
-            assert('property_exists($item, \'{{ array + id|pascalcase }}\') /* resource id must be supplied */');
+            assert('property_exists($item, \'{{ name|camelcase + id|pascalcase }}\') /* resource id must be supplied */');
         {% endfor %}
-            if ($item->{{ array + ids|pascalcase|join(' !== null && \n                $item->' + array) }} !== null) {
+            if ($item->{{ name|camelcase + ids|pascalcase|join(' !== null && \n                $item->' + name|camelcase) }} !== null) {
                 ${{ name|camelcase }} = clone $this->{{ array }}Template;
             
             {% for id in ids %}
-                ${{ name|camelcase }}->{{ id }} = $item->{{ array + id|pascalcase }};
+                ${{ name|camelcase }}->{{ id }} = $item->{{ name|camelcase + id|pascalcase }};
             {% endfor %}
                 $this->{{ array }}[] = ${{ name|camelcase }};
             }
@@ -165,14 +173,14 @@
 {% macro array_property_collections(array, name, ids) %}
         foreach ($results->{{ array }} as $item) {
         {% for id in ids %}
-            assert('property_exists($item, \'{{ array + id|pascalcase }}\') /* resource id must be supplied */');
+            assert('property_exists($item, \'{{ name|camelcase + id|pascalcase }}\') /* resource id must be supplied */');
         {% endfor %}
             assert('property_exists($item, \'{{ name|camelcase }}Total\') /* {{ name|camelcase }}Total must be supplied */');
-            if ($item->{{ array + ids|pascalcase|join(' !== null && \n                $item->' + array) }} !== null) {
+            if ($item->{{ name|camelcase + ids|pascalcase|join(' !== null && \n                $item->' + name|camelcase) }} !== null) {
                 ${{ name|camelcase }} = clone $this->{{ array }}Template;
                 
             {% for id in ids %}
-                ${{ name|camelcase }}->{{ id }} = $item->{{ array + id|pascalcase }};
+                ${{ name|camelcase }}->{{ id }} = $item->{{ name|camelcase + id|pascalcase }};
             {% endfor %}
                 ${{ name|camelcase }}->meta->total = intval(
                     $item->{{ name|camelcase }}Total
@@ -224,7 +232,9 @@
                 $this->{{ array }}[$i]->{{ name }}->{{ id }} = $results->{{ array }}[$i]->{{ name + id|pascalcase }};
             {% endfor %}
             } else {
-                $this->{{ array }}[$i]->{{ name }} = new NullResource();
+                $this->{{ array }}[$i]->{{ name }} = new NullResource(
+                    $this->{{ array }}[$i]->{{ name }}->uri()
+                );
             }
 {% endmacro %}
 
@@ -242,7 +252,9 @@
                     $results->{{ array }}[$i]->{{ name }}Total
                 );
             } else {
-                $this->{{ array }}[$i]->{{ name }} = new NullResource();
+                $this->{{ array }}[$i]->{{ name }} = new NullResource(
+                    $this->{{ array }}[$i]->{{ name }}->uri()
+                );
             }
 {% endmacro %}
 
