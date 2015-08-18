@@ -32,17 +32,17 @@ class Meta
     }
 
     /**
-     * Returns a new stdClass mapping ID attributes
+     * Returns an associative array mapping ID attributes
      * to their respective values. 
      *
-     * @return \stdClass
+     * @return array
      */
     public function ids() 
     {
-        $ids = new \stdClass();
+        $ids = array();
 
         foreach ($this->_ids as $id) {
-            $ids->{$id} = $this->{$id};
+            $ids[$id] = $this->{$id};
         }
 
         return $ids;
