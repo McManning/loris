@@ -2,7 +2,7 @@
         if (array_key_exists('{{ name }}', $this->expansions)) {
 
             ${{ name }}Model = \Loris\Discovery::find(
-                $this->{{ name }}->_uri
+                $this->{{ name }}->uri()
             );
             $this->{{ name }} = new ${{ name }}Model->class(
                 $this->{{ name }}->id()
@@ -23,7 +23,7 @@
             array_key_exists('{{ name }}', $this->expansions['{{ object }}'])) {
 
             ${{ name }}Model = \Loris\Discovery::find(
-                $this->{{ object }}->{{ name }}->_uri
+                $this->{{ object }}->{{ name }}->uri()
             );
             $this->{{ object }}->{{ name }} = new ${{ name }}Model->class(
                 $this->{{ object }}->{{ name }}->id()
@@ -46,7 +46,7 @@
             count($this->{{ name }}) > 0) {
 
             ${{ name }}Model = \Loris\Discovery::find(
-                $this->{{ name }}[0]->_uri
+                $this->{{ name }}[0]->uri()
             );
             ${{ name }}Expanded = is_array(
                 $this->expansions['{{ name }}']
@@ -76,7 +76,7 @@
             count($this->{{ arr }}) > 0) {
 
             ${{ name }}Model = \Loris\Discovery::find(
-                $this->{{ arr }}[0]->{{ name }}->_uri
+                $this->{{ arr }}[0]->{{ name }}->uri()
             );
             ${{ name }}Expanded = is_array(
                 $this->expansions['{{ arr }}']['{{ name }}']
