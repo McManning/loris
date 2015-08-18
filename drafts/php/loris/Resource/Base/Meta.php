@@ -75,8 +75,8 @@ class Meta
             $this->meta->uri = str_replace(
                 '{' . $id . '}',
                 $this->{$id},
-                $this->meta->uri;
-            )
+                $this->meta->uri
+            );
         }
     }
 
@@ -85,6 +85,10 @@ class Meta
      */
     public function serialize()
     {
+        // Update once again, in case the ids have changed between
+        // construction and serialization (Which is often)
+        $this->updateMetaUri();
+
         $serialized = new \stdClass();
         $serialized->meta = $this->meta;
         
