@@ -19,11 +19,18 @@ class GeneratedResourceTest extends \PHPUnit_Framework_TestCase
         // References used by the generated resource that don't really exist
         $fakepaths = array(
             '/array-collection/{id}',
-            '/array-resource/{id}',
+            '/array-collection/{idLeft}/{idRight}',
+            '/array-resource/{idLeft}/{idRight}',
             '/object-collection/{id}',
+            '/object-collection/{idLeft}/{idRight}',
+            '/object-resource/{idLeft}/{idRight}',
             '/object-resource/{id}',
+            '/array-resource/{id}',
             '/collection/{id}',
-            '/resource/{id}'
+            '/collection/{idLeft}/{idRight}',
+            '/resource/{idLeft}/and/{idRight}',
+            '/resource/{id}',
+            '/resource'
         );
 
         foreach ($fakepaths as $i => $fakepath) {
@@ -39,11 +46,11 @@ class GeneratedResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate()
     {
-        $generatedResource = new GeneratedResource('12345');
+        $generatedResource = new GeneratedResource(array('idLeft'=>'12345', 'idRight'=>'10'));
 
         // Test metadata
-        $this->assertEquals('12345', $generatedResource->id());
-        $this->assertEquals('/test/12345', $generatedResource->meta->uri);
+        $this->assertEquals(array('idLeft'=>'12345', 'idRight'=>'10'), $generatedResource->ids());
+        $this->assertSame('/test/12345/foo/10', $generatedResource->meta->uri);
 
         return $generatedResource;
     }
@@ -62,8 +69,8 @@ class GeneratedResourceTest extends \PHPUnit_Framework_TestCase
         GeneratedResource::query(array($generatedResource));
 
         // Test metadata
-        $this->assertSame('12345', $generatedResource->id());
-        $this->assertSame('/test/12345', $generatedResource->meta->uri);
+        $this->assertEquals(array('idLeft'=>'12345', 'idRight'=>'10'), $generatedResource->ids());
+        $this->assertSame('/test/12345/foo/10', $generatedResource->meta->uri);
 
         // Test simple attributes
         $this->assertSame('Hello World', $generatedResource->stringProp);
@@ -94,15 +101,15 @@ class GeneratedResourceTest extends \PHPUnit_Framework_TestCase
             $generatedResource->arrayOfResourceProp[1]
         );
 
-        $this->assertSame('AR-12345-1', $generatedResource->arrayOfResourceProp[0]->id());
-        $this->assertSame('AR-12345-2', $generatedResource->arrayOfResourceProp[1]->id());
+        $this->assertEquals(array('id' => 'AR-12345-1'), $generatedResource->arrayOfResourceProp[0]->ids());
+        $this->assertEquals(array('id' => 'AR-12345-2'), $generatedResource->arrayOfResourceProp[1]->ids());
 
         $this->assertEquals(1, count($generatedResource->arrayOfCollectionProp));
         $this->assertInstanceOf(
             '\\Loris\\Resource\\Base\\MetaCollection', 
             $generatedResource->arrayOfCollectionProp[0]
         );
-        $this->assertSame('AC-12345', $generatedResource->arrayOfCollectionProp[0]->id());
+        $this->assertEquals(array('id' => 'AC-12345'), $generatedResource->arrayOfCollectionProp[0]->ids());
 
         // Test object
         $this->assertInstanceOf('\\stdClass', $generatedResource->objectProp);
@@ -118,13 +125,13 @@ class GeneratedResourceTest extends \PHPUnit_Framework_TestCase
             '\\Loris\\Resource\\Base\\MetaCollection', 
             $generatedResource->objectProp->opCollectionProp
         );
-        $this->assertSame('OPC-12345', $generatedResource->objectProp->opCollectionProp->id());
+        $this->assertEquals(array('id' => 'OPC-12345'), $generatedResource->objectProp->opCollectionProp->ids());
 
         $this->assertInstanceOf(
             '\\Loris\\Resource\\Base\\Meta', 
             $generatedResource->objectProp->opResourceProp
         );
-        $this->assertSame('OPR-12345', $generatedResource->objectProp->opResourceProp->id());
+        $this->assertEquals(array('id' => 'OPR-12345'), $generatedResource->objectProp->opResourceProp->ids());
 
         // Test array of objects
 
@@ -141,13 +148,13 @@ class GeneratedResourceTest extends \PHPUnit_Framework_TestCase
             '\\Loris\\Resource\\Base\\Meta', 
             $generatedResource->arrayOfObjectProp[0]->aopResourceProp
         );
-        $this->assertSame('AOPR-12345', $generatedResource->arrayOfObjectProp[0]->aopResourceProp->id());
+        $this->assertEquals(array('id' => 'AOPR-12345'), $generatedResource->arrayOfObjectProp[0]->aopResourceProp->ids());
 
         $this->assertInstanceOf(
             '\\Loris\\Resource\\Base\\MetaCollection', 
             $generatedResource->arrayOfObjectProp[0]->aopCollectionProp
         );
-        $this->assertSame('AOPC-12345', $generatedResource->arrayOfObjectProp[0]->aopCollectionProp->id());
+        $this->assertEquals(array('id' => 'AOPC-12345'), $generatedResource->arrayOfObjectProp[0]->aopCollectionProp->ids());
 
         return $generatedResource;
     }
@@ -166,7 +173,7 @@ class GeneratedResourceTest extends \PHPUnit_Framework_TestCase
         $f = fopen('generatedResource.json', 'w');
         fwrite($f, $json);
         fclose($f);
-        $this->assertEquals(1828703027, crc32($json));
+        $this->assertEquals(3135752513, crc32($json));
     }
 
     /**
@@ -174,10 +181,10 @@ class GeneratedResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testExpandResource()
     {
-        $generatedResource = new GeneratedResource('12345');
+        $generatedResource = new GeneratedResource(array('idLeft'=>'12345', 'idRight'=>'10'));
 
         $generatedResource->expand(array(
-            'resourceProp' => true
+            'compositeResourceProp' => true
         ));
 
         GeneratedResource::query(array($generatedResource));
@@ -187,23 +194,38 @@ class GeneratedResourceTest extends \PHPUnit_Framework_TestCase
         // TODO: Better assertions. I just used a visual test against the
         // generated JSON, but we need to automate this better. 
         $json = json_encode($serialized);
-        $f = fopen('generatedResource-resourceProp.json', 'w');
+        $f = fopen('generatedResource-compositeResourceProp.json', 'w');
         fwrite($f, $json);
         fclose($f);
 
-        $this->assertEquals(586037039, crc32($json));
+        // Test metadata
+        $this->assertEquals(
+            array('idLeft' => 'CR-LEFT', 'idRight' => 'CR-RIGHT'),
+            $generatedResource->compositeResourceProp->ids()
+        );
+
+        $this->assertEquals(
+            '/test/CR-LEFT/foo/CR-RIGHT',
+            $generatedResource->compositeResourceProp->meta->uri
+        );
+
+        // Pick a random property to test (should exist since we expanded)
+        $this->assertEquals(
+            'Hello World', 
+            $generatedResource->compositeResourceProp->stringProp
+        );
+
+        // Test serialization results
+        $this->assertEquals(2563886957, crc32($json));
     }
 
-    /**
-     * 
-     */
     public function testDeepExpandResource()
     {
-        $generatedResource = new GeneratedResource('12345');
+        $generatedResource = new GeneratedResource(array('idLeft'=>'12345', 'idRight'=>'10'));
 
         $generatedResource->expand(array(
-            'resourceProp' => array(
-                'resourceProp' => true
+            'compositeResourceProp' => array(
+                'compositeResourceProp' => true
             )
         ));
 
@@ -214,19 +236,37 @@ class GeneratedResourceTest extends \PHPUnit_Framework_TestCase
         // TODO: Better assertions. I just used a visual test against the 
         // generated JSON, but we need to automate this better. 
         $json = json_encode($serialized);
-        $f = fopen('generatedResource-resourceProp-resourceProp.json', 'w');
+        $f = fopen('generatedResource-compositeResourceProp-compositeResourceProp.json', 'w');
         fwrite($f, $json);
         fclose($f);
 
-        $this->assertEquals(2703443943, crc32($json));
+        // Test metadata
+        $this->assertEquals(
+            array('idLeft' => 'CR-LEFT', 'idRight' => 'CR-RIGHT'),
+            $generatedResource->compositeResourceProp->ids()
+        );
+
+        $this->assertEquals(
+            '/test/CR-LEFT/foo/CR-RIGHT',
+            $generatedResource->compositeResourceProp->meta->uri
+        );
+
+        // Pick a random property to test (should exist since we expanded)
+        $this->assertEquals(
+            'Hello World', 
+            $generatedResource->compositeResourceProp->stringProp
+        );
+
+        // Test serialization results
+        $this->assertEquals(3953406959, crc32($json));
     }
 
     public function testExpandResourceArray()
     {
-        $generatedResource = new GeneratedResource('12345');
+        $generatedResource = new GeneratedResource(array('idLeft'=>'12345', 'idRight'=>'10'));
 
         $generatedResource->expand(array(
-            'arrayOfResourceProp' => true
+            'arrayOfCompositeResourceProp' => true
         ));
 
         GeneratedResource::query(array($generatedResource));
@@ -236,20 +276,20 @@ class GeneratedResourceTest extends \PHPUnit_Framework_TestCase
         // TODO: Better assertions. I just used a visual test against the 
         // generated JSON, but we need to automate this better. 
         $json = json_encode($serialized);
-        $f = fopen('generatedResource-arrayOfResourceProp.json', 'w');
+        $f = fopen('generatedResource-arrayOfCompositeResourceProp.json', 'w');
         fwrite($f, $json);
         fclose($f);
 
-        $this->assertEquals(3283226345, crc32($json));
+        $this->assertEquals(1086169428, crc32($json));
     }
 
     public function testDeepExpandResourceArray()
     {
-        $generatedResource = new GeneratedResource('12345');
+        $generatedResource = new GeneratedResource(array('idLeft'=>'12345', 'idRight'=>'10'));
 
         $generatedResource->expand(array(
-            'arrayOfResourceProp' => array(
-                'arrayOfResourceProp' => true
+            'arrayOfCompositeResourceProp' => array(
+                'arrayOfCompositeResourceProp' => true
             )
         ));
 
@@ -260,10 +300,10 @@ class GeneratedResourceTest extends \PHPUnit_Framework_TestCase
         // TODO: Better assertions. I just used a visual test against the 
         // generated JSON, but we need to automate this better. 
         $json = json_encode($serialized);
-        $f = fopen('generatedResource-arrayOfResourceProp-arrayOfResourceProp.json', 'w');
+        $f = fopen('generatedResource-arrayOfCompositeResourceProp-arrayOfCompositeResourceProp.json', 'w');
         fwrite($f, $json);
         fclose($f);
 
-        $this->assertEquals(4236957906, crc32($json));
+        $this->assertEquals(2287707026, crc32($json));
     }
 }

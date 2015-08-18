@@ -14,13 +14,20 @@ class {{ id }} extends Base\{{ id }}
             YOUR BACKEND QUERY CODE HERE
 
             Useful variables for your query include:
-                $generatedResources[N]->id() - unique identifier
+            
+                ${{ id|camelcase }}s[N]->ids()
+                - A mapping between primary keys and their values. 
+                    For this resource type, it looks like:
+                    array(
+                        {% for id in id_keys %}
+                        {{ id }} = string
+                        {% endfor %}
+                    )
 
             The output of your query must be formatted as below:
 
             $results = array(
-                id = stdClass(
-                    id = string
+                stdClass(
             {% for name, property in properties|dictsort -%}
                 {% if property.type == 'string' %}
                     {% if property.format == 'date' %}
@@ -33,9 +40,13 @@ class {{ id }} extends Base\{{ id }}
                 {% elif property.type == 'boolean' %}
                     {{ name }} = boolean
                 {% elif property.type == 'resource' %}
-                    {{ name }}Id = string
+                    {% for id in property.ids %}
+                    {{ name + id|pascalcase }} = string
+                    {% endfor %}
                 {% elif property.type == 'collection' %}
-                    {{ name }}Id = string
+                    {% for id in property.ids %}
+                    {{ name + id|pascalcase }} = string
+                    {% endfor %}
                     {{ name }}Total = number
                 {% elif property.type == 'object' %}
                     {{ name }} = stdClass(
@@ -51,9 +62,13 @@ class {{ id }} extends Base\{{ id }}
                     {% elif property2.type == 'boolean' %}
                         {{ name2 }} = boolean
                     {% elif property2.type == 'resource' %}
-                        {{ name2 }}Id = string
+                        {% for id in property2.ids %}
+                        {{ name2 + id|pascalcase }} = string
+                        {% endfor %}
                     {% elif property2.type == 'collection' %}
-                        {{ name2 }}Id = string
+                        {% for id in property2.ids %}
+                        {{ name2 + id|pascalcase }} = string
+                        {% endfor %}
                         {{ name2 }}Total = number
                     {% endif %}
                     {% endfor %}
@@ -72,11 +87,15 @@ class {{ id }} extends Base\{{ id }}
                         boolean
                     {% elif property['items'].type == 'resource' %}
                         stdClass(
-                            {{ property['items'].resource|camelcase }}Id = string
+                            {% for id in property['items'].ids %}
+                            {{ property['items'].resource|camelcase + id|pascalcase }} = string
+                            {% endfor %}
                         )
                     {% elif property['items'].type == 'collection' %}
                         stdClass(
-                            {{ property['items'].collection|camelcase }}Id = string
+                            {% for id in property['items'].ids %}
+                            {{ property['items'].collection|camelcase + id|pascalcase }} = string
+                            {% endfor %}
                             {{ property['items'].collection|camelcase }}Total = number
                         )
                     {% elif property['items'].type == 'object' %}
@@ -93,9 +112,13 @@ class {{ id }} extends Base\{{ id }}
                         {% elif property2.type == 'boolean' %}
                             {{ name2 }} = boolean
                         {% elif property2.type == 'resource' %}
-                            {{ name2 }}Id = string
+                            {% for id in property2.ids %}
+                            {{ name2 + id|pascalcase }} = string
+                            {% endfor %}
                         {% elif property2.type == 'collection' %}
-                            {{ name2 }}Id = string
+                            {% for id in property2.ids %}
+                            {{ name2 + id|pascalcase }} = string
+                            {% endfor %}
                             {{ name2 }}Total = number
                         {% endif %}
                         {% endfor %}
