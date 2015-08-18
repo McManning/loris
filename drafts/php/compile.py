@@ -9,7 +9,17 @@ from jinja2 import Environment, FileSystemLoader # easy_install Jinja2
 def camelcase(s):
     #s = s.replace('_', ' ')
     #r = ''.join(w for w in s.title() if not w.isspace())
-    return s[0].lower() + s[1:]
+    if type(s) == list:
+        return [x[0].lower() + x[1:] for x in s]
+    else:
+        return s[0].lower() + s[1:]
+
+def pascalcase(s):
+
+    if type(s) == list:
+        return [x[0].upper() + x[1:] for x in s]
+    else:
+        return s[0].upper() + s[1:]
 
 def generate_resource_php(resource):
     """Use Jinja2 to generate base PHP files
@@ -25,6 +35,7 @@ def generate_resource_php(resource):
 
     # Add some custom filters
     j2_env.filters['camelcase'] = camelcase
+    j2_env.filters['pascalcase'] = pascalcase
 
     # Apply some globals to the environment. Note that this
     # is done to access common properties from within macros,
