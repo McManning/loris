@@ -277,19 +277,20 @@ class GeneratedResource extends Meta
     public static function postQuery(array $generatedResources, array $results)
     {
         foreach ($generatedResources as $generatedResource) {
-            if (!array_key_exists($generatedResource->id(), $results)) {
-                throw new \Exception(
-                    'GeneratedResource [' . $generatedResource->id() . '] missing from $results'
-                );
+            foreach ($results as $result) {
+                if ($result->idLeft === $generatedResource->idLeft &&
+                    $result->idRight === $generatedResource->idRight) {
+                    
+                    $generatedResource->fromResults($result);
+                    break;
+                }
             }
-
-            $generatedResource->fromResults($results[$generatedResource->id()]);
         }
 
         // Query for all expanded relationships
         $arrayOfCollectionProps = array();
         $arrayOfCollectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfCollectionPropTemplate->_uri
+            $generatedResources[0]->arrayOfCollectionPropTemplate->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             foreach ($generatedResource->arrayOfCollectionProp as $item) {
@@ -307,7 +308,7 @@ class GeneratedResource extends Meta
 
         $arrayOfCompositeCollectionProps = array();
         $arrayOfCompositeCollectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfCompositeCollectionPropTemplate->_uri
+            $generatedResources[0]->arrayOfCompositeCollectionPropTemplate->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             foreach ($generatedResource->arrayOfCompositeCollectionProp as $item) {
@@ -325,7 +326,7 @@ class GeneratedResource extends Meta
 
         $arrayOfCompositeResourceProps = array();
         $arrayOfCompositeResourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfCompositeResourcePropTemplate->_uri
+            $generatedResources[0]->arrayOfCompositeResourcePropTemplate->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             foreach ($generatedResource->arrayOfCompositeResourceProp as $item) {
@@ -343,7 +344,7 @@ class GeneratedResource extends Meta
 
         $aopCollectionProps = array();
         $aopCollectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfObjectPropTemplate->aopCollectionProp->_uri
+            $generatedResources[0]->arrayOfObjectPropTemplate->aopCollectionProp->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             foreach ($generatedResource->arrayOfObjectProp as $item) {
@@ -361,7 +362,7 @@ class GeneratedResource extends Meta
 
         $aopCompositeCollectionProps = array();
         $aopCompositeCollectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfObjectPropTemplate->aopCompositeCollectionProp->_uri
+            $generatedResources[0]->arrayOfObjectPropTemplate->aopCompositeCollectionProp->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             foreach ($generatedResource->arrayOfObjectProp as $item) {
@@ -379,7 +380,7 @@ class GeneratedResource extends Meta
 
         $aopCompositeResourceProps = array();
         $aopCompositeResourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfObjectPropTemplate->aopCompositeResourceProp->_uri
+            $generatedResources[0]->arrayOfObjectPropTemplate->aopCompositeResourceProp->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             foreach ($generatedResource->arrayOfObjectProp as $item) {
@@ -397,7 +398,7 @@ class GeneratedResource extends Meta
 
         $aopResourceProps = array();
         $aopResourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfObjectPropTemplate->aopResourceProp->_uri
+            $generatedResources[0]->arrayOfObjectPropTemplate->aopResourceProp->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             foreach ($generatedResource->arrayOfObjectProp as $item) {
@@ -415,7 +416,7 @@ class GeneratedResource extends Meta
 
         $arrayOfResourceProps = array();
         $arrayOfResourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfResourcePropTemplate->_uri
+            $generatedResources[0]->arrayOfResourcePropTemplate->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             foreach ($generatedResource->arrayOfResourceProp as $item) {
@@ -433,7 +434,7 @@ class GeneratedResource extends Meta
 
         $collectionProps = array();
         $collectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->collectionProp->_uri
+            $generatedResources[0]->collectionProp->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             if ($generatedResource->collectionProp instanceof $collectionPropModel->class) {
@@ -449,7 +450,7 @@ class GeneratedResource extends Meta
 
         $compositeCollectionProps = array();
         $compositeCollectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->compositeCollectionProp->_uri
+            $generatedResources[0]->compositeCollectionProp->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             if ($generatedResource->compositeCollectionProp instanceof $compositeCollectionPropModel->class) {
@@ -465,7 +466,7 @@ class GeneratedResource extends Meta
 
         $compositeResourceProps = array();
         $compositeResourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->compositeResourceProp->_uri
+            $generatedResources[0]->compositeResourceProp->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             if ($generatedResource->compositeResourceProp instanceof $compositeResourcePropModel->class) {
@@ -481,7 +482,7 @@ class GeneratedResource extends Meta
 
         $opCollectionProps = array();
         $opCollectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->objectProp->opCollectionProp->_uri
+            $generatedResources[0]->objectProp->opCollectionProp->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             if ($generatedResource->objectProp->opCollectionProp instanceof $opCollectionPropModel->class) {
@@ -497,7 +498,7 @@ class GeneratedResource extends Meta
 
         $opCompositeCollectionProps = array();
         $opCompositeCollectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->objectProp->opCompositeCollectionProp->_uri
+            $generatedResources[0]->objectProp->opCompositeCollectionProp->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             if ($generatedResource->objectProp->opCompositeCollectionProp instanceof $opCompositeCollectionPropModel->class) {
@@ -513,7 +514,7 @@ class GeneratedResource extends Meta
 
         $opCompositeResourceProps = array();
         $opCompositeResourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->objectProp->opCompositeResourceProp->_uri
+            $generatedResources[0]->objectProp->opCompositeResourceProp->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             if ($generatedResource->objectProp->opCompositeResourceProp instanceof $opCompositeResourcePropModel->class) {
@@ -529,7 +530,7 @@ class GeneratedResource extends Meta
 
         $opResourceProps = array();
         $opResourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->objectProp->opResourceProp->_uri
+            $generatedResources[0]->objectProp->opResourceProp->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             if ($generatedResource->objectProp->opResourceProp instanceof $opResourcePropModel->class) {
@@ -545,7 +546,7 @@ class GeneratedResource extends Meta
 
         $resourceProps = array();
         $resourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->resourceProp->_uri
+            $generatedResources[0]->resourceProp->uri()
         );
         foreach ($generatedResources as $generatedResource) {
             if ($generatedResource->resourceProp instanceof $resourcePropModel->class) {
@@ -567,9 +568,6 @@ class GeneratedResource extends Meta
      */
     public function fromResults(\stdClass $results)
     {
-        // Update id(), as we may have potentially not had it pre-query
-        $this->id($results->id);
-
         foreach ($results->arrayOfCollectionProp as $item) {
             assert('property_exists($item, \'arrayOfCollectionPropId\') /* resource id must be supplied */');
             assert('property_exists($item, \'arrayCollectionTotal\') /* arrayCollectionTotal must be supplied */');
@@ -885,7 +883,7 @@ class GeneratedResource extends Meta
             count($this->arrayOfCollectionProp) > 0) {
 
             $arrayOfCollectionPropModel = \Loris\Discovery::find(
-                $this->arrayOfCollectionProp[0]->_uri
+                $this->arrayOfCollectionProp[0]->uri()
             );
             $arrayOfCollectionPropExpanded = is_array(
                 $this->expansions['arrayOfCollectionProp']
@@ -908,7 +906,7 @@ class GeneratedResource extends Meta
             count($this->arrayOfCompositeCollectionProp) > 0) {
 
             $arrayOfCompositeCollectionPropModel = \Loris\Discovery::find(
-                $this->arrayOfCompositeCollectionProp[0]->_uri
+                $this->arrayOfCompositeCollectionProp[0]->uri()
             );
             $arrayOfCompositeCollectionPropExpanded = is_array(
                 $this->expansions['arrayOfCompositeCollectionProp']
@@ -931,7 +929,7 @@ class GeneratedResource extends Meta
             count($this->arrayOfCompositeResourceProp) > 0) {
 
             $arrayOfCompositeResourcePropModel = \Loris\Discovery::find(
-                $this->arrayOfCompositeResourceProp[0]->_uri
+                $this->arrayOfCompositeResourceProp[0]->uri()
             );
             $arrayOfCompositeResourcePropExpanded = is_array(
                 $this->expansions['arrayOfCompositeResourceProp']
@@ -955,7 +953,7 @@ class GeneratedResource extends Meta
             count($this->arrayOfObjectProp) > 0) {
 
             $aopCollectionPropModel = \Loris\Discovery::find(
-                $this->arrayOfObjectProp[0]->aopCollectionProp->_uri
+                $this->arrayOfObjectProp[0]->aopCollectionProp->uri()
             );
             $aopCollectionPropExpanded = is_array(
                 $this->expansions['arrayOfObjectProp']['aopCollectionProp']
@@ -979,7 +977,7 @@ class GeneratedResource extends Meta
             count($this->arrayOfObjectProp) > 0) {
 
             $aopCompositeCollectionPropModel = \Loris\Discovery::find(
-                $this->arrayOfObjectProp[0]->aopCompositeCollectionProp->_uri
+                $this->arrayOfObjectProp[0]->aopCompositeCollectionProp->uri()
             );
             $aopCompositeCollectionPropExpanded = is_array(
                 $this->expansions['arrayOfObjectProp']['aopCompositeCollectionProp']
@@ -1003,7 +1001,7 @@ class GeneratedResource extends Meta
             count($this->arrayOfObjectProp) > 0) {
 
             $aopCompositeResourcePropModel = \Loris\Discovery::find(
-                $this->arrayOfObjectProp[0]->aopCompositeResourceProp->_uri
+                $this->arrayOfObjectProp[0]->aopCompositeResourceProp->uri()
             );
             $aopCompositeResourcePropExpanded = is_array(
                 $this->expansions['arrayOfObjectProp']['aopCompositeResourceProp']
@@ -1027,7 +1025,7 @@ class GeneratedResource extends Meta
             count($this->arrayOfObjectProp) > 0) {
 
             $aopResourcePropModel = \Loris\Discovery::find(
-                $this->arrayOfObjectProp[0]->aopResourceProp->_uri
+                $this->arrayOfObjectProp[0]->aopResourceProp->uri()
             );
             $aopResourcePropExpanded = is_array(
                 $this->expansions['arrayOfObjectProp']['aopResourceProp']
@@ -1050,7 +1048,7 @@ class GeneratedResource extends Meta
             count($this->arrayOfResourceProp) > 0) {
 
             $arrayOfResourcePropModel = \Loris\Discovery::find(
-                $this->arrayOfResourceProp[0]->_uri
+                $this->arrayOfResourceProp[0]->uri()
             );
             $arrayOfResourcePropExpanded = is_array(
                 $this->expansions['arrayOfResourceProp']
@@ -1072,7 +1070,7 @@ class GeneratedResource extends Meta
         if (array_key_exists('collectionProp', $this->expansions)) {
 
             $collectionPropModel = \Loris\Discovery::find(
-                $this->collectionProp->_uri
+                $this->collectionProp->uri()
             );
             $this->collectionProp = new $collectionPropModel->class(
                 $this->collectionProp->id()
@@ -1086,7 +1084,7 @@ class GeneratedResource extends Meta
         if (array_key_exists('compositeCollectionProp', $this->expansions)) {
 
             $compositeCollectionPropModel = \Loris\Discovery::find(
-                $this->compositeCollectionProp->_uri
+                $this->compositeCollectionProp->uri()
             );
             $this->compositeCollectionProp = new $compositeCollectionPropModel->class(
                 $this->compositeCollectionProp->id()
@@ -1100,7 +1098,7 @@ class GeneratedResource extends Meta
         if (array_key_exists('compositeResourceProp', $this->expansions)) {
 
             $compositeResourcePropModel = \Loris\Discovery::find(
-                $this->compositeResourceProp->_uri
+                $this->compositeResourceProp->uri()
             );
             $this->compositeResourceProp = new $compositeResourcePropModel->class(
                 $this->compositeResourceProp->id()
@@ -1115,7 +1113,7 @@ class GeneratedResource extends Meta
             array_key_exists('opCollectionProp', $this->expansions['objectProp'])) {
 
             $opCollectionPropModel = \Loris\Discovery::find(
-                $this->objectProp->opCollectionProp->_uri
+                $this->objectProp->opCollectionProp->uri()
             );
             $this->objectProp->opCollectionProp = new $opCollectionPropModel->class(
                 $this->objectProp->opCollectionProp->id()
@@ -1132,7 +1130,7 @@ class GeneratedResource extends Meta
             array_key_exists('opCompositeCollectionProp', $this->expansions['objectProp'])) {
 
             $opCompositeCollectionPropModel = \Loris\Discovery::find(
-                $this->objectProp->opCompositeCollectionProp->_uri
+                $this->objectProp->opCompositeCollectionProp->uri()
             );
             $this->objectProp->opCompositeCollectionProp = new $opCompositeCollectionPropModel->class(
                 $this->objectProp->opCompositeCollectionProp->id()
@@ -1149,7 +1147,7 @@ class GeneratedResource extends Meta
             array_key_exists('opCompositeResourceProp', $this->expansions['objectProp'])) {
 
             $opCompositeResourcePropModel = \Loris\Discovery::find(
-                $this->objectProp->opCompositeResourceProp->_uri
+                $this->objectProp->opCompositeResourceProp->uri()
             );
             $this->objectProp->opCompositeResourceProp = new $opCompositeResourcePropModel->class(
                 $this->objectProp->opCompositeResourceProp->id()
@@ -1166,7 +1164,7 @@ class GeneratedResource extends Meta
             array_key_exists('opResourceProp', $this->expansions['objectProp'])) {
 
             $opResourcePropModel = \Loris\Discovery::find(
-                $this->objectProp->opResourceProp->_uri
+                $this->objectProp->opResourceProp->uri()
             );
             $this->objectProp->opResourceProp = new $opResourcePropModel->class(
                 $this->objectProp->opResourceProp->id()
@@ -1182,7 +1180,7 @@ class GeneratedResource extends Meta
         if (array_key_exists('resourceProp', $this->expansions)) {
 
             $resourcePropModel = \Loris\Discovery::find(
-                $this->resourceProp->_uri
+                $this->resourceProp->uri()
             );
             $this->resourceProp = new $resourcePropModel->class(
                 $this->resourceProp->id()

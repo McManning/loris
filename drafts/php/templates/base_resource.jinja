@@ -123,13 +123,16 @@ class {{ id }} extends Meta
     public static function postQuery(array ${{ id_var_plural }}, array $results)
     {
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
-            if (!array_key_exists(${{ id_var }}->id(), $results)) {
-                throw new \Exception(
-                    '{{ id }} [' . ${{ id_var }}->id() . '] missing from $results'
-                );
+            foreach ($results as $result) {
+                if ({% for id in id_keys -%}
+                        $result->{{ id }} === ${{ id_var }}->{{ id }} 
+                    {{- ' &&\n                    ' if not loop.last }}
+                {%- endfor %}) {
+                    
+                    ${{ id_var }}->fromResults($result);
+                    break;
+                }
             }
-
-            ${{ id_var }}->fromResults($results[${{ id_var }}->id()]);
         }
 
         // Query for all expanded relationships
@@ -183,9 +186,6 @@ class {{ id }} extends Meta
      */
     public function fromResults(\stdClass $results)
     {
-        // Update id(), as we may have potentially not had it pre-query
-        $this->id($results->id);
-
         {% import 'templates/resource_fromResults_macros.jinja' as macros %}
         {% for name, property in properties|dictsort -%}
             {% if property.type == 'string' -%}
