@@ -6,40 +6,56 @@ namespace Loris\Resource\Base;
  */
 class Meta
 {
-    public $_id = null;
     public $_uri = null;
 
     public $meta = null;
 
-    function __construct($id, $uri)
+    protected $_ids = null;
+
+    function __construct($ids, $uri)
     {
         $this->meta = new \stdClass();
         $this->meta->type = 'resource';
         $this->meta->uri = null;
 
-        // If there's no id specified, generate a uid.
-        // This is used for resource and collections that
-        // do not have a referential ID for queries, but
-        // need to have an ID for queries involving sets
-        // of results. 
-        if ($id === null) {
-            $id = uniqid('uid:');
+        $this->_ids = array();
+
+        // Map IDs onto this resource
+        if ($ids !== null) {
+            foreach ($ids as $p => $v) {
+                $this->_ids[] = $p;
+                $this->{$p} = $v;
+            }
         }
         
-        $this->id($id);
         $this->uri($uri);
     }
 
-    public function id($id = null) 
+    /**
+     * Returns a new stdClass mapping ID attributes
+     * to their respective values. 
+     *
+     * @return \stdClass
+     */
+    public function ids() 
     {
-        if ($id) {
-            $this->_id = $id;
-            $this->updateMetaUri();
+        $ids = new \stdClass();
+
+        foreach ($this->_ids as $id) {
+            $ids->{$id} = $this->{$id};
         }
 
-        return $this->_id;
+        return $ids;
     }
 
+    /**
+     * Set (if $uri != null) or get the current URI pattern
+     * used for this resource. A pattern is defined as a URI
+     * string that contains {id} values, where `id` is one 
+     * of the primary key IDs. In cases of composite ID resources,
+     * uri's such as `/path/to/resource/{firstId}/subresource/{secondId}`
+     * are allowed. 
+     */
     public function uri($uri = null) 
     {
         if ($uri) {
@@ -52,14 +68,15 @@ class Meta
 
     protected function updateMetaUri() 
     {
-        if (strpos($this->_uri, '{id}') !== false) {
+        // Replace patterns containing ID attributes
+        // with their true values
+        $this->meta->uri = $this->_uri;
+        foreach ($this->_ids as $id) {
             $this->meta->uri = str_replace(
-                '{id}',
-                $this->_id,
-                $this->_uri
-            );
-        } else {
-            $this->meta->uri = $this->_uri;
+                '{' . $id . '}',
+                $this->{$id},
+                $this->meta->uri;
+            )
         }
     }
 
@@ -69,7 +86,6 @@ class Meta
     public function serialize()
     {
         $serialized = new \stdClass();
-        $serialized->id = $this->_id;
         $serialized->meta = $this->meta;
         
         return $serialized;
