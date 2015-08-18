@@ -253,6 +253,15 @@ TEST = {
                 }
             }
         },
+        "topLevelResourceProp": {
+            "type": "resource",
+            "resource": "TopLevelResource",
+            "uri": "/resource",
+            "ids": [
+                "unusedId"
+            ],
+            "description": "A reference to a top level resource that doesn't use an ID in the URI"
+        },
         "resourceProp": {
             "type": "resource",
             "resource": "TestResource",

@@ -1,13 +1,17 @@
-{% macro resource_property(name, uri) %}
+{% macro resource_property(name, uri, ids) %}
         $this->{{ name }} = new Meta(
-            null, 
+            array({% for id in ids -%}
+                '{{ id }}' => null{{ ', ' if not loop.last }}
+            {%- endfor %}),
             '{{ uri }}'
         );
 {% endmacro %}
 
-{% macro collection_property(name, uri) %}
+{% macro collection_property(name, uri, ids) %}
         $this->{{ name }} = new MetaCollection(
-            null, 
+            array({% for id in ids -%}
+                '{{ id }}' => null{{ ', ' if not loop.last }}
+            {%- endfor %}),
             '{{ uri }}'
         );
 {% endmacro %}
@@ -16,30 +20,38 @@
         $this->{{ name }} = new \stdClass;
 {% endmacro %}
 
-{% macro object_property_resource(object, name, uri) %}
+{% macro object_property_resource(object, name, uri, ids) %}
         $this->{{ object }}->{{ name }} = new Meta(
-            null,
+            array({% for id in ids -%}
+                '{{ id }}' => null{{ ', ' if not loop.last }}
+            {%- endfor %}),
             '{{ uri }}'
         );
 {% endmacro %}
 
-{% macro object_property_collection(object, name, uri) %}
+{% macro object_property_collection(object, name, uri, ids) %}
         $this->{{ object }}->{{ name }} = new MetaCollection(
-            null,
+            array({% for id in ids -%}
+                '{{ id }}' => null{{ ', ' if not loop.last }}
+            {%- endfor %}),
             '{{ uri }}'
         );
 {% endmacro %}
 
-{% macro array_property_resources(name, uri) %}
+{% macro array_property_resources(name, uri, ids) %}
         $this->{{ name }}Template = new Meta(
-            null,
+            array({% for id in ids -%}
+                '{{ id }}' => null{{ ', ' if not loop.last }}
+            {%- endfor %}),
             '{{ uri }}'
         );
 {% endmacro %}
 
-{% macro array_property_collections(name, uri) %}
+{% macro array_property_collections(name, uri, ids) %}
         $this->{{ name }}Template = new MetaCollection(
-            null,
+            array({% for id in ids -%}
+                '{{ id }}' => null{{ ', ' if not loop.last }}
+            {%- endfor %}),
             '{{ uri }}'
         );
 {% endmacro %}
@@ -48,16 +60,20 @@
         $this->{{ name }}Template = new \stdClass;
 {% endmacro %}
 
-{% macro array_property_object_resource(array, name, uri) %}
+{% macro array_property_object_resource(array, name, uri, ids) %}
         $this->{{ array }}Template->{{ name }} = new Meta(
-            null,
+            array({% for id in ids -%}
+                '{{ id }}' => null{{ ', ' if not loop.last }}
+            {%- endfor %}),
             '{{ uri }}'
         );
 {% endmacro %}
 
-{% macro array_property_object_collection(array, name, uri) %}
+{% macro array_property_object_collection(array, name, uri, ids) %}
         $this->{{ array }}Template->{{ name }} = new MetaCollection(
-            null,
+            array({% for id in ids -%}
+                '{{ id }}' => null{{ ', ' if not loop.last }}
+            {%- endfor %}),
             '{{ uri }}'
         );
 {% endmacro %}

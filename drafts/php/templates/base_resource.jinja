@@ -47,11 +47,11 @@ class {{ id }} extends Meta
 {% endfor %}
 
     /**
-     * @param string $id
+     * @param mixed $ids
      */
-    function __construct($id)
+    function __construct($ids)
     {
-        parent::__construct($id, self::URI);
+        parent::__construct($ids, self::URI);
 
         // Create Meta(Collection)s for relationships
         // Note: The inclusion of a URI is required here as we can possibly
@@ -59,12 +59,17 @@ class {{ id }} extends Meta
         // but we still need to know the resource URI. The problem then becomes,
         // where do we get this URI? We can't guarantee to have access to Resource::URI
         // because resources may not exist on the same instance as this caller. 
+        // Further note that ID keys must be specified prior to any access, as each
+        // needs to know what to use as an ID. This is baked into resource implementations, 
+        // but again, the resource may reside externally and we need to identify what,
+        // from our data store on *this* resource, would be considered an ID attribute
+
         {% import 'templates/resource_constructor_macros.jinja' as macros %}
         {% for name, property in properties|dictsort -%}
             {% if property.type == 'resource' -%}
-                {{ macros.resource_property(name, property.uri) }}
+                {{ macros.resource_property(name, property.uri, property.ids) }}
             {% elif property.type == 'collection' -%}
-                {{ macros.collection_property(name, property.uri) }}
+                {{ macros.collection_property(name, property.uri, property.ids) }}
             {% elif property.type == 'object' %}
                 {{- 
                     macros.object_property(name) 
@@ -72,22 +77,22 @@ class {{ id }} extends Meta
                 {% for name2, property2 in property.properties|dictsort %}
                     {% if property2.type == 'resource' -%}
                         {{- 
-                            macros.object_property_resource(name, name2, property2.uri) 
+                            macros.object_property_resource(name, name2, property2.uri, property2.ids) 
                         }}
                     {% elif property2.type == 'collection' -%}
                         {{- 
-                            macros.object_property_collection(name, name2, property2.uri) 
+                            macros.object_property_collection(name, name2, property2.uri, property2.ids) 
                         }}
                     {% endif %}
                 {% endfor %}
             {% elif property.type == 'array' %}
                 {% if property['items'].type == 'resource' %}
                     {{- 
-                        macros.array_property_resources(name, property['items'].uri) 
+                        macros.array_property_resources(name, property['items'].uri, property['items'].ids) 
                     }}
                 {% elif property['items'].type == 'collection' %}
                     {{- 
-                        macros.array_property_collections(name, property['items'].uri) 
+                        macros.array_property_collections(name, property['items'].uri, property['items'].ids) 
                     }}
                 {% elif property['items'].type == 'object' %}
                     {{- 
@@ -96,11 +101,11 @@ class {{ id }} extends Meta
                     {% for name2, property2 in property['items'].properties|dictsort %}
                         {% if property2.type == 'resource' -%}
                             {{- 
-                                macros.array_property_object_resource(name, name2, property2.uri) 
+                                macros.array_property_object_resource(name, name2, property2.uri, property2.ids) 
                             }}
                         {% elif property2.type == 'collection' -%}
                             {{- 
-                                macros.array_property_object_collection(name, name2, property2.uri) 
+                                macros.array_property_object_collection(name, name2, property2.uri, property2.ids) 
                             }}
                         {% endif %}
                     {% endfor %}

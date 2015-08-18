@@ -164,12 +164,18 @@ class GeneratedResource extends Meta
      */
     public $stringProp = null;
 
-    /**
-     * @param string $id
+    /** 
+     * A reference to a top level resource that doesn't use an ID in the URI
+     * type: resource
      */
-    function __construct($id)
+    public $topLevelResourceProp = null;
+
+    /**
+     * @param mixed $ids
+     */
+    function __construct($ids)
     {
-        parent::__construct($id, self::URI);
+        parent::__construct($ids, self::URI);
 
         // Create Meta(Collection)s for relationships
         // Note: The inclusion of a URI is required here as we can possibly
@@ -177,88 +183,98 @@ class GeneratedResource extends Meta
         // but we still need to know the resource URI. The problem then becomes,
         // where do we get this URI? We can't guarantee to have access to Resource::URI
         // because resources may not exist on the same instance as this caller. 
+        // Further note that ID keys must be specified prior to any access, as each
+        // needs to know what to use as an ID. This is baked into resource implementations, 
+        // but again, the resource may reside externally and we need to identify what,
+        // from our data store on *this* resource, would be considered an ID attribute
+
         $this->arrayOfCollectionPropTemplate = new MetaCollection(
-            null,
+            array('id' => null),
             '/array-collection/{id}'
         );
 
         $this->arrayOfCompositeCollectionPropTemplate = new MetaCollection(
-            null,
+            array('idLeft' => null, 'idRight' => null),
             '/array-collection/{idLeft}/{idRight}'
         );
 
         $this->arrayOfCompositeResourcePropTemplate = new Meta(
-            null,
+            array('idLeft' => null, 'idRight' => null),
             '/array-resource/{idLeft}/{idRight}'
         );
 
         $this->arrayOfObjectPropTemplate = new \stdClass;
 
         $this->arrayOfObjectPropTemplate->aopCollectionProp = new MetaCollection(
-            null,
+            array('id' => null),
             '/object-collection/{id}'
         );
 
         $this->arrayOfObjectPropTemplate->aopCompositeCollectionProp = new MetaCollection(
-            null,
+            array('idLeft' => null, 'idRight' => null),
             '/object-collection/{idLeft}/{idRight}'
         );
 
         $this->arrayOfObjectPropTemplate->aopCompositeResourceProp = new Meta(
-            null,
+            array('idLeft' => null, 'idRight' => null),
             '/object-resource/{idLeft}/{idRight}'
         );
 
         $this->arrayOfObjectPropTemplate->aopResourceProp = new Meta(
-            null,
+            array('id' => null),
             '/object-resource/{id}'
         );
 
         $this->arrayOfResourcePropTemplate = new Meta(
-            null,
+            array('id' => null),
             '/array-resource/{id}'
         );
 
         $this->collectionProp = new MetaCollection(
-            null, 
+            array('id' => null),
             '/collection/{id}'
         );
 
         $this->compositeCollectionProp = new MetaCollection(
-            null, 
+            array('idLeft' => null, 'idRight' => null),
             '/collection/{idLeft}/{idRight}'
         );
 
         $this->compositeResourceProp = new Meta(
-            null, 
+            array('idLeft' => null, 'idRight' => null),
             '/resource/{idLeft}/and/{idRight}'
         );
 
         $this->objectProp = new \stdClass;
 
         $this->objectProp->opCollectionProp = new MetaCollection(
-            null,
+            array('id' => null),
             '/object-collection/{id}'
         );
 
         $this->objectProp->opCompositeCollectionProp = new MetaCollection(
-            null,
+            array('idLeft' => null, 'idRight' => null),
             '/object-collection/{idLeft}/{idRight}'
         );
 
         $this->objectProp->opCompositeResourceProp = new Meta(
-            null,
+            array('idLeft' => null, 'idRight' => null),
             '/object-resource/{idLeft}/{idRight}'
         );
 
         $this->objectProp->opResourceProp = new Meta(
-            null,
+            array('id' => null),
             '/object-resource/{id}'
         );
 
         $this->resourceProp = new Meta(
-            null, 
+            array('id' => null),
             '/resource/{id}'
+        );
+
+        $this->topLevelResourceProp = new Meta(
+            array('unusedId' => null),
+            '/resource'
         );
 
     }
@@ -560,6 +576,22 @@ class GeneratedResource extends Meta
             );
         }
 
+        $topLevelResourceProps = array();
+        $topLevelResourcePropModel = \Loris\Discovery::find(
+            $generatedResources[0]->topLevelResourceProp->uri()
+        );
+        foreach ($generatedResources as $generatedResource) {
+            if ($generatedResource->topLevelResourceProp instanceof $topLevelResourcePropModel->class) {
+                $topLevelResourceProps[] = $generatedResource->topLevelResourceProp;
+            }
+        }
+        if (!empty($topLevelResourceProps)) {
+            call_user_func(
+                array($topLevelResourcePropModel->class, 'query'),
+                $topLevelResourceProps
+            );
+        }
+
     }
 
     /**
@@ -851,6 +883,14 @@ class GeneratedResource extends Meta
         assert('\Loris\Utility::isString($results->stringProp) /* property must be a string */');
         $this->stringProp = $results->stringProp;
 
+        assert('property_exists($results, \'topLevelResourcePropUnusedId\') /* resource id must be supplied */');
+        if ($results->topLevelResourcePropUnusedId !== null) {
+        
+            $this->topLevelResourceProp->unusedId = $results->topLevelResourcePropUnusedId;
+        } else {
+            $this->topLevelResourceProp = new NullResource();
+        }
+
         // Perform expansions after hydration, in case we hydrated any
         // additional resource references in Arrays or Objects
         $this->doExpansions();
@@ -891,7 +931,7 @@ class GeneratedResource extends Meta
             $arrayOfCollectionPropCount = count($this->arrayOfCollectionProp);
             for ($i = 0; $i < $arrayOfCollectionPropCount; $i++) {
                 $this->arrayOfCollectionProp[$i] = new $arrayOfCollectionPropModel->class(
-                    $this->arrayOfCollectionProp[$i]->id()
+                    $this->arrayOfCollectionProp[$i]->ids()
                 );
 
                 if ($arrayOfCollectionPropExpanded) {
@@ -914,7 +954,7 @@ class GeneratedResource extends Meta
             $arrayOfCompositeCollectionPropCount = count($this->arrayOfCompositeCollectionProp);
             for ($i = 0; $i < $arrayOfCompositeCollectionPropCount; $i++) {
                 $this->arrayOfCompositeCollectionProp[$i] = new $arrayOfCompositeCollectionPropModel->class(
-                    $this->arrayOfCompositeCollectionProp[$i]->id()
+                    $this->arrayOfCompositeCollectionProp[$i]->ids()
                 );
 
                 if ($arrayOfCompositeCollectionPropExpanded) {
@@ -937,7 +977,7 @@ class GeneratedResource extends Meta
             $arrayOfCompositeResourcePropCount = count($this->arrayOfCompositeResourceProp);
             for ($i = 0; $i < $arrayOfCompositeResourcePropCount; $i++) {
                 $this->arrayOfCompositeResourceProp[$i] = new $arrayOfCompositeResourcePropModel->class(
-                    $this->arrayOfCompositeResourceProp[$i]->id()
+                    $this->arrayOfCompositeResourceProp[$i]->ids()
                 );
 
                 if ($arrayOfCompositeResourcePropExpanded) {
@@ -961,7 +1001,7 @@ class GeneratedResource extends Meta
             $arrayOfObjectPropCount = count($this->arrayOfObjectProp);
             for ($i = 0; $i < $arrayOfObjectPropCount; $i++) {
                 $this->arrayOfObjectProp[$i]->aopCollectionProp  = new $aopCollectionPropModel->class(
-                    $this->arrayOfObjectProp[$i]->aopCollectionProp->id()
+                    $this->arrayOfObjectProp[$i]->aopCollectionProp->ids()
                 );
 
                 if ($aopCollectionPropExpanded) {
@@ -985,7 +1025,7 @@ class GeneratedResource extends Meta
             $arrayOfObjectPropCount = count($this->arrayOfObjectProp);
             for ($i = 0; $i < $arrayOfObjectPropCount; $i++) {
                 $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp  = new $aopCompositeCollectionPropModel->class(
-                    $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->id()
+                    $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->ids()
                 );
 
                 if ($aopCompositeCollectionPropExpanded) {
@@ -1009,7 +1049,7 @@ class GeneratedResource extends Meta
             $arrayOfObjectPropCount = count($this->arrayOfObjectProp);
             for ($i = 0; $i < $arrayOfObjectPropCount; $i++) {
                 $this->arrayOfObjectProp[$i]->aopCompositeResourceProp  = new $aopCompositeResourcePropModel->class(
-                    $this->arrayOfObjectProp[$i]->aopCompositeResourceProp->id()
+                    $this->arrayOfObjectProp[$i]->aopCompositeResourceProp->ids()
                 );
 
                 if ($aopCompositeResourcePropExpanded) {
@@ -1033,7 +1073,7 @@ class GeneratedResource extends Meta
             $arrayOfObjectPropCount = count($this->arrayOfObjectProp);
             for ($i = 0; $i < $arrayOfObjectPropCount; $i++) {
                 $this->arrayOfObjectProp[$i]->aopResourceProp  = new $aopResourcePropModel->class(
-                    $this->arrayOfObjectProp[$i]->aopResourceProp->id()
+                    $this->arrayOfObjectProp[$i]->aopResourceProp->ids()
                 );
 
                 if ($aopResourcePropExpanded) {
@@ -1056,7 +1096,7 @@ class GeneratedResource extends Meta
             $arrayOfResourcePropCount = count($this->arrayOfResourceProp);
             for ($i = 0; $i < $arrayOfResourcePropCount; $i++) {
                 $this->arrayOfResourceProp[$i] = new $arrayOfResourcePropModel->class(
-                    $this->arrayOfResourceProp[$i]->id()
+                    $this->arrayOfResourceProp[$i]->ids()
                 );
 
                 if ($arrayOfResourcePropExpanded) {
@@ -1073,7 +1113,7 @@ class GeneratedResource extends Meta
                 $this->collectionProp->uri()
             );
             $this->collectionProp = new $collectionPropModel->class(
-                $this->collectionProp->id()
+                $this->collectionProp->ids()
             );
 
             if (is_array($this->expansions['collectionProp'])) {
@@ -1087,7 +1127,7 @@ class GeneratedResource extends Meta
                 $this->compositeCollectionProp->uri()
             );
             $this->compositeCollectionProp = new $compositeCollectionPropModel->class(
-                $this->compositeCollectionProp->id()
+                $this->compositeCollectionProp->ids()
             );
 
             if (is_array($this->expansions['compositeCollectionProp'])) {
@@ -1101,7 +1141,7 @@ class GeneratedResource extends Meta
                 $this->compositeResourceProp->uri()
             );
             $this->compositeResourceProp = new $compositeResourcePropModel->class(
-                $this->compositeResourceProp->id()
+                $this->compositeResourceProp->ids()
             );
 
             if (is_array($this->expansions['compositeResourceProp'])) {
@@ -1116,7 +1156,7 @@ class GeneratedResource extends Meta
                 $this->objectProp->opCollectionProp->uri()
             );
             $this->objectProp->opCollectionProp = new $opCollectionPropModel->class(
-                $this->objectProp->opCollectionProp->id()
+                $this->objectProp->opCollectionProp->ids()
             );
 
             if (is_array($this->expansions['objectProp']['opCollectionProp'])) {
@@ -1133,7 +1173,7 @@ class GeneratedResource extends Meta
                 $this->objectProp->opCompositeCollectionProp->uri()
             );
             $this->objectProp->opCompositeCollectionProp = new $opCompositeCollectionPropModel->class(
-                $this->objectProp->opCompositeCollectionProp->id()
+                $this->objectProp->opCompositeCollectionProp->ids()
             );
 
             if (is_array($this->expansions['objectProp']['opCompositeCollectionProp'])) {
@@ -1150,7 +1190,7 @@ class GeneratedResource extends Meta
                 $this->objectProp->opCompositeResourceProp->uri()
             );
             $this->objectProp->opCompositeResourceProp = new $opCompositeResourcePropModel->class(
-                $this->objectProp->opCompositeResourceProp->id()
+                $this->objectProp->opCompositeResourceProp->ids()
             );
 
             if (is_array($this->expansions['objectProp']['opCompositeResourceProp'])) {
@@ -1167,7 +1207,7 @@ class GeneratedResource extends Meta
                 $this->objectProp->opResourceProp->uri()
             );
             $this->objectProp->opResourceProp = new $opResourcePropModel->class(
-                $this->objectProp->opResourceProp->id()
+                $this->objectProp->opResourceProp->ids()
             );
 
             if (is_array($this->expansions['objectProp']['opResourceProp'])) {
@@ -1183,11 +1223,25 @@ class GeneratedResource extends Meta
                 $this->resourceProp->uri()
             );
             $this->resourceProp = new $resourcePropModel->class(
-                $this->resourceProp->id()
+                $this->resourceProp->ids()
             );
 
             if (is_array($this->expansions['resourceProp'])) {
                 $this->resourceProp->expand($this->expansions['resourceProp']);
+            }
+        }
+
+        if (array_key_exists('topLevelResourceProp', $this->expansions)) {
+
+            $topLevelResourcePropModel = \Loris\Discovery::find(
+                $this->topLevelResourceProp->uri()
+            );
+            $this->topLevelResourceProp = new $topLevelResourcePropModel->class(
+                $this->topLevelResourceProp->ids()
+            );
+
+            if (is_array($this->expansions['topLevelResourceProp'])) {
+                $this->topLevelResourceProp->expand($this->expansions['topLevelResourceProp']);
             }
         }
 
@@ -1284,6 +1338,8 @@ class GeneratedResource extends Meta
         $serialized->resourceProp = $this->resourceProp->serialize();
 
         $serialized->stringProp = $this->stringProp;
+
+        $serialized->topLevelResourceProp = $this->topLevelResourceProp->serialize();
 
         return $serialized;
     }
