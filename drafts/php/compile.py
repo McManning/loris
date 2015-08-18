@@ -29,14 +29,15 @@ def generate_resource_php(resource):
     # Apply some globals to the environment. Note that this
     # is done to access common properties from within macros,
     # where normally we wouldn't be able to because of call scope.
-    j2_env.globals['id'] = resource['id']
+    j2_env.globals['id'] = resource['title']
     j2_env.globals['uri'] = resource['uri']
-    j2_env.globals['id_var'] = camelcase(resource['id'])
-    j2_env.globals['id_var_plural'] = camelcase(resource['id']) + 's'
+    j2_env.globals['id_var'] = camelcase(resource['title'])
+    j2_env.globals['id_var_plural'] = camelcase(resource['title']) + 's'
     j2_env.globals['json_date_format'] = 'Y-m-d'
     j2_env.globals['json_datetime_format'] = 'Y-m-d H:i:s'
     j2_env.globals['input_date_format'] = 'Y-m-d'
     j2_env.globals['input_datetime_format'] = 'Y-m-d H:i:s'
+    j2_env.globals['id_keys'] = resource['ids']
 
     # Load resources into fragment files
     base_template = j2_env.get_template('templates/base_resource.jinja')
@@ -155,10 +156,22 @@ PERSON = {
 }
 
 TEST = {
-    "id": "GeneratedResource",
-    "uri": "/test/{id}",
+    "title": "GeneratedResource",
+    "uri": "/test/{idLeft}/foo/{idRight}", # Contains everything in the "id" attribute list
     "type": "object",
+    "ids": [
+        "idLeft", # Primary key used for identifying discrete resources
+        "idRight"
+    ],
     "properties": {
+        "idLeft": {
+            "type": "string",
+            "description": "Composite identifier left"
+        },
+        "idRight": {
+            "type": "string",
+            "description": "Composite identifier right"
+        },
         "stringProp": {
             "type": "string",
             "description": "A generic string value"
@@ -196,12 +209,36 @@ TEST = {
                 "opResourceProp": {
                     "type": "resource",
                     "resource": "ObjectResource",
-                    "uri": "/object-resource/{id}"
+                    "uri": "/object-resource/{id}",
+                    "ids": [
+                        "id"
+                    ]
                 },
                 "opCollectionProp": {
                     "type": "collection",
                     "collection": "ObjectCollection",
-                    "uri": "/object-collection/{id}"
+                    "uri": "/object-collection/{id}",
+                    "ids": [
+                        "id"
+                    ]
+                },
+                "opCompositeResourceProp": {
+                    "type": "resource",
+                    "resource": "ObjectCompositeResource",
+                    "uri": "/object-resource/{idLeft}/{idRight}",
+                    "ids": [
+                        "idLeft",
+                        "idRight"
+                    ]
+                },
+                "opCompositeCollectionProp": {
+                    "type": "collection",
+                    "collection": "ObjectCompositeCollection",
+                    "uri": "/object-collection/{idLeft}/{idRight}",
+                    "ids": [
+                        "idLeft",
+                        "idRight"
+                    ]
                 }
             }
         },
@@ -209,13 +246,39 @@ TEST = {
             "type": "resource",
             "resource": "TestResource",
             "uri": "/resource/{id}",
+            "ids": [
+                "id"
+            ],
             "description": "A reference to another resource"
+        },
+        "compositeResourceProp": {
+            "type": "resource",
+            "resource": "TestCompositeResource",
+            "uri": "/resource/{idLeft}/and/{idRight}",
+            "ids": [
+                "idLeft",
+                "idRight"
+            ],
+            "description": "A reference to another resource with a composite ID"
         },
         "collectionProp": {
             "type": "collection",
             "collection": "TestCollection",
             "uri": "/collection/{id}",
+            "ids": [
+                "id"
+            ],
             "description": "A reference to a collection"
+        },
+        "compositeCollectionProp": {
+            "type": "collection",
+            "collection": "TestCompositeCollection",
+            "uri": "/collection/{idLeft}/{idRight}",
+            "ids": [
+                "idLeft",
+                "idRight"
+            ],
+            "description": "A reference to a collection with a composite ID"
         },
         "arrayOfStringProp": {
             "type": "array",
@@ -245,7 +308,10 @@ TEST = {
             "items": {
                 "type": "resource",
                 "resource": "ArrayResource",
-                "uri": "/array-resource/{id}"
+                "uri": "/array-resource/{id}",
+                "ids": [
+                    "id"
+                ]
             }
         },
         "arrayOfCollectionProp": {
@@ -254,7 +320,36 @@ TEST = {
             "items": {
                 "type": "collection",
                 "collection": "ArrayCollection",
-                "uri": "/array-collection/{id}"
+                "uri": "/array-collection/{id}",
+                "ids": [
+                    "id"
+                ]
+            }
+        },
+        "arrayOfCompositeResourceProp": {
+            "type": "array",
+            "description": "An unordered list of references to resources, all of the same type",
+            "items": {
+                "type": "resource",
+                "resource": "ArrayCompositeResource",
+                "uri": "/array-resource/{idLeft}/{idRight}",
+                "ids": [
+                    "idLeft",
+                    "idRight"
+                ]
+            }
+        },
+        "arrayOfCompositeCollectionProp": {
+            "type": "array",
+            "description": "An unordered list of references to collections, all of the same type",
+            "items": {
+                "type": "collection",
+                "collection": "ArrayCompositeCollection",
+                "uri": "/array-collection/{idLeft}/{idRight}",
+                "ids": [
+                    "idLeft",
+                    "idRight"
+                ]
             }
         },
         "arrayOfObjectProp": {
@@ -279,12 +374,36 @@ TEST = {
                     "aopResourceProp": {
                         "type": "resource",
                         "resource": "ObjectResource",
-                        "uri": "/object-resource/{id}"
+                        "uri": "/object-resource/{id}",
+                        "ids": [
+                            "id"
+                        ]
                     },
                     "aopCollectionProp": {
                         "type": "collection",
                         "collection": "ObjectCollection",
-                        "uri": "/object-collection/{id}"
+                        "uri": "/object-collection/{id}",
+                        "ids": [
+                            "id"
+                        ]
+                    },
+                    "aopCompositeResourceProp": {
+                        "type": "resource",
+                        "resource": "ObjectCompositeResource",
+                        "uri": "/object-resource/{idLeft}/{idRight}",
+                        "ids": [
+                            "idLeft",
+                            "idRight"
+                        ]
+                    },
+                    "aopCompositeCollectionProp": {
+                        "type": "collection",
+                        "collection": "ObjectCompositeCollection",
+                        "uri": "/object-collection/{idLeft}/{idRight}",
+                        "ids": [
+                            "idLeft",
+                            "idRight"
+                        ]
                     }
                 }
             }

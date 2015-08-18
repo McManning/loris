@@ -9,6 +9,15 @@ class {{ id }} extends Meta
 
     private $expansions = null;
 
+    /**
+     * Track the properties that are used as our resource's 
+     * distinct identifier (one or composite). Each match
+     * within URI must exist within this list. 
+     */
+    private $_id = array(
+        '{{ id_keys|join('\', \'') }}'
+    );
+
     // Properties
 {% for name, property in properties|dictsort %}
 
@@ -186,9 +195,9 @@ class {{ id }} extends Meta
             {% elif property.type == 'boolean' -%}
                 {{ macros.boolean_property(name) }}
             {% elif property.type == 'resource' -%}
-                {{ macros.resource_property(name) }}
+                {{ macros.resource_property(name, property.ids) }}
             {% elif property.type == 'collection' -%}
-                {{ macros.collection_property(name) }}
+                {{ macros.collection_property(name, property.ids) }}
             {% elif property.type == 'object' %}
                 {% for name2, property2 in property.properties|dictsort %}
                     {% if property2.type == 'string' -%}
@@ -199,11 +208,11 @@ class {{ id }} extends Meta
                         {{ macros.object_property_boolean(name, name2) }}
                     {% elif property2.type == 'resource' -%}
                         {{- 
-                            macros.object_property_resource(name, name2) 
+                            macros.object_property_resource(name, name2, property2.ids) 
                         }}
                     {% elif property2.type == 'collection' -%}
                         {{- 
-                            macros.object_property_collection(name, name2) 
+                            macros.object_property_collection(name, name2, property2.ids) 
                         }}
                     {% endif %}
                 {% endfor %}
@@ -216,11 +225,19 @@ class {{ id }} extends Meta
                     {{ macros.array_property_booleans(name) }}
                 {% elif property['items'].type == 'resource' %}
                     {{- 
-                        macros.array_property_resources(name, property['items'].resource) 
+                        macros.array_property_resources(
+                            name, 
+                            property['items'].resource, 
+                            property['items'].ids
+                        ) 
                     }}
                 {% elif property['items'].type == 'collection' %}
                     {{- 
-                        macros.array_property_collections(name, property['items'].collection) 
+                        macros.array_property_collections(
+                            name, 
+                            property['items'].collection, 
+                            property['items'].ids
+                        ) 
                     }}
                 {% elif property['items'].type == 'object' %}
         ${{ name }}Count = count($results->{{ name }});

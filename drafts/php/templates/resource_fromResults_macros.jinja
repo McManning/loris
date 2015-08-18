@@ -26,24 +26,28 @@
         );
 {% endmacro %}
 
-{% macro resource_property(name) %}
-        assert('isset($results->{{ name }}Id) /* resource id must be supplied */');
-        if ($results->{{ name }}Id !== null) {
-            $this->{{ name }}->id(
-                $results->{{ name }}Id
-            );
+{% macro resource_property(name, ids) %}
+    {% for id in ids %}
+        assert('property_exists($results, \'{{ name + id|pascalcase }}\') /* resource id must be supplied */');
+    {% endfor %}
+        if ($results->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + name) }} !== null) {
+        {% for id in ids %}
+            $this->{{ name }}->{{ id }} = $results->{{ name + id|pascalcase }};
+        {% endfor %}
         } else {
             $this->{{ name }} = new NullResource();
         }
 {% endmacro %}
 
-{% macro collection_property(name) %}
-        assert('isset($results->{{ name }}Id) /* collection id must be supplied */');
-        assert('isset($results->{{ name }}Total) /* collection total must be supplied */');
-        if ($results->{{ name }}Id !== null) {
-            $this->{{ name }}->id(
-                $results->{{ name }}Id
-            );
+{% macro collection_property(name, ids) %}
+    {% for id in ids %}
+        assert('property_exists($results, \'{{ name + id|pascalcase }}\') /* collection id must be supplied */');
+    {% endfor %}
+        assert('property_exists($results, \'{{ name }}Total\') /* collection total must be supplied */');
+        if ($results->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + name) }} !== null) {
+        {% for id in ids %}
+            $this->{{ name }}->{{ id }} = $results->{{ name + id|pascalcase }};
+        {% endfor %}
             $this->{{ name }}->meta->total = intval(
                 $results->{{ name }}Total
             );
@@ -79,24 +83,28 @@
         );
 {% endmacro %}
 
-{% macro object_property_resource(object, name) %}
-        assert('isset($results->{{ object }}->{{ name }}Id) /* resource id must be supplied */');
-        if ($results->{{ object }}->{{ name }}Id !== null) {
-            $this->{{ object }}->{{ name }}->id(
-                $results->{{ object }}->{{ name }}Id
-            );
+{% macro object_property_resource(object, name, ids) %}
+    {% for id in ids %}
+        assert('property_exists($results->{{ object}}, \'{{ name + id|pascalcase }}\') /* resource id must be supplied */');
+    {% endfor %}
+        if ($results->{{object}}->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + object + '->' + name) }} !== null) {
+        {% for id in ids %}
+            $this->{{ object }}->{{ name }}->{{ id }} = $results->{{ object }}->{{ name + id|pascalcase }};
+        {% endfor %}
         } else {
             $this->{{ object }}->{{ name }} = new NullResource();
         }
 {% endmacro %}
 
-{% macro object_property_collection(object, name) %}
-        assert('isset($results->{{ object }}->{{ name }}Id) /* collection id must be supplied */');
-        assert('isset($results->{{ object }}->{{ name }}Total) /* collection total must be supplied */');
-        if ($results->{{ object }}->{{ name }}Id !== null) {
-            $this->{{ object }}->{{ name }}->id(
-                $results->{{ object }}->{{ name }}Id
-            );
+{% macro object_property_collection(object, name, ids) %}
+    {% for id in ids %}
+        assert('property_exists($results->{{ object}}, \'{{ name + id|pascalcase }}\') /* resource id must be supplied */');
+    {% endfor %}
+        assert('property_exists($results->{{ object }}, \'{{ name }}Total\') /* collection total must be supplied */');
+        if ($results->{{object}}->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + object + '->' + name) }} !== null) {
+        {% for id in ids %}
+            $this->{{ object }}->{{ name }}->{{ id }} = $results->{{ object }}->{{ name + id|pascalcase }};
+        {% endfor %}
             $this->{{ object }}->{{ name }}->meta->total = intval(
                 $results->{{ object }}->{{ name }}Total
             );
@@ -134,32 +142,38 @@
         }
 {% endmacro %}
 
-{% macro array_property_resources(name, resource_id) %}
-        foreach ($results->{{ name }} as $item) {
-            assert('isset($item->{{ resource_id|camelcase }}Id) /* {{ resource_id|camelcase }}Id must be supplied */');
-            if ($item->{{ resource_id|camelcase }}Id !== null) {
-                ${{ resource_id|camelcase }} = clone $this->{{ name }}Template;
-                ${{ resource_id|camelcase }}->id(
-                    $item->{{ resource_id|camelcase }}Id
-                );
-                $this->{{ name }}[] = ${{ resource_id|camelcase }};
+{% macro array_property_resources(array, name, ids) %}
+        foreach ($results->{{ array }} as $item) {
+        {% for id in ids %}
+            assert('property_exists($item, \'{{ array + id|pascalcase }}\') /* resource id must be supplied */');
+        {% endfor %}
+            if ($item->{{ array + ids|pascalcase|join(' !== null && \n                $item->' + array) }} !== null) {
+                ${{ name|camelcase }} = clone $this->{{ array }}Template;
+            
+            {% for id in ids %}
+                ${{ name|camelcase }}->{{ id }} = $item->{{ array + id|pascalcase }};
+            {% endfor %}
+                $this->{{ array }}[] = ${{ name|camelcase }};
             }
         }
 {% endmacro %}
 
-{% macro array_property_collections(name, collection_id) %}
-        foreach ($results->{{ name }} as $item) {
-            assert('isset($item->{{ collection_id|camelcase }}Id) /* {{ collection_id|camelcase }}Id must be supplied */');
-            assert('isset($item->{{ collection_id|camelcase }}Total) /* {{ collection_id|camelcase }}Total must be supplied */');
-            if ($item->{{ collection_id|camelcase }}Id !== null) {
-                ${{ collection_id|camelcase }} = clone $this->{{ name }}Template;
-                ${{ collection_id|camelcase }}->id(
-                    $item->{{ collection_id|camelcase }}Id
+{% macro array_property_collections(array, name, ids) %}
+        foreach ($results->{{ array }} as $item) {
+        {% for id in ids %}
+            assert('property_exists($item, \'{{ array + id|pascalcase }}\') /* resource id must be supplied */');
+        {% endfor %}
+            assert('property_exists($item, \'{{ name|camelcase }}Total\') /* {{ name|camelcase }}Total must be supplied */');
+            if ($item->{{ array + ids|pascalcase|join(' !== null && \n                $item->' + array) }} !== null) {
+                ${{ name|camelcase }} = clone $this->{{ array }}Template;
+                
+            {% for id in ids %}
+                ${{ name|camelcase }}->{{ id }} = $item->{{ array + id|pascalcase }};
+            {% endfor %}
+                ${{ name|camelcase }}->meta->total = intval(
+                    $item->{{ name|camelcase }}Total
                 );
-                ${{ collection_id|camelcase }}->meta->total = intval(
-                    $item->{{ collection_id|camelcase }}Total
-                );
-                $this->{{ name }}[] = ${{ collection_id|camelcase }};
+                $this->{{ array }}[] = ${{ name|camelcase }};
             }
         }
 {% endmacro %}
@@ -196,7 +210,7 @@
 {% endmacro %}
 
 {% macro array_property_object_resource(array, name) %}
-            assert('isset($results->{{ array }}[$i]->{{ name }}Id) /* resource id must be supplied */');
+            assert('property_exists($results->{{ array }}[$i], \'{{ name }}Id\') /* resource id must be supplied */');
             if ($results->{{ array }}[$i]->{{ name }}Id !== null) {
                 $this->{{ array }}[$i]->{{ name }}->id(
                     $results->{{ array }}[$i]->{{ name }}Id
@@ -207,8 +221,8 @@
 {% endmacro %}
 
 {% macro array_property_object_collection(array, name) %}
-            assert('isset($results->{{ array }}[$i]->{{ name }}Id) /* collection id must be supplied */');
-            assert('isset($results->{{ array }}[$i]->{{ name }}Total) /* collection total must be supplied */');
+            assert('property_exists($results->{{ array }}[$i], \'{{ name }}Id\') /* collection id must be supplied */');
+            assert('property_exists($results->{{ array }}[$i], \'{{ name }}Total\') /* collection total must be supplied */');
             if ($results->{{ array }}[$i]->{{ name }}Id !== null) {
                 $this->{{ array }}[$i]->{{ name }}->id(
                     $results->{{ array }}[$i]->{{ name }}Id
