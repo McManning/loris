@@ -72,12 +72,12 @@ class {{ id }} extends Base\{{ id }}
                         boolean
                     {% elif property['items'].type == 'resource' %}
                         stdClass(
-                            {{ property['items'].resource|camelcase }}Id
+                            {{ property['items'].resource|camelcase }}Id = string
                         )
                     {% elif property['items'].type == 'collection' %}
                         stdClass(
-                            {{ property['items'].collection|camelcase }}Id
-                            {{ property['items'].collection|camelcase }}Total
+                            {{ property['items'].collection|camelcase }}Id = string
+                            {{ property['items'].collection|camelcase }}Total = number
                         )
                     {% elif property['items'].type == 'object' %}
                         stdClass(
