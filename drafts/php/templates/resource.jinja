@@ -14,7 +14,7 @@ class {{ id }} extends Base\{{ id }}
             YOUR BACKEND QUERY CODE HERE
 
             Useful variables for your query include:
-            
+
                 ${{ id|camelcase }}s[N]->ids()
                 - A mapping between primary keys and their values. 
                     For this resource type, it looks like:
@@ -94,9 +94,9 @@ class {{ id }} extends Base\{{ id }}
                     {% elif property['items'].type == 'collection' %}
                         stdClass(
                             {% for id in property['items'].ids %}
-                            {{ property['items'].collection|camelcase + id|pascalcase }} = string
+                            {{ property['items'].resource|camelcase + id|pascalcase }} = string
                             {% endfor %}
-                            {{ property['items'].collection|camelcase }}Total = number
+                            {{ property['items'].resource|camelcase }}Total = number
                         )
                     {% elif property['items'].type == 'object' %}
                         stdClass(
