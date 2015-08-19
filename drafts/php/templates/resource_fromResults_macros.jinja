@@ -5,7 +5,7 @@
         $this->{{ name }} = \DateTime::createFromFormat(
             '{{ input_date_format }}', 
             $results->{{ name }}
-        );
+        ) ?: null;
     {% else %}
         assert('\Loris\Utility::isString($results, \'{{ name }}\') /* property must be a string */');
         $this->{{ name }} = $results->{{ name }};
@@ -70,7 +70,7 @@
         $this->{{ object }}->{{ name }} = \DateTime::createFromFormat(
             '{{ input_date_format }}', 
             $results->{{ object }}->{{ name }}
-        );
+        ) ?: null;
     {% else %}
         assert('\Loris\Utility::isString($results->{{ object }}, \'{{ name }}\') /* property must be a string */');
         $this->{{ object }}->{{ name }} = $results->{{ object }}->{{ name }};
@@ -136,7 +136,7 @@
             $this->{{ name }}[] = \DateTime::createFromFormat(
                 '{{ input_date_format }}', 
                 $item
-            );
+            ) ?: null;
         {% else %}
             assert('\Loris\Utility::isString($item) /* property must be a string */');
             $this->{{ name }}[] = $item;
@@ -206,7 +206,7 @@
             $this->{{ array }}[$i]->{{ name }} = \DateTime::createFromFormat(
                 '{{ input_date_format }}', 
                 $results->{{ array }}[$i]->{{ name }}
-            );
+            ) ?: null;
     {% else %}
             assert('\Loris\Utility::isString($results->{{ array }}[$i], \'{{ name }}\') /* property must be a string */');
             $this->{{ array }}[$i]->{{ name }} = $results->{{ array }}[$i]->{{ name }};
