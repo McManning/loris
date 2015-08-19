@@ -66,7 +66,7 @@ class Meta
         return $this->_uri;
     }
 
-    protected function updateMetaUri() 
+    public function updateMetaUri() 
     {
         // Replace patterns containing ID attributes
         // with their true values
