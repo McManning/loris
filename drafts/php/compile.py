@@ -1,7 +1,9 @@
 import os
 import re
 
+import glob
 import json
+import yaml
 
 # Template management for rendering PHP files
 from jinja2 import Environment, FileSystemLoader # easy_install Jinja2
@@ -64,6 +66,132 @@ def generate_resource_php(resource):
             properties=resource['properties']
         ))
 
+
+def generate_resources(root_path, spec):
+
+    # Compile the Jinja template. This only needs to be done once. 
+    j2_env = Environment(
+        loader=FileSystemLoader(os.path.dirname(os.path.abspath(__file__))),
+        trim_blocks=True,
+        lstrip_blocks=True
+    )
+
+    # Add some custom filters
+    j2_env.filters['camelcase'] = camelcase
+    j2_env.filters['pascalcase'] = pascalcase
+
+    # Apply some globals to the environment. Note that this
+    # is done to access common properties from within macros,
+    # where normally we wouldn't be able to because of call scope.
+    j2_env.globals['json_date_format'] = 'Y-m-d'
+    j2_env.globals['json_datetime_format'] = 'Y-m-d H:i:s'
+    j2_env.globals['input_date_format'] = 'Y-m-d'
+    j2_env.globals['input_datetime_format'] = 'Y-m-d H:i:s'
+
+    # Load resources into fragment files
+    base_template = j2_env.get_template('templates/base_resource.jinja')
+    impl_template = j2_env.get_template('templates/resource.jinja')
+
+    resolve_refs(spec)
+
+    for name, attributes in spec['definitions'].items():
+        with open(root_path + '/Resource/Base/' + name + '.php', 'w') as f:
+            f.write(base_template.render(
+                id = name,
+                uri = attributes['uri'],
+                id_keys = attributes['ids'],
+                id_var = camelcase(name),
+                id_var_plural = camelcase(name) + 's',
+                properties=attributes['properties']
+            ))
+
+        # Write the impl file, if it doesn't already exist
+        if not os.path.isfile(root_path + '/Resource/' + name + '.php'):
+            with open(root_path + '/Resource/' + name + '.php', 'w') as f:
+                f.write(impl_template.render(
+                    id = name,
+                    uri = attributes['uri'],
+                    id_keys = attributes['ids'],
+                    id_var = camelcase(name),
+                    id_var_plural = camelcase(name) + 's',
+                    properties=attributes['properties']
+                ))
+
+
+def find_resource(spec, name):
+    if name not in spec['definitions']:
+        raise 'Resource [{}] not in spec'.format(name)
+
+    return spec['definitions'][name]
+
+
+def resolve_ref(spec, ref):
+    """
+        Resolve a single $ref value to a resource summary
+        (containing resource id, type, uri, and ids)
+    """
+    resource = find_resource(spec, ref[14:])
+    return dict(
+        resource=ref[14:],
+        type=resource['type'],
+        uri=resource['uri'],
+        ids=resource['ids']
+    )
+
+def resolve_refs(spec):
+    """
+        Walk the spec tree and replace any $ref with a minimal summary
+        of the referenced resource. 
+
+        Specifically:
+            $ref: "/resource"
+        becomes:
+            type: "resource",
+            resource: "ObjectResource",
+            uri: "/object-resource/{id}",
+            ids: [
+                "id"
+            ]
+        or (for collections):
+            type: "collection",
+            collection: "ObjectCollection",
+            uri: "/object-collection/{id}",
+            ids: [
+                "id"
+            ]
+    """
+    for id, attributes in spec['definitions'].items():
+        print(id)
+        for prop, details in attributes['properties'].items():
+            if '$ref' in details:
+                ref = details['$ref']
+                del details['$ref']
+                resolved = resolve_ref(spec, ref)
+                details.update(resolved)
+            else:
+                if details['type'] == 'array':
+                    if '$ref' in details['items']:
+                        ref = details['items']['$ref']
+                        del details['items']['$ref']
+                        resolved = resolve_ref(spec, ref)
+                        details['items'].update(resolved)
+                    elif details['items']['type'] == 'object':
+                        # array of objects
+                        for prop2, details2 in details['items']['properties'].items():
+                            if '$ref' in details2:
+                                ref = details2['$ref']
+                                del details2['$ref']
+                                resolved = resolve_ref(spec, ref)
+                                details2.update(resolved)
+                elif details['type'] == 'object':
+                    for prop2, details2 in details['properties'].items():
+                        if '$ref' in details2:
+                            ref = details2['$ref']
+                            del details2['$ref']
+                            resolved = resolve_ref(spec, ref)
+                            details2.update(resolved)
+
+    print(json.dumps(spec, indent=4))
 
 PERSON = { 
     "id": "Person",
@@ -227,7 +355,7 @@ TEST = {
                 },
                 "opCollectionProp": {
                     "type": "collection",
-                    "collection": "ObjectCollection",
+                    "resource": "ObjectCollection",
                     "uri": "/object-collection/{id}",
                     "ids": [
                         "id"
@@ -244,7 +372,7 @@ TEST = {
                 },
                 "opCompositeCollectionProp": {
                     "type": "collection",
-                    "collection": "ObjectCompositeCollection",
+                    "resource": "ObjectCompositeCollection",
                     "uri": "/object-collection/{idLeft}/{idRight}",
                     "ids": [
                         "idLeft",
@@ -283,7 +411,7 @@ TEST = {
         },
         "collectionProp": {
             "type": "collection",
-            "collection": "TestCollection",
+            "resource": "TestCollection",
             "uri": "/collection/{id}",
             "ids": [
                 "id"
@@ -292,7 +420,7 @@ TEST = {
         },
         "compositeCollectionProp": {
             "type": "collection",
-            "collection": "TestCompositeCollection",
+            "resource": "TestCompositeCollection",
             "uri": "/collection/{idLeft}/{idRight}",
             "ids": [
                 "idLeft",
@@ -339,7 +467,7 @@ TEST = {
             "description": "An unordered list of references to collections, all of the same type",
             "items": {
                 "type": "collection",
-                "collection": "ArrayCollection",
+                "resource": "ArrayCollection",
                 "uri": "/array-collection/{id}",
                 "ids": [
                     "id"
@@ -364,7 +492,7 @@ TEST = {
             "description": "An unordered list of references to collections, all of the same type",
             "items": {
                 "type": "collection",
-                "collection": "ArrayCompositeCollection",
+                "resource": "ArrayCompositeCollection",
                 "uri": "/array-collection/{idLeft}/{idRight}",
                 "ids": [
                     "idLeft",
@@ -401,7 +529,7 @@ TEST = {
                     },
                     "aopCollectionProp": {
                         "type": "collection",
-                        "collection": "ObjectCollection",
+                        "resource": "ObjectCollection",
                         "uri": "/object-collection/{id}",
                         "ids": [
                             "id"
@@ -418,7 +546,7 @@ TEST = {
                     },
                     "aopCompositeCollectionProp": {
                         "type": "collection",
-                        "collection": "ObjectCompositeCollection",
+                        "resource": "ObjectCompositeCollection",
                         "uri": "/object-collection/{idLeft}/{idRight}",
                         "ids": [
                             "idLeft",
@@ -431,5 +559,47 @@ TEST = {
     }
 }
 
+def compile_spec(root_path):
+    spec = """
+info:
+    version: 1.0
+    title: Test Spec
+"""
+
+    # Include definition files
+    spec += '\ndefinitions:\n'
+    for path in glob.glob(root_path + '/definitions/*.yaml'):
+        with open(path, 'r') as f:
+            spec += '\n  # {}\n'.format(path)
+            spec += f.read()
+
+    yaml_spec = yaml.load(spec)
+
+    outfile = root_path + '/spec-{}'.format(
+        yaml_spec['info']['version']
+    )
+
+    # Write out the compiled YAML spec
+    with open(outfile + '.yaml', 'w') as f:
+        print('Writing {} spec to {}.yaml...'.format(
+            yaml_spec['info']['title'], 
+            outfile
+        ))
+        f.write(spec)
+
+    # Cross-compile the spec to JSON as well
+    with open(outfile + '.json', 'w') as f:
+        print('Writing {} spec to {}.json...'.format(
+            yaml_spec['info']['title'], 
+            outfile
+        ))
+        f.write(json.dumps(yaml_spec, indent=4))
+
+    return yaml_spec
+
+
 if __name__ == '__main__':
-    generate_resource_php(TEST)
+    spec = compile_spec('schema')
+    generate_resources('loris', spec)
+    
+    #generate_resource_php(TEST)
