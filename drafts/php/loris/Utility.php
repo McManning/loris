@@ -155,31 +155,68 @@ class Utility
         return $results;
     }
 
-    public static function isString($value)
+    public static function isString($object, $property = null)
     {
-        return isset($value) && is_string($value);
-    }
+        if ($object instanceof \stdClass) {
+            if (!property_exists($object, $property)) {
+                return false;
+            }
 
-    public static function isDate($value)
-    {
-        // TODO: Date checks
-        return self::isString($value); 
-    }
-
-    public static function isBool($value)
-    {
-        if (isset($value) && is_string($value)) {
-            return in_array(strtolower($value),
-                array('false', 'off', '-', 'no', 'n', '0', '',
-                    'true', 'on', '+', 'yes', 'y', '1')
-            );
+            return $object->{$property} === null ||
+                is_string($object->{$property});
         } else {
-            return is_bool($value);
+            return $object === null ||
+                is_string($object);
         }
     }
 
-    public static function isNumber($value)
+    public static function isDate($object, $property = null)
     {
-        return isset($value) && is_numeric($value);
+        // TODO: Date checks
+        return self::isString($object, $property); 
+    }
+
+    public static function isBool($object, $property = null)
+    {
+        if ($object instanceof \stdClass) {
+            if (!property_exists($object, $property)) {
+                return false;
+            }
+
+            if (is_string($object->{$property})) {
+                return in_array(strtolower($object->{$property}),
+                    array('false', 'off', '-', 'no', 'n', '0', '',
+                        'true', 'on', '+', 'yes', 'y', '1')
+                );
+            } else {
+                return $object->{$property} === null || 
+                    is_bool($object->{$property});
+            }
+        } else {
+            if (is_string($object)) {
+                return in_array(strtolower($object),
+                    array('false', 'off', '-', 'no', 'n', '0', '',
+                        'true', 'on', '+', 'yes', 'y', '1')
+                );
+            } else {
+                return $object === null || 
+                    is_bool($object);
+            }
+        }
+    }
+
+    public static function isNumber($object, $property = null)
+    {
+        if ($object instanceof \stdClass) {
+            if (!property_exists($object, $property)) {
+                return false;
+            }
+
+            return $object->{$property} === null || 
+                is_numeric($object->{$property});
+        } else {
+            return $object === null ||
+                is_numeric($object);
+        }
     }
 }

@@ -1,26 +1,26 @@
 <?
 {% macro string_property(name, format) %}
     {% if format == 'date' %}
-        assert('\Loris\Utility::isDate($results->{{ name }}) /* property must be in date format */');
+        assert('\Loris\Utility::isDate($results, \'{{ name }}\') /* property must be in date format */');
         $this->{{ name }} = \DateTime::createFromFormat(
             '{{ input_date_format }}', 
             $results->{{ name }}
         );
     {% else %}
-        assert('\Loris\Utility::isString($results->{{ name }}) /* property must be a string */');
+        assert('\Loris\Utility::isString($results, \'{{ name }}\') /* property must be a string */');
         $this->{{ name }} = $results->{{ name }};
     {% endif %}
 {% endmacro %}
 
 {% macro number_property(name, format) %}
-        assert('\Loris\Utility::isNumber($results->{{ name }}) /* property must be a number */');
+        assert('\Loris\Utility::isNumber($results, \'{{ name }}\') /* property must be a number */');
         $this->{{ name }} = intval(
             $results->{{ name }}
         );
 {% endmacro %}
 
 {% macro boolean_property(name) %}
-        assert('\Loris\Utility::isBool($results->{{ name }}) /* property must be a boolean */');
+        assert('\Loris\Utility::isBool($results, \'{{ name }}\') /* property must be a boolean */');
         $this->{{ name }} = boolval(
             $results->{{ name }}
         );
@@ -28,13 +28,14 @@
 
 {% macro resource_property(name, ids) %}
     {% for id in ids %}
-        assert('property_exists($results, \'{{ name + id|pascalcase }}\') /* resource id must be supplied */');
+        assert('\Loris\Utility::isString($results, \'{{ name + id|pascalcase }}\') /* resource id must be a string */');
     {% endfor %}
         if ($results->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + name) }} !== null) {
         
         {% for id in ids %}
             $this->{{ name }}->{{ id }} = $results->{{ name + id|pascalcase }};
         {% endfor %}
+            $this->{{ name }}->updateMetaUri();
         } else {
             $this->{{ name }} = new NullResource(
                 $this->{{ name }}->uri()
@@ -44,9 +45,9 @@
 
 {% macro collection_property(name, ids) %}
     {% for id in ids %}
-        assert('property_exists($results, \'{{ name + id|pascalcase }}\') /* collection id must be supplied */');
+        assert('\Loris\Utility::isString($results, \'{{ name + id|pascalcase }}\') /* collection id must be a string */');
     {% endfor %}
-        assert('property_exists($results, \'{{ name }}Total\') /* collection total must be supplied */');
+        assert('\Loris\Utility::isNumber($results, \'{{ name }}Total\') /* collection total must be a number */');
         if ($results->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + name) }} !== null) {
         
         {% for id in ids %}
@@ -64,26 +65,26 @@
 
 {% macro object_property_string(object, name, format) %}
     {% if format == 'date' %}   
-        assert('\Loris\Utility::isDate($results->{{ object }}->{{ name }}) /* property must be in date format */');
+        assert('\Loris\Utility::isDate($results->{{ object }}, \'{{ name }}\') /* property must be in date format */');
         $this->{{ object }}->{{ name }} = \DateTime::createFromFormat(
             '{{ input_date_format }}', 
             $results->{{ object }}->{{ name }}
         );
     {% else %}
-        assert('\Loris\Utility::isString($results->{{ object }}->{{ name }}) /* property must be a string */');
+        assert('\Loris\Utility::isString($results->{{ object }}, \'{{ name }}\') /* property must be a string */');
         $this->{{ object }}->{{ name }} = $results->{{ object }}->{{ name }};
     {% endif %}
 {% endmacro %}
 
 {% macro object_property_number(object, name, format) %}
-        assert('\Loris\Utility::isNumber($results->{{ object }}->{{ name }}) /* property must be a number */');
+        assert('\Loris\Utility::isNumber($results->{{ object }}, \'{{ name }}\') /* property must be a number */');
         $this->{{ object }}->{{ name }} = intval(
             $results->{{ object }}->{{ name }}
         );
 {% endmacro %}
 
 {% macro object_property_boolean(object, name) %}
-        assert('\Loris\Utility::isBool($results->{{ object }}->{{ name }}) /* property must be a boolean */');
+        assert('\Loris\Utility::isBool($results->{{ object }}, \'{{ name }}\') /* property must be a boolean */');
         $this->{{ object }}->{{ name }} = boolval(
             $results->{{ object }}->{{ name }}
         );
@@ -91,7 +92,7 @@
 
 {% macro object_property_resource(object, name, ids) %}
     {% for id in ids %}
-        assert('property_exists($results->{{ object}}, \'{{ name + id|pascalcase }}\') /* resource id must be supplied */');
+        assert('\Loris\Utility::isString($results->{{ object}}, \'{{ name + id|pascalcase }}\') /* resource id must be a string */');
     {% endfor %}
         if ($results->{{object}}->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + object + '->' + name) }} !== null) {
         
@@ -107,9 +108,9 @@
 
 {% macro object_property_collection(object, name, ids) %}
     {% for id in ids %}
-        assert('property_exists($results->{{ object}}, \'{{ name + id|pascalcase }}\') /* resource id must be supplied */');
+        assert('\Loris\Utility::isString($results->{{ object}}, \'{{ name + id|pascalcase }}\') /* resource id must be a string */');
     {% endfor %}
-        assert('property_exists($results->{{ object }}, \'{{ name }}Total\') /* collection total must be supplied */');
+        assert('\Loris\Utility::isNumber($results->{{ object }}, \'{{ name }}Total\') /* collection total must be a number */');
         if ($results->{{object}}->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + object + '->' + name) }} !== null) {
         
         {% for id in ids %}
@@ -157,7 +158,7 @@
 {% macro array_property_resources(array, name, ids) %}
         foreach ($results->{{ array }} as $item) {
         {% for id in ids %}
-            assert('property_exists($item, \'{{ name|camelcase + id|pascalcase }}\') /* resource id must be supplied */');
+            assert('\Loris\Utility::isString($item, \'{{ name|camelcase + id|pascalcase }}\') /* resource id must be a string */');
         {% endfor %}
             if ($item->{{ name|camelcase + ids|pascalcase|join(' !== null && \n                $item->' + name|camelcase) }} !== null) {
                 ${{ name|camelcase }} = clone $this->{{ array }}Template;
@@ -173,9 +174,9 @@
 {% macro array_property_collections(array, name, ids) %}
         foreach ($results->{{ array }} as $item) {
         {% for id in ids %}
-            assert('property_exists($item, \'{{ name|camelcase + id|pascalcase }}\') /* resource id must be supplied */');
+            assert('\Loris\Utility::isString($item, \'{{ name|camelcase + id|pascalcase }}\') /* resource id must be a string */');
         {% endfor %}
-            assert('property_exists($item, \'{{ name|camelcase }}Total\') /* {{ name|camelcase }}Total must be supplied */');
+            assert('\Loris\Utility::isNumber($item, \'{{ name|camelcase }}Total\') /* {{ name|camelcase }}Total must be a number */');
             if ($item->{{ name|camelcase + ids|pascalcase|join(' !== null && \n                $item->' + name|camelcase) }} !== null) {
                 ${{ name|camelcase }} = clone $this->{{ array }}Template;
                 
@@ -196,26 +197,26 @@
 
 {% macro array_property_object_string(array, name, format) %}
     {% if format == 'date' %}   
-            assert('\Loris\Utility::isDate($results->{{ array }}[$i]->{{ name }}) /* property must be in date format */');
+            assert('\Loris\Utility::isDate($results->{{ array }}[$i], \'{{ name }}\') /* property must be in date format */');
             $this->{{ array }}[$i]->{{ name }} = \DateTime::createFromFormat(
                 '{{ input_date_format }}', 
                 $results->{{ array }}[$i]->{{ name }}
             );
     {% else %}
-            assert('\Loris\Utility::isString($results->{{ array }}[$i]->{{ name }}) /* property must be a string */');
+            assert('\Loris\Utility::isString($results->{{ array }}[$i], \'{{ name }}\') /* property must be a string */');
             $this->{{ array }}[$i]->{{ name }} = $results->{{ array }}[$i]->{{ name }};
     {% endif %}
 {% endmacro %}
 
 {% macro array_property_object_number(array, name, format) %}
-            assert('\Loris\Utility::isNumber($results->{{ array }}[$i]->{{ name }}) /* property must be a number */');
+            assert('\Loris\Utility::isNumber($results->{{ array }}[$i], \'{{ name }}\') /* property must be a number */');
             $this->{{ array }}[$i]->{{ name }} = intval(
                 $results->{{ array }}[$i]->{{ name }}
             );
 {% endmacro %}
 
 {% macro array_property_object_boolean(array, name) %}
-            assert('\Loris\Utility::isBool($results->{{ array }}[$i]->{{ name }}) /* property must be a boolean */');
+            assert('\Loris\Utility::isBool($results->{{ array }}[$i], \'{{ name }}\') /* property must be a boolean */');
             $this->{{ array }}[$i]->{{ name }} = boolval(
                 $results->{{ array }}[$i]->{{ name }}
             );
@@ -223,7 +224,7 @@
 
 {% macro array_property_object_resource(array, name, ids) %}
         {% for id in ids %}
-            assert('property_exists($results->{{ array }}[$i], \'{{ name + id|pascalcase }}\') /* resource id must be supplied */');
+            assert('\Loris\Utility::isString($results->{{ array }}[$i], \'{{ name + id|pascalcase }}\') /* resource id must be a string */');
         {% endfor %}
             // if ($results->{{ array }}[$i]->{{ name }}Id !== null) {
             if ($results->{{ array }}[$i]->{{ name + ids|pascalcase|join(' !== null && \n                $results->' + array + '[$i]->' + name) }} !== null) {
@@ -240,9 +241,9 @@
 
 {% macro array_property_object_collection(array, name, ids) %}
         {% for id in ids %}
-            assert('property_exists($results->{{ array }}[$i], \'{{ name + id|pascalcase }}\') /* collection id must be supplied */');
+            assert('\Loris\Utility::isString($results->{{ array }}[$i], \'{{ name + id|pascalcase }}\') /* collection id must be a string */');
         {% endfor %}
-            assert('property_exists($results->{{ array }}[$i], \'{{ name }}Total\') /* collection total must be supplied */');
+            assert('\Loris\Utility::isNumber($results->{{ array }}[$i], \'{{ name }}Total\') /* collection total must be a number */');
             if ($results->{{ array }}[$i]->{{ name + ids|pascalcase|join(' !== null && \n                $results->' + array + '[$i]->' + name) }} !== null) {
             
             {% for id in ids %}
