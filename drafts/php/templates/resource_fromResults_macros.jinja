@@ -56,6 +56,7 @@
             $this->{{ name }}->meta->total = intval(
                 $results->{{ name }}Total
             );
+            $this->{{ name }}->updateMetaUri();
         } else {
             $this->{{ name }} = new NullResource(
                 $this->{{ name }}->uri()
@@ -99,6 +100,7 @@
         {% for id in ids %}
             $this->{{ object }}->{{ name }}->{{ id }} = $results->{{ object }}->{{ name + id|pascalcase }};
         {% endfor %}
+            $this->{{ object }}->{{ name }}->updateMetaUri();
         } else {
             $this->{{ object }}->{{ name }} = new NullResource(
                 $this->{{ object }}->{{ name }}->uri()
@@ -119,6 +121,7 @@
             $this->{{ object }}->{{ name }}->meta->total = intval(
                 $results->{{ object }}->{{ name }}Total
             );
+            $this->{{ object }}->{{ name }}->updateMetaUri();
         } else {
             $this->{{ object }}->{{ name }} = new NullResource(
                 $this->{{ object }}->{{ name }}->uri()
@@ -166,6 +169,7 @@
             {% for id in ids %}
                 ${{ name|camelcase }}->{{ id }} = $item->{{ name|camelcase + id|pascalcase }};
             {% endfor %}
+                ${{ name|camelcase }}->updateMetaUri();
                 $this->{{ array }}[] = ${{ name|camelcase }};
             }
         }
@@ -186,6 +190,7 @@
                 ${{ name|camelcase }}->meta->total = intval(
                     $item->{{ name|camelcase }}Total
                 );
+                ${{ name|camelcase }}->updateMetaUri();
                 $this->{{ array }}[] = ${{ name|camelcase }};
             }
         }
@@ -232,6 +237,7 @@
             {% for id in ids %}
                 $this->{{ array }}[$i]->{{ name }}->{{ id }} = $results->{{ array }}[$i]->{{ name + id|pascalcase }};
             {% endfor %}
+                $this->{{ array }}[$i]->{{ name }}->updateMetaUri();
             } else {
                 $this->{{ array }}[$i]->{{ name }} = new NullResource(
                     $this->{{ array }}[$i]->{{ name }}->uri()
@@ -252,6 +258,7 @@
                 $this->{{ array }}[$i]->{{ name }}->meta->total = intval(
                     $results->{{ array }}[$i]->{{ name }}Total
                 );
+                $this->{{ array }}[$i]->{{ name }}->updateMetaUri();
             } else {
                 $this->{{ array }}[$i]->{{ name }} = new NullResource(
                     $this->{{ array }}[$i]->{{ name }}->uri()
