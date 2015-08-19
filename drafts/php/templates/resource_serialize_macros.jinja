@@ -1,7 +1,11 @@
 
 {% macro primitive_property(name, format) %}
     {% if format == 'date' %}
-        $serialized->{{ name }} = $this->{{ name }}->format('{{ json_date_format }}');
+        if ($this->{{ name }} !== null) {
+            $serialized->{{ name }} = $this->{{ name }}->format('{{ json_date_format }}');
+        } else {
+            $serialized->{{ name }} = null;
+        }
     {% else %}
         $serialized->{{ name }} = $this->{{ name }};
     {% endif %}
@@ -21,7 +25,11 @@
 
 {% macro object_property_primitive(object, name, format) %}
     {% if format == 'date' %}
-        $serialized->{{ object }}->{{ name }} = $this->{{ object }}->{{ name }}->format('{{ json_date_format }}');
+        if ($this->{{ object }}->{{ name }} !== null) {
+            $serialized->{{ object }}->{{ name }} = $this->{{ object }}->{{ name }}->format('{{ json_date_format }}');
+        } else {
+            $serialized->{{ object }}->{{ name }} = null;
+        }
     {% else %}
         $serialized->{{ object }}->{{ name }} = $this->{{ object }}->{{ name }};
     {% endif %}
@@ -40,7 +48,11 @@
         $serialized->{{ name }} = array();
         ${{ name }}Count = count($this->{{ name }});
         for ($i = 0; $i < ${{ name }}Count; $i++) {
-            $serialized->{{ name }}[$i] = $this->{{ name }}[$i]->format('{{ json_date_format }}');
+            if ($this->{{ name }}[$i] !== null) {
+                $serialized->{{ name }}[$i] = $this->{{ name }}[$i]->format('{{ json_date_format }}');
+            } else {
+                $serialized->{{ name }}[$i] = null;
+            }
         }
     {% else %}
         $serialized->{{ name }} = $this->{{ name }};
@@ -69,7 +81,11 @@
 
 {% macro array_property_object_primitive(array, name, format) %}
     {% if format == 'date' %}
-            $serialized->{{ array }}[$i]->{{ name }} = $this->{{ array }}[$i]->{{ name }}->format('{{ json_date_format }}');
+            if ($this->{{ array }}[$i]->{{ name }} !== null) {
+                $serialized->{{ array }}[$i]->{{ name }} = $this->{{ array }}[$i]->{{ name }}->format('{{ json_date_format }}');
+            } else {
+                $serialized->{{ array }}[$i]->{{ name }} = null;
+            }
     {% else %}
             $serialized->{{ array }}[$i]->{{ name }} = $this->{{ array }}[$i]->{{ name }};
     {% endif %}
