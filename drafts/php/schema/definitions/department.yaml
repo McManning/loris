@@ -1,0 +1,16 @@
+  Department:
+    uri: "/department/{id}"
+    type: resource
+    ids:
+      - id
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+      shortTitle:
+        type: string
+      building:
+        type: string
+      address:
+        type: string
