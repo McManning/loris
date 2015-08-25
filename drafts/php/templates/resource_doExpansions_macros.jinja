@@ -15,7 +15,21 @@
 {% endmacro %}
 
 {% macro collection_property(name) %}
-{{ resource_property(name) -}}
+        if (array_key_exists('{{ name }}', $this->expansions)) {
+
+            ${{ name }}Model = \Loris\Discovery::find(
+                $this->{{ name }}->uri()
+            );
+            $this->{{ name }} = new ${{ name }}Model->class(
+                $this->{{ name }}->ids(),
+                $this->{{ name }}->meta->page,
+                $this->{{ name }}->meta->limit
+            );
+
+            if (is_array($this->expansions['{{ name }}'])) {
+                $this->{{ name }}->expand($this->expansions['{{ name }}']);
+            }
+        }
 {% endmacro %}
 
 {% macro object_property_resource(object, name) %}
@@ -38,10 +52,27 @@
 {% endmacro %}
 
 {% macro object_property_collection(object, name) %}
-{{ object_property_resource(object, name) -}}
+        if (array_key_exists('{{ object }}', $this->expansions) &&
+            array_key_exists('{{ name }}', $this->expansions['{{ object }}'])) {
+
+            ${{ name }}Model = \Loris\Discovery::find(
+                $this->{{ object }}->{{ name }}->uri()
+            );
+            $this->{{ object }}->{{ name }} = new ${{ name }}Model->class(
+                $this->{{ object }}->{{ name }}->ids(),
+                $this->{{ object }}->{{ name }}->meta->page,
+                $this->{{ object }}->{{ name }}->meta->limit
+            );
+
+            if (is_array($this->expansions['{{ object }}']['{{ name }}'])) {
+                $this->{{ object }}->{{ name }}->expand(
+                    $this->expansions['{{ object }}']['{{ name }}']
+                );
+            }
+        }
 {% endmacro %}
 
-    {% macro array_property_resources(name) %}
+{% macro array_property_resources(name) %}
         if (array_key_exists('{{ name }}', $this->expansions) &&
             count($this->{{ name }}) > 0) {
 
@@ -67,7 +98,30 @@
 {% endmacro %}
 
 {% macro array_property_collections(name) %}
-{{ array_property_resources(name) -}}
+        if (array_key_exists('{{ name }}', $this->expansions) &&
+            count($this->{{ name }}) > 0) {
+
+            ${{ name }}Model = \Loris\Discovery::find(
+                $this->{{ name }}[0]->uri()
+            );
+            ${{ name }}Expanded = is_array(
+                $this->expansions['{{ name }}']
+            );
+            ${{ name }}Count = count($this->{{ name }});
+            for ($i = 0; $i < ${{ name }}Count; $i++) {
+                $this->{{ name }}[$i] = new ${{ name }}Model->class(
+                    $this->{{ name }}[$i]->ids(),
+                    $this->{{ name }}[$i]->meta->page,
+                    $this->{{ name }}[$i]->meta->limit
+                );
+
+                if (${{ name }}Expanded) {
+                    $this->{{ name }}[$i]->expand(
+                        $this->expansions['{{ name }}']
+                    );
+                }
+            }
+        }
 {% endmacro %}
 
 {% macro array_property_object_resource(arr, name) %}
@@ -96,6 +150,30 @@
         }
 {% endmacro %}
 
-{% macro array_property_object_collection(array, name) %}
-{{ array_property_object_resource(array, name) -}}
+{% macro array_property_object_collection(arr, name) %}
+        if (array_key_exists('{{ arr }}', $this->expansions) &&
+            array_key_exists('{{ name }}', $this->expansions['{{ arr }}']) &&
+            count($this->{{ arr }}) > 0) {
+
+            ${{ name }}Model = \Loris\Discovery::find(
+                $this->{{ arr }}[0]->{{ name }}->uri()
+            );
+            ${{ name }}Expanded = is_array(
+                $this->expansions['{{ arr }}']['{{ name }}']
+            );
+            ${{ arr }}Count = count($this->{{ arr }});
+            for ($i = 0; $i < ${{ arr }}Count; $i++) {
+                $this->{{ arr }}[$i]->{{ name }}  = new ${{ name }}Model->class(
+                    $this->{{ arr }}[$i]->{{ name }}->ids(),
+                    $this->{{ arr }}[$i]->{{ name }}->page,
+                    $this->{{ arr }}[$i]->{{ name }}->limit
+                );
+
+                if (${{ name }}Expanded) {
+                    $this->{{ arr }}[$i]->{{ name }}->expand(
+                        $this->expansions['{{ arr }}']['{{ name }}']
+                    );
+                }
+            }
+        }
 {% endmacro %}

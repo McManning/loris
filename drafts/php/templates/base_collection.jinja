@@ -1,16 +1,3 @@
-{# 
-    Jinja template for rendering a ResourceCollection PHP model.
-    This is the non-editable base model that gets extended
-    for users to write their custom queries.
-
-    Template variables and manipulators defined:
-        id = PersonCollection
-        uri = /person
-        resource.id = Person
-        resource.uri = /person/{id}
-        id|camelcase = personCollection
-        id|camelcase|plural = personCollections
-#}
 <?php
 namespace Loris\Resource\Base;
 
@@ -18,15 +5,43 @@ class {{ id }} extends MetaCollection
 {
     const URI = '{{ uri }}';
 
-    public $collection = null; // Array({{ resource.id }})
+    public $collection = null; // Array({{ properties.collection.resource }})
     protected $expansions = null; // Array
 
     /**
-     * @param string $id
+     * Track the properties that are used as our collections 
+     * distinct identifier (one or composite). Each match
+     * within URI must exist within this list. 
      */
-    function __construct($id = null)
+    private $_id = array(
+        '{{ id_keys|join('\', \'') }}'
+    );
+    {# ' <- just to fix broken highlighting :) #}
+
+    // Properties
+
+{% for name, property in properties|dictsort %}
+    {% if name in id_keys %}
+    {% if property.description %}
+    /** 
+     * {{ property.description|replace('\n', '\n     * ') }}
+     * type: {{ property.format if property.format else property.type }}
+     */
+    {% else %}
+    /** type: {{ property.type }} */
+    {% endif %}
+    public ${{ name }} = null;
+    {% endif %}
+{% endfor %}
+
+    /**
+     * @param array $ids Unique identifiers for this collection
+     * @param integer $page Currently page of the collection to query (1-indexed)
+     * @param integer $limit Number of results per collection page 
+     */
+    function __construct($ids = null, $page, $limit)
     {
-        parent::__construct($id, self::URI);
+        parent::__construct($ids, self::URI, $page, $limit);
     }
 
     /**
