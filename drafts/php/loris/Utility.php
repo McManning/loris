@@ -29,6 +29,9 @@ class Utility
      * in a way that each row of each rowset is associated with some
      * top level `id`. 
      *
+     * Note that this shortcut does NOT work with resources that have
+     * ids other than `id`, including ones that use composite IDs. 
+     *
      * @param PDOStatement $statement
      * @param array $complexAttributes
      *
