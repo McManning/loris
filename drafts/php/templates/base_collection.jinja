@@ -57,19 +57,35 @@ class {{ id }} extends MetaCollection
 
     /**
      *
-     * @param array({{ id }}) ${{ id|camelcase|plural }}
+     * @param array({{ id }}) ${{ id_var_plural }}
      * @param array $results
      */
-    public static function postQuery(array ${{ id|camelcase|plural }}, array $results)
+    public static function postQuery(array ${{ id_var_plural }}, array $results)
     {
-        // Gather {{ resource.id|plural }} that have been hydrated from all 
-        // collections and query for all simultaneously.
-        $items = array();
-
-        foreach (${{ id|camelcase|plural }} as ${{ id|camelcase }}) {
-            ${{ id|camelcase }}->fromResults(
-                $results[${{ id|camelcase }}->id()]
-            );
+        foreach (${{ id_var_plural }} as ${{ id_var }}) {
+            $found = false;
+            foreach ($results as $result) {
+                if ({% for id in id_keys -%}
+                        $result->{{ id }} === ${{ id_var }}->{{ id }} 
+                    {{- ' &&\n                    ' if not loop.last }}
+                {%- endfor %}) {
+                    
+                    ${{ id_var }}->fromResults($result);
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                $ids = array(
+                {% for id in id_keys %}
+                    '{{ id }}=' . ${{ id_var }}->{{ id }}{{',' if not loop.last }}
+                {% endfor %}
+                );
+                throw new \Exception(
+                    '{{ id }} <' . implode(', ', $ids) . '> missing from query'
+                );
+            }
+        }
 
             if (count(${{ id|camelcase }}->collection) > 0) {
                 ${{ resource.id|camelcase|plural }} = array_merge(

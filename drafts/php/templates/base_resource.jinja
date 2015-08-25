@@ -10,7 +10,7 @@ class {{ id }} extends Meta
     private $expansions = null;
 
     /**
-     * Track the properties that are used as our resource's 
+     * Track the properties that are used as our resources 
      * distinct identifier (one or composite). Each match
      * within URI must exist within this list. 
      */
@@ -19,8 +19,8 @@ class {{ id }} extends Meta
     );
 
     // Properties
-{% for name, property in properties|dictsort %}
 
+{% for name, property in properties|dictsort %}
     {% if property.description %}
     /** 
      * {{ property.description|replace('\n', '\n     * ') }}
@@ -116,18 +116,24 @@ class {{ id }} extends Meta
 
     /**
      *
-     * @param array({{ id }}) ${{ id|camelcase }}s
+     * @param array({{ id }}) ${{ id_var_plural }}
      */
-    public static function query(array ${{ id|camelcase }}s)
+    public static function query(array ${{ id_var_plural }})
     {
         throw new \Exception(
             'Base\\{{ id }}::query() cannot be called directly.'
         );
     }
 
+    /**
+     *
+     * @param array({{ id }}) ${{ id_var_plural }}
+     * @param array $results
+     */
     public static function postQuery(array ${{ id_var_plural }}, array $results)
     {
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
+            $found = false;
             foreach ($results as $result) {
                 if ({% for id in id_keys -%}
                         $result->{{ id }} === ${{ id_var }}->{{ id }} 
@@ -135,11 +141,22 @@ class {{ id }} extends Meta
                 {%- endfor %}) {
                     
                     ${{ id_var }}->fromResults($result);
+                    $found = true;
                     break;
                 }
             }
+            if (!$found) {
+                $ids = array(
+                {% for id in id_keys %}
+                    '{{ id }}=' . ${{ id_var }}->{{ id }}{{',' if not loop.last }}
+                {% endfor %}
+                );
+                throw new \Exception(
+                    '{{ id }} <' . implode(', ', $ids) . '> missing from query'
+                );
+            }
         }
-        
+
         // Query for all expanded relationships
         {% import 'templates/resource_postQuery_macros.jinja' as macros with context %}
         {% for name, property in properties|dictsort -%}
