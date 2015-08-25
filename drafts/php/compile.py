@@ -89,14 +89,26 @@ def generate_resources(root_path, spec):
     j2_env.globals['input_datetime_format'] = 'Y-m-d H:i:s'
 
     # Load resources into fragment files
-    base_template = j2_env.get_template('templates/base_resource.jinja')
-    impl_template = j2_env.get_template('templates/resource.jinja')
+    base_resource = j2_env.get_template('templates/base_resource.jinja')
+    impl_resource = j2_env.get_template('templates/resource.jinja')
+    base_collection = j2_env.get_template('templates/base_collection.jinja')
+    impl_collection = j2_env.get_template('templates/collection.jinja')
 
     resolve_refs(spec)
 
     for name, attributes in spec['definitions'].items():
+        if attributes['type'] == 'resource':
+            base = base_resource
+            impl = impl_resource
+        elif attributes['type'] == 'collection':
+            base = base_collection
+            impl = impl_collection
+        else:
+            raise Error('Unknown type [{}] for [{}]'.format(attributes['type'], name))
+
+        # Write the base code source
         with open(root_path + '/Resource/Base/' + name + '.php', 'w') as f:
-            f.write(base_template.render(
+            f.write(base.render(
                 id = name,
                 uri = attributes['uri'],
                 id_keys = attributes['ids'],
@@ -105,10 +117,10 @@ def generate_resources(root_path, spec):
                 properties=attributes['properties']
             ))
 
-        # Write the impl file, if it doesn't already exist
+        # Write the implementation source, if it doesn't already exist
         if not os.path.isfile(root_path + '/Resource/' + name + '.php'):
             with open(root_path + '/Resource/' + name + '.php', 'w') as f:
-                f.write(impl_template.render(
+                f.write(impl.render(
                     id = name,
                     uri = attributes['uri'],
                     id_keys = attributes['ids'],
