@@ -5,15 +5,15 @@ use \Loris\Utility;
 
 class {{ id }} extends Base\{{ id }}
 {
-    public static function query(array ${{ id|camelcase|plural }})
+    public static function query(array ${{ id_var_plural }})
     {
         $results = array();
 
-        foreach (${{ id|camelcase|plural }} as ${{ id|camelcase }}) {
-            $results += ${{ id|camelcase }}->querySingle();
+        foreach (${{ id_var_plural }} as ${{ id_var }}) {
+            $results += ${{ id_var }}->querySingle();
         }
 
-        self::postQuery(${{ id|camelcase|plural }}, $results);
+        self::postQuery(${{ id_var_plural }}, $results);
     }
 
     /**
@@ -34,16 +34,36 @@ class {{ id }} extends Base\{{ id }}
             For SQL/PDO, it expects the following:
 
                 rowset 0 (collection attributes)
-                    id, page, limit, total
+                    {{ id_keys|join(', ') }}, page, limit, total
 
                 rowset 1 (ids of each resource on the page)
-                    id, resourceId
+                    {{ id_keys|join(', ') }}, {% for rid in properties.collection.ids %}
+                        {{- properties.collection.resource|camelcase + rid|pascalcase }}
+                    {% endfor %}
                     ...
 
             Useful variables for your query include:
-                $this->id() - unique identifier of this collection
+                $this->ids() - unique identifiers of this collection
                 $this->meta->page - requested collection page
                 $this->meta->limit - requested number of results 
+
+            The output of your query must be formatted as below:
+
+            $results = array(
+            {% for id in id_keys %}
+                {{ id }} = string
+            {% endfor %}
+                page = number
+                limit = number
+                total = number
+                collection = array(
+                    stdClass(
+                    {% for rid in properties.collection.ids %}
+                        {{ properties.collection.resource|camelcase + rid|pascalcase }}
+                    {% endfor %}
+                    )
+                )
+            )
 
             The below code assumes $statement is a PDO  
             prepared statement that has been executed. 
@@ -52,10 +72,9 @@ class {{ id }} extends Base\{{ id }}
         $results = Utility::parseSqlResults(
             $statement,
             array(
-                'ids' => array( // Array of strings
+                'collection' => array( // Array of objects containing resource ids
                     'rowset' => 1,
-                    'type' => 'array',
-                    'column' => 'resourceId'
+                    'type' => 'array'
                 )
             )
         );
@@ -63,3 +82,4 @@ class {{ id }} extends Base\{{ id }}
         return $results;
     }
 }
+
