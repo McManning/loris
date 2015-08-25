@@ -46,9 +46,9 @@ class {{ id }} extends MetaCollection
 
     /**
      *
-     * @param array({{ id }}) ${{ id|camelcase|plural }}
+     * @param array({{ id }}) ${{ id|camelcase }}s
      */
-    public static function query(array ${{ id|camelcase|plural }})
+    public static function query(array ${{ id_var_plural }})
     {
         throw new \Exception(
             'Base\\{{ id }}::query() cannot be called directly.'
@@ -87,23 +87,28 @@ class {{ id }} extends MetaCollection
             }
         }
 
-            if (count(${{ id|camelcase }}->collection) > 0) {
-                ${{ resource.id|camelcase|plural }} = array_merge(
-                    ${{ resource.id|camelcase|plural }}, 
-                    ${{ id|camelcase }}->collection
+        // For all collections, join their hydrated resources for a query
+        ${{ properties.collection.resource|camelcase }}s = array();
+        foreach (${{ id_var_plural }} as ${{ id_var }}) {
+            if (count(${{ id_var }}->collection) > 0) {
+                ${{ properties.collection.resource|camelcase }}s = array_merge(
+                    ${{ properties.collection.resource|camelcase }}s, 
+                    ${{ id_var }}->collection
                 );
             }
         }
 
-        if (count(${{ resource.id|camelcase|plural }}) > 0) {
+        if (count(${{ properties.collection.resource|camelcase }}s) > 0) {
             
-            // Resolve model to either a {{ resource.id }} or ExternalResource
-            ${{ resource.id|camelcase }}Model = \Loris\Discovery::find('{{ resource.uri }}');
+            // Resolve to a {{ properties.collection.resource }} or ExternalResource
+            ${{ properties.collection.resource|camelcase}}Model = \Loris\Discovery::find(
+                '{{ properties.collection.uri }}'
+            );
 
             // Execute query for set of resources
             call_user_func(
-                array(${{ resource.id|camelcase }}Model->class, 'query'), 
-                ${{ resource.id|camelcase|plural }}
+                array(${{ properties.collection.resource|camelcase }}Model->class, 'query'), 
+                ${{ properties.collection.resource|camelcase }}s
             );
         }
     }
@@ -111,27 +116,42 @@ class {{ id }} extends MetaCollection
     /**
      * @param array $results
      */
-    public function fromResults(array $results)
+    public function fromResults(\stdClass $results)
     {
-        // Hydrate meta attributes
-        $this->id($results['id']);
-        $this->meta->page = intval($results['page']);
-        $this->meta->limit = intval($results['limit']);
-        $this->meta->total = intval($results['total']);
+    {% for id in id_keys %}
+        assert('\Loris\Utility::isString($results, \'{{ id }}\') /* property must be a string */');
+        $this->{{ id }} = $results->{{ id }};
+    {% endfor %}
+
+        assert('\Loris\Utility::isNumber($results, \'page\') /* property must be a number */');
+        $this->meta->page = intval($results->page);
+
+        assert('\Loris\Utility::isNumber($results, \'limit\') /* property must be a number */');
+        $this->meta->limit = intval($results->limit);
+
+        assert('\Loris\Utility::isNumber($results, \'total\') /* property must be a number */');
+        $this->meta->total = intval($results->total);
 
         $this->collection = array();
 
         // Resolve resource URI into a model
-        ${{ resource.id|camelcase }}Model = \Loris\Discovery::find('{{ resource.uri }}');
+        ${{ properties.collection.resource|camelcase }}Model = \Loris\Discovery::find(
+            '{{ properties.collection.uri }}'
+        );
 
-        // Add a {{ resource.id }} for each ID
-        foreach ($results['ids'] as $id) {
+        // Add a {{ properties.collection.resource }} for each ID
+        foreach ($results->collection as $row) {
             // Note we resolve the model here instead of doExpansions
             // as no matter what, if a collection is hydrated, the
             // collection items must also be hydrated. 
-            ${{ resource.id|camelcase }} = new ${{ resource.id|camelcase }}Model->class($id);
+            ${{ properties.collection.resource|camelcase }} = new ${{ properties.collection.resource|camelcase }}Model->class(
+                array({% for id in properties.collection.ids -%}
+                '{{ id }}' => $row->{{ properties.collection.resource|camelcase }}{{ id|pascalcase }}
+                {{- ', ' if not loop.last }}
+                {%- endfor %})
+            );
 
-            $this->collection[] = ${{ resource.id|camelcase }};
+            $this->collection[] = ${{ properties.collection.resource|camelcase }};
         }
 
         $this->doExpansions();
@@ -157,8 +177,8 @@ class {{ id }} extends MetaCollection
             return;
         }
 
-        foreach ($this->collection as ${{ resource.id|camelcase }}) {
-            ${{ resource.id|camelcase }}->expand($this->expansions);
+        foreach ($this->collection as ${{ properties.collection.resource|camelcase }}) {
+            ${{ properties.collection.resource|camelcase }}->expand($this->expansions);
         }
     }
 
@@ -174,13 +194,13 @@ class {{ id }} extends MetaCollection
         if ($this->collection) {
             $serialized->collection = array();
 
-            // Serialize all of our {{ resource.id|plural }}
-            foreach ($this->collection as ${{ resource.id|camelcase }})
-            {
-                $serialized->collection[] = ${{ resource.id|camelcase }}->serialize();
+            // Serialize all of our {{ properties.collection.resource }}s
+            foreach ($this->collection as ${{ properties.collection.resource|camelcase }}) {
+                $serialized->collection[] = ${{ properties.collection.resource|camelcase }}->serialize();
             }
         }
         
         return $serialized;
     }
 }
+
