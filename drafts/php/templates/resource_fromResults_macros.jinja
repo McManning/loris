@@ -30,7 +30,7 @@
     {% for id in ids %}
         assert('\Loris\Utility::isString($results, \'{{ name + id|pascalcase }}\') /* resource id must be a string */');
     {% endfor %}
-        if ($results->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + name) }} !== null) {
+        if ($results->{{ name }}{{ ids|pascalcase|join(' != null && \n            $results->' + name) }} != null) {
         
         {% for id in ids %}
             $this->{{ name }}->{{ id }} = $results->{{ name + id|pascalcase }};
@@ -48,7 +48,7 @@
         assert('\Loris\Utility::isString($results, \'{{ name + id|pascalcase }}\') /* collection id must be a string */');
     {% endfor %}
         assert('\Loris\Utility::isNumber($results, \'{{ name }}Total\') /* collection total must be a number */');
-        if ($results->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + name) }} !== null) {
+        if ($results->{{ name }}{{ ids|pascalcase|join(' != null && \n            $results->' + name) }} != null) {
         
         {% for id in ids %}
             $this->{{ name }}->{{ id }} = $results->{{ name + id|pascalcase }};
@@ -95,7 +95,7 @@
     {% for id in ids %}
         assert('\Loris\Utility::isString($results->{{ object}}, \'{{ name + id|pascalcase }}\') /* resource id must be a string */');
     {% endfor %}
-        if ($results->{{object}}->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + object + '->' + name) }} !== null) {
+        if ($results->{{object}}->{{ name }}{{ ids|pascalcase|join(' != null && \n            $results->' + object + '->' + name) }} != null) {
         
         {% for id in ids %}
             $this->{{ object }}->{{ name }}->{{ id }} = $results->{{ object }}->{{ name + id|pascalcase }};
@@ -113,7 +113,7 @@
         assert('\Loris\Utility::isString($results->{{ object}}, \'{{ name + id|pascalcase }}\') /* resource id must be a string */');
     {% endfor %}
         assert('\Loris\Utility::isNumber($results->{{ object }}, \'{{ name }}Total\') /* collection total must be a number */');
-        if ($results->{{object}}->{{ name }}{{ ids|pascalcase|join(' !== null && \n            $results->' + object + '->' + name) }} !== null) {
+        if ($results->{{object}}->{{ name }}{{ ids|pascalcase|join(' != null && \n            $results->' + object + '->' + name) }} != null) {
         
         {% for id in ids %}
             $this->{{ object }}->{{ name }}->{{ id }} = $results->{{ object }}->{{ name + id|pascalcase }};
@@ -163,7 +163,7 @@
         {% for id in ids %}
             assert('\Loris\Utility::isString($item, \'{{ name|camelcase + id|pascalcase }}\') /* resource id must be a string */');
         {% endfor %}
-            if ($item->{{ name|camelcase + ids|pascalcase|join(' !== null && \n                $item->' + name|camelcase) }} !== null) {
+            if ($item->{{ name|camelcase + ids|pascalcase|join(' != null && \n                $item->' + name|camelcase) }} != null) {
                 ${{ name|camelcase }} = clone $this->{{ array }}Template;
             
             {% for id in ids %}
@@ -181,7 +181,7 @@
             assert('\Loris\Utility::isString($item, \'{{ name|camelcase + id|pascalcase }}\') /* resource id must be a string */');
         {% endfor %}
             assert('\Loris\Utility::isNumber($item, \'{{ name|camelcase }}Total\') /* {{ name|camelcase }}Total must be a number */');
-            if ($item->{{ name|camelcase + ids|pascalcase|join(' !== null && \n                $item->' + name|camelcase) }} !== null) {
+            if ($item->{{ name|camelcase + ids|pascalcase|join(' != null && \n                $item->' + name|camelcase) }} != null) {
                 ${{ name|camelcase }} = clone $this->{{ array }}Template;
                 
             {% for id in ids %}
@@ -231,8 +231,7 @@
         {% for id in ids %}
             assert('\Loris\Utility::isString($results->{{ array }}[$i], \'{{ name + id|pascalcase }}\') /* resource id must be a string */');
         {% endfor %}
-            // if ($results->{{ array }}[$i]->{{ name }}Id !== null) {
-            if ($results->{{ array }}[$i]->{{ name + ids|pascalcase|join(' !== null && \n                $results->' + array + '[$i]->' + name) }} !== null) {
+            if ($results->{{ array }}[$i]->{{ name + ids|pascalcase|join(' != null && \n                $results->' + array + '[$i]->' + name) }} != null) {
             
             {% for id in ids %}
                 $this->{{ array }}[$i]->{{ name }}->{{ id }} = $results->{{ array }}[$i]->{{ name + id|pascalcase }};
@@ -250,7 +249,7 @@
             assert('\Loris\Utility::isString($results->{{ array }}[$i], \'{{ name + id|pascalcase }}\') /* collection id must be a string */');
         {% endfor %}
             assert('\Loris\Utility::isNumber($results->{{ array }}[$i], \'{{ name }}Total\') /* collection total must be a number */');
-            if ($results->{{ array }}[$i]->{{ name + ids|pascalcase|join(' !== null && \n                $results->' + array + '[$i]->' + name) }} !== null) {
+            if ($results->{{ array }}[$i]->{{ name + ids|pascalcase|join(' != null && \n                $results->' + array + '[$i]->' + name) }} != null) {
             
             {% for id in ids %}
                 $this->{{ array }}[$i]->{{ name }}->{{ id }} = $results->{{ array }}[$i]->{{ name + id|pascalcase }};
