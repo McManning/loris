@@ -12,7 +12,7 @@ class {{ id }} extends Base\{{ id }}
     {
         /**********************************************************
             YOUR BACKEND QUERY CODE HERE
-
+        {% if id_keys %}
             Useful variables for your query include:
 
                 ${{ id|camelcase }}s[N]->ids()
@@ -23,11 +23,15 @@ class {{ id }} extends Base\{{ id }}
                         {{ id }} = string
                         {% endfor %}
                     )
-
+        {% endif %}
             The output of your query must be formatted as below:
 
+        {% if id_keys %}
             $results = array(
-                stdClass(
+                \stdClass(
+        {% else %}
+            $results = \stdClass(
+        {% endif %}
             {% for name, property in properties|dictsort -%}
                 {% if property.type == 'string' %}
                     {% if property.format == 'date' %}
@@ -49,7 +53,7 @@ class {{ id }} extends Base\{{ id }}
                     {% endfor %}
                     {{ name }}Total = number
                 {% elif property.type == 'object' %}
-                    {{ name }} = stdClass(
+                    {{ name }} = \stdClass(
                     {% for name2, property2 in property.properties|dictsort %}
                     {% if property2.type == 'string' %}
                         {% if property2.format == 'date' %}
@@ -128,17 +132,16 @@ class {{ id }} extends Base\{{ id }}
                     )
                 {% endif %}
             {%- endfor %}
+            {% if id_keys %}
                 )
+            {% endif %}
                 ...
             )
 
             !!  Important note: It may be possible that multiple
                 resources that share the same ID may be in the list
-                at once (depending on how expansions and relationships
-                are performed internally). It is up to the implementer
-                to ensure that only unique IDs are returned in the 
-                $results array (postQuery will make the effort to 
-                remap these to each resource that shares IDs)
+                at once depending on how expansions and relationships
+                are performed internally.
 
         ***********************************************************/
 

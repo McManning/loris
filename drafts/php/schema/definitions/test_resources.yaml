@@ -1,12 +1,23 @@
 
   TopLevelResource:
     uri: "/resource"
+    description: Resource without a unique ID
     type: resource
-    ids:
-      - unusedId
     properties:
-      unusedId:
+      stringProp:
         type: string
+      topLevelCollectionProp:
+        $ref: "#/definitions/TopLevelCollection"
+      recursiveTopLevelResourceProp:
+        $ref: "#/definitions/TopLevelResource"
+
+  TopLevelCollection:
+    uri: "/collection"
+    description: Collection without a unique ID
+    type: collection
+    properties:
+      collection:
+        $ref: "#/definitions/SimpleResource"
 
   SimpleResource:
     uri: "/object-resource/{id}"

@@ -10,7 +10,7 @@ class {{ id }} extends Base\{{ id }}
         $results = array();
 
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
-            $results += ${{ id_var }}->querySingle();
+            $results[] = ${{ id_var }}->querySingle();
         }
 
         self::postQuery(${{ id_var_plural }}, $results);
@@ -34,22 +34,34 @@ class {{ id }} extends Base\{{ id }}
             For SQL/PDO, it expects the following:
 
                 rowset 0 (collection attributes)
+                    {% if id_keys %}
                     {{ id_keys|join(', ') }}, page, limit, total
+                    {% else %}
+                    page, limit, total
+                    {% endif %}
 
                 rowset 1 (ids of each resource on the page)
+                {% if id_keys %}
                     {{ id_keys|join(', ') }}, {% for rid in properties.collection.ids %}
-                        {{- properties.collection.resource|camelcase + rid|pascalcase }}
+                    {{- properties.collection.resource|camelcase + rid|pascalcase -}}, 
                     {% endfor %}
+                {% else %}
+                    {% for rid in properties.collection.ids %}
+                    {{ properties.collection.resource|camelcase + rid|pascalcase -}}, 
+                    {% endfor %}
+                {% endif %}
                     ...
 
             Useful variables for your query include:
+            {% if id_keys %}
                 $this->ids() - unique identifiers of this collection
+            {% endif %}
                 $this->meta->page - requested collection page
                 $this->meta->limit - requested number of results 
 
             The output of your query must be formatted as below:
 
-            $results = array(
+            $results = \stdClass(
             {% for id in id_keys %}
                 {{ id }} = string
             {% endfor %}
@@ -57,7 +69,7 @@ class {{ id }} extends Base\{{ id }}
                 limit = number
                 total = number
                 collection = array(
-                    stdClass(
+                    \stdClass(
                     {% for rid in properties.collection.ids %}
                         {{ properties.collection.resource|camelcase + rid|pascalcase }}
                     {% endfor %}

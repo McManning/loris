@@ -9,14 +9,21 @@ class {{ id }} extends Meta
 
     private $expansions = null;
 
+    {% if id_keys %}
     /**
      * Track the properties that are used as our resources 
      * distinct identifier (one or composite). Each match
      * within URI must exist within this list. 
      */
     private $_id = array(
-        '{{ id_keys|join('\', \'') }}'
+        '{{ id_keys|join('\', \'') }}' {# ' <- just to fix broken highlighting :) #}
     );
+    {% else %}
+    /**
+     * This resource does not have any IDs
+     */
+    private $_id = null;
+    {% endif %}
 
     // Properties
 
@@ -47,7 +54,7 @@ class {{ id }} extends Meta
 {% endfor %}
 
     /**
-     * @param mixed $ids
+     * @param array $ids Unique identifiers for this resource
      */
     function __construct($ids)
     {
@@ -128,11 +135,12 @@ class {{ id }} extends Meta
     /**
      *
      * @param array({{ id }}) ${{ id_var_plural }}
-     * @param array $results
+     * @param {% if id_keys %}array{% else %}\stdClass{% endif %} $results
      */
-    public static function postQuery(array ${{ id_var_plural }}, array $results)
+    public static function postQuery(array ${{ id_var_plural }}, {% if id_keys %}array{% else %}\stdClass{% endif %} $results)
     {
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
+            {% if id_keys %}
             $found = false;
             foreach ($results as $result) {
                 if ({% for id in id_keys -%}
@@ -155,6 +163,9 @@ class {{ id }} extends Meta
                     '{{ id }} <' . implode(', ', $ids) . '> missing from query'
                 );
             }
+            {% else %} 
+            ${{ id_var }}->fromResults($results);
+            {% endif %}
         }
 
         // Query for all expanded relationships

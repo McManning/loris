@@ -8,8 +8,9 @@ class {{ id }} extends MetaCollection
     public $collection = null; // Array({{ properties.collection.resource }})
     protected $expansions = null; // Array
 
+    {% if id_keys %}
     /**
-     * Track the properties that are used as our collections 
+     * Track the properties that are used as our resources 
      * distinct identifier (one or composite). Each match
      * within URI must exist within this list. 
      */
@@ -17,9 +18,14 @@ class {{ id }} extends MetaCollection
         '{{ id_keys|join('\', \'') }}'
     );
     {# ' <- just to fix broken highlighting :) #}
+    {% else %}
+    /**
+     * This resource does not have any IDs
+     */
+    private $_id = null;
+    {% endif %}
 
     // Properties
-
 {% for name, property in properties|dictsort %}
     {% if name in id_keys %}
     {% if property.description %}
@@ -32,6 +38,7 @@ class {{ id }} extends MetaCollection
     {% endif %}
     public ${{ name }} = null;
     {% endif %}
+
 {% endfor %}
 
     /**
@@ -39,7 +46,7 @@ class {{ id }} extends MetaCollection
      * @param integer $page Currently page of the collection to query (1-indexed)
      * @param integer $limit Number of results per collection page 
      */
-    function __construct($ids = null, $page, $limit)
+    function __construct($ids, $page, $limit)
     {
         parent::__construct($ids, self::URI, $page, $limit);
     }
@@ -58,15 +65,16 @@ class {{ id }} extends MetaCollection
     /**
      *
      * @param array({{ id }}) ${{ id_var_plural }}
-     * @param array $results
+     * @param {% if id_keys %}array{% else %}\stdClass{% endif %} $results
      */
-    public static function postQuery(array ${{ id_var_plural }}, array $results)
+    public static function postQuery(array ${{ id_var_plural }}, {% if id_keys %}array{% else %}\stdClass{% endif %} $results)
     {
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
+            {% if id_keys %}
             $found = false;
             foreach ($results as $result) {
                 if ({% for id in id_keys -%}
-                        $result->{{ id }} === ${{ id_var }}->{{ id }} 
+                        $result->{{ id }} == ${{ id_var }}->{{ id }} 
                     {{- ' &&\n                    ' if not loop.last }}
                 {%- endfor %}) {
                     
@@ -85,6 +93,9 @@ class {{ id }} extends MetaCollection
                     '{{ id }} <' . implode(', ', $ids) . '> missing from query'
                 );
             }
+            {% else %} 
+            ${{ id_var }}->fromResults($results);
+            {% endif %}
         }
 
         // For all collections, join their hydrated resources for a query
