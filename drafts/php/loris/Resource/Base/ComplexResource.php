@@ -3,25 +3,26 @@ namespace Loris\Resource\Base;
 
 use \Loris\Utility;
 
-class GeneratedResource extends Meta
+class ComplexResource extends Meta
 {
     const URI = '/test/{idLeft}/foo/{idRight}';
 
     private $expansions = null;
 
     /**
-     * Track the properties that are used as our resource's 
+     * Track the properties that are used as our resources 
      * distinct identifier (one or composite). Each match
      * within URI must exist within this list. 
      */
     private $_id = array(
-        'idLeft', 'idRight'
-    );
+        'idLeft', 'idRight'     );
 
     // Properties
 
     /** 
-     * An unordered list of references to collections, all of the same type
+     * An unordered list of references to collections, all
+     * of the same type
+     * 
      * type: array
      */
     public $arrayOfCollectionProp = array();
@@ -31,9 +32,10 @@ class GeneratedResource extends Meta
      * $this->arrayOfCollectionProp for copying to new array items.
      */
     private $arrayOfCollectionPropTemplate = null;  
-
     /** 
-     * An unordered list of references to collections, all of the same type
+     * An unordered list of references to collections,
+     * all of the same type
+     * 
      * type: array
      */
     public $arrayOfCompositeCollectionProp = array();
@@ -43,9 +45,10 @@ class GeneratedResource extends Meta
      * $this->arrayOfCompositeCollectionProp for copying to new array items.
      */
     private $arrayOfCompositeCollectionPropTemplate = null;  
-
     /** 
-     * An unordered list of references to resources, all of the same type
+     * An unordered list of references to resources, all 
+     * of the same type
+     * 
      * type: array
      */
     public $arrayOfCompositeResourceProp = array();
@@ -55,21 +58,20 @@ class GeneratedResource extends Meta
      * $this->arrayOfCompositeResourceProp for copying to new array items.
      */
     private $arrayOfCompositeResourcePropTemplate = null;  
-
     /** 
      * An unordered list of DateTime objects
      * type: array
      */
     public $arrayOfDateProp = array();
-
     /** 
      * An unordered list of numeric values
      * type: array
      */
     public $arrayOfNumberProp = array();
-
     /** 
-     * An unordered list of complex objects, each with the same schema containing primitives or references
+     * An unordered list of complex objects, each with the
+     * same schema containing primitives or references
+     * 
      * type: array
      */
     public $arrayOfObjectProp = array();
@@ -79,9 +81,10 @@ class GeneratedResource extends Meta
      * $this->arrayOfObjectProp for copying to new array items.
      */
     private $arrayOfObjectPropTemplate = null;  
-
     /** 
-     * An unordered list of references to resources, all of the same type
+     * An unordered list of references to resources, all of 
+     * the same type
+     * 
      * type: array
      */
     public $arrayOfResourceProp = array();
@@ -91,87 +94,80 @@ class GeneratedResource extends Meta
      * $this->arrayOfResourceProp for copying to new array items.
      */
     private $arrayOfResourcePropTemplate = null;  
-
     /** 
      * An unordered list of string values
      * type: array
      */
     public $arrayOfStringProp = array();
-
     /** 
      * A boolean value
      * type: boolean
      */
     public $boolProp = null;
-
     /** 
      * A reference to a collection
      * type: collection
      */
     public $collectionProp = null;
-
     /** 
      * A reference to a collection with a composite ID
+     * 
      * type: collection
      */
     public $compositeCollectionProp = null;
-
     /** 
      * A reference to another resource with a composite ID
+     * 
      * type: resource
      */
     public $compositeResourceProp = null;
-
     /** 
      * A date value, stored as a PHP DateTime object
+     * 
      * type: date
      */
     public $dateProp = null;
-
     /** 
      * Composite identifier left
      * type: string
      */
     public $idLeft = null;
-
     /** 
      * Composite identifier right
      * type: string
      */
     public $idRight = null;
-
     /** 
      * A numeric value
      * type: number
      */
     public $numberProp = null;
-
     /** 
      * A complex object containing primitives or references
+     * 
      * type: object
      */
     public $objectProp = null;
-
     /** 
      * A reference to another resource
      * type: resource
      */
     public $resourceProp = null;
-
     /** 
      * A generic string value
      * type: string
      */
     public $stringProp = null;
-
     /** 
-     * A reference to a top level resource that doesn't use an ID in the URI
+     * A reference to a top level resource that doesn't use 
+     * an ID in the URI
+     * 
      * type: resource
      */
     public $topLevelResourceProp = null;
 
     /**
-     * @param mixed $ids
+     * @param array $ids Unique identifiers for this resource
      */
     function __construct($ids)
     {
@@ -190,17 +186,17 @@ class GeneratedResource extends Meta
 
         $this->arrayOfCollectionPropTemplate = new MetaCollection(
             array('id' => null),
-            '/array-collection/{id}'
+            '/object-collection/{id}'
         );
 
         $this->arrayOfCompositeCollectionPropTemplate = new MetaCollection(
             array('idLeft' => null, 'idRight' => null),
-            '/array-collection/{idLeft}/{idRight}'
+            '/object-collection/{idLeft}/{idRight}'
         );
 
         $this->arrayOfCompositeResourcePropTemplate = new Meta(
             array('idLeft' => null, 'idRight' => null),
-            '/array-resource/{idLeft}/{idRight}'
+            '/object-resource/{idLeft}/{idRight}'
         );
 
         $this->arrayOfObjectPropTemplate = new \stdClass;
@@ -227,22 +223,22 @@ class GeneratedResource extends Meta
 
         $this->arrayOfResourcePropTemplate = new Meta(
             array('id' => null),
-            '/array-resource/{id}'
+            '/object-resource/{id}'
         );
 
         $this->collectionProp = new MetaCollection(
             array('id' => null),
-            '/collection/{id}'
+            '/object-collection/{id}'
         );
 
         $this->compositeCollectionProp = new MetaCollection(
             array('idLeft' => null, 'idRight' => null),
-            '/collection/{idLeft}/{idRight}'
+            '/object-collection/{idLeft}/{idRight}'
         );
 
         $this->compositeResourceProp = new Meta(
             array('idLeft' => null, 'idRight' => null),
-            '/resource/{idLeft}/and/{idRight}'
+            '/object-resource/{idLeft}/{idRight}'
         );
 
         $this->objectProp = new \stdClass;
@@ -269,11 +265,11 @@ class GeneratedResource extends Meta
 
         $this->resourceProp = new Meta(
             array('id' => null),
-            '/resource/{id}'
+            '/object-resource/{id}'
         );
 
         $this->topLevelResourceProp = new Meta(
-            array('unusedId' => null),
+            array(),
             '/resource'
         );
 
@@ -281,35 +277,51 @@ class GeneratedResource extends Meta
 
     /**
      *
-     * @param array(GeneratedResource) $generatedResources
+     * @param array(ComplexResource) $complexResources
      */
-    public static function query(array $generatedResources)
+    public static function query(array $complexResources)
     {
         throw new \Exception(
-            'Base\\GeneratedResource::query() cannot be called directly.'
+            'Base\\ComplexResource::query() cannot be called directly.'
         );
     }
 
-    public static function postQuery(array $generatedResources, array $results)
+    /**
+     *
+     * @param array(ComplexResource) $complexResources
+     * @param array $results
+     */
+    public static function postQuery(array $complexResources, array $results)
     {
-        foreach ($generatedResources as $generatedResource) {
+        foreach ($complexResources as $complexResource) {
+            $found = false;
             foreach ($results as $result) {
-                if ($result->idLeft === $generatedResource->idLeft &&
-                    $result->idRight === $generatedResource->idRight) {
+                if ($result->idLeft === $complexResource->idLeft &&
+                    $result->idRight === $complexResource->idRight) {
                     
-                    $generatedResource->fromResults($result);
+                    $complexResource->fromResults($result);
+                    $found = true;
                     break;
                 }
+            }
+            if (!$found) {
+                $ids = array(
+                    'idLeft=' . $complexResource->idLeft,
+                    'idRight=' . $complexResource->idRight
+                );
+                throw new \Exception(
+                    'ComplexResource <' . implode(', ', $ids) . '> missing from query'
+                );
             }
         }
 
         // Query for all expanded relationships
         $arrayOfCollectionProps = array();
         $arrayOfCollectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfCollectionPropTemplate->uri()
+            $complexResources[0]->arrayOfCollectionPropTemplate->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            foreach ($generatedResource->arrayOfCollectionProp as $item) {
+        foreach ($complexResources as $complexResource) {
+            foreach ($complexResource->arrayOfCollectionProp as $item) {
                 if ($item instanceof $arrayOfCollectionPropModel->class) {
                     $arrayOfCollectionProps[] = $item;
                 }
@@ -324,10 +336,10 @@ class GeneratedResource extends Meta
 
         $arrayOfCompositeCollectionProps = array();
         $arrayOfCompositeCollectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfCompositeCollectionPropTemplate->uri()
+            $complexResources[0]->arrayOfCompositeCollectionPropTemplate->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            foreach ($generatedResource->arrayOfCompositeCollectionProp as $item) {
+        foreach ($complexResources as $complexResource) {
+            foreach ($complexResource->arrayOfCompositeCollectionProp as $item) {
                 if ($item instanceof $arrayOfCompositeCollectionPropModel->class) {
                     $arrayOfCompositeCollectionProps[] = $item;
                 }
@@ -342,10 +354,10 @@ class GeneratedResource extends Meta
 
         $arrayOfCompositeResourceProps = array();
         $arrayOfCompositeResourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfCompositeResourcePropTemplate->uri()
+            $complexResources[0]->arrayOfCompositeResourcePropTemplate->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            foreach ($generatedResource->arrayOfCompositeResourceProp as $item) {
+        foreach ($complexResources as $complexResource) {
+            foreach ($complexResource->arrayOfCompositeResourceProp as $item) {
                 if ($item instanceof $arrayOfCompositeResourcePropModel->class) {
                     $arrayOfCompositeResourceProps[] = $item;
                 }
@@ -360,10 +372,10 @@ class GeneratedResource extends Meta
 
         $aopCollectionProps = array();
         $aopCollectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfObjectPropTemplate->aopCollectionProp->uri()
+            $complexResources[0]->arrayOfObjectPropTemplate->aopCollectionProp->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            foreach ($generatedResource->arrayOfObjectProp as $item) {
+        foreach ($complexResources as $complexResource) {
+            foreach ($complexResource->arrayOfObjectProp as $item) {
                 if ($item->aopCollectionProp instanceof $aopCollectionPropModel->class) {
                     $aopCollectionProps[] = $item->aopCollectionProp;
                 }
@@ -378,10 +390,10 @@ class GeneratedResource extends Meta
 
         $aopCompositeCollectionProps = array();
         $aopCompositeCollectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfObjectPropTemplate->aopCompositeCollectionProp->uri()
+            $complexResources[0]->arrayOfObjectPropTemplate->aopCompositeCollectionProp->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            foreach ($generatedResource->arrayOfObjectProp as $item) {
+        foreach ($complexResources as $complexResource) {
+            foreach ($complexResource->arrayOfObjectProp as $item) {
                 if ($item->aopCompositeCollectionProp instanceof $aopCompositeCollectionPropModel->class) {
                     $aopCompositeCollectionProps[] = $item->aopCompositeCollectionProp;
                 }
@@ -396,10 +408,10 @@ class GeneratedResource extends Meta
 
         $aopCompositeResourceProps = array();
         $aopCompositeResourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfObjectPropTemplate->aopCompositeResourceProp->uri()
+            $complexResources[0]->arrayOfObjectPropTemplate->aopCompositeResourceProp->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            foreach ($generatedResource->arrayOfObjectProp as $item) {
+        foreach ($complexResources as $complexResource) {
+            foreach ($complexResource->arrayOfObjectProp as $item) {
                 if ($item->aopCompositeResourceProp instanceof $aopCompositeResourcePropModel->class) {
                     $aopCompositeResourceProps[] = $item->aopCompositeResourceProp;
                 }
@@ -414,10 +426,10 @@ class GeneratedResource extends Meta
 
         $aopResourceProps = array();
         $aopResourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfObjectPropTemplate->aopResourceProp->uri()
+            $complexResources[0]->arrayOfObjectPropTemplate->aopResourceProp->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            foreach ($generatedResource->arrayOfObjectProp as $item) {
+        foreach ($complexResources as $complexResource) {
+            foreach ($complexResource->arrayOfObjectProp as $item) {
                 if ($item->aopResourceProp instanceof $aopResourcePropModel->class) {
                     $aopResourceProps[] = $item->aopResourceProp;
                 }
@@ -432,10 +444,10 @@ class GeneratedResource extends Meta
 
         $arrayOfResourceProps = array();
         $arrayOfResourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->arrayOfResourcePropTemplate->uri()
+            $complexResources[0]->arrayOfResourcePropTemplate->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            foreach ($generatedResource->arrayOfResourceProp as $item) {
+        foreach ($complexResources as $complexResource) {
+            foreach ($complexResource->arrayOfResourceProp as $item) {
                 if ($item instanceof $arrayOfResourcePropModel->class) {
                     $arrayOfResourceProps[] = $item;
                 }
@@ -450,11 +462,11 @@ class GeneratedResource extends Meta
 
         $collectionProps = array();
         $collectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->collectionProp->uri()
+            $complexResources[0]->collectionProp->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            if ($generatedResource->collectionProp instanceof $collectionPropModel->class) {
-                $collectionProps[] = $generatedResource->collectionProp;
+        foreach ($complexResources as $complexResource) {
+            if ($complexResource->collectionProp instanceof $collectionPropModel->class) {
+                $collectionProps[] = $complexResource->collectionProp;
             }
         }
         if (!empty($collectionProps)) {
@@ -466,11 +478,11 @@ class GeneratedResource extends Meta
 
         $compositeCollectionProps = array();
         $compositeCollectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->compositeCollectionProp->uri()
+            $complexResources[0]->compositeCollectionProp->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            if ($generatedResource->compositeCollectionProp instanceof $compositeCollectionPropModel->class) {
-                $compositeCollectionProps[] = $generatedResource->compositeCollectionProp;
+        foreach ($complexResources as $complexResource) {
+            if ($complexResource->compositeCollectionProp instanceof $compositeCollectionPropModel->class) {
+                $compositeCollectionProps[] = $complexResource->compositeCollectionProp;
             }
         }
         if (!empty($compositeCollectionProps)) {
@@ -482,11 +494,11 @@ class GeneratedResource extends Meta
 
         $compositeResourceProps = array();
         $compositeResourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->compositeResourceProp->uri()
+            $complexResources[0]->compositeResourceProp->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            if ($generatedResource->compositeResourceProp instanceof $compositeResourcePropModel->class) {
-                $compositeResourceProps[] = $generatedResource->compositeResourceProp;
+        foreach ($complexResources as $complexResource) {
+            if ($complexResource->compositeResourceProp instanceof $compositeResourcePropModel->class) {
+                $compositeResourceProps[] = $complexResource->compositeResourceProp;
             }
         }
         if (!empty($compositeResourceProps)) {
@@ -498,11 +510,11 @@ class GeneratedResource extends Meta
 
         $opCollectionProps = array();
         $opCollectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->objectProp->opCollectionProp->uri()
+            $complexResources[0]->objectProp->opCollectionProp->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            if ($generatedResource->objectProp->opCollectionProp instanceof $opCollectionPropModel->class) {
-                $opCollectionProps[] = $generatedResource->objectProp->opCollectionProp;
+        foreach ($complexResources as $complexResource) {
+            if ($complexResource->objectProp->opCollectionProp instanceof $opCollectionPropModel->class) {
+                $opCollectionProps[] = $complexResource->objectProp->opCollectionProp;
             }
         }
         if (!empty($opCollectionProps)) {
@@ -514,11 +526,11 @@ class GeneratedResource extends Meta
 
         $opCompositeCollectionProps = array();
         $opCompositeCollectionPropModel = \Loris\Discovery::find(
-            $generatedResources[0]->objectProp->opCompositeCollectionProp->uri()
+            $complexResources[0]->objectProp->opCompositeCollectionProp->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            if ($generatedResource->objectProp->opCompositeCollectionProp instanceof $opCompositeCollectionPropModel->class) {
-                $opCompositeCollectionProps[] = $generatedResource->objectProp->opCompositeCollectionProp;
+        foreach ($complexResources as $complexResource) {
+            if ($complexResource->objectProp->opCompositeCollectionProp instanceof $opCompositeCollectionPropModel->class) {
+                $opCompositeCollectionProps[] = $complexResource->objectProp->opCompositeCollectionProp;
             }
         }
         if (!empty($opCompositeCollectionProps)) {
@@ -530,11 +542,11 @@ class GeneratedResource extends Meta
 
         $opCompositeResourceProps = array();
         $opCompositeResourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->objectProp->opCompositeResourceProp->uri()
+            $complexResources[0]->objectProp->opCompositeResourceProp->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            if ($generatedResource->objectProp->opCompositeResourceProp instanceof $opCompositeResourcePropModel->class) {
-                $opCompositeResourceProps[] = $generatedResource->objectProp->opCompositeResourceProp;
+        foreach ($complexResources as $complexResource) {
+            if ($complexResource->objectProp->opCompositeResourceProp instanceof $opCompositeResourcePropModel->class) {
+                $opCompositeResourceProps[] = $complexResource->objectProp->opCompositeResourceProp;
             }
         }
         if (!empty($opCompositeResourceProps)) {
@@ -546,11 +558,11 @@ class GeneratedResource extends Meta
 
         $opResourceProps = array();
         $opResourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->objectProp->opResourceProp->uri()
+            $complexResources[0]->objectProp->opResourceProp->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            if ($generatedResource->objectProp->opResourceProp instanceof $opResourcePropModel->class) {
-                $opResourceProps[] = $generatedResource->objectProp->opResourceProp;
+        foreach ($complexResources as $complexResource) {
+            if ($complexResource->objectProp->opResourceProp instanceof $opResourcePropModel->class) {
+                $opResourceProps[] = $complexResource->objectProp->opResourceProp;
             }
         }
         if (!empty($opResourceProps)) {
@@ -562,11 +574,11 @@ class GeneratedResource extends Meta
 
         $resourceProps = array();
         $resourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->resourceProp->uri()
+            $complexResources[0]->resourceProp->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            if ($generatedResource->resourceProp instanceof $resourcePropModel->class) {
-                $resourceProps[] = $generatedResource->resourceProp;
+        foreach ($complexResources as $complexResource) {
+            if ($complexResource->resourceProp instanceof $resourcePropModel->class) {
+                $resourceProps[] = $complexResource->resourceProp;
             }
         }
         if (!empty($resourceProps)) {
@@ -578,11 +590,11 @@ class GeneratedResource extends Meta
 
         $topLevelResourceProps = array();
         $topLevelResourcePropModel = \Loris\Discovery::find(
-            $generatedResources[0]->topLevelResourceProp->uri()
+            $complexResources[0]->topLevelResourceProp->uri()
         );
-        foreach ($generatedResources as $generatedResource) {
-            if ($generatedResource->topLevelResourceProp instanceof $topLevelResourcePropModel->class) {
-                $topLevelResourceProps[] = $generatedResource->topLevelResourceProp;
+        foreach ($complexResources as $complexResource) {
+            if ($complexResource->topLevelResourceProp instanceof $topLevelResourcePropModel->class) {
+                $topLevelResourceProps[] = $complexResource->topLevelResourceProp;
             }
         }
         if (!empty($topLevelResourceProps)) {
@@ -601,46 +613,49 @@ class GeneratedResource extends Meta
     public function fromResults(\stdClass $results)
     {
         foreach ($results->arrayOfCollectionProp as $item) {
-            assert('property_exists($item, \'arrayCollectionId\') /* resource id must be supplied */');
-            assert('property_exists($item, \'arrayCollectionTotal\') /* arrayCollectionTotal must be supplied */');
-            if ($item->arrayCollectionId !== null) {
-                $arrayCollection = clone $this->arrayOfCollectionPropTemplate;
+            assert('\Loris\Utility::isString($item, \'simpleCollectionId\') /* resource id must be a string */');
+            assert('\Loris\Utility::isNumber($item, \'simpleCollectionTotal\') /* simpleCollectionTotal must be a number */');
+            if ($item->simpleCollectionId != null) {
+                $simpleCollection = clone $this->arrayOfCollectionPropTemplate;
                 
-                $arrayCollection->id = $item->arrayCollectionId;
-                $arrayCollection->meta->total = intval(
-                    $item->arrayCollectionTotal
+                $simpleCollection->id = $item->simpleCollectionId;
+                $simpleCollection->meta->total = intval(
+                    $item->simpleCollectionTotal
                 );
-                $this->arrayOfCollectionProp[] = $arrayCollection;
+                $simpleCollection->updateMetaUri();
+                $this->arrayOfCollectionProp[] = $simpleCollection;
             }
         }
 
         foreach ($results->arrayOfCompositeCollectionProp as $item) {
-            assert('property_exists($item, \'arrayCompositeCollectionIdLeft\') /* resource id must be supplied */');
-            assert('property_exists($item, \'arrayCompositeCollectionIdRight\') /* resource id must be supplied */');
-            assert('property_exists($item, \'arrayCompositeCollectionTotal\') /* arrayCompositeCollectionTotal must be supplied */');
-            if ($item->arrayCompositeCollectionIdLeft !== null && 
-                $item->arrayCompositeCollectionIdRight !== null) {
-                $arrayCompositeCollection = clone $this->arrayOfCompositeCollectionPropTemplate;
+            assert('\Loris\Utility::isString($item, \'compositeCollectionIdLeft\') /* resource id must be a string */');
+            assert('\Loris\Utility::isString($item, \'compositeCollectionIdRight\') /* resource id must be a string */');
+            assert('\Loris\Utility::isNumber($item, \'compositeCollectionTotal\') /* compositeCollectionTotal must be a number */');
+            if ($item->compositeCollectionIdLeft != null && 
+                $item->compositeCollectionIdRight != null) {
+                $compositeCollection = clone $this->arrayOfCompositeCollectionPropTemplate;
                 
-                $arrayCompositeCollection->idLeft = $item->arrayCompositeCollectionIdLeft;
-                $arrayCompositeCollection->idRight = $item->arrayCompositeCollectionIdRight;
-                $arrayCompositeCollection->meta->total = intval(
-                    $item->arrayCompositeCollectionTotal
+                $compositeCollection->idLeft = $item->compositeCollectionIdLeft;
+                $compositeCollection->idRight = $item->compositeCollectionIdRight;
+                $compositeCollection->meta->total = intval(
+                    $item->compositeCollectionTotal
                 );
-                $this->arrayOfCompositeCollectionProp[] = $arrayCompositeCollection;
+                $compositeCollection->updateMetaUri();
+                $this->arrayOfCompositeCollectionProp[] = $compositeCollection;
             }
         }
 
         foreach ($results->arrayOfCompositeResourceProp as $item) {
-            assert('property_exists($item, \'arrayCompositeResourceIdLeft\') /* resource id must be supplied */');
-            assert('property_exists($item, \'arrayCompositeResourceIdRight\') /* resource id must be supplied */');
-            if ($item->arrayCompositeResourceIdLeft !== null && 
-                $item->arrayCompositeResourceIdRight !== null) {
-                $arrayCompositeResource = clone $this->arrayOfCompositeResourcePropTemplate;
+            assert('\Loris\Utility::isString($item, \'compositeResourceIdLeft\') /* resource id must be a string */');
+            assert('\Loris\Utility::isString($item, \'compositeResourceIdRight\') /* resource id must be a string */');
+            if ($item->compositeResourceIdLeft != null && 
+                $item->compositeResourceIdRight != null) {
+                $compositeResource = clone $this->arrayOfCompositeResourcePropTemplate;
             
-                $arrayCompositeResource->idLeft = $item->arrayCompositeResourceIdLeft;
-                $arrayCompositeResource->idRight = $item->arrayCompositeResourceIdRight;
-                $this->arrayOfCompositeResourceProp[] = $arrayCompositeResource;
+                $compositeResource->idLeft = $item->compositeResourceIdLeft;
+                $compositeResource->idRight = $item->compositeResourceIdRight;
+                $compositeResource->updateMetaUri();
+                $this->arrayOfCompositeResourceProp[] = $compositeResource;
             }
         }
 
@@ -649,7 +664,7 @@ class GeneratedResource extends Meta
             $this->arrayOfDateProp[] = \DateTime::createFromFormat(
                 'Y-m-d', 
                 $item
-            );
+            ) ?: null;
         }
 
         foreach ($results->arrayOfNumberProp as $item) {
@@ -661,50 +676,52 @@ class GeneratedResource extends Meta
         for ($i = 0; $i < $arrayOfObjectPropCount; $i++) {
             $this->arrayOfObjectProp[$i] = clone $this->arrayOfObjectPropTemplate;
 
-            assert('\Loris\Utility::isBool($results->arrayOfObjectProp[$i]->aopBoolProp) /* property must be a boolean */');
+            assert('\Loris\Utility::isBool($results->arrayOfObjectProp[$i], \'aopBoolProp\') /* property must be a boolean */');
             $this->arrayOfObjectProp[$i]->aopBoolProp = boolval(
                 $results->arrayOfObjectProp[$i]->aopBoolProp
             );
 
-            assert('property_exists($results->arrayOfObjectProp[$i], \'aopCollectionPropId\') /* collection id must be supplied */');
-            assert('property_exists($results->arrayOfObjectProp[$i], \'aopCollectionPropTotal\') /* collection total must be supplied */');
-            if ($results->arrayOfObjectProp[$i]->aopCollectionPropId !== null) {
+            assert('\Loris\Utility::isString($results->arrayOfObjectProp[$i], \'aopCollectionPropId\') /* collection id must be a string */');
+            assert('\Loris\Utility::isNumber($results->arrayOfObjectProp[$i], \'aopCollectionPropTotal\') /* collection total must be a number */');
+            if ($results->arrayOfObjectProp[$i]->aopCollectionPropId != null) {
             
                 $this->arrayOfObjectProp[$i]->aopCollectionProp->id = $results->arrayOfObjectProp[$i]->aopCollectionPropId;
                 $this->arrayOfObjectProp[$i]->aopCollectionProp->meta->total = intval(
                     $results->arrayOfObjectProp[$i]->aopCollectionPropTotal
                 );
+                $this->arrayOfObjectProp[$i]->aopCollectionProp->updateMetaUri();
             } else {
                 $this->arrayOfObjectProp[$i]->aopCollectionProp = new NullResource(
                     $this->arrayOfObjectProp[$i]->aopCollectionProp->uri()
                 );
             }
 
-            assert('property_exists($results->arrayOfObjectProp[$i], \'aopCompositeCollectionPropIdLeft\') /* collection id must be supplied */');
-            assert('property_exists($results->arrayOfObjectProp[$i], \'aopCompositeCollectionPropIdRight\') /* collection id must be supplied */');
-            assert('property_exists($results->arrayOfObjectProp[$i], \'aopCompositeCollectionPropTotal\') /* collection total must be supplied */');
-            if ($results->arrayOfObjectProp[$i]->aopCompositeCollectionPropIdLeft !== null && 
-                $results->arrayOfObjectProp[$i]->aopCompositeCollectionPropIdRight !== null) {
+            assert('\Loris\Utility::isString($results->arrayOfObjectProp[$i], \'aopCompositeCollectionPropIdLeft\') /* collection id must be a string */');
+            assert('\Loris\Utility::isString($results->arrayOfObjectProp[$i], \'aopCompositeCollectionPropIdRight\') /* collection id must be a string */');
+            assert('\Loris\Utility::isNumber($results->arrayOfObjectProp[$i], \'aopCompositeCollectionPropTotal\') /* collection total must be a number */');
+            if ($results->arrayOfObjectProp[$i]->aopCompositeCollectionPropIdLeft != null && 
+                $results->arrayOfObjectProp[$i]->aopCompositeCollectionPropIdRight != null) {
             
                 $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->idLeft = $results->arrayOfObjectProp[$i]->aopCompositeCollectionPropIdLeft;
                 $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->idRight = $results->arrayOfObjectProp[$i]->aopCompositeCollectionPropIdRight;
                 $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->meta->total = intval(
                     $results->arrayOfObjectProp[$i]->aopCompositeCollectionPropTotal
                 );
+                $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->updateMetaUri();
             } else {
                 $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp = new NullResource(
                     $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->uri()
                 );
             }
 
-            assert('property_exists($results->arrayOfObjectProp[$i], \'aopCompositeResourcePropIdLeft\') /* resource id must be supplied */');
-            assert('property_exists($results->arrayOfObjectProp[$i], \'aopCompositeResourcePropIdRight\') /* resource id must be supplied */');
-            // if ($results->arrayOfObjectProp[$i]->aopCompositeResourcePropId !== null) {
-            if ($results->arrayOfObjectProp[$i]->aopCompositeResourcePropIdLeft !== null && 
-                $results->arrayOfObjectProp[$i]->aopCompositeResourcePropIdRight !== null) {
+            assert('\Loris\Utility::isString($results->arrayOfObjectProp[$i], \'aopCompositeResourcePropIdLeft\') /* resource id must be a string */');
+            assert('\Loris\Utility::isString($results->arrayOfObjectProp[$i], \'aopCompositeResourcePropIdRight\') /* resource id must be a string */');
+            if ($results->arrayOfObjectProp[$i]->aopCompositeResourcePropIdLeft != null && 
+                $results->arrayOfObjectProp[$i]->aopCompositeResourcePropIdRight != null) {
             
                 $this->arrayOfObjectProp[$i]->aopCompositeResourceProp->idLeft = $results->arrayOfObjectProp[$i]->aopCompositeResourcePropIdLeft;
                 $this->arrayOfObjectProp[$i]->aopCompositeResourceProp->idRight = $results->arrayOfObjectProp[$i]->aopCompositeResourcePropIdRight;
+                $this->arrayOfObjectProp[$i]->aopCompositeResourceProp->updateMetaUri();
             } else {
                 $this->arrayOfObjectProp[$i]->aopCompositeResourceProp = new NullResource(
                     $this->arrayOfObjectProp[$i]->aopCompositeResourceProp->uri()
@@ -712,40 +729,41 @@ class GeneratedResource extends Meta
             }
 
    
-            assert('\Loris\Utility::isDate($results->arrayOfObjectProp[$i]->aopDateProp) /* property must be in date format */');
+            assert('\Loris\Utility::isDate($results->arrayOfObjectProp[$i], \'aopDateProp\') /* property must be in date format */');
             $this->arrayOfObjectProp[$i]->aopDateProp = \DateTime::createFromFormat(
                 'Y-m-d', 
                 $results->arrayOfObjectProp[$i]->aopDateProp
-            );
+            ) ?: null;
 
-            assert('\Loris\Utility::isNumber($results->arrayOfObjectProp[$i]->aopNumberProp) /* property must be a number */');
+            assert('\Loris\Utility::isNumber($results->arrayOfObjectProp[$i], \'aopNumberProp\') /* property must be a number */');
             $this->arrayOfObjectProp[$i]->aopNumberProp = intval(
                 $results->arrayOfObjectProp[$i]->aopNumberProp
             );
 
-            assert('property_exists($results->arrayOfObjectProp[$i], \'aopResourcePropId\') /* resource id must be supplied */');
-            // if ($results->arrayOfObjectProp[$i]->aopResourcePropId !== null) {
-            if ($results->arrayOfObjectProp[$i]->aopResourcePropId !== null) {
+            assert('\Loris\Utility::isString($results->arrayOfObjectProp[$i], \'aopResourcePropId\') /* resource id must be a string */');
+            if ($results->arrayOfObjectProp[$i]->aopResourcePropId != null) {
             
                 $this->arrayOfObjectProp[$i]->aopResourceProp->id = $results->arrayOfObjectProp[$i]->aopResourcePropId;
+                $this->arrayOfObjectProp[$i]->aopResourceProp->updateMetaUri();
             } else {
                 $this->arrayOfObjectProp[$i]->aopResourceProp = new NullResource(
                     $this->arrayOfObjectProp[$i]->aopResourceProp->uri()
                 );
             }
 
-            assert('\Loris\Utility::isString($results->arrayOfObjectProp[$i]->aopStringProp) /* property must be a string */');
+            assert('\Loris\Utility::isString($results->arrayOfObjectProp[$i], \'aopStringProp\') /* property must be a string */');
             $this->arrayOfObjectProp[$i]->aopStringProp = $results->arrayOfObjectProp[$i]->aopStringProp;
 
         }
 
         foreach ($results->arrayOfResourceProp as $item) {
-            assert('property_exists($item, \'arrayResourceId\') /* resource id must be supplied */');
-            if ($item->arrayResourceId !== null) {
-                $arrayResource = clone $this->arrayOfResourcePropTemplate;
+            assert('\Loris\Utility::isString($item, \'simpleResourceId\') /* resource id must be a string */');
+            if ($item->simpleResourceId != null) {
+                $simpleResource = clone $this->arrayOfResourcePropTemplate;
             
-                $arrayResource->id = $item->arrayResourceId;
-                $this->arrayOfResourceProp[] = $arrayResource;
+                $simpleResource->id = $item->simpleResourceId;
+                $simpleResource->updateMetaUri();
+                $this->arrayOfResourceProp[] = $simpleResource;
             }
         }
 
@@ -754,115 +772,121 @@ class GeneratedResource extends Meta
             $this->arrayOfStringProp[] = $item;
         }
 
-        assert('\Loris\Utility::isBool($results->boolProp) /* property must be a boolean */');
+        assert('\Loris\Utility::isBool($results, \'boolProp\') /* property must be a boolean */');
         $this->boolProp = boolval(
             $results->boolProp
         );
 
-        assert('property_exists($results, \'collectionPropId\') /* collection id must be supplied */');
-        assert('property_exists($results, \'collectionPropTotal\') /* collection total must be supplied */');
-        if ($results->collectionPropId !== null) {
+        assert('\Loris\Utility::isString($results, \'collectionPropId\') /* collection id must be a string */');
+        assert('\Loris\Utility::isNumber($results, \'collectionPropTotal\') /* collection total must be a number */');
+        if ($results->collectionPropId != null) {
         
             $this->collectionProp->id = $results->collectionPropId;
             $this->collectionProp->meta->total = intval(
                 $results->collectionPropTotal
             );
+            $this->collectionProp->updateMetaUri();
         } else {
             $this->collectionProp = new NullResource(
                 $this->collectionProp->uri()
             );
         }
 
-        assert('property_exists($results, \'compositeCollectionPropIdLeft\') /* collection id must be supplied */');
-        assert('property_exists($results, \'compositeCollectionPropIdRight\') /* collection id must be supplied */');
-        assert('property_exists($results, \'compositeCollectionPropTotal\') /* collection total must be supplied */');
-        if ($results->compositeCollectionPropIdLeft !== null && 
-            $results->compositeCollectionPropIdRight !== null) {
+        assert('\Loris\Utility::isString($results, \'compositeCollectionPropIdLeft\') /* collection id must be a string */');
+        assert('\Loris\Utility::isString($results, \'compositeCollectionPropIdRight\') /* collection id must be a string */');
+        assert('\Loris\Utility::isNumber($results, \'compositeCollectionPropTotal\') /* collection total must be a number */');
+        if ($results->compositeCollectionPropIdLeft != null && 
+            $results->compositeCollectionPropIdRight != null) {
         
             $this->compositeCollectionProp->idLeft = $results->compositeCollectionPropIdLeft;
             $this->compositeCollectionProp->idRight = $results->compositeCollectionPropIdRight;
             $this->compositeCollectionProp->meta->total = intval(
                 $results->compositeCollectionPropTotal
             );
+            $this->compositeCollectionProp->updateMetaUri();
         } else {
             $this->compositeCollectionProp = new NullResource(
                 $this->compositeCollectionProp->uri()
             );
         }
 
-        assert('property_exists($results, \'compositeResourcePropIdLeft\') /* resource id must be supplied */');
-        assert('property_exists($results, \'compositeResourcePropIdRight\') /* resource id must be supplied */');
-        if ($results->compositeResourcePropIdLeft !== null && 
-            $results->compositeResourcePropIdRight !== null) {
+        assert('\Loris\Utility::isString($results, \'compositeResourcePropIdLeft\') /* resource id must be a string */');
+        assert('\Loris\Utility::isString($results, \'compositeResourcePropIdRight\') /* resource id must be a string */');
+        if ($results->compositeResourcePropIdLeft != null && 
+            $results->compositeResourcePropIdRight != null) {
         
             $this->compositeResourceProp->idLeft = $results->compositeResourcePropIdLeft;
             $this->compositeResourceProp->idRight = $results->compositeResourcePropIdRight;
+            $this->compositeResourceProp->updateMetaUri();
         } else {
             $this->compositeResourceProp = new NullResource(
                 $this->compositeResourceProp->uri()
             );
         }
 
-        assert('\Loris\Utility::isDate($results->dateProp) /* property must be in date format */');
+        assert('\Loris\Utility::isDate($results, \'dateProp\') /* property must be in date format */');
         $this->dateProp = \DateTime::createFromFormat(
             'Y-m-d', 
             $results->dateProp
-        );
+        ) ?: null;
 
-        assert('\Loris\Utility::isString($results->idLeft) /* property must be a string */');
+        assert('\Loris\Utility::isString($results, \'idLeft\') /* property must be a string */');
         $this->idLeft = $results->idLeft;
 
-        assert('\Loris\Utility::isString($results->idRight) /* property must be a string */');
+        assert('\Loris\Utility::isString($results, \'idRight\') /* property must be a string */');
         $this->idRight = $results->idRight;
 
-        assert('\Loris\Utility::isNumber($results->numberProp) /* property must be a number */');
+        assert('\Loris\Utility::isNumber($results, \'numberProp\') /* property must be a number */');
         $this->numberProp = intval(
             $results->numberProp
         );
 
-        assert('\Loris\Utility::isBool($results->objectProp->opBoolProp) /* property must be a boolean */');
+        assert('\Loris\Utility::isBool($results->objectProp, \'opBoolProp\') /* property must be a boolean */');
         $this->objectProp->opBoolProp = boolval(
             $results->objectProp->opBoolProp
         );
 
-        assert('property_exists($results->objectProp, \'opCollectionPropId\') /* resource id must be supplied */');
-        assert('property_exists($results->objectProp, \'opCollectionPropTotal\') /* collection total must be supplied */');
-        if ($results->objectProp->opCollectionPropId !== null) {
+        assert('\Loris\Utility::isString($results->objectProp, \'opCollectionPropId\') /* resource id must be a string */');
+        assert('\Loris\Utility::isNumber($results->objectProp, \'opCollectionPropTotal\') /* collection total must be a number */');
+        if ($results->objectProp->opCollectionPropId != null) {
         
             $this->objectProp->opCollectionProp->id = $results->objectProp->opCollectionPropId;
             $this->objectProp->opCollectionProp->meta->total = intval(
                 $results->objectProp->opCollectionPropTotal
             );
+            $this->objectProp->opCollectionProp->updateMetaUri();
         } else {
             $this->objectProp->opCollectionProp = new NullResource(
                 $this->objectProp->opCollectionProp->uri()
             );
         }
 
-        assert('property_exists($results->objectProp, \'opCompositeCollectionPropIdLeft\') /* resource id must be supplied */');
-        assert('property_exists($results->objectProp, \'opCompositeCollectionPropIdRight\') /* resource id must be supplied */');
-        assert('property_exists($results->objectProp, \'opCompositeCollectionPropTotal\') /* collection total must be supplied */');
-        if ($results->objectProp->opCompositeCollectionPropIdLeft !== null && 
-            $results->objectProp->opCompositeCollectionPropIdRight !== null) {
+        assert('\Loris\Utility::isString($results->objectProp, \'opCompositeCollectionPropIdLeft\') /* resource id must be a string */');
+        assert('\Loris\Utility::isString($results->objectProp, \'opCompositeCollectionPropIdRight\') /* resource id must be a string */');
+        assert('\Loris\Utility::isNumber($results->objectProp, \'opCompositeCollectionPropTotal\') /* collection total must be a number */');
+        if ($results->objectProp->opCompositeCollectionPropIdLeft != null && 
+            $results->objectProp->opCompositeCollectionPropIdRight != null) {
         
             $this->objectProp->opCompositeCollectionProp->idLeft = $results->objectProp->opCompositeCollectionPropIdLeft;
             $this->objectProp->opCompositeCollectionProp->idRight = $results->objectProp->opCompositeCollectionPropIdRight;
             $this->objectProp->opCompositeCollectionProp->meta->total = intval(
                 $results->objectProp->opCompositeCollectionPropTotal
             );
+            $this->objectProp->opCompositeCollectionProp->updateMetaUri();
         } else {
             $this->objectProp->opCompositeCollectionProp = new NullResource(
                 $this->objectProp->opCompositeCollectionProp->uri()
             );
         }
 
-        assert('property_exists($results->objectProp, \'opCompositeResourcePropIdLeft\') /* resource id must be supplied */');
-        assert('property_exists($results->objectProp, \'opCompositeResourcePropIdRight\') /* resource id must be supplied */');
-        if ($results->objectProp->opCompositeResourcePropIdLeft !== null && 
-            $results->objectProp->opCompositeResourcePropIdRight !== null) {
+        assert('\Loris\Utility::isString($results->objectProp, \'opCompositeResourcePropIdLeft\') /* resource id must be a string */');
+        assert('\Loris\Utility::isString($results->objectProp, \'opCompositeResourcePropIdRight\') /* resource id must be a string */');
+        if ($results->objectProp->opCompositeResourcePropIdLeft != null && 
+            $results->objectProp->opCompositeResourcePropIdRight != null) {
         
             $this->objectProp->opCompositeResourceProp->idLeft = $results->objectProp->opCompositeResourcePropIdLeft;
             $this->objectProp->opCompositeResourceProp->idRight = $results->objectProp->opCompositeResourcePropIdRight;
+            $this->objectProp->opCompositeResourceProp->updateMetaUri();
         } else {
             $this->objectProp->opCompositeResourceProp = new NullResource(
                 $this->objectProp->opCompositeResourceProp->uri()
@@ -870,47 +894,48 @@ class GeneratedResource extends Meta
         }
 
    
-        assert('\Loris\Utility::isDate($results->objectProp->opDateProp) /* property must be in date format */');
+        assert('\Loris\Utility::isDate($results->objectProp, \'opDateProp\') /* property must be in date format */');
         $this->objectProp->opDateProp = \DateTime::createFromFormat(
             'Y-m-d', 
             $results->objectProp->opDateProp
-        );
+        ) ?: null;
 
-        assert('\Loris\Utility::isNumber($results->objectProp->opNumberProp) /* property must be a number */');
+        assert('\Loris\Utility::isNumber($results->objectProp, \'opNumberProp\') /* property must be a number */');
         $this->objectProp->opNumberProp = intval(
             $results->objectProp->opNumberProp
         );
 
-        assert('property_exists($results->objectProp, \'opResourcePropId\') /* resource id must be supplied */');
-        if ($results->objectProp->opResourcePropId !== null) {
+        assert('\Loris\Utility::isString($results->objectProp, \'opResourcePropId\') /* resource id must be a string */');
+        if ($results->objectProp->opResourcePropId != null) {
         
             $this->objectProp->opResourceProp->id = $results->objectProp->opResourcePropId;
+            $this->objectProp->opResourceProp->updateMetaUri();
         } else {
             $this->objectProp->opResourceProp = new NullResource(
                 $this->objectProp->opResourceProp->uri()
             );
         }
 
-        assert('\Loris\Utility::isString($results->objectProp->opStringProp) /* property must be a string */');
+        assert('\Loris\Utility::isString($results->objectProp, \'opStringProp\') /* property must be a string */');
         $this->objectProp->opStringProp = $results->objectProp->opStringProp;
 
-        assert('property_exists($results, \'resourcePropId\') /* resource id must be supplied */');
-        if ($results->resourcePropId !== null) {
+        assert('\Loris\Utility::isString($results, \'resourcePropId\') /* resource id must be a string */');
+        if ($results->resourcePropId != null) {
         
             $this->resourceProp->id = $results->resourcePropId;
+            $this->resourceProp->updateMetaUri();
         } else {
             $this->resourceProp = new NullResource(
                 $this->resourceProp->uri()
             );
         }
 
-        assert('\Loris\Utility::isString($results->stringProp) /* property must be a string */');
+        assert('\Loris\Utility::isString($results, \'stringProp\') /* property must be a string */');
         $this->stringProp = $results->stringProp;
 
-        assert('property_exists($results, \'topLevelResourcePropUnusedId\') /* resource id must be supplied */');
-        if ($results->topLevelResourcePropUnusedId !== null) {
+        if ($results->topLevelResourceProp != null) {
         
-            $this->topLevelResourceProp->unusedId = $results->topLevelResourcePropUnusedId;
+            $this->topLevelResourceProp->updateMetaUri();
         } else {
             $this->topLevelResourceProp = new NullResource(
                 $this->topLevelResourceProp->uri()
@@ -957,7 +982,9 @@ class GeneratedResource extends Meta
             $arrayOfCollectionPropCount = count($this->arrayOfCollectionProp);
             for ($i = 0; $i < $arrayOfCollectionPropCount; $i++) {
                 $this->arrayOfCollectionProp[$i] = new $arrayOfCollectionPropModel->class(
-                    $this->arrayOfCollectionProp[$i]->ids()
+                    $this->arrayOfCollectionProp[$i]->ids(),
+                    $this->arrayOfCollectionProp[$i]->meta->page,
+                    $this->arrayOfCollectionProp[$i]->meta->limit
                 );
 
                 if ($arrayOfCollectionPropExpanded) {
@@ -980,7 +1007,9 @@ class GeneratedResource extends Meta
             $arrayOfCompositeCollectionPropCount = count($this->arrayOfCompositeCollectionProp);
             for ($i = 0; $i < $arrayOfCompositeCollectionPropCount; $i++) {
                 $this->arrayOfCompositeCollectionProp[$i] = new $arrayOfCompositeCollectionPropModel->class(
-                    $this->arrayOfCompositeCollectionProp[$i]->ids()
+                    $this->arrayOfCompositeCollectionProp[$i]->ids(),
+                    $this->arrayOfCompositeCollectionProp[$i]->meta->page,
+                    $this->arrayOfCompositeCollectionProp[$i]->meta->limit
                 );
 
                 if ($arrayOfCompositeCollectionPropExpanded) {
@@ -1027,7 +1056,9 @@ class GeneratedResource extends Meta
             $arrayOfObjectPropCount = count($this->arrayOfObjectProp);
             for ($i = 0; $i < $arrayOfObjectPropCount; $i++) {
                 $this->arrayOfObjectProp[$i]->aopCollectionProp  = new $aopCollectionPropModel->class(
-                    $this->arrayOfObjectProp[$i]->aopCollectionProp->ids()
+                    $this->arrayOfObjectProp[$i]->aopCollectionProp->ids(),
+                    $this->arrayOfObjectProp[$i]->aopCollectionProp->page,
+                    $this->arrayOfObjectProp[$i]->aopCollectionProp->limit
                 );
 
                 if ($aopCollectionPropExpanded) {
@@ -1051,7 +1082,9 @@ class GeneratedResource extends Meta
             $arrayOfObjectPropCount = count($this->arrayOfObjectProp);
             for ($i = 0; $i < $arrayOfObjectPropCount; $i++) {
                 $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp  = new $aopCompositeCollectionPropModel->class(
-                    $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->ids()
+                    $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->ids(),
+                    $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->page,
+                    $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->limit
                 );
 
                 if ($aopCompositeCollectionPropExpanded) {
@@ -1139,7 +1172,9 @@ class GeneratedResource extends Meta
                 $this->collectionProp->uri()
             );
             $this->collectionProp = new $collectionPropModel->class(
-                $this->collectionProp->ids()
+                $this->collectionProp->ids(),
+                $this->collectionProp->meta->page,
+                $this->collectionProp->meta->limit
             );
 
             if (is_array($this->expansions['collectionProp'])) {
@@ -1153,7 +1188,9 @@ class GeneratedResource extends Meta
                 $this->compositeCollectionProp->uri()
             );
             $this->compositeCollectionProp = new $compositeCollectionPropModel->class(
-                $this->compositeCollectionProp->ids()
+                $this->compositeCollectionProp->ids(),
+                $this->compositeCollectionProp->meta->page,
+                $this->compositeCollectionProp->meta->limit
             );
 
             if (is_array($this->expansions['compositeCollectionProp'])) {
@@ -1182,7 +1219,9 @@ class GeneratedResource extends Meta
                 $this->objectProp->opCollectionProp->uri()
             );
             $this->objectProp->opCollectionProp = new $opCollectionPropModel->class(
-                $this->objectProp->opCollectionProp->ids()
+                $this->objectProp->opCollectionProp->ids(),
+                $this->objectProp->opCollectionProp->meta->page,
+                $this->objectProp->opCollectionProp->meta->limit
             );
 
             if (is_array($this->expansions['objectProp']['opCollectionProp'])) {
@@ -1199,7 +1238,9 @@ class GeneratedResource extends Meta
                 $this->objectProp->opCompositeCollectionProp->uri()
             );
             $this->objectProp->opCompositeCollectionProp = new $opCompositeCollectionPropModel->class(
-                $this->objectProp->opCompositeCollectionProp->ids()
+                $this->objectProp->opCompositeCollectionProp->ids(),
+                $this->objectProp->opCompositeCollectionProp->meta->page,
+                $this->objectProp->opCompositeCollectionProp->meta->limit
             );
 
             if (is_array($this->expansions['objectProp']['opCompositeCollectionProp'])) {
@@ -1308,7 +1349,11 @@ class GeneratedResource extends Meta
         $serialized->arrayOfDateProp = array();
         $arrayOfDatePropCount = count($this->arrayOfDateProp);
         for ($i = 0; $i < $arrayOfDatePropCount; $i++) {
-            $serialized->arrayOfDateProp[$i] = $this->arrayOfDateProp[$i]->format('Y-m-d');
+            if ($this->arrayOfDateProp[$i] !== null) {
+                $serialized->arrayOfDateProp[$i] = $this->arrayOfDateProp[$i]->format('Y-m-d');
+            } else {
+                $serialized->arrayOfDateProp[$i] = null;
+            }
         }
 
         $serialized->arrayOfNumberProp = $this->arrayOfNumberProp;
@@ -1321,7 +1366,11 @@ class GeneratedResource extends Meta
             $serialized->arrayOfObjectProp[$i]->aopCollectionProp = $this->arrayOfObjectProp[$i]->aopCollectionProp->serialize();
             $serialized->arrayOfObjectProp[$i]->aopCompositeCollectionProp = $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->serialize();
             $serialized->arrayOfObjectProp[$i]->aopCompositeResourceProp = $this->arrayOfObjectProp[$i]->aopCompositeResourceProp->serialize();
-            $serialized->arrayOfObjectProp[$i]->aopDateProp = $this->arrayOfObjectProp[$i]->aopDateProp->format('Y-m-d');
+            if ($this->arrayOfObjectProp[$i]->aopDateProp !== null) {
+                $serialized->arrayOfObjectProp[$i]->aopDateProp = $this->arrayOfObjectProp[$i]->aopDateProp->format('Y-m-d');
+            } else {
+                $serialized->arrayOfObjectProp[$i]->aopDateProp = null;
+            }
             $serialized->arrayOfObjectProp[$i]->aopNumberProp = $this->arrayOfObjectProp[$i]->aopNumberProp;
             $serialized->arrayOfObjectProp[$i]->aopResourceProp = $this->arrayOfObjectProp[$i]->aopResourceProp->serialize();
             $serialized->arrayOfObjectProp[$i]->aopStringProp = $this->arrayOfObjectProp[$i]->aopStringProp;
@@ -1343,7 +1392,11 @@ class GeneratedResource extends Meta
 
         $serialized->compositeResourceProp = $this->compositeResourceProp->serialize();
 
-        $serialized->dateProp = $this->dateProp->format('Y-m-d');
+        if ($this->dateProp !== null) {
+            $serialized->dateProp = $this->dateProp->format('Y-m-d');
+        } else {
+            $serialized->dateProp = null;
+        }
 
         $serialized->idLeft = $this->idLeft;
 
@@ -1356,7 +1409,11 @@ class GeneratedResource extends Meta
         $serialized->objectProp->opCollectionProp = $this->objectProp->opCollectionProp->serialize();
         $serialized->objectProp->opCompositeCollectionProp = $this->objectProp->opCompositeCollectionProp->serialize();
         $serialized->objectProp->opCompositeResourceProp = $this->objectProp->opCompositeResourceProp->serialize();
-        $serialized->objectProp->opDateProp = $this->objectProp->opDateProp->format('Y-m-d');
+        if ($this->objectProp->opDateProp !== null) {
+            $serialized->objectProp->opDateProp = $this->objectProp->opDateProp->format('Y-m-d');
+        } else {
+            $serialized->objectProp->opDateProp = null;
+        }
         $serialized->objectProp->opNumberProp = $this->objectProp->opNumberProp;
         $serialized->objectProp->opResourceProp = $this->objectProp->opResourceProp->serialize();
         $serialized->objectProp->opStringProp = $this->objectProp->opStringProp;

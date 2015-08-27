@@ -1,97 +1,105 @@
 <?php
 namespace Loris\Resource\Base;
 
-class CollegeDepartments extends MetaCollection
+class CompositeCollection extends MetaCollection
 {
-    const URI = '/college/{id}/departments';
+    const URI = '/object-collection/{idLeft}/{idRight}';
 
-    public $collection = null; // Array(Department)
+    public $collection = null; // Array(CompositeResource)
     protected $expansions = null; // Array
 
     /**
-     * Track the properties that are used as our collections 
+     * Track the properties that are used as our resources 
      * distinct identifier (one or composite). Each match
      * within URI must exist within this list. 
      */
     private $_id = array(
-        'id'
+        'idLeft', 'idRight'
     );
 
     // Properties
 
     /** type: string */
-    public $id = null;
+    public $idLeft = null;
+
+    /** type: string */
+    public $idRight = null;
+
 
     /**
      * @param array $ids Unique identifiers for this collection
      * @param integer $page Currently page of the collection to query (1-indexed)
      * @param integer $limit Number of results per collection page 
      */
-    function __construct($ids = null, $page, $limit)
+    function __construct($ids, $page, $limit)
     {
         parent::__construct($ids, self::URI, $page, $limit);
     }
 
     /**
      *
-     * @param array(CollegeDepartments) $collegeDepartmentss
+     * @param array(CompositeCollection) $compositeCollections
      */
-    public static function query(array $collegeDepartmentss)
+    public static function query(array $compositeCollections)
     {
         throw new \Exception(
-            'Base\\CollegeDepartments::query() cannot be called directly.'
+            'Base\\CompositeCollection::query() cannot be called directly.'
         );
     }
 
     /**
      *
-     * @param array(CollegeDepartments) $collegeDepartmentss
+     * @param array(CompositeCollection) $compositeCollections
      * @param array $results
      */
-    public static function postQuery(array $collegeDepartmentss, array $results)
+    public static function postQuery(array $compositeCollections, array $results)
     {
-        foreach ($collegeDepartmentss as $collegeDepartments) {
+        foreach ($compositeCollections as $compositeCollection) {
             $found = false;
             foreach ($results as $result) {
-                if ($result->id === $collegeDepartments->id) {
+                if ($result->idLeft == $compositeCollection->idLeft &&
+                    $result->idRight == $compositeCollection->idRight &&
+                    $result->page == $compositeCollection->meta->page &&
+                    $result->limit == $compositeCollection->meta->limit) {
                     
-                    $collegeDepartments->fromResults($result);
+                    $compositeCollection->fromResults($result);
                     $found = true;
                     break;
                 }
             }
             if (!$found) {
                 $ids = array(
-                    'id=' . $collegeDepartments->id
+                    'idLeft=' . $compositeCollection->idLeft,
+                    'idRight=' . $compositeCollection->idRight
                 );
                 throw new \Exception(
-                    'CollegeDepartments <' . implode(', ', $ids) . '> missing from query'
+                    'CompositeCollection <' . implode(', ', $ids) . '> missing from query'
                 );
             }
         }
 
         // For all collections, join their hydrated resources for a query
-        $departments = array();
-        foreach ($collegeDepartmentss as $collegeDepartments) {
-            if (count($collegeDepartments->collection) > 0) {
-                $departments = array_merge(
-                    $departments, 
-                    $collegeDepartments->collection
+        $compositeResources = array();
+        foreach ($compositeCollections as $compositeCollection) {
+            if (count($compositeCollection->collection) > 0) {
+                $compositeResources = array_merge(
+                    $compositeResources, 
+                    $compositeCollection->collection
                 );
             }
         }
 
-        if (count($departments) > 0) {
+        if (count($compositeResources) > 0) {
             
-            // Resolve to a Department or ExternalResource
-            $departmentModel = \Loris\Discovery::find(
-                '/department/{id}'
+            // Resolve to a CompositeResource or ExternalResource
+            $compositeResourceModel = \Loris\Discovery::find(
+                '/object-resource/{idLeft}/{idRight}'
             );
 
             // Execute query for set of resources
             call_user_func(
-                array($departmentModel->class, 'query'), 
-                $departments
+                array($compositeResourceModel->class, 'query'), 
+                $compositeResources
             );
         }
     }
@@ -101,8 +109,10 @@ class CollegeDepartments extends MetaCollection
      */
     public function fromResults(\stdClass $results)
     {
-        assert('\Loris\Utility::isString($results, \'id\') /* property must be a string */');
-        $this->id = $results->id;
+        assert('\Loris\Utility::isString($results, \'idLeft\') /* property must be a string */');
+        $this->idLeft = $results->idLeft;
+        assert('\Loris\Utility::isString($results, \'idRight\') /* property must be a string */');
+        $this->idRight = $results->idRight;
 
         assert('\Loris\Utility::isNumber($results, \'page\') /* property must be a number */');
         $this->meta->page = intval($results->page);
@@ -116,20 +126,20 @@ class CollegeDepartments extends MetaCollection
         $this->collection = array();
 
         // Resolve resource URI into a model
-        $departmentModel = \Loris\Discovery::find(
-            '/department/{id}'
+        $compositeResourceModel = \Loris\Discovery::find(
+            '/object-resource/{idLeft}/{idRight}'
         );
 
-        // Add a Department for each ID
+        // Add a CompositeResource for each ID
         foreach ($results->collection as $row) {
             // Note we resolve the model here instead of doExpansions
             // as no matter what, if a collection is hydrated, the
             // collection items must also be hydrated. 
-            $department = new $departmentModel->class(
-                array('id' => $row->departmentId)
+            $compositeResource = new $compositeResourceModel->class(
+                array('idLeft' => $row->compositeResourceIdLeft, 'idRight' => $row->compositeResourceIdRight)
             );
 
-            $this->collection[] = $department;
+            $this->collection[] = $compositeResource;
         }
 
         $this->doExpansions();
@@ -155,8 +165,8 @@ class CollegeDepartments extends MetaCollection
             return;
         }
 
-        foreach ($this->collection as $department) {
-            $department->expand($this->expansions);
+        foreach ($this->collection as $compositeResource) {
+            $compositeResource->expand($this->expansions);
         }
     }
 
@@ -172,9 +182,9 @@ class CollegeDepartments extends MetaCollection
         if ($this->collection) {
             $serialized->collection = array();
 
-            // Serialize all of our Departments
-            foreach ($this->collection as $department) {
-                $serialized->collection[] = $department->serialize();
+            // Serialize all of our CompositeResources
+            foreach ($this->collection as $compositeResource) {
+                $serialized->collection[] = $compositeResource->serialize();
             }
         }
         

@@ -1,0 +1,266 @@
+{
+    "info": {
+        "version": 1.0, 
+        "title": "Test Spec"
+    }, 
+    "definitions": {
+        "TopLevelCollection": {
+            "description": "Collection without a unique ID", 
+            "type": "collection", 
+            "properties": {
+                "collection": {
+                    "$ref": "#/definitions/SimpleResource"
+                }
+            }, 
+            "uri": "/collection"
+        }, 
+        "CompositeResource": {
+            "ids": [
+                "idLeft", 
+                "idRight"
+            ], 
+            "type": "resource", 
+            "properties": {
+                "idRight": {
+                    "type": "string"
+                }, 
+                "idLeft": {
+                    "type": "string"
+                }
+            }, 
+            "uri": "/object-resource/{idLeft}/{idRight}"
+        }, 
+        "SimpleResource": {
+            "ids": [
+                "id"
+            ], 
+            "type": "resource", 
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }, 
+            "uri": "/object-resource/{id}"
+        }, 
+        "CompositeCollection": {
+            "ids": [
+                "idLeft", 
+                "idRight"
+            ], 
+            "type": "collection", 
+            "properties": {
+                "idRight": {
+                    "type": "string"
+                }, 
+                "idLeft": {
+                    "type": "string"
+                }, 
+                "collection": {
+                    "$ref": "#/definitions/CompositeResource"
+                }
+            }, 
+            "uri": "/object-collection/{idLeft}/{idRight}"
+        }, 
+        "TopLevelResource": {
+            "description": "Resource without a unique ID", 
+            "type": "resource", 
+            "properties": {
+                "topLevelCollectionProp": {
+                    "$ref": "#/definitions/TopLevelCollection"
+                }, 
+                "stringProp": {
+                    "type": "string"
+                }, 
+                "recursiveTopLevelResourceProp": {
+                    "$ref": "#/definitions/TopLevelResource"
+                }
+            }, 
+            "uri": "/resource"
+        }, 
+        "SimpleCollection": {
+            "ids": [
+                "id"
+            ], 
+            "type": "collection", 
+            "properties": {
+                "id": {
+                    "type": "string"
+                }, 
+                "collection": {
+                    "$ref": "#/definitions/SimpleResource"
+                }
+            }, 
+            "uri": "/object-collection/{id}"
+        }, 
+        "ComplexResource": {
+            "ids": [
+                "idLeft", 
+                "idRight"
+            ], 
+            "type": "resource", 
+            "properties": {
+                "arrayOfCollectionProp": {
+                    "items": {
+                        "$ref": "#/definitions/SimpleCollection"
+                    }, 
+                    "type": "array", 
+                    "description": "An unordered list of references to collections, all\nof the same type\n"
+                }, 
+                "objectProp": {
+                    "type": "object", 
+                    "description": "A complex object containing primitives or references\n", 
+                    "properties": {
+                        "opBoolProp": {
+                            "type": "boolean"
+                        }, 
+                        "opNumberProp": {
+                            "type": "number"
+                        }, 
+                        "opResourceProp": {
+                            "$ref": "#/definitions/SimpleResource"
+                        }, 
+                        "opCompositeCollectionProp": {
+                            "$ref": "#/definitions/CompositeCollection"
+                        }, 
+                        "opCompositeResourceProp": {
+                            "$ref": "#/definitions/CompositeResource"
+                        }, 
+                        "opStringProp": {
+                            "type": "string"
+                        }, 
+                        "opDateProp": {
+                            "type": "string", 
+                            "format": "date"
+                        }, 
+                        "opCollectionProp": {
+                            "$ref": "#/definitions/SimpleCollection"
+                        }
+                    }
+                }, 
+                "dateProp": {
+                    "type": "string", 
+                    "description": "A date value, stored as a PHP DateTime object\n", 
+                    "format": "date"
+                }, 
+                "idRight": {
+                    "type": "string", 
+                    "description": "Composite identifier right"
+                }, 
+                "topLevelResourceProp": {
+                    "description": "A reference to a top level resource that doesn't use \nan ID in the URI\n", 
+                    "$ref": "#/definitions/TopLevelResource"
+                }, 
+                "boolProp": {
+                    "type": "boolean", 
+                    "description": "A boolean value"
+                }, 
+                "compositeCollectionProp": {
+                    "description": "A reference to a collection with a composite ID\n", 
+                    "$ref": "#/definitions/CompositeCollection"
+                }, 
+                "compositeResourceProp": {
+                    "description": "A reference to another resource with a composite ID\n", 
+                    "$ref": "#/definitions/CompositeResource"
+                }, 
+                "arrayOfResourceProp": {
+                    "items": {
+                        "$ref": "#/definitions/SimpleResource"
+                    }, 
+                    "type": "array", 
+                    "description": "An unordered list of references to resources, all of \nthe same type\n"
+                }, 
+                "idLeft": {
+                    "type": "string", 
+                    "description": "Composite identifier left"
+                }, 
+                "collectionProp": {
+                    "description": "A reference to a collection", 
+                    "$ref": "#/definitions/SimpleCollection"
+                }, 
+                "arrayOfCompositeResourceProp": {
+                    "items": {
+                        "$ref": "#/definitions/CompositeResource"
+                    }, 
+                    "type": "array", 
+                    "description": "An unordered list of references to resources, all \nof the same type\n"
+                }, 
+                "arrayOfCompositeCollectionProp": {
+                    "items": {
+                        "$ref": "#/definitions/CompositeCollection"
+                    }, 
+                    "type": "array", 
+                    "description": "An unordered list of references to collections,\nall of the same type\n"
+                }, 
+                "arrayOfObjectProp": {
+                    "items": {
+                        "type": "object", 
+                        "properties": {
+                            "aopBoolProp": {
+                                "type": "boolean"
+                            }, 
+                            "aopDateProp": {
+                                "type": "string", 
+                                "format": "date"
+                            }, 
+                            "aopCollectionProp": {
+                                "$ref": "#/definitions/SimpleCollection"
+                            }, 
+                            "aopCompositeCollectionProp": {
+                                "$ref": "#/definitions/CompositeCollection"
+                            }, 
+                            "aopStringProp": {
+                                "type": "string"
+                            }, 
+                            "aopNumberProp": {
+                                "type": "number"
+                            }, 
+                            "aopResourceProp": {
+                                "$ref": "#/definitions/SimpleResource"
+                            }, 
+                            "aopCompositeResourceProp": {
+                                "$ref": "#/definitions/CompositeResource"
+                            }
+                        }
+                    }, 
+                    "type": "array", 
+                    "description": "An unordered list of complex objects, each with the\nsame schema containing primitives or references\n"
+                }, 
+                "arrayOfDateProp": {
+                    "items": {
+                        "type": "string", 
+                        "format": "date"
+                    }, 
+                    "type": "array", 
+                    "description": "An unordered list of DateTime objects"
+                }, 
+                "resourceProp": {
+                    "description": "A reference to another resource", 
+                    "$ref": "#/definitions/SimpleResource"
+                }, 
+                "arrayOfNumberProp": {
+                    "items": {
+                        "type": "number"
+                    }, 
+                    "type": "array", 
+                    "description": "An unordered list of numeric values"
+                }, 
+                "stringProp": {
+                    "type": "string", 
+                    "description": "A generic string value"
+                }, 
+                "numberProp": {
+                    "type": "number", 
+                    "description": "A numeric value"
+                }, 
+                "arrayOfStringProp": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "An unordered list of string values"
+                }
+            }, 
+            "uri": "/test/{idLeft}/foo/{idRight}"
+        }
+    }
+}

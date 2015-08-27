@@ -1,0 +1,213 @@
+
+info:
+    version: 1.0
+    title: Test Spec
+
+definitions:
+
+  # schema/definitions/test_resources.yaml
+
+  TopLevelResource:
+    uri: "/resource"
+    description: Resource without a unique ID
+    type: resource
+    properties:
+      stringProp:
+        type: string
+      topLevelCollectionProp:
+        $ref: "#/definitions/TopLevelCollection"
+      recursiveTopLevelResourceProp:
+        $ref: "#/definitions/TopLevelResource"
+
+  TopLevelCollection:
+    uri: "/collection"
+    description: Collection without a unique ID
+    type: collection
+    properties:
+      collection:
+        $ref: "#/definitions/SimpleResource"
+
+  SimpleResource:
+    uri: "/object-resource/{id}"
+    type: resource
+    ids:
+      - id
+    properties:
+      id:
+        type: string
+
+  SimpleCollection:
+    uri: "/object-collection/{id}"
+    type: collection
+    ids:
+      - id
+    properties:
+      id:
+        type: string
+      collection:
+        $ref: "#/definitions/SimpleResource"
+
+  CompositeResource:
+    uri: "/object-resource/{idLeft}/{idRight}"
+    type: resource
+    ids:
+      - idLeft
+      - idRight
+    properties:
+      idLeft:
+        type: string
+      idRight:
+        type: string
+
+  CompositeCollection:
+    uri: "/object-collection/{idLeft}/{idRight}"
+    type: collection
+    ids:
+      - idLeft
+      - idRight
+    properties:
+      idLeft:
+        type: string
+      idRight:
+        type: string
+      collection:
+        $ref: "#/definitions/CompositeResource"
+
+  ComplexResource:
+    uri: "/test/{idLeft}/foo/{idRight}"
+    type: resource
+    ids: 
+      - idLeft
+      - idRight
+    properties: 
+      idLeft: 
+        type: string
+        description: Composite identifier left
+      idRight: 
+        type: string
+        description: Composite identifier right
+      stringProp: 
+        type: string
+        description: A generic string value
+      boolProp: 
+        type: boolean
+        description: A boolean value
+      numberProp: 
+        type: number
+        description: A numeric value
+      dateProp: 
+        type: string
+        format: date
+        description: |
+          A date value, stored as a PHP DateTime object
+      objectProp: 
+        type: object
+        description: |
+          A complex object containing primitives or references
+        properties: 
+          opStringProp: 
+            type: string
+          opBoolProp: 
+            type: boolean
+          opNumberProp: 
+            type: number
+          opDateProp: 
+            type: string
+            format: date
+          opResourceProp: 
+            $ref: "#/definitions/SimpleResource"
+          opCollectionProp: 
+            $ref: "#/definitions/SimpleCollection"
+          opCompositeResourceProp: 
+            $ref: "#/definitions/CompositeResource"
+          opCompositeCollectionProp: 
+            $ref: "#/definitions/CompositeCollection"
+      topLevelResourceProp: 
+        $ref: "#/definitions/TopLevelResource"
+        description: |
+          A reference to a top level resource that doesn't use 
+          an ID in the URI
+      resourceProp: 
+        $ref: "#/definitions/SimpleResource"
+        description: A reference to another resource
+      compositeResourceProp: 
+        $ref: "#/definitions/CompositeResource"
+        description: |
+          A reference to another resource with a composite ID
+      collectionProp: 
+        $ref: "#/definitions/SimpleCollection"
+        description: "A reference to a collection"
+      compositeCollectionProp: 
+        $ref: "#/definitions/CompositeCollection"
+        description: |
+          A reference to a collection with a composite ID
+      arrayOfStringProp: 
+        type: array
+        description: An unordered list of string values
+        items: 
+          type: string
+      arrayOfNumberProp: 
+        type: array
+        description: An unordered list of numeric values
+        items: 
+          type: number
+      arrayOfDateProp: 
+        type: array
+        description: An unordered list of DateTime objects
+        items: 
+          type: string
+          format: date
+      arrayOfResourceProp: 
+        type: array
+        description: |
+          An unordered list of references to resources, all of 
+          the same type
+        items: 
+          $ref: "#/definitions/SimpleResource"
+      arrayOfCollectionProp: 
+        type: array
+        description: |
+          An unordered list of references to collections, all
+          of the same type
+        items: 
+          $ref: "#/definitions/SimpleCollection"
+      arrayOfCompositeResourceProp: 
+        type: array
+        description: |
+          An unordered list of references to resources, all 
+          of the same type
+        items: 
+          $ref: "#/definitions/CompositeResource"
+      arrayOfCompositeCollectionProp: 
+        type: array
+        description: |
+          An unordered list of references to collections,
+          all of the same type
+        items: 
+          $ref: "#/definitions/CompositeCollection"
+      arrayOfObjectProp: 
+        type: array
+        description: |
+          An unordered list of complex objects, each with the
+          same schema containing primitives or references
+        items: 
+          type: object
+          properties: 
+            aopStringProp: 
+              type: string
+            aopBoolProp: 
+              type: boolean
+            aopNumberProp: 
+              type: number
+            aopDateProp: 
+              type: string
+              format: date
+            aopResourceProp: 
+              $ref: "#/definitions/SimpleResource"
+            aopCollectionProp: 
+              $ref: "#/definitions/SimpleCollection"
+            aopCompositeResourceProp: 
+              $ref: "#/definitions/CompositeResource"
+            aopCompositeCollectionProp: 
+              $ref: "#/definitions/CompositeCollection"
+

@@ -3,40 +3,29 @@ namespace Loris\Resource\Base;
 
 use \Loris\Utility;
 
-class Department extends Meta
+class CompositeResource extends Meta
 {
-    const URI = '/department/{id}';
+    const URI = '/object-resource/{idLeft}/{idRight}';
 
     private $expansions = null;
 
     /**
-     * Track the properties that are used as our resource's 
+     * Track the properties that are used as our resources 
      * distinct identifier (one or composite). Each match
      * within URI must exist within this list. 
      */
     private $_id = array(
-        'id'
-    );
+        'idLeft', 'idRight'     );
 
     // Properties
 
     /** type: string */
-    public $address = null;
-
+    public $idLeft = null;
     /** type: string */
-    public $building = null;
-
-    /** type: string */
-    public $id = null;
-
-    /** type: string */
-    public $shortTitle = null;
-
-    /** type: string */
-    public $title = null;
+    public $idRight = null;
 
     /**
-     * @param mixed $ids
+     * @param array $ids Unique identifiers for this resource
      */
     function __construct($ids)
     {
@@ -57,27 +46,44 @@ class Department extends Meta
 
     /**
      *
-     * @param array(Department) $departments
+     * @param array(CompositeResource) $compositeResources
      */
-    public static function query(array $departments)
+    public static function query(array $compositeResources)
     {
         throw new \Exception(
-            'Base\\Department::query() cannot be called directly.'
+            'Base\\CompositeResource::query() cannot be called directly.'
         );
     }
 
-    public static function postQuery(array $departments, array $results)
+    /**
+     *
+     * @param array(CompositeResource) $compositeResources
+     * @param array $results
+     */
+    public static function postQuery(array $compositeResources, array $results)
     {
-        foreach ($departments as $department) {
+        foreach ($compositeResources as $compositeResource) {
+            $found = false;
             foreach ($results as $result) {
-                if ($result->id === $department->id) {
+                if ($result->idLeft === $compositeResource->idLeft &&
+                    $result->idRight === $compositeResource->idRight) {
                     
-                    $department->fromResults($result);
+                    $compositeResource->fromResults($result);
+                    $found = true;
                     break;
                 }
             }
+            if (!$found) {
+                $ids = array(
+                    'idLeft=' . $compositeResource->idLeft,
+                    'idRight=' . $compositeResource->idRight
+                );
+                throw new \Exception(
+                    'CompositeResource <' . implode(', ', $ids) . '> missing from query'
+                );
+            }
         }
-        
+
         // Query for all expanded relationships
     }
 
@@ -87,20 +93,11 @@ class Department extends Meta
      */
     public function fromResults(\stdClass $results)
     {
-        assert('\Loris\Utility::isString($results, \'address\') /* property must be a string */');
-        $this->address = $results->address;
+        assert('\Loris\Utility::isString($results, \'idLeft\') /* property must be a string */');
+        $this->idLeft = $results->idLeft;
 
-        assert('\Loris\Utility::isString($results, \'building\') /* property must be a string */');
-        $this->building = $results->building;
-
-        assert('\Loris\Utility::isString($results, \'id\') /* property must be a string */');
-        $this->id = $results->id;
-
-        assert('\Loris\Utility::isString($results, \'shortTitle\') /* property must be a string */');
-        $this->shortTitle = $results->shortTitle;
-
-        assert('\Loris\Utility::isString($results, \'title\') /* property must be a string */');
-        $this->title = $results->title;
+        assert('\Loris\Utility::isString($results, \'idRight\') /* property must be a string */');
+        $this->idRight = $results->idRight;
 
         // Perform expansions after hydration, in case we hydrated any
         // additional resource references in Arrays or Objects
@@ -146,15 +143,9 @@ class Department extends Meta
         // Get serialized data from Meta
         $serialized = parent::serialize();
 
-        $serialized->address = $this->address;
+        $serialized->idLeft = $this->idLeft;
 
-        $serialized->building = $this->building;
-
-        $serialized->id = $this->id;
-
-        $serialized->shortTitle = $this->shortTitle;
-
-        $serialized->title = $this->title;
+        $serialized->idRight = $this->idRight;
 
         return $serialized;
     }
