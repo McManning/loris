@@ -76,7 +76,9 @@ class {{ id }} extends MetaCollection
                 if ({% for id in id_keys -%}
                         $result->{{ id }} == ${{ id_var }}->{{ id }} 
                     {{- ' &&\n                    ' if not loop.last }}
-                {%- endfor %}) {
+                {%- endfor %} &&
+                    $result->page == ${{ id_var }}->meta->page &&
+                    $result->limit == ${{ id_var }}->meta->limit) {
                     
                     ${{ id_var }}->fromResults($result);
                     $found = true;
