@@ -616,8 +616,9 @@ class ComplexResource extends Meta
             assert('\Loris\Utility::isString($item, \'simpleCollectionId\') /* resource id must be a string */');
             assert('\Loris\Utility::isNumber($item, \'simpleCollectionTotal\') /* simpleCollectionTotal must be a number */');
             if ($item->simpleCollectionId != null) {
+
                 $simpleCollection = clone $this->arrayOfCollectionPropTemplate;
-                
+    
                 $simpleCollection->id = $item->simpleCollectionId;
                 $simpleCollection->meta->total = intval(
                     $item->simpleCollectionTotal
@@ -633,8 +634,9 @@ class ComplexResource extends Meta
             assert('\Loris\Utility::isNumber($item, \'compositeCollectionTotal\') /* compositeCollectionTotal must be a number */');
             if ($item->compositeCollectionIdLeft != null && 
                 $item->compositeCollectionIdRight != null) {
+
                 $compositeCollection = clone $this->arrayOfCompositeCollectionPropTemplate;
-                
+    
                 $compositeCollection->idLeft = $item->compositeCollectionIdLeft;
                 $compositeCollection->idRight = $item->compositeCollectionIdRight;
                 $compositeCollection->meta->total = intval(
@@ -650,6 +652,7 @@ class ComplexResource extends Meta
             assert('\Loris\Utility::isString($item, \'compositeResourceIdRight\') /* resource id must be a string */');
             if ($item->compositeResourceIdLeft != null && 
                 $item->compositeResourceIdRight != null) {
+
                 $compositeResource = clone $this->arrayOfCompositeResourcePropTemplate;
             
                 $compositeResource->idLeft = $item->compositeResourceIdLeft;
@@ -684,7 +687,7 @@ class ComplexResource extends Meta
             assert('\Loris\Utility::isString($results->arrayOfObjectProp[$i], \'aopCollectionPropId\') /* collection id must be a string */');
             assert('\Loris\Utility::isNumber($results->arrayOfObjectProp[$i], \'aopCollectionPropTotal\') /* collection total must be a number */');
             if ($results->arrayOfObjectProp[$i]->aopCollectionPropId != null) {
-            
+
                 $this->arrayOfObjectProp[$i]->aopCollectionProp->id = $results->arrayOfObjectProp[$i]->aopCollectionPropId;
                 $this->arrayOfObjectProp[$i]->aopCollectionProp->meta->total = intval(
                     $results->arrayOfObjectProp[$i]->aopCollectionPropTotal
@@ -701,7 +704,7 @@ class ComplexResource extends Meta
             assert('\Loris\Utility::isNumber($results->arrayOfObjectProp[$i], \'aopCompositeCollectionPropTotal\') /* collection total must be a number */');
             if ($results->arrayOfObjectProp[$i]->aopCompositeCollectionPropIdLeft != null && 
                 $results->arrayOfObjectProp[$i]->aopCompositeCollectionPropIdRight != null) {
-            
+
                 $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->idLeft = $results->arrayOfObjectProp[$i]->aopCompositeCollectionPropIdLeft;
                 $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->idRight = $results->arrayOfObjectProp[$i]->aopCompositeCollectionPropIdRight;
                 $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->meta->total = intval(
@@ -718,7 +721,7 @@ class ComplexResource extends Meta
             assert('\Loris\Utility::isString($results->arrayOfObjectProp[$i], \'aopCompositeResourcePropIdRight\') /* resource id must be a string */');
             if ($results->arrayOfObjectProp[$i]->aopCompositeResourcePropIdLeft != null && 
                 $results->arrayOfObjectProp[$i]->aopCompositeResourcePropIdRight != null) {
-            
+
                 $this->arrayOfObjectProp[$i]->aopCompositeResourceProp->idLeft = $results->arrayOfObjectProp[$i]->aopCompositeResourcePropIdLeft;
                 $this->arrayOfObjectProp[$i]->aopCompositeResourceProp->idRight = $results->arrayOfObjectProp[$i]->aopCompositeResourcePropIdRight;
                 $this->arrayOfObjectProp[$i]->aopCompositeResourceProp->updateMetaUri();
@@ -742,7 +745,7 @@ class ComplexResource extends Meta
 
             assert('\Loris\Utility::isString($results->arrayOfObjectProp[$i], \'aopResourcePropId\') /* resource id must be a string */');
             if ($results->arrayOfObjectProp[$i]->aopResourcePropId != null) {
-            
+
                 $this->arrayOfObjectProp[$i]->aopResourceProp->id = $results->arrayOfObjectProp[$i]->aopResourcePropId;
                 $this->arrayOfObjectProp[$i]->aopResourceProp->updateMetaUri();
             } else {
@@ -759,6 +762,7 @@ class ComplexResource extends Meta
         foreach ($results->arrayOfResourceProp as $item) {
             assert('\Loris\Utility::isString($item, \'simpleResourceId\') /* resource id must be a string */');
             if ($item->simpleResourceId != null) {
+
                 $simpleResource = clone $this->arrayOfResourcePropTemplate;
             
                 $simpleResource->id = $item->simpleResourceId;
@@ -780,7 +784,7 @@ class ComplexResource extends Meta
         assert('\Loris\Utility::isString($results, \'collectionPropId\') /* collection id must be a string */');
         assert('\Loris\Utility::isNumber($results, \'collectionPropTotal\') /* collection total must be a number */');
         if ($results->collectionPropId != null) {
-        
+
             $this->collectionProp->id = $results->collectionPropId;
             $this->collectionProp->meta->total = intval(
                 $results->collectionPropTotal
@@ -797,7 +801,7 @@ class ComplexResource extends Meta
         assert('\Loris\Utility::isNumber($results, \'compositeCollectionPropTotal\') /* collection total must be a number */');
         if ($results->compositeCollectionPropIdLeft != null && 
             $results->compositeCollectionPropIdRight != null) {
-        
+
             $this->compositeCollectionProp->idLeft = $results->compositeCollectionPropIdLeft;
             $this->compositeCollectionProp->idRight = $results->compositeCollectionPropIdRight;
             $this->compositeCollectionProp->meta->total = intval(
@@ -849,7 +853,7 @@ class ComplexResource extends Meta
         assert('\Loris\Utility::isString($results->objectProp, \'opCollectionPropId\') /* resource id must be a string */');
         assert('\Loris\Utility::isNumber($results->objectProp, \'opCollectionPropTotal\') /* collection total must be a number */');
         if ($results->objectProp->opCollectionPropId != null) {
-        
+
             $this->objectProp->opCollectionProp->id = $results->objectProp->opCollectionPropId;
             $this->objectProp->opCollectionProp->meta->total = intval(
                 $results->objectProp->opCollectionPropTotal
@@ -866,7 +870,7 @@ class ComplexResource extends Meta
         assert('\Loris\Utility::isNumber($results->objectProp, \'opCompositeCollectionPropTotal\') /* collection total must be a number */');
         if ($results->objectProp->opCompositeCollectionPropIdLeft != null && 
             $results->objectProp->opCompositeCollectionPropIdRight != null) {
-        
+
             $this->objectProp->opCompositeCollectionProp->idLeft = $results->objectProp->opCompositeCollectionPropIdLeft;
             $this->objectProp->opCompositeCollectionProp->idRight = $results->objectProp->opCompositeCollectionPropIdRight;
             $this->objectProp->opCompositeCollectionProp->meta->total = intval(
@@ -883,7 +887,7 @@ class ComplexResource extends Meta
         assert('\Loris\Utility::isString($results->objectProp, \'opCompositeResourcePropIdRight\') /* resource id must be a string */');
         if ($results->objectProp->opCompositeResourcePropIdLeft != null && 
             $results->objectProp->opCompositeResourcePropIdRight != null) {
-        
+
             $this->objectProp->opCompositeResourceProp->idLeft = $results->objectProp->opCompositeResourcePropIdLeft;
             $this->objectProp->opCompositeResourceProp->idRight = $results->objectProp->opCompositeResourcePropIdRight;
             $this->objectProp->opCompositeResourceProp->updateMetaUri();
@@ -907,7 +911,7 @@ class ComplexResource extends Meta
 
         assert('\Loris\Utility::isString($results->objectProp, \'opResourcePropId\') /* resource id must be a string */');
         if ($results->objectProp->opResourcePropId != null) {
-        
+
             $this->objectProp->opResourceProp->id = $results->objectProp->opResourcePropId;
             $this->objectProp->opResourceProp->updateMetaUri();
         } else {
@@ -933,14 +937,8 @@ class ComplexResource extends Meta
         assert('\Loris\Utility::isString($results, \'stringProp\') /* property must be a string */');
         $this->stringProp = $results->stringProp;
 
-        if ($results->topLevelResourceProp != null) {
         
             $this->topLevelResourceProp->updateMetaUri();
-        } else {
-            $this->topLevelResourceProp = new NullResource(
-                $this->topLevelResourceProp->uri()
-            );
-        }
 
         // Perform expansions after hydration, in case we hydrated any
         // additional resource references in Arrays or Objects

@@ -30,17 +30,21 @@
     {% for id in ids %}
         assert('\Loris\Utility::isString($results, \'{{ name + id|pascalcase }}\') /* resource id must be a string */');
     {% endfor %}
+        {% if ids %}
         if ($results->{{ name }}{{ ids|pascalcase|join(' != null && \n            $results->' + name) }} != null) {
+        {% endif %}
         
         {% for id in ids %}
             $this->{{ name }}->{{ id }} = $results->{{ name + id|pascalcase }};
         {% endfor %}
             $this->{{ name }}->updateMetaUri();
+        {% if ids %}
         } else {
             $this->{{ name }} = new NullResource(
                 $this->{{ name }}->uri()
             );
         }
+        {% endif %}
 {% endmacro %}
 
 {% macro collection_property(name, ids) %}
@@ -48,8 +52,10 @@
         assert('\Loris\Utility::isString($results, \'{{ name + id|pascalcase }}\') /* collection id must be a string */');
     {% endfor %}
         assert('\Loris\Utility::isNumber($results, \'{{ name }}Total\') /* collection total must be a number */');
+        {% if ids %}
         if ($results->{{ name }}{{ ids|pascalcase|join(' != null && \n            $results->' + name) }} != null) {
-        
+        {% endif %}
+
         {% for id in ids %}
             $this->{{ name }}->{{ id }} = $results->{{ name + id|pascalcase }};
         {% endfor %}
@@ -57,11 +63,13 @@
                 $results->{{ name }}Total
             );
             $this->{{ name }}->updateMetaUri();
+        {% if ids %}
         } else {
             $this->{{ name }} = new NullResource(
                 $this->{{ name }}->uri()
             );
         }
+        {% endif %}
 {% endmacro %}
 
 {% macro object_property_string(object, name, format) %}
@@ -95,17 +103,21 @@
     {% for id in ids %}
         assert('\Loris\Utility::isString($results->{{ object}}, \'{{ name + id|pascalcase }}\') /* resource id must be a string */');
     {% endfor %}
+        {% if ids %}
         if ($results->{{object}}->{{ name }}{{ ids|pascalcase|join(' != null && \n            $results->' + object + '->' + name) }} != null) {
-        
+        {% endif %}
+
         {% for id in ids %}
             $this->{{ object }}->{{ name }}->{{ id }} = $results->{{ object }}->{{ name + id|pascalcase }};
         {% endfor %}
             $this->{{ object }}->{{ name }}->updateMetaUri();
+        {% if ids %}
         } else {
             $this->{{ object }}->{{ name }} = new NullResource(
                 $this->{{ object }}->{{ name }}->uri()
             );
         }
+        {% endif %}
 {% endmacro %}
 
 {% macro object_property_collection(object, name, ids) %}
@@ -113,8 +125,10 @@
         assert('\Loris\Utility::isString($results->{{ object}}, \'{{ name + id|pascalcase }}\') /* resource id must be a string */');
     {% endfor %}
         assert('\Loris\Utility::isNumber($results->{{ object }}, \'{{ name }}Total\') /* collection total must be a number */');
+        {% if ids %}
         if ($results->{{object}}->{{ name }}{{ ids|pascalcase|join(' != null && \n            $results->' + object + '->' + name) }} != null) {
-        
+        {% endif %}
+
         {% for id in ids %}
             $this->{{ object }}->{{ name }}->{{ id }} = $results->{{ object }}->{{ name + id|pascalcase }};
         {% endfor %}
@@ -122,11 +136,13 @@
                 $results->{{ object }}->{{ name }}Total
             );
             $this->{{ object }}->{{ name }}->updateMetaUri();
+        {% if ids %}
         } else {
             $this->{{ object }}->{{ name }} = new NullResource(
                 $this->{{ object }}->{{ name }}->uri()
             );
         }
+        {% endif %}
 {% endmacro %}
 
 {% macro array_property_strings(name, format) %}
@@ -163,7 +179,10 @@
         {% for id in ids %}
             assert('\Loris\Utility::isString($item, \'{{ name|camelcase + id|pascalcase }}\') /* resource id must be a string */');
         {% endfor %}
+            {% if ids %}
             if ($item->{{ name|camelcase + ids|pascalcase|join(' != null && \n                $item->' + name|camelcase) }} != null) {
+            {% endif %}
+
                 ${{ name|camelcase }} = clone $this->{{ array }}Template;
             
             {% for id in ids %}
@@ -171,7 +190,9 @@
             {% endfor %}
                 ${{ name|camelcase }}->updateMetaUri();
                 $this->{{ array }}[] = ${{ name|camelcase }};
+            {% if ids %}
             }
+            {% endif %}
         }
 {% endmacro %}
 
@@ -181,9 +202,12 @@
             assert('\Loris\Utility::isString($item, \'{{ name|camelcase + id|pascalcase }}\') /* resource id must be a string */');
         {% endfor %}
             assert('\Loris\Utility::isNumber($item, \'{{ name|camelcase }}Total\') /* {{ name|camelcase }}Total must be a number */');
+            {% if ids %}
             if ($item->{{ name|camelcase + ids|pascalcase|join(' != null && \n                $item->' + name|camelcase) }} != null) {
+            {% endif %}
+
                 ${{ name|camelcase }} = clone $this->{{ array }}Template;
-                
+    
             {% for id in ids %}
                 ${{ name|camelcase }}->{{ id }} = $item->{{ name|camelcase + id|pascalcase }};
             {% endfor %}
@@ -192,7 +216,9 @@
                 );
                 ${{ name|camelcase }}->updateMetaUri();
                 $this->{{ array }}[] = ${{ name|camelcase }};
+            {% if ids %}
             }
+            {% endif %}
         }
 {% endmacro %}
 
@@ -231,17 +257,21 @@
         {% for id in ids %}
             assert('\Loris\Utility::isString($results->{{ array }}[$i], \'{{ name + id|pascalcase }}\') /* resource id must be a string */');
         {% endfor %}
+            {% if ids %}
             if ($results->{{ array }}[$i]->{{ name + ids|pascalcase|join(' != null && \n                $results->' + array + '[$i]->' + name) }} != null) {
-            
+            {% endif %}
+
             {% for id in ids %}
                 $this->{{ array }}[$i]->{{ name }}->{{ id }} = $results->{{ array }}[$i]->{{ name + id|pascalcase }};
             {% endfor %}
                 $this->{{ array }}[$i]->{{ name }}->updateMetaUri();
+            {% if ids %}
             } else {
                 $this->{{ array }}[$i]->{{ name }} = new NullResource(
                     $this->{{ array }}[$i]->{{ name }}->uri()
                 );
             }
+            {% endif %}
 {% endmacro %}
 
 {% macro array_property_object_collection(array, name, ids) %}
@@ -249,8 +279,10 @@
             assert('\Loris\Utility::isString($results->{{ array }}[$i], \'{{ name + id|pascalcase }}\') /* collection id must be a string */');
         {% endfor %}
             assert('\Loris\Utility::isNumber($results->{{ array }}[$i], \'{{ name }}Total\') /* collection total must be a number */');
+            {% if ids %}
             if ($results->{{ array }}[$i]->{{ name + ids|pascalcase|join(' != null && \n                $results->' + array + '[$i]->' + name) }} != null) {
-            
+            {% endif %}
+
             {% for id in ids %}
                 $this->{{ array }}[$i]->{{ name }}->{{ id }} = $results->{{ array }}[$i]->{{ name + id|pascalcase }};
             {% endfor %}
@@ -258,11 +290,13 @@
                     $results->{{ array }}[$i]->{{ name }}Total
                 );
                 $this->{{ array }}[$i]->{{ name }}->updateMetaUri();
+            {% if ids %}
             } else {
                 $this->{{ array }}[$i]->{{ name }} = new NullResource(
                     $this->{{ array }}[$i]->{{ name }}->uri()
                 );
             }
+            {% endif %}
 {% endmacro %}
 
 

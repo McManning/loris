@@ -248,7 +248,7 @@ if __name__ == '__main__':
     spec = compile_spec('schema')
     generate_resources('loris', spec)
 
-    osu_spec = compile_spec('osu_schema')
-    generate_resources('osu_loris', osu_spec)
+    osu_spec = compile_spec('osu/schema')
+    generate_resources('osu/loris', osu_spec)
     
     #generate_resource_php(TEST)

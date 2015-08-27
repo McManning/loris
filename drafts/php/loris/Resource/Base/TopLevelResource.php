@@ -117,30 +117,18 @@ class TopLevelResource extends Meta
      */
     public function fromResults(\stdClass $results)
     {
-        if ($results->recursiveTopLevelResourceProp != null) {
         
             $this->recursiveTopLevelResourceProp->updateMetaUri();
-        } else {
-            $this->recursiveTopLevelResourceProp = new NullResource(
-                $this->recursiveTopLevelResourceProp->uri()
-            );
-        }
 
         assert('\Loris\Utility::isString($results, \'stringProp\') /* property must be a string */');
         $this->stringProp = $results->stringProp;
 
         assert('\Loris\Utility::isNumber($results, \'topLevelCollectionPropTotal\') /* collection total must be a number */');
-        if ($results->topLevelCollectionProp != null) {
-        
+
             $this->topLevelCollectionProp->meta->total = intval(
                 $results->topLevelCollectionPropTotal
             );
             $this->topLevelCollectionProp->updateMetaUri();
-        } else {
-            $this->topLevelCollectionProp = new NullResource(
-                $this->topLevelCollectionProp->uri()
-            );
-        }
 
         // Perform expansions after hydration, in case we hydrated any
         // additional resource references in Arrays or Objects
