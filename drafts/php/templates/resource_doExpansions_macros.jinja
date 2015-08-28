@@ -20,10 +20,15 @@
             ${{ name }}Model = \Loris\Discovery::find(
                 $this->{{ name }}->uri()
             );
+            $meta = $this->{{ name }}->meta;
             $this->{{ name }} = new ${{ name }}Model->class(
-                $this->{{ name }}->ids(),
-                $this->{{ name }}->meta->page,
-                $this->{{ name }}->meta->limit
+                $this->{{ name }}->ids()
+            );
+            $this->{{ name }}->page($meta->page);
+            $this->{{ name }}->limit($meta->limit);
+            $this->{{ name }}->sort(
+                $meta->sort->property, 
+                $meta->sort->order
             );
 
             if (is_array($this->expansions['{{ name }}'])) {
@@ -58,10 +63,15 @@
             ${{ name }}Model = \Loris\Discovery::find(
                 $this->{{ object }}->{{ name }}->uri()
             );
+            $meta = $this->{{ object }}->{{ name }}->meta;
             $this->{{ object }}->{{ name }} = new ${{ name }}Model->class(
-                $this->{{ object }}->{{ name }}->ids(),
-                $this->{{ object }}->{{ name }}->meta->page,
-                $this->{{ object }}->{{ name }}->meta->limit
+                $this->{{ object }}->{{ name }}->ids()
+            );
+            $this->{{ object }}->{{ name }}->page($meta->page);
+            $this->{{ object }}->{{ name }}->limit($meta->limit);
+            $this->{{ object }}->{{ name }}->sort(
+                $meta->sort->property, 
+                $meta->sort->order
             );
 
             if (is_array($this->expansions['{{ object }}']['{{ name }}'])) {
@@ -109,10 +119,15 @@
             );
             ${{ name }}Count = count($this->{{ name }});
             for ($i = 0; $i < ${{ name }}Count; $i++) {
+                $meta = $this->{{ name }}[$i]->meta;
                 $this->{{ name }}[$i] = new ${{ name }}Model->class(
-                    $this->{{ name }}[$i]->ids(),
-                    $this->{{ name }}[$i]->meta->page,
-                    $this->{{ name }}[$i]->meta->limit
+                    $this->{{ name }}[$i]->ids()
+                );
+                $this->{{ name }}[$i]->page($meta->page);
+                $this->{{ name }}[$i]->limit($meta->limit);
+                $this->{{ name }}[$i]->sort(
+                    $meta->sort->property, 
+                    $meta->sort->order
                 );
 
                 if (${{ name }}Expanded) {
@@ -163,10 +178,15 @@
             );
             ${{ arr }}Count = count($this->{{ arr }});
             for ($i = 0; $i < ${{ arr }}Count; $i++) {
+                $meta = $this->{{ arr }}[$i]->{{ name }}->meta;
                 $this->{{ arr }}[$i]->{{ name }}  = new ${{ name }}Model->class(
-                    $this->{{ arr }}[$i]->{{ name }}->ids(),
-                    $this->{{ arr }}[$i]->{{ name }}->page,
-                    $this->{{ arr }}[$i]->{{ name }}->limit
+                    $this->{{ arr }}[$i]->{{ name }}->ids()
+                );
+                $this->{{ arr }}[$i]->{{ name }}->page($meta->page);
+                $this->{{ arr }}[$i]->{{ name }}->limit($meta->limit);
+                $this->{{ arr }}[$i]->{{ name }}->sort(
+                    $meta->sort->property, 
+                    $meta->sort->order
                 );
 
                 if (${{ name }}Expanded) {

@@ -177,10 +177,15 @@ class TopLevelResource extends Meta
             $topLevelCollectionPropModel = \Loris\Discovery::find(
                 $this->topLevelCollectionProp->uri()
             );
+            $meta = $this->topLevelCollectionProp->meta;
             $this->topLevelCollectionProp = new $topLevelCollectionPropModel->class(
-                $this->topLevelCollectionProp->ids(),
-                $this->topLevelCollectionProp->meta->page,
-                $this->topLevelCollectionProp->meta->limit
+                $this->topLevelCollectionProp->ids()
+            );
+            $this->topLevelCollectionProp->page($meta->page);
+            $this->topLevelCollectionProp->limit($meta->limit);
+            $this->topLevelCollectionProp->sort(
+                $meta->sort->property, 
+                $meta->sort->order
             );
 
             if (is_array($this->expansions['topLevelCollectionProp'])) {

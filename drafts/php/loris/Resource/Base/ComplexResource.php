@@ -979,10 +979,15 @@ class ComplexResource extends Meta
             );
             $arrayOfCollectionPropCount = count($this->arrayOfCollectionProp);
             for ($i = 0; $i < $arrayOfCollectionPropCount; $i++) {
+                $meta = $this->arrayOfCollectionProp[$i]->meta;
                 $this->arrayOfCollectionProp[$i] = new $arrayOfCollectionPropModel->class(
-                    $this->arrayOfCollectionProp[$i]->ids(),
-                    $this->arrayOfCollectionProp[$i]->meta->page,
-                    $this->arrayOfCollectionProp[$i]->meta->limit
+                    $this->arrayOfCollectionProp[$i]->ids()
+                );
+                $this->arrayOfCollectionProp[$i]->page($meta->page);
+                $this->arrayOfCollectionProp[$i]->limit($meta->limit);
+                $this->arrayOfCollectionProp[$i]->sort(
+                    $meta->sort->property, 
+                    $meta->sort->order
                 );
 
                 if ($arrayOfCollectionPropExpanded) {
@@ -1004,10 +1009,15 @@ class ComplexResource extends Meta
             );
             $arrayOfCompositeCollectionPropCount = count($this->arrayOfCompositeCollectionProp);
             for ($i = 0; $i < $arrayOfCompositeCollectionPropCount; $i++) {
+                $meta = $this->arrayOfCompositeCollectionProp[$i]->meta;
                 $this->arrayOfCompositeCollectionProp[$i] = new $arrayOfCompositeCollectionPropModel->class(
-                    $this->arrayOfCompositeCollectionProp[$i]->ids(),
-                    $this->arrayOfCompositeCollectionProp[$i]->meta->page,
-                    $this->arrayOfCompositeCollectionProp[$i]->meta->limit
+                    $this->arrayOfCompositeCollectionProp[$i]->ids()
+                );
+                $this->arrayOfCompositeCollectionProp[$i]->page($meta->page);
+                $this->arrayOfCompositeCollectionProp[$i]->limit($meta->limit);
+                $this->arrayOfCompositeCollectionProp[$i]->sort(
+                    $meta->sort->property, 
+                    $meta->sort->order
                 );
 
                 if ($arrayOfCompositeCollectionPropExpanded) {
@@ -1053,10 +1063,15 @@ class ComplexResource extends Meta
             );
             $arrayOfObjectPropCount = count($this->arrayOfObjectProp);
             for ($i = 0; $i < $arrayOfObjectPropCount; $i++) {
+                $meta = $this->arrayOfObjectProp[$i]->aopCollectionProp->meta;
                 $this->arrayOfObjectProp[$i]->aopCollectionProp  = new $aopCollectionPropModel->class(
-                    $this->arrayOfObjectProp[$i]->aopCollectionProp->ids(),
-                    $this->arrayOfObjectProp[$i]->aopCollectionProp->page,
-                    $this->arrayOfObjectProp[$i]->aopCollectionProp->limit
+                    $this->arrayOfObjectProp[$i]->aopCollectionProp->ids()
+                );
+                $this->arrayOfObjectProp[$i]->aopCollectionProp->page($meta->page);
+                $this->arrayOfObjectProp[$i]->aopCollectionProp->limit($meta->limit);
+                $this->arrayOfObjectProp[$i]->aopCollectionProp->sort(
+                    $meta->sort->property, 
+                    $meta->sort->order
                 );
 
                 if ($aopCollectionPropExpanded) {
@@ -1079,10 +1094,15 @@ class ComplexResource extends Meta
             );
             $arrayOfObjectPropCount = count($this->arrayOfObjectProp);
             for ($i = 0; $i < $arrayOfObjectPropCount; $i++) {
+                $meta = $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->meta;
                 $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp  = new $aopCompositeCollectionPropModel->class(
-                    $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->ids(),
-                    $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->page,
-                    $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->limit
+                    $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->ids()
+                );
+                $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->page($meta->page);
+                $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->limit($meta->limit);
+                $this->arrayOfObjectProp[$i]->aopCompositeCollectionProp->sort(
+                    $meta->sort->property, 
+                    $meta->sort->order
                 );
 
                 if ($aopCompositeCollectionPropExpanded) {
@@ -1169,10 +1189,15 @@ class ComplexResource extends Meta
             $collectionPropModel = \Loris\Discovery::find(
                 $this->collectionProp->uri()
             );
+            $meta = $this->collectionProp->meta;
             $this->collectionProp = new $collectionPropModel->class(
-                $this->collectionProp->ids(),
-                $this->collectionProp->meta->page,
-                $this->collectionProp->meta->limit
+                $this->collectionProp->ids()
+            );
+            $this->collectionProp->page($meta->page);
+            $this->collectionProp->limit($meta->limit);
+            $this->collectionProp->sort(
+                $meta->sort->property, 
+                $meta->sort->order
             );
 
             if (is_array($this->expansions['collectionProp'])) {
@@ -1185,10 +1210,15 @@ class ComplexResource extends Meta
             $compositeCollectionPropModel = \Loris\Discovery::find(
                 $this->compositeCollectionProp->uri()
             );
+            $meta = $this->compositeCollectionProp->meta;
             $this->compositeCollectionProp = new $compositeCollectionPropModel->class(
-                $this->compositeCollectionProp->ids(),
-                $this->compositeCollectionProp->meta->page,
-                $this->compositeCollectionProp->meta->limit
+                $this->compositeCollectionProp->ids()
+            );
+            $this->compositeCollectionProp->page($meta->page);
+            $this->compositeCollectionProp->limit($meta->limit);
+            $this->compositeCollectionProp->sort(
+                $meta->sort->property, 
+                $meta->sort->order
             );
 
             if (is_array($this->expansions['compositeCollectionProp'])) {
@@ -1216,10 +1246,15 @@ class ComplexResource extends Meta
             $opCollectionPropModel = \Loris\Discovery::find(
                 $this->objectProp->opCollectionProp->uri()
             );
+            $meta = $this->objectProp->opCollectionProp->meta;
             $this->objectProp->opCollectionProp = new $opCollectionPropModel->class(
-                $this->objectProp->opCollectionProp->ids(),
-                $this->objectProp->opCollectionProp->meta->page,
-                $this->objectProp->opCollectionProp->meta->limit
+                $this->objectProp->opCollectionProp->ids()
+            );
+            $this->objectProp->opCollectionProp->page($meta->page);
+            $this->objectProp->opCollectionProp->limit($meta->limit);
+            $this->objectProp->opCollectionProp->sort(
+                $meta->sort->property, 
+                $meta->sort->order
             );
 
             if (is_array($this->expansions['objectProp']['opCollectionProp'])) {
@@ -1235,10 +1270,15 @@ class ComplexResource extends Meta
             $opCompositeCollectionPropModel = \Loris\Discovery::find(
                 $this->objectProp->opCompositeCollectionProp->uri()
             );
+            $meta = $this->objectProp->opCompositeCollectionProp->meta;
             $this->objectProp->opCompositeCollectionProp = new $opCompositeCollectionPropModel->class(
-                $this->objectProp->opCompositeCollectionProp->ids(),
-                $this->objectProp->opCompositeCollectionProp->meta->page,
-                $this->objectProp->opCompositeCollectionProp->meta->limit
+                $this->objectProp->opCompositeCollectionProp->ids()
+            );
+            $this->objectProp->opCompositeCollectionProp->page($meta->page);
+            $this->objectProp->opCompositeCollectionProp->limit($meta->limit);
+            $this->objectProp->opCompositeCollectionProp->sort(
+                $meta->sort->property, 
+                $meta->sort->order
             );
 
             if (is_array($this->expansions['objectProp']['opCompositeCollectionProp'])) {
