@@ -63,18 +63,18 @@ class {{ id }} extends MetaCollection
     /**
      *
      * @param array({{ id }}) ${{ id_var_plural }}
-     * @param {% if id_keys %}array{% else %}\stdClass{% endif %} $results
+     * @param array $results
      */
-    public static function postQuery(array ${{ id_var_plural }}, {% if id_keys %}array{% else %}\stdClass{% endif %} $results)
+    public static function postQuery(array ${{ id_var_plural }}, array $results)
     {
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
-            {% if id_keys %}
             $found = false;
             foreach ($results as $result) {
-                if ({% for id in id_keys -%}
+                if ({% if id_keys %}{% for id in id_keys -%}
                         $result->{{ id }} == ${{ id_var }}->{{ id }} 
                     {{- ' &&\n                    ' if not loop.last }}
                 {%- endfor %} &&
+                {% endif %}
                     $result->page == ${{ id_var }}->meta->page &&
                     $result->limit == ${{ id_var }}->meta->limit) {
                     
@@ -90,12 +90,12 @@ class {{ id }} extends MetaCollection
                 {% endfor %}
                 );
                 throw new \Exception(
-                    '{{ id }} <' . implode(', ', $ids) . '> missing from query'
+                    '{{ id }} <' . implode(', ', $ids) . 
+                    ', page=' . ${{ id_var }}->meta->page . 
+                    ', limit= ' . ${{ id_var }}->meta->limit . 
+                    '> missing from query'
                 );
             }
-            {% else %} 
-            ${{ id_var }}->fromResults($results);
-            {% endif %}
         }
 
         // For all collections, join their hydrated resources for a query
