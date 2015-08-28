@@ -17,6 +17,9 @@ class MetaCollection extends Meta
         $this->meta->page = self::DEFAULT_PAGE;
         $this->meta->limit = self::DEFAULT_LIMIT;
         $this->meta->total = null;
+        $this->meta->sort = new \stdClass;
+        $this->meta->sort->property = null;
+        $this->meta->sort->order = null; // ASC or DESC
     }
 
     /**
@@ -61,5 +64,32 @@ class MetaCollection extends Meta
         return $this;
     }
 
+    /**
+     * Get or set the current page limit of the collection.
+     * When called with a parameter, this sets the current
+     * limit of the collection and returns $this. Note that this will 
+     * only have an effect if performed before query(). If no 
+     * parameter is specified, this will return the current limit.
+     *
+     * @param string $property to set or null to retrieve the sort.
+     * @param string $order to set, defaults to ASC. (ASC or DESC)
+     *
+     * @return \stdClass|this
+     */
+    public function sort($property = null, $order = 'ASC') 
+    {
+        if ($property === null) {
+            return $this->meta->sort;
+        }
+
+        // Verify order. Technically we should verify property too,
+        // but that would require magic to test for resource properties.
+        if (!in_array($order, array('ASC', 'DESC'))) {
+            throw new \Exception('Sort order must be either ASC or DESC');
+        }
+
+        $this->meta->sort->property = $property;
+        $this->meta->sort->order = $order;
+        return $this;
     }
 }
