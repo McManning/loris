@@ -58,12 +58,13 @@ class Meta
      */
     public function uri($uri = null) 
     {
-        if ($uri) {
-            $this->_uri = $uri;
-            $this->updateMetaUri();
+        if ($uri === null) {
+            return $this->_uri;
         }
-
-        return $this->_uri;
+        
+        $this->_uri = $uri;
+        $this->updateMetaUri();
+        return $this;
     }
 
     public function updateMetaUri() 
