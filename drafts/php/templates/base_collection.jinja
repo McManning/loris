@@ -3,7 +3,20 @@ namespace Loris\Resource\Base;
 
 class {{ id }} extends MetaCollection
 {
+    {% if uri is string %}
     const URI = '{{ uri }}';
+    {% else %}
+    // TODO: Class constants cannot be arrays in PHP. Either this
+    // must be static, or not defined as an array. In the meantime,
+    // the first URI entry was chosen as self::URI.
+    const URI = '{{ uri[0] }}';
+    /*
+    const URI = array(
+        '{{ uri|join('\',\n        \'') }}'
+    );
+    */
+    {# ' <- just to fix broken highlighting :) #}
+    {% endif %}
 
     public $collection = null; // Array({{ properties.collection.resource }})
     protected $expansions = null; // Array
