@@ -18,12 +18,10 @@ class TopLevelCollection extends MetaCollection
 
     /**
      * @param array $ids Unique identifiers for this collection
-     * @param integer $page Currently page of the collection to query (1-indexed)
-     * @param integer $limit Number of results per collection page 
      */
-    function __construct($ids, $page, $limit)
+    function __construct($ids)
     {
-        parent::__construct($ids, self::URI, $page, $limit);
+        parent::__construct($ids, self::URI);
     }
 
     /**
@@ -40,13 +38,31 @@ class TopLevelCollection extends MetaCollection
     /**
      *
      * @param array(TopLevelCollection) $topLevelCollections
-     * @param \stdClass $results
+     * @param array $results
      */
-    public static function postQuery(array $topLevelCollections, \stdClass $results)
+    public static function postQuery(array $topLevelCollections, array $results)
     {
         foreach ($topLevelCollections as $topLevelCollection) {
- 
-            $topLevelCollection->fromResults($results);
+            $found = false;
+            foreach ($results as $result) {
+                if (                    $result->page == $topLevelCollection->meta->page &&
+                    $result->limit == $topLevelCollection->meta->limit) {
+                    
+                    $topLevelCollection->fromResults($result);
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                $ids = array(
+                );
+                throw new \Exception(
+                    'TopLevelCollection <' . implode(', ', $ids) . 
+                    ', page=' . $topLevelCollection->meta->page . 
+                    ', limit= ' . $topLevelCollection->meta->limit . 
+                    '> missing from query'
+                );
+            }
         }
 
         // For all collections, join their hydrated resources for a query

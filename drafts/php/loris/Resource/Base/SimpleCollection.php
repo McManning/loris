@@ -25,12 +25,10 @@ class SimpleCollection extends MetaCollection
 
     /**
      * @param array $ids Unique identifiers for this collection
-     * @param integer $page Currently page of the collection to query (1-indexed)
-     * @param integer $limit Number of results per collection page 
      */
-    function __construct($ids, $page, $limit)
+    function __construct($ids)
     {
-        parent::__construct($ids, self::URI, $page, $limit);
+        parent::__construct($ids, self::URI);
     }
 
     /**
@@ -68,7 +66,10 @@ class SimpleCollection extends MetaCollection
                     'id=' . $simpleCollection->id
                 );
                 throw new \Exception(
-                    'SimpleCollection <' . implode(', ', $ids) . '> missing from query'
+                    'SimpleCollection <' . implode(', ', $ids) . 
+                    ', page=' . $simpleCollection->meta->page . 
+                    ', limit= ' . $simpleCollection->meta->limit . 
+                    '> missing from query'
                 );
             }
         }
