@@ -23,55 +23,11 @@ def pascalcase(s):
     else:
         return s[0].upper() + s[1:]
 
-def generate_resource_php(resource):
-    """Use Jinja2 to generate base PHP files
-
-    """
-
-    # Compile the Jinja template. This only needs to be done once. 
-    j2_env = Environment(
-        loader=FileSystemLoader(os.path.dirname(os.path.abspath(__file__))),
-        trim_blocks=True,
-        lstrip_blocks=True
-    )
-
-    # Add some custom filters
-    j2_env.filters['camelcase'] = camelcase
-    j2_env.filters['pascalcase'] = pascalcase
-
-    # Apply some globals to the environment. Note that this
-    # is done to access common properties from within macros,
-    # where normally we wouldn't be able to because of call scope.
-    j2_env.globals['id'] = resource['title']
-    j2_env.globals['uri'] = resource['uri']
-    j2_env.globals['id_var'] = camelcase(resource['title'])
-    j2_env.globals['id_var_plural'] = camelcase(resource['title']) + 's'
-    j2_env.globals['json_date_format'] = 'Y-m-d'
-    j2_env.globals['json_datetime_format'] = 'Y-m-d H:i:s'
-    j2_env.globals['input_date_format'] = 'Y-m-d'
-    j2_env.globals['input_datetime_format'] = 'Y-m-d H:i:s'
-    j2_env.globals['id_keys'] = resource['ids'] if 'ids' in resource else []
-
-    # Load resources into fragment files
-    base_template = j2_env.get_template('templates/base_resource.jinja')
-    impl_template = j2_env.get_template('templates/resource.jinja')
-
-    with open('BaseGenerated.php', 'w') as f:
-        f.write(base_template.render(
-            properties=resource['properties']
-        ))
-
-    with open('Generated.php', 'w') as f:
-        f.write(impl_template.render(
-            properties=resource['properties']
-        ))
-
-
 def generate_resources(root_path, spec):
 
     # Compile the Jinja template. This only needs to be done once. 
     j2_env = Environment(
-        loader=FileSystemLoader(os.path.dirname(os.path.abspath(__file__))),
+        loader=FileSystemLoader(os.path.dirname(os.path.abspath(__file__)) + '/templates/php'),
         trim_blocks=True,
         lstrip_blocks=True
     )
@@ -91,10 +47,10 @@ def generate_resources(root_path, spec):
     j2_env.globals['input_datetime_format'] = 'Y-m-d H:i:s'
 
     # Load resources into fragment files
-    base_resource = j2_env.get_template('templates/base_resource.jinja')
-    impl_resource = j2_env.get_template('templates/resource.jinja')
-    base_collection = j2_env.get_template('templates/base_collection.jinja')
-    impl_collection = j2_env.get_template('templates/collection.jinja')
+    base_resource = j2_env.get_template('base_resource.jinja')
+    impl_resource = j2_env.get_template('resource.jinja')
+    base_collection = j2_env.get_template('base_collection.jinja')
+    impl_collection = j2_env.get_template('collection.jinja')
 
     resolve_refs(spec)
 
@@ -247,10 +203,9 @@ info:
 
 
 if __name__ == '__main__':
-    spec = compile_spec('schema')
-    generate_resources('loris', spec)
+    spec = compile_spec('/Users/mcmanning.1/Documents/Projects/loris/generator/test/php/schema')
+    generate_resources('/Users/mcmanning.1/Documents/Projects/loris/generator/test/php/loris', spec)
 
-    osu_spec = compile_spec('osu/schema')
-    generate_resources('osu/loris', osu_spec)
+    osu_spec = compile_spec('/Users/mcmanning.1/Documents/Projects/api/osu/schema')
+    generate_resources('/Users/mcmanning.1/Documents/Projects/api/osu/loris', osu_spec)
     
-    #generate_resource_php(TEST)

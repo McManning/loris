@@ -5,7 +5,20 @@ use \Loris\Utility;
 
 class {{ id }} extends Meta
 {
+    {% if uri is string %}
     const URI = '{{ uri }}';
+    {% else %}
+    // TODO: Class constants cannot be arrays in PHP. Either this
+    // must be static, or not defined as an array. In the meantime,
+    // the first URI entry was chosen as self::URI.
+    const URI = '{{ uri[0] }}';
+    /*
+    const URI = array(
+        '{{ uri|join('\',\n        \'') }}'
+    );
+    */
+    {# ' <- just to fix broken highlighting :) #}
+    {% endif %}
 
     private $expansions = null;
 
@@ -71,7 +84,7 @@ class {{ id }} extends Meta
         // but again, the resource may reside externally and we need to identify what,
         // from our data store on *this* resource, would be considered an ID attribute
 
-        {% import 'templates/resource_constructor_macros.jinja' as macros with context %}
+        {% import 'resource_constructor_macros.jinja' as macros with context %}
         {% for name, property in properties|dictsort -%}
             {% if property.type == 'resource' -%}
                 {{ macros.resource_property(name, property.uri, property.ids) }}
@@ -169,7 +182,7 @@ class {{ id }} extends Meta
         }
 
         // Query for all expanded relationships
-        {% import 'templates/resource_postQuery_macros.jinja' as macros with context %}
+        {% import 'resource_postQuery_macros.jinja' as macros with context %}
         {% for name, property in properties|dictsort -%}
             {% if property.type == 'resource' -%}
                 {{ macros.resource_property(name) }}
@@ -219,7 +232,7 @@ class {{ id }} extends Meta
      */
     public function fromResults(\stdClass $results)
     {
-        {% import 'templates/resource_fromResults_macros.jinja' as macros with context %}
+        {% import 'resource_fromResults_macros.jinja' as macros with context %}
         {% for name, property in properties|dictsort -%}
             {% if property.type == 'string' -%}
                 {{ macros.string_property(name, property.format) }}
@@ -327,7 +340,7 @@ class {{ id }} extends Meta
             return;
         }
 
-        {% import 'templates/resource_doExpansions_macros.jinja' as macros with context %}
+        {% import 'resource_doExpansions_macros.jinja' as macros with context %}
         {% for name, property in properties|dictsort -%}
             {% if property.type == 'resource' -%}
                 {{ macros.resource_property(name) }}
@@ -385,7 +398,7 @@ class {{ id }} extends Meta
         // Get serialized data from Meta
         $serialized = parent::serialize();
 
-        {% import 'templates/resource_serialize_macros.jinja' as macros with context %}
+        {% import 'resource_serialize_macros.jinja' as macros with context %}
         {% for name, property in properties|dictsort -%}
             {% if property.type == 'string' or 
                 property.type == 'number' or 
