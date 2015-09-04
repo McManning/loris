@@ -5,7 +5,7 @@ info:
 
 definitions:
 
-  # schema/definitions/test_resources.yaml
+  # /Users/mcmanning.1/Documents/Projects/loris/generator/test/php/schema/definitions/test_resources.yaml
 
   TopLevelResource:
     uri: "/resource"
