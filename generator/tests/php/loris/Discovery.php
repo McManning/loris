@@ -1,42 +1,38 @@
 <?php
 namespace Loris;
 
-class Discovery
+use FastRoute\RouteCollector;
+use FastRoute\RouteParser;
+use FastRoute\RouteParser\Std as StdParser;
+use FastRoute\DataGenerator;
+use FastRoute\DataGenerator\GroupCountBased as GroupCountBasedGenerator;
+use FastRoute\Dispatcher\GroupCountBased as GroupCountBasedDispatcher;
+
+class Discovery extends RouteCollector
 {
-    private static $uris = array();
-    private static $classes = array();
+    /**
+     * Parser
+     *
+     * @var \FastRoute\RouteParser
+     */
+    private $routeParser;
 
     function __construct()
     {
-        // Is singleton
+        $parser = new StdParser;
+        $generator = new GroupCountBasedGenerator;
+        parent::__construct($parser, $generator);
+        $this->routeParser = $parser;
     }
 
     /**
      * Locate a resource representation by URI. 
      * @todo error handling
      */
-    public static function find($uriOrClass)
+    public function find($uri)
     {
-        // If they passed in a class name
-        if (array_key_exists($uriOrClass, self::$uris)) {
-            $result = new \stdClass();
-            $result->uri = self::$uris[$uriOrClass];
-            $result->class = $uriOrClass;
-            return $result;
-        }
-
-        // If they passed in a URI
-        if (array_key_exists($uriOrClass, self::$classes)) {
-            $result = new \stdClass();
-            $result->uri = $uriOrClass;
-            $result->class = self::$classes[$uriOrClass];
-            return $result;
-        }
-
-        // Not discoverable. 
-        throw new \Exception(
-            'Unknown URI or ClassName [' . $uriOrClass . ']'
-        );
+        $dispatcher = new GroupCountBasedDispatcher($this->getData());
+        return $dispatcher->dispatch('GET', $uri);
     }
 
     /**
@@ -45,18 +41,14 @@ class Discovery
      * @param string $uri
      * @param string $className
      */
-    public static function register($uri, $className)
+    public function register($pattern, $className)
     {
-        self::$uris[$className] = $uri;
-        self::$classes[$uri] = $className;
+        $this->addRoute('GET', $pattern, $className);
     }
 
     public static function registerMany(array $many)
     {
-        self::$registered = array_merge(
-            self::$registered, 
-            $many
-        );
+
     }
 }
 
