@@ -31,6 +31,18 @@ class Meta
         $this->uri($uri);
     }
 
+    function __clone()
+    {
+        // Prevent references to objects for cloned instances
+        // This affects templates stored in resources, when a 
+        // template is copied per-instance of a resource.
+
+        // We use a cast chaining hack to deep clone a plain stdClass object.
+        // Note that this has to be deep, as MetaCollection may define meta->sort 
+        // as another layer of stdClass. 
+        $this->meta = (object)(array)$this->meta;
+    }
+
     /**
      * Returns an associative array mapping ID attributes
      * to their respective values. 
