@@ -45,7 +45,7 @@
 
 {% macro array_property_primitives(name, format) %}
     {% if format == 'date' %}
-        $serialized->{{ name }} = array();
+        $serialized->{{ name }} = [];
         ${{ name }}Count = count($this->{{ name }});
         for ($i = 0; $i < ${{ name }}Count; $i++) {
             if ($this->{{ name }}[$i] !== null) {
@@ -60,7 +60,7 @@
 {% endmacro %}
 
 {% macro array_property_resources(name) %}
-        $serialized->{{ name }} = array();
+        $serialized->{{ name }} = [];
         ${{ name }}Count = count($this->{{ name }});
         for ($i = 0; $i < ${{ name }}Count; $i++) {
             $serialized->{{ name }}[] = $this->{{ name }}[$i]->serialize();
@@ -68,7 +68,7 @@
 {% endmacro %}
 
 {% macro array_property_collections(name) %}
-        $serialized->{{ name }} = array();
+        $serialized->{{ name }} = [];
         ${{ name }}Count = count($this->{{ name }});
         for ($i = 0; $i < ${{ name }}Count; $i++) {
             $serialized->{{ name }}[] = $this->{{ name }}[$i]->serialize();

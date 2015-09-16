@@ -7,7 +7,7 @@ class {{ id }} extends Base\{{ id }}
 {
     public static function query(array ${{ id_var_plural }})
     {
-        $results = array();
+        $results = [];
 
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
             $results[] = ${{ id_var }}->querySingle();
@@ -81,15 +81,12 @@ class {{ id }} extends Base\{{ id }}
             prepared statement that has been executed. 
         ***********************************************************/
 
-        $results = Utility::parseSqlResults(
-            $statement,
-            array(
-                'collection' => array( // Array of objects containing resource ids
-                    'rowset' => 1,
-                    'type' => 'array'
-                )
-            )
-        );
+        $results = Utility::parseSqlResults($statement, [
+            'collection' => [ // Array of objects containing resource ids
+                'rowset' => 1,
+                'type' => 'array'
+            ]
+        ]);
 
         return $results;
     }

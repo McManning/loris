@@ -11,15 +11,24 @@ class {{ id }} extends MetaCollection
     // the first URI entry was chosen as self::URI.
     const URI = '{{ uri[0] }}';
     /*
-    const URI = array(
+    const URI = [
         '{{ uri|join('\',\n        \'') }}'
-    );
+    ];
     */
     {# ' <- just to fix broken highlighting :) #}
     {% endif %}
 
-    public $collection = null; // Array({{ properties.collection.resource }})
-    protected $expansions = null; // Array
+    /**
+     * 
+     * @var array({{ properties.collection.resource }})
+     */
+    public $collection = null;
+
+    /**
+     *
+     * @var array
+     */
+    protected $expansions = null;
 
     {% if id_keys %}
     /**
@@ -27,9 +36,9 @@ class {{ id }} extends MetaCollection
      * distinct identifier (one or composite). Each match
      * within URI must exist within this list. 
      */
-    private $_id = array(
+    private $_id = [
         '{{ id_keys|join('\', \'') }}'
-    );
+    ];
     {# ' <- just to fix broken highlighting :) #}
     {% else %}
     /**
@@ -97,11 +106,11 @@ class {{ id }} extends MetaCollection
                 }
             }
             if (!$found) {
-                $ids = array(
+                $ids = [
                 {% for id in id_keys %}
                     '{{ id }}=' . ${{ id_var }}->{{ id }}{{',' if not loop.last }}
                 {% endfor %}
-                );
+                ];
                 throw new \Exception(
                     '{{ id }} <' . implode(', ', $ids) . 
                     ', page=' . ${{ id_var }}->meta->page . 
@@ -112,7 +121,7 @@ class {{ id }} extends MetaCollection
         }
 
         // For all collections, join their hydrated resources for a query
-        ${{ properties.collection.resource|camelcase }}s = array();
+        ${{ properties.collection.resource|camelcase }}s = [];
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
             if (count(${{ id_var }}->collection) > 0) {
                 ${{ properties.collection.resource|camelcase }}s = array_merge(
@@ -131,7 +140,7 @@ class {{ id }} extends MetaCollection
 
             // Execute query for set of resources
             call_user_func(
-                array(${{ properties.collection.resource|camelcase }}Model->class, 'query'), 
+                [${{ properties.collection.resource|camelcase }}Model->class, 'query'], 
                 ${{ properties.collection.resource|camelcase }}s
             );
         }
@@ -156,7 +165,7 @@ class {{ id }} extends MetaCollection
         assert('\Loris\Utility::isNumber($results, \'total\') /* property must be a number */');
         $this->meta->total = intval($results->total);
 
-        $this->collection = array();
+        $this->collection = [];
 
         // Resolve resource URI into a model
         ${{ properties.collection.resource|camelcase }}Model = \Loris\Discovery::find(
@@ -169,10 +178,10 @@ class {{ id }} extends MetaCollection
             // as no matter what, if a collection is hydrated, the
             // collection items must also be hydrated. 
             ${{ properties.collection.resource|camelcase }} = new ${{ properties.collection.resource|camelcase }}Model->class(
-                array({% for id in properties.collection.ids -%}
+                [{% for id in properties.collection.ids -%}
                 '{{ id }}' => $row->{{ properties.collection.resource|camelcase }}{{ id|pascalcase }}
                 {{- ', ' if not loop.last }}
-                {%- endfor %})
+                {%- endfor %}]
             );
 
             $this->collection[] = ${{ properties.collection.resource|camelcase }};
@@ -216,7 +225,7 @@ class {{ id }} extends MetaCollection
 
         // Add a collection if we've been hydrated
         if ($this->collection) {
-            $serialized->collection = array();
+            $serialized->collection = [];
 
             // Serialize all of our {{ properties.collection.resource }}s
             foreach ($this->collection as ${{ properties.collection.resource|camelcase }}) {

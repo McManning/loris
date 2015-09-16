@@ -1,6 +1,6 @@
 
 {% macro resource_property(name) %}
-        ${{ name }}s = array();
+        ${{ name }}s = [];
         ${{ name }}Model = \Loris\Discovery::find(
             ${{ id_var_plural }}[0]->{{ name }}->uri()
         );
@@ -11,7 +11,7 @@
         }
         if (!empty(${{ name }}s)) {
             call_user_func(
-                array(${{ name }}Model->class, 'query'),
+                [${{ name }}Model->class, 'query'],
                 ${{ name }}s
             );
         }
@@ -22,7 +22,7 @@
 {% endmacro %}
 
 {% macro object_property_resource(object, name) %}
-        ${{ name }}s = array();
+        ${{ name }}s = [];
         ${{ name }}Model = \Loris\Discovery::find(
             ${{ id_var_plural }}[0]->{{ object }}->{{ name }}->uri()
         );
@@ -33,7 +33,7 @@
         }
         if (!empty(${{ name }}s)) {
             call_user_func(
-                array(${{ name }}Model->class, 'query'),
+                [${{ name }}Model->class, 'query'],
                 ${{ name }}s
             );
         }
@@ -44,7 +44,7 @@
 {% endmacro %}
 
 {% macro array_property_resources(name) %}
-        ${{ name }}s = array();
+        ${{ name }}s = [];
         ${{ name }}Model = \Loris\Discovery::find(
             ${{ id_var_plural }}[0]->{{ name }}Template->uri()
         );
@@ -57,7 +57,7 @@
         }
         if (!empty(${{ name }}s)) {
             call_user_func(
-                array(${{ name }}Model->class, 'query'),
+                [${{ name }}Model->class, 'query'],
                 ${{ name }}s
             );
         }
@@ -68,7 +68,7 @@
 {% endmacro %}
 
 {% macro array_property_object_resource(array, name) %}
-        ${{ name }}s = array();
+        ${{ name }}s = [];
         ${{ name }}Model = \Loris\Discovery::find(
             ${{ id_var_plural }}[0]->{{ array }}Template->{{ name }}->uri()
         );
@@ -81,7 +81,7 @@
         }
         if (!empty(${{ name }}s)) {
             call_user_func(
-                array(${{ name }}Model->class, 'query'),
+                [${{ name }}Model->class, 'query'],
                 ${{ name }}s
             );
         }

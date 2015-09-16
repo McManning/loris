@@ -1,17 +1,17 @@
 {% macro resource_property(name, uri, ids) %}
         $this->{{ name }} = new Meta(
-            array({% for id in ids -%}
+            [{% for id in ids -%}
                 '{{ id }}' => null{{ ', ' if not loop.last }}
-            {%- endfor %}),
+            {%- endfor %}],
             '{{ uri }}'
         );
 {% endmacro %}
 
 {% macro collection_property(name, uri, ids) %}
         $this->{{ name }} = new MetaCollection(
-            array({% for id in ids -%}
+            [{% for id in ids -%}
                 '{{ id }}' => null{{ ', ' if not loop.last }}
-            {%- endfor %}),
+            {%- endfor %}],
             '{{ uri }}'
         );
 {% endmacro %}
@@ -22,36 +22,36 @@
 
 {% macro object_property_resource(object, name, uri, ids) %}
         $this->{{ object }}->{{ name }} = new Meta(
-            array({% for id in ids -%}
+            [{% for id in ids -%}
                 '{{ id }}' => null{{ ', ' if not loop.last }}
-            {%- endfor %}),
+            {%- endfor %}],
             '{{ uri }}'
         );
 {% endmacro %}
 
 {% macro object_property_collection(object, name, uri, ids) %}
         $this->{{ object }}->{{ name }} = new MetaCollection(
-            array({% for id in ids -%}
+            [{% for id in ids -%}
                 '{{ id }}' => null{{ ', ' if not loop.last }}
-            {%- endfor %}),
+            {%- endfor %}],
             '{{ uri }}'
         );
 {% endmacro %}
 
 {% macro array_property_resources(name, uri, ids) %}
         $this->{{ name }}Template = new Meta(
-            array({% for id in ids -%}
+            [{% for id in ids -%}
                 '{{ id }}' => null{{ ', ' if not loop.last }}
-            {%- endfor %}),
+            {%- endfor %}],
             '{{ uri }}'
         );
 {% endmacro %}
 
 {% macro array_property_collections(name, uri, ids) %}
         $this->{{ name }}Template = new MetaCollection(
-            array({% for id in ids -%}
+            [{% for id in ids -%}
                 '{{ id }}' => null{{ ', ' if not loop.last }}
-            {%- endfor %}),
+            {%- endfor %}],
             '{{ uri }}'
         );
 {% endmacro %}
@@ -62,18 +62,18 @@
 
 {% macro array_property_object_resource(array, name, uri, ids) %}
         $this->{{ array }}Template->{{ name }} = new Meta(
-            array({% for id in ids -%}
+            [{% for id in ids -%}
                 '{{ id }}' => null{{ ', ' if not loop.last }}
-            {%- endfor %}),
+            {%- endfor %}],
             '{{ uri }}'
         );
 {% endmacro %}
 
 {% macro array_property_object_collection(array, name, uri, ids) %}
         $this->{{ array }}Template->{{ name }} = new MetaCollection(
-            array({% for id in ids -%}
+            [{% for id in ids -%}
                 '{{ id }}' => null{{ ', ' if not loop.last }}
-            {%- endfor %}),
+            {%- endfor %}],
             '{{ uri }}'
         );
 {% endmacro %}

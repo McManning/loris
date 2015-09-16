@@ -203,9 +203,9 @@ info:
 
 
 if __name__ == '__main__':
-    spec = compile_spec('/Users/mcmanning.1/Documents/Projects/loris/generator/test/php/schema')
-    generate_resources('/Users/mcmanning.1/Documents/Projects/loris/generator/test/php/loris', spec)
+    #spec = compile_spec('/Users/mcmanning.1/Documents/Projects/loris/generator/test/php/schema')
+    #generate_resources('/Users/mcmanning.1/Documents/Projects/loris/generator/test/php/loris', spec)
 
-    osu_spec = compile_spec('/Users/mcmanning.1/Documents/Projects/api/osu/schema')
-    generate_resources('/Users/mcmanning.1/Documents/Projects/api/osu/loris', osu_spec)
+    osu_spec = compile_spec('/Users/mcmanning.1/Documents/Projects/api-loris-slim-rewrite-branch/schema')
+    generate_resources('/Users/mcmanning.1/Documents/Projects/api-loris-slim-rewrite-branch/loris_output', osu_spec)
     

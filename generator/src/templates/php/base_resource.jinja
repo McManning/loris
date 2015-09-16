@@ -13,13 +13,17 @@ class {{ id }} extends Meta
     // the first URI entry was chosen as self::URI.
     const URI = '{{ uri[0] }}';
     /*
-    const URI = array(
+    const URI = [
         '{{ uri|join('\',\n        \'') }}'
-    );
+    ];
     */
     {# ' <- just to fix broken highlighting :) #}
     {% endif %}
 
+    /**
+     *
+     * @var array
+     */
     private $expansions = null;
 
     {% if id_keys %}
@@ -28,9 +32,9 @@ class {{ id }} extends Meta
      * distinct identifier (one or composite). Each match
      * within URI must exist within this list. 
      */
-    private $_id = array(
+    private $_id = [
         '{{ id_keys|join('\', \'') }}' {# ' <- just to fix broken highlighting :) #}
-    );
+    ];
     {% else %}
     /**
      * This resource does not have any IDs
@@ -50,7 +54,7 @@ class {{ id }} extends Meta
     /** type: {{ property.type }} */
     {% endif %}
     {% if property.type == 'array' %}
-    public ${{ name }} = array();
+    public ${{ name }} = [];
     {% if property['items'].type == 'resource' or
         property['items'].type == 'collection' or 
         property['items'].type == 'object' %}
@@ -167,11 +171,11 @@ class {{ id }} extends Meta
                 }
             }
             if (!$found) {
-                $ids = array(
+                $ids = [
                 {% for id in id_keys %}
                     '{{ id }}=' . ${{ id_var }}->{{ id }}{{',' if not loop.last }}
                 {% endfor %}
-                );
+                ];
                 throw new \Exception(
                     '{{ id }} <' . implode(', ', $ids) . '> missing from query'
                 );
@@ -442,7 +446,7 @@ class {{ id }} extends Meta
                         macros.array_property_collections(name) 
                     }}
                 {% elif property['items'].type == 'object' %}
-        $serialized->{{ name }} = array();
+        $serialized->{{ name }} = [];
         ${{ name }}Count = count($this->{{ name }});
         for ($i = 0; $i < ${{ name }}Count; $i++) {
             {{ macros.array_property_object(name) }}

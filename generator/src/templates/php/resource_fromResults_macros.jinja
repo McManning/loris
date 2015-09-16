@@ -1,4 +1,4 @@
-<?
+
 {% macro string_property(name, format) %}
     {% if format == 'date' %}
         assert('\Loris\Utility::isDate($results, \'{{ name }}\') /* property must be in date format */');
