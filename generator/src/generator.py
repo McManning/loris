@@ -62,7 +62,7 @@ def generate_resources(root_path, spec):
             base = base_collection
             impl = impl_collection
         else:
-            raise Error('Unknown type [{}] for [{}]'.format(attributes['type'], name))
+            raise Exception('Unknown type [{}] for [{}]'.format(attributes['type'], name))
 
         # Write the base code source
         with open(root_path + '/Resource/Base/' + name + '.php', 'w') as f:
@@ -90,7 +90,7 @@ def generate_resources(root_path, spec):
 
 def find_resource(spec, name):
     if name not in spec['definitions']:
-        raise 'Resource [{}] not in spec'.format(name)
+        raise Exception('Resource [{}] not in spec'.format(name))
 
     return spec['definitions'][name]
 
