@@ -1,5 +1,6 @@
 {% macro resource_property(name) %}
-        if (array_key_exists('{{ name }}', $this->expansions)) {
+        if (array_key_exists('{{ name }}', $this->expansions) &&
+            !($this->{{ name }} instanceof NullResource)) {
 
             ${{ name }}Model = \Loris\Discovery::find(
                 $this->{{ name }}->uri()
@@ -15,7 +16,8 @@
 {% endmacro %}
 
 {% macro collection_property(name) %}
-        if (array_key_exists('{{ name }}', $this->expansions)) {
+        if (array_key_exists('{{ name }}', $this->expansions) &&
+            !($this->{{ name }} instanceof NullResource)) {
 
             ${{ name }}Model = \Loris\Discovery::find(
                 $this->{{ name }}->uri()
@@ -39,7 +41,8 @@
 
 {% macro object_property_resource(object, name) %}
         if (array_key_exists('{{ object }}', $this->expansions) &&
-            array_key_exists('{{ name }}', $this->expansions['{{ object }}'])) {
+            array_key_exists('{{ name }}', $this->expansions['{{ object }}']) &&
+            !($this->{{ object }}->{{ name }} instanceof NullResource)) {
 
             ${{ name }}Model = \Loris\Discovery::find(
                 $this->{{ object }}->{{ name }}->uri()
@@ -58,7 +61,8 @@
 
 {% macro object_property_collection(object, name) %}
         if (array_key_exists('{{ object }}', $this->expansions) &&
-            array_key_exists('{{ name }}', $this->expansions['{{ object }}'])) {
+            array_key_exists('{{ name }}', $this->expansions['{{ object }}']) && 
+            !($this->{{ object }}->{{ name }} instanceof NullResource)) {
 
             ${{ name }}Model = \Loris\Discovery::find(
                 $this->{{ object }}->{{ name }}->uri()
