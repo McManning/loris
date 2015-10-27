@@ -1,4 +1,4 @@
-
+<?
 {% macro string_property(name, format) %}
     {% if format == 'date' %}
         assert('\Loris\Utility::isDate($results, \'{{ name }}\') /* property must be in date format */');
@@ -14,7 +14,7 @@
 
 {% macro number_property(name, format) %}
         assert('\Loris\Utility::isNumber($results, \'{{ name }}\') /* property must be a number */');
-        $this->{{ name }} = intval(
+        $this->{{ name }} = floatval(
             $results->{{ name }}
         );
 {% endmacro %}
@@ -87,7 +87,7 @@
 
 {% macro object_property_number(object, name, format) %}
         assert('\Loris\Utility::isNumber($results->{{ object }}, \'{{ name }}\') /* property must be a number */');
-        $this->{{ object }}->{{ name }} = intval(
+        $this->{{ object }}->{{ name }} = floatval(
             $results->{{ object }}->{{ name }}
         );
 {% endmacro %}
@@ -163,7 +163,7 @@
 {% macro array_property_numbers(name, format) %}
         foreach ($results->{{ name }} as $item) {
             assert('\Loris\Utility::isNumber($item) /* property must be a number */');
-            $this->{{ name }}[] = intval($item);
+            $this->{{ name }}[] = floatval($item);
         }
 {% endmacro %}
 
@@ -183,7 +183,7 @@
             if ($item->{{ name|camelcase + ids|pascalcase|join(' != null && \n                $item->' + name|camelcase) }} != null) {
             {% endif %}
 
-                ${{ name|camelcase }} = clone $this->{{ array }}Template;
+                ${{ name|camelcase }} = clone $this->{{ array }}Template; // Meta template
             
             {% for id in ids %}
                 ${{ name|camelcase }}->{{ id }} = $item->{{ name|camelcase + id|pascalcase }};
@@ -206,7 +206,7 @@
             if ($item->{{ name|camelcase + ids|pascalcase|join(' != null && \n                $item->' + name|camelcase) }} != null) {
             {% endif %}
 
-                ${{ name|camelcase }} = clone $this->{{ array }}Template;
+                ${{ name|camelcase }} = clone $this->{{ array }}Template; // MetaCollection template
     
             {% for id in ids %}
                 ${{ name|camelcase }}->{{ id }} = $item->{{ name|camelcase + id|pascalcase }};
@@ -223,7 +223,7 @@
 {% endmacro %}
 
 {% macro array_property_object(name) -%}
-            $this->{{ name }}[$i] = clone $this->{{ name }}Template;
+            $this->{{ name }}[$i] = clone $this->{{ name }}Template; // stdClass template
 {%- endmacro %}
 
 {% macro array_property_object_string(array, name, format) %}
@@ -241,7 +241,7 @@
 
 {% macro array_property_object_number(array, name, format) %}
             assert('\Loris\Utility::isNumber($results->{{ array }}[$i], \'{{ name }}\') /* property must be a number */');
-            $this->{{ array }}[$i]->{{ name }} = intval(
+            $this->{{ array }}[$i]->{{ name }} = floatval(
                 $results->{{ array }}[$i]->{{ name }}
             );
 {% endmacro %}
