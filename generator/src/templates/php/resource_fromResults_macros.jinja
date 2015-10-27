@@ -261,6 +261,7 @@
             if ($results->{{ array }}[$i]->{{ name + ids|pascalcase|join(' != null && \n                $results->' + array + '[$i]->' + name) }} != null) {
             {% endif %}
 
+                $this->{{ array }}[$i]->{{ name }} = clone $this->{{ array }}Template->{{ name }}; // Meta property
             {% for id in ids %}
                 $this->{{ array }}[$i]->{{ name }}->{{ id }} = $results->{{ array }}[$i]->{{ name + id|pascalcase }};
             {% endfor %}
@@ -283,6 +284,7 @@
             if ($results->{{ array }}[$i]->{{ name + ids|pascalcase|join(' != null && \n                $results->' + array + '[$i]->' + name) }} != null) {
             {% endif %}
 
+                $this->{{ array }}[$i]->{{ name }} = clone $this->{{ array }}Template->{{ name }};
             {% for id in ids %}
                 $this->{{ array }}[$i]->{{ name }}->{{ id }} = $results->{{ array }}[$i]->{{ name + id|pascalcase }};
             {% endfor %}
