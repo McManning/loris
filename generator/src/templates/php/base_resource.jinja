@@ -40,7 +40,9 @@ class {{ id }} extends Meta
      * within URI must exist within this list. 
      */
     private $_id = [
-        '{{ id_keys|join('\', \'') }}' {# ' <- just to fix broken highlighting :) #}
+    {% for id in id_keys %}
+        '{{ id }}'{{',' if not loop.last }}
+    {% endfor %}
     ];
     {% else %}
     /**
@@ -511,5 +513,6 @@ class {{ id }} extends Meta
         {%- endfor %}
         return $serialized;
     }
+
 }
 
