@@ -1,12 +1,15 @@
 
 {% macro resource_property(name) %}
         ${{ name }}s = [];
+        ${{ name }}Model = null;
         ${{ name }}Model = \Loris\Discovery::find(
             ${{ id_var_plural }}[0]->{{ name }}->uri()
         );
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
-            if (${{ id_var }}->{{ name }} instanceof ${{ name }}Model->class) {
-                ${{ name }}s[] = ${{ id_var }}->{{ name }};
+            if (!${{ id_var }}->hasError()) {
+                if (${{ id_var }}->{{ name }} instanceof ${{ name }}Model->class) {
+                    ${{ name }}s[] = ${{ id_var }}->{{ name }};
+                }
             }
         }
         if (!empty(${{ name }}s)) {
@@ -27,8 +30,10 @@
             ${{ id_var_plural }}[0]->{{ object }}->{{ name }}->uri()
         );
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
-            if (${{ id_var }}->{{ object }}->{{ name }} instanceof ${{ name }}Model->class) {
-                ${{ name }}s[] = ${{ id_var }}->{{ object }}->{{ name }};
+            if (!${{ id_var }}->hasError()) {
+                if (${{ id_var }}->{{ object }}->{{ name }} instanceof ${{ name }}Model->class) {
+                    ${{ name }}s[] = ${{ id_var }}->{{ object }}->{{ name }};
+                }
             }
         }
         if (!empty(${{ name }}s)) {
@@ -49,9 +54,11 @@
             ${{ id_var_plural }}[0]->{{ name }}Template->uri()
         );
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
-            foreach (${{ id_var }}->{{ name }} as $item) {
-                if ($item instanceof ${{ name }}Model->class) {
-                    ${{ name }}s[] = $item;
+            if (!${{ id_var }}->hasError()) {
+                foreach (${{ id_var }}->{{ name }} as $item) {
+                    if ($item instanceof ${{ name }}Model->class) {
+                        ${{ name }}s[] = $item;
+                    }
                 }
             }
         }
@@ -73,9 +80,11 @@
             ${{ id_var_plural }}[0]->{{ array }}Template->{{ name }}->uri()
         );
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
-            foreach (${{ id_var }}->{{ array }} as $item) {
-                if ($item->{{ name }} instanceof ${{ name }}Model->class) {
-                    ${{ name }}s[] = $item->{{ name }};
+            if (!${{ id_var }}->hasError()) {
+                foreach (${{ id_var }}->{{ array }} as $item) {
+                    if ($item->{{ name }} instanceof ${{ name }}Model->class) {
+                        ${{ name }}s[] = $item->{{ name }};
+                    }
                 }
             }
         }

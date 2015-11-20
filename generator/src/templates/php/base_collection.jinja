@@ -111,12 +111,16 @@ class {{ id }} extends MetaCollection
                     '{{ id }}=' . ${{ id_var }}->{{ id }}{{',' if not loop.last }}
                 {% endfor %}
                 ];
-                throw new \Exception(
-                    '{{ id }} <' . implode(', ', $ids) . 
-                    ', page=' . ${{ id_var }}->meta->page . 
-                    ', limit= ' . ${{ id_var }}->meta->limit . 
-                    '> missing from query'
+
+                ${{ id_var }}->setError(
+                    '{{ id }} <' . implode(', ', $ids) . '> missing from query'
                 );
+                //${{ id_var }} = new NotFoundResource(
+                //    ${{ id_var }}->uri()
+                //);
+                // TODO: How to deal with missing resources! Doing a &{{ id_var }} above
+                // during iteration breaks collection functionality, as the last item in
+                // the iteration seems to not be expanded on (why?...) 
             }
         }
 
@@ -222,6 +226,13 @@ class {{ id }} extends MetaCollection
     {
         // Get serialized data from MetaCollection
         $serialized = parent::serialize();
+
+        // If this collection had an error during processing, return
+        // the error message structure serialized by MetaCollection
+        // and hide any properties/relationships that may be invalid. 
+        if ($this->hasError()) {
+            return $serialized;
+        }
 
         // Add a collection if we've been hydrated
         if ($this->collection) {

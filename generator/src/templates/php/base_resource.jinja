@@ -176,9 +176,16 @@ class {{ id }} extends Meta
                     '{{ id }}=' . ${{ id_var }}->{{ id }}{{',' if not loop.last }}
                 {% endfor %}
                 ];
-                throw new \Exception(
+
+                ${{ id_var }}->setError(
                     '{{ id }} <' . implode(', ', $ids) . '> missing from query'
                 );
+                //${{ id_var }} = new NotFoundResource(
+                //    ${{ id_var }}->uri()
+                //);
+                // TODO: How to deal with missing resources! Doing a &{{ id_var }} above
+                // during iteration breaks collection functionality, as the last item in
+                // the iteration seems to not be expanded on (why?...) 
             }
             {% else %} 
             ${{ id_var }}->fromResults($results);
@@ -401,6 +408,13 @@ class {{ id }} extends Meta
     {
         // Get serialized data from Meta
         $serialized = parent::serialize();
+
+        // If this resource had an error during processing, return
+        // the error message structure serialized by base Meta(Collection)
+        // and hide any properties/relationships that may be invalid. 
+        if ($this->hasError()) {
+            return $serialized;
+        }
 
         {% import 'resource_serialize_macros.jinja' as macros with context %}
         {% for name, property in properties|dictsort -%}
