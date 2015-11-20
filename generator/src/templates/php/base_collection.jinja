@@ -25,10 +25,17 @@ class {{ id }} extends MetaCollection
     public $collection = null;
 
     /**
+     * Whether fromResults() has been ran on this collection
+     *
+     * @var boolean
+     */
+    private $hydrated = false;
+
+    /**
      *
      * @var array
      */
-    protected $expansions = null;
+    private $expansions = null;
 
     {% if id_keys %}
     /**
@@ -124,10 +131,12 @@ class {{ id }} extends MetaCollection
             }
         }
 
-        // For all collections, join their hydrated resources for a query
+        // For all collections not already hydrated, 
+        // join their list of items for a query to complete hydration
         ${{ properties.collection.resource|camelcase }}s = [];
         foreach (${{ id_var_plural }} as ${{ id_var }}) {
-            if (count(${{ id_var }}->collection) > 0) {
+            if (count(${{ id_var }}->collection) > 0 &&
+                !${{ id_var }}->hydrated) {
                 ${{ properties.collection.resource|camelcase }}s = array_merge(
                     ${{ properties.collection.resource|camelcase }}s, 
                     ${{ id_var }}->collection
@@ -151,7 +160,7 @@ class {{ id }} extends MetaCollection
     }
 
     /**
-     * @param array $results
+     * @param \stdClass $results
      */
     public function fromResults(\stdClass $results)
     {

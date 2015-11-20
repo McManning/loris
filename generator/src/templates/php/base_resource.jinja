@@ -25,6 +25,13 @@ class {{ id }} extends Meta
      * @var array
      */
     private $expansions = null;
+    
+    /**
+     * Whether fromResults() has been ran on this resource
+     * 
+     * @var boolean
+     */
+    private $hydrated = false;
 
     {% if id_keys %}
     /**
@@ -139,6 +146,17 @@ class {{ id }} extends Meta
     }
 
     /**
+     * Returns true if postQuery() has been completed on this resource,
+     * and there are no errors (that is, hasError() === false)
+     * 
+     * @return boolean
+     */
+    public function isHydrated()
+    {
+        return $this->hydrated;
+    }
+
+    /**
      *
      * @param array({{ id }}) ${{ id_var_plural }}
      */
@@ -235,6 +253,13 @@ class {{ id }} extends Meta
                 {% endif %}
             {% endif %}
         {%- endfor %}
+
+        // Mark all successful resources as hydrated
+        foreach (${{ id_var_plural }} as ${{ id_var }}) {
+            if (!${{ id_var }}->hasError()) {
+                ${{ id_var }}->hydrated = true;
+            }
+        }
     }
 
     /**
