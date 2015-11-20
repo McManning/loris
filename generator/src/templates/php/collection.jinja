@@ -73,6 +73,12 @@ class {{ id }} extends Base\{{ id }}
                     {% for rid in properties.collection.ids %}
                         {{ properties.collection.resource|camelcase + rid|pascalcase }}
                     {% endfor %}
+                        ... optionally this may include all attributes of the collection
+                        items as well. (The same structure expected from the 
+                        {{ properties.collection.resource }} implementation)
+                        If you include the resource data as well, the results you pass
+                        into postQuery() must also have an attribute `includesItems`
+                        set to boolean `true`.
                     )
                 )
             )

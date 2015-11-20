@@ -201,6 +201,37 @@ class {{ id }} extends MetaCollection
         }
 
         $this->doExpansions();
+
+        // If this collection result also includes the hydrated items, 
+        // skip the next query step and load directly
+        if (property_exists($results, 'includesItems') && 
+            $results->includesItems === true) {
+            $this->hydrateItems($results);
+        }
+    }
+
+    /**
+     * Use the resultset from query() to also hydrate all items.
+     * This skips the additional hydration step from within
+     * item::query() and calls item::postQuery() directly.
+     * 
+     * @param \stdClass $results
+     */
+    public function hydrateItems(\stdClass $results)
+    {
+        // Resolve resource URI into a model
+        ${{ properties.collection.resource|camelcase}}Model = \Loris\Discovery::find(
+            '{{ properties.collection.uri }}'
+        );
+
+        call_user_func(
+            [${{ properties.collection.resource|camelcase }}Model->class, 'postQuery'], 
+            $this->collection, 
+            $results->collection
+        );
+
+        // Note that we've hydrated our collection to it's fullest.
+        $this->hydrated = true;
     }
 
     /**
