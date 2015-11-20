@@ -172,7 +172,7 @@ class {{ id }} extends MetaCollection
         assert('\Loris\Utility::isNumber($results, \'page\') /* property must be a number */');
         $this->meta->page = intval($results->page);
 
-        assert('\Loris\Utility::isNumber($results, \'limit\') /* property must be a number */');
+        assert('\Loris\Utility::isNumber($results, \'limit\') || $results->limit === \'all\' /* property must be a number or \'all\' */');
         $this->meta->limit = intval($results->limit);
 
         assert('\Loris\Utility::isNumber($results, \'total\') /* property must be a number */');
