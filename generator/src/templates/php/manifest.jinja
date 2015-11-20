@@ -1,0 +1,9 @@
+<?php
+
+return [
+{% for name, attributes in definitions.items() %}
+    ['{{ attributes.uri }}', 'Loris\\Resource\\{{ name }}']{% if not loop.last %},{% endif %}
+
+{% endfor %}
+];
+

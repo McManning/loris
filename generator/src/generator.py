@@ -51,6 +51,7 @@ def generate_resources(root_path, spec):
     impl_resource = j2_env.get_template('resource.jinja')
     base_collection = j2_env.get_template('base_collection.jinja')
     impl_collection = j2_env.get_template('collection.jinja')
+    manifest = j2_env.get_template('manifest.jinja')
 
     resolve_refs(spec)
 
@@ -86,6 +87,12 @@ def generate_resources(root_path, spec):
                     id_var_plural = camelcase(name) + 's',
                     properties=attributes['properties']
                 ))
+
+    # Write a manifest of URIs
+    with open(root_path + '/Resource/Manifest.php', 'w') as f:
+        f.write(manifest.render(
+            definitions = spec['definitions']
+        ))
 
 
 def find_resource(spec, name):
@@ -206,6 +213,6 @@ if __name__ == '__main__':
     #spec = compile_spec('/Users/mcmanning.1/Documents/Projects/loris/generator/test/php/schema')
     #generate_resources('/Users/mcmanning.1/Documents/Projects/loris/generator/test/php/loris', spec)
 
-    osu_spec = compile_spec('/Users/mcmanning.1/Documents/Projects/api-loris-slim-rewrite-branch/schema')
-    generate_resources('/Users/mcmanning.1/Documents/Projects/api-loris-slim-rewrite-branch/loris_output', osu_spec)
+    osu_spec = compile_spec('/Users/mcmanning.1/Documents/Projects/api/schema')
+    generate_resources('/Users/mcmanning.1/Documents/Projects/api/loris_output', osu_spec)
     
