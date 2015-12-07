@@ -156,14 +156,16 @@
             );
             ${{ arr }}Count = count($this->{{ arr }});
             for ($i = 0; $i < ${{ arr }}Count; $i++) {
-                $this->{{ arr }}[$i]->{{ name }}  = new ${{ name }}Model->class(
-                    $this->{{ arr }}[$i]->{{ name }}->ids()
-                );
-
-                if (${{ name }}Expanded) {
-                    $this->{{ arr }}[$i]->{{ name }}->expand(
-                        $this->expansions['{{ arr }}']['{{ name }}']
+                if (!($this->{{ arr }}[$i]->{{ name }} instanceof NullResource)) {
+                    $this->{{ arr }}[$i]->{{ name }}  = new ${{ name }}Model->class(
+                        $this->{{ arr }}[$i]->{{ name }}->ids()
                     );
+
+                    if (${{ name }}Expanded) {
+                        $this->{{ arr }}[$i]->{{ name }}->expand(
+                            $this->expansions['{{ arr }}']['{{ name }}']
+                        );
+                    }
                 }
             }
         }
@@ -182,21 +184,23 @@
             );
             ${{ arr }}Count = count($this->{{ arr }});
             for ($i = 0; $i < ${{ arr }}Count; $i++) {
-                $meta = $this->{{ arr }}[$i]->{{ name }}->meta;
-                $this->{{ arr }}[$i]->{{ name }}  = new ${{ name }}Model->class(
-                    $this->{{ arr }}[$i]->{{ name }}->ids()
-                );
-                $this->{{ arr }}[$i]->{{ name }}->page($meta->page);
-                $this->{{ arr }}[$i]->{{ name }}->limit($meta->limit);
-                $this->{{ arr }}[$i]->{{ name }}->sort(
-                    $meta->sort->property, 
-                    $meta->sort->order
-                );
-
-                if (${{ name }}Expanded) {
-                    $this->{{ arr }}[$i]->{{ name }}->expand(
-                        $this->expansions['{{ arr }}']['{{ name }}']
+                if (!($this->{{ arr }}[$i]->{{ name }} instanceof NullResource)) {
+                    $meta = $this->{{ arr }}[$i]->{{ name }}->meta;
+                    $this->{{ arr }}[$i]->{{ name }}  = new ${{ name }}Model->class(
+                        $this->{{ arr }}[$i]->{{ name }}->ids()
                     );
+                    $this->{{ arr }}[$i]->{{ name }}->page($meta->page);
+                    $this->{{ arr }}[$i]->{{ name }}->limit($meta->limit);
+                    $this->{{ arr }}[$i]->{{ name }}->sort(
+                        $meta->sort->property, 
+                        $meta->sort->order
+                    );
+
+                    if (${{ name }}Expanded) {
+                        $this->{{ arr }}[$i]->{{ name }}->expand(
+                            $this->expansions['{{ arr }}']['{{ name }}']
+                        );
+                    }
                 }
             }
         }
