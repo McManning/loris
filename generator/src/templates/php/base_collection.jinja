@@ -274,16 +274,12 @@ class {{ id }} extends MetaCollection
             return $serialized;
         }
 
-        // Add a collection if we've been hydrated
-        if ($this->collection) {
-            $serialized->collection = [];
-
-            // Serialize all of our {{ properties.collection.resource }}s
-            foreach ($this->collection as ${{ properties.collection.resource|camelcase }}) {
-                $serialized->collection[] = ${{ properties.collection.resource|camelcase }}->serialize();
-            }
+        // Serialize all of our {{ properties.collection.resource }}s
+        $serialized->collection = [];
+        foreach ($this->collection as ${{ properties.collection.resource|camelcase }}) {
+            $serialized->collection[] = ${{ properties.collection.resource|camelcase }}->serialize();
         }
-        
+
         return $serialized;
     }
 }
