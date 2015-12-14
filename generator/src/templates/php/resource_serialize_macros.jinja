@@ -6,6 +6,12 @@
         } else {
             $serialized->{{ name }} = null;
         }
+    {% elif format == 'datetime' %}
+        if ($this->{{ name }} !== null) {
+            $serialized->{{ name }} = $this->{{ name }}->format('{{ json_datetime_format }}');
+        } else {
+            $serialized->{{ name }} = null;
+        }
     {% else %}
         $serialized->{{ name }} = $this->{{ name }};
     {% endif %}
@@ -30,6 +36,12 @@
         } else {
             $serialized->{{ object }}->{{ name }} = null;
         }
+    {% elif format == 'datetime' %}
+        if ($this->{{ object }}->{{ name }} !== null) {
+            $serialized->{{ object }}->{{ name }} = $this->{{ object }}->{{ name }}->format('{{ json_datetime_format }}');
+        } else {
+            $serialized->{{ object }}->{{ name }} = null;
+        }
     {% else %}
         $serialized->{{ object }}->{{ name }} = $this->{{ object }}->{{ name }};
     {% endif %}
@@ -50,6 +62,16 @@
         for ($i = 0; $i < ${{ name }}Count; $i++) {
             if ($this->{{ name }}[$i] !== null) {
                 $serialized->{{ name }}[$i] = $this->{{ name }}[$i]->format('{{ json_date_format }}');
+            } else {
+                $serialized->{{ name }}[$i] = null;
+            }
+        }
+    {% elif format == 'datetime' %}
+        $serialized->{{ name }} = [];
+        ${{ name }}Count = count($this->{{ name }});
+        for ($i = 0; $i < ${{ name }}Count; $i++) {
+            if ($this->{{ name }}[$i] !== null) {
+                $serialized->{{ name }}[$i] = $this->{{ name }}[$i]->format('{{ json_datetime_format }}');
             } else {
                 $serialized->{{ name }}[$i] = null;
             }
@@ -83,6 +105,12 @@
     {% if format == 'date' %}
             if ($this->{{ array }}[$i]->{{ name }} !== null) {
                 $serialized->{{ array }}[$i]->{{ name }} = $this->{{ array }}[$i]->{{ name }}->format('{{ json_date_format }}');
+            } else {
+                $serialized->{{ array }}[$i]->{{ name }} = null;
+            }
+    {% elif format == 'datetime' %}
+            if ($this->{{ array }}[$i]->{{ name }} !== null) {
+                $serialized->{{ array }}[$i]->{{ name }} = $this->{{ array }}[$i]->{{ name }}->format('{{ json_datetime_format }}');
             } else {
                 $serialized->{{ array }}[$i]->{{ name }} = null;
             }

@@ -6,6 +6,12 @@
             '{{ input_date_format }}', 
             $results->{{ name }}
         ) ?: null;
+    {% elif format == 'datetime' %}
+        assert('\Loris\Utility::isDateTime($results, \'{{ name }}\') /* property must be in datetime format */');
+        $this->{{ name }} = \DateTime::createFromFormat(
+            '{{ input_datetime_format }}', 
+            $results->{{ name }}
+        ) ?: null;
     {% else %}
         assert('\Loris\Utility::isString($results, \'{{ name }}\') /* property must be a string */');
         $this->{{ name }} = $results->{{ name }};
@@ -81,6 +87,12 @@
         assert('\Loris\Utility::isDate($results->{{ object }}, \'{{ name }}\') /* property must be in date format */');
         $this->{{ object }}->{{ name }} = \DateTime::createFromFormat(
             '{{ input_date_format }}', 
+            $results->{{ object }}->{{ name }}
+        ) ?: null;
+    {% elif format == 'datetime' %}   
+        assert('\Loris\Utility::isDateTime($results->{{ object }}, \'{{ name }}\') /* property must be in datetime format */');
+        $this->{{ object }}->{{ name }} = \DateTime::createFromFormat(
+            '{{ input_datetime_format }}', 
             $results->{{ object }}->{{ name }}
         ) ?: null;
     {% else %}
@@ -159,6 +171,12 @@
             assert('\Loris\Utility::isDate($item) /* property must be in date format */');
             $this->{{ name }}[] = \DateTime::createFromFormat(
                 '{{ input_date_format }}', 
+                $item
+            ) ?: null;
+        {% elif format == 'datetime' %}
+            assert('\Loris\Utility::isDateTime($item) /* property must be in datetime format */');
+            $this->{{ name }}[] = \DateTime::createFromFormat(
+                '{{ input_datetime_format }}', 
                 $item
             ) ?: null;
         {% else %}
@@ -240,6 +258,12 @@
             assert('\Loris\Utility::isDate($results->{{ array }}[$i], \'{{ name }}\') /* property must be in date format */');
             $this->{{ array }}[$i]->{{ name }} = \DateTime::createFromFormat(
                 '{{ input_date_format }}', 
+                $results->{{ array }}[$i]->{{ name }}
+            ) ?: null;
+    {% elif format == 'datetime' %}   
+            assert('\Loris\Utility::isDateTime($results->{{ array }}[$i], \'{{ name }}\') /* property must be in datetime format */');
+            $this->{{ array }}[$i]->{{ name }} = \DateTime::createFromFormat(
+                '{{ input_datetime_format }}', 
                 $results->{{ array }}[$i]->{{ name }}
             ) ?: null;
     {% else %}
