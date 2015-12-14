@@ -42,7 +42,7 @@ def generate_resources(root_path, spec):
 
     # Note that JSON date(time) formats are ISO 8601
     j2_env.globals['json_date_format'] = 'Y-m-d'
-    j2_env.globals['json_datetime_format'] = 'Y-m-dTH:i:sZ'
+    j2_env.globals['json_datetime_format'] = 'Y-m-d\TH:i:s\Z'
     j2_env.globals['input_date_format'] = 'Y-m-d'
     j2_env.globals['input_datetime_format'] = 'Y-m-d H:i:s'
 
