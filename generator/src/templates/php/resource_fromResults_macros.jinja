@@ -72,6 +72,10 @@
         {% endif %}
 {% endmacro %}
 
+{% macro object_property(name) %}
+        assert('\Loris\Utility::isObject($results, \'{{ name }}\') /* property must be stdClass */');
+{% endmacro %}
+
 {% macro object_property_string(object, name, format) %}
     {% if format == 'date' %}   
         assert('\Loris\Utility::isDate($results->{{ object }}, \'{{ name }}\') /* property must be in date format */');
@@ -143,6 +147,10 @@
             );
         }
         {% endif %}
+{% endmacro %}
+
+{% macro array_property(name) %}
+        assert('\Loris\Utility::isArray($results, \'{{ name }}\') /* property must be array */');
 {% endmacro %}
 
 {% macro array_property_strings(name, format) %}
@@ -222,8 +230,9 @@
         }
 {% endmacro %}
 
-{% macro array_property_object(name) -%}
-            $this->{{ name }}[$i] = clone $this->{{ name }}Template; // stdClass template
+{% macro array_property_object(array) -%}
+            assert('\Loris\Utility::isArrayObject($results->{{ array }}, $i) /* array entry must be stdClass */');
+            $this->{{ array }}[$i] = clone $this->{{ array }}Template; // stdClass template
 {%- endmacro %}
 
 {% macro array_property_object_string(array, name, format) %}

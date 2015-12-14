@@ -283,6 +283,7 @@ class {{ id }} extends Meta
             {% elif property.type == 'collection' -%}
                 {{ macros.collection_property(name, property.ids) }}
             {% elif property.type == 'object' %}
+                {{- macros.object_property(name) }}
                 {% for name2, property2 in property.properties|dictsort %}
                     {% if property2.type == 'string' -%}
                         {{ macros.object_property_string(name, name2, property2.format) }}
@@ -301,6 +302,7 @@ class {{ id }} extends Meta
                     {% endif %}
                 {% endfor %}
             {% elif property.type == 'array' %}
+                {{- macros.array_property(name) }}
                 {% if property['items'].type == 'string' -%}
                     {{ macros.array_property_strings(name, property['items'].format) }}
                 {% elif property['items'].type == 'number' -%}
