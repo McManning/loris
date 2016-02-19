@@ -278,11 +278,80 @@ class {{ id }} extends MetaCollection
             return $serialized;
         }
 
+        {% import 'resource_serialize_macros.jinja' as macros with context %}
+        {% for name, property in properties|dictsort -%}
+            {% if name == 'collection' %}
         // Serialize all of our {{ properties.collection.resource }}s
         $serialized->collection = [];
         foreach ($this->collection as ${{ properties.collection.resource|camelcase }}) {
             $serialized->collection[] = ${{ properties.collection.resource|camelcase }}->serialize();
         }
+            {% elif property.type == 'string' or 
+                property.type == 'number' or 
+                property.type == 'boolean' -%}
+                {{ macros.primitive_property(name, property.format) }}
+            {% elif property.type == 'resource' -%}
+                {{ macros.resource_property(name) }}
+            {% elif property.type == 'collection' -%}
+                {{ macros.collection_property(name) }}
+            {% elif property.type == 'object' %}
+                {{-
+                    macros.object_property(name)
+                -}}
+                {% for name2, property2 in property.properties|dictsort %}
+                    {% if property2.type == 'string' or 
+                        property2.type == 'number' or 
+                        property2.type == 'boolean' -%}
+                        {{ macros.object_property_primitive(name, name2, property2.format) -}}
+                    {% elif property2.type == 'resource' -%}
+                        {{- 
+                            macros.object_property_resource(name, name2) 
+                        -}}
+                    {% elif property2.type == 'collection' -%}
+                        {{- 
+                            macros.object_property_collection(name, name2) 
+                        -}}
+                    {% endif %}
+                {% endfor %}
+
+            {% elif property.type == 'array' %}
+                {% if property['items'].type == 'string' or 
+                    property['items'].type == 'number' or 
+                    property['items'].type == 'boolean' -%}
+                    {{ macros.array_property_primitives(name, property['items'].format) }}
+                {% elif property['items'].type == 'resource' %}
+                    {{- 
+                        macros.array_property_resources(name) 
+                    }}
+                {% elif property['items'].type == 'collection' %}
+                    {{- 
+                        macros.array_property_collections(name) 
+                    }}
+                {% elif property['items'].type == 'object' %}
+        $serialized->{{ name }} = [];
+        ${{ name }}Count = count($this->{{ name }});
+        for ($i = 0; $i < ${{ name }}Count; $i++) {
+            {{ macros.array_property_object(name) }}
+                    {% for name2, property2 in property['items'].properties|dictsort %}
+                        {% if property2.type == 'string' or 
+                            property2.type == 'number' or 
+                            property2.type == 'boolean' -%}
+                            {{ macros.array_property_object_primitive(name, name2, property2.format) -}}
+                        {% elif property2.type == 'resource' -%}
+                            {{- 
+                                macros.array_property_object_resource(name, name2) 
+                            -}}
+                        {% elif property2.type == 'collection' -%}
+                            {{- 
+                                macros.array_property_object_collection(name, name2) 
+                            -}}
+                        {% endif %}
+                    {% endfor %}
+        }
+
+                {% endif %}
+            {% endif %}
+        {%- endfor %}
 
         return $serialized;
     }
